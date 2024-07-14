@@ -1,0 +1,10 @@
+parameters:
+    excludePaths:
+        - 'src/Domain/Entity/Envelope/EnvelopeCollectionInterface.php'
+    level: 9
+    paths:
+        - bin/
+        - config/
+        - public/
+        - src/
+        - tests/

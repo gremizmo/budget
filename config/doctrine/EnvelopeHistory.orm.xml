@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Domain\Envelope\Entity\EnvelopeHistory" table="envelope_history">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO"/>
+        </id>
+        <field name="envelopeId" type="integer" column="envelope_id"/>
+        <field name="updatedAt" type="datetime_immutable" column="updated_at"/>
+        <field name="updatedBy" type="string" column="updated_by"/>
+        <field name="changes" type="json" column="changes"/>
+    </entity>
+</doctrine-mapping>

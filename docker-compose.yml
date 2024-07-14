@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  symfony:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: my_symfony_app
+    working_dir: /var/www/html
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/var/www/html
+    environment:
+      - APP_ENV=dev
+      - APP_SECRET=${APP_SECRET_PASS}
+    depends_on:
+      - db
+    networks:
+      - my_network
+
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - "3306:3306"
+    networks:
+      - my_network
+
+  phpmyadmin:
+    image: arm64v8/phpmyadmin:latest
+    container_name: my_phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_USER: ${PMA_USER}
+      PMA_PASSWORD: ${PMA_PASSWORD}
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    networks:
+      - my_network
+
+  nginx:
+    image: nginx:latest
+    container_name: my_nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - symfony
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    driver: bridge
