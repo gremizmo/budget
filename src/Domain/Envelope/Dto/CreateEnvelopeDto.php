@@ -2,21 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Infra\Http\Rest\Envelope\Dto;
+namespace App\Domain\Envelope\Dto;
 
-use App\Domain\Envelope\Dto\UpdateEnvelopeDtoInterface;
-use Symfony\Component\Validator\Constraints as Assert;
-
-final readonly class UpdateEnvelopeDto implements UpdateEnvelopeDtoInterface
+final readonly class CreateEnvelopeDto implements CreateEnvelopeDtoInterface
 {
     public function __construct(
-        #[Assert\NotBlank]
         public string $title,
-        #[Assert\NotBlank]
-        #[Assert\Type(type: 'string')]
         public string $currentBudget,
-        #[Assert\NotBlank]
-        #[Assert\Type(type: 'string')]
         public string $targetBudget,
         public ?int $parentId = null,
     ) {

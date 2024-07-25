@@ -14,8 +14,10 @@ services:
     environment:
       - APP_ENV=dev
       - APP_SECRET=${APP_SECRET_PASS}
+      - ELASTICSEARCH_URL=${ELASTICSEARCH_URL}
     depends_on:
       - db
+      - elasticsearch
     networks:
       - my_network
 
@@ -53,6 +55,26 @@ services:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - symfony
+    networks:
+      - my_network
+
+  elasticsearch:
+    image: elasticsearch:8.14.3
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - my_network
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.14.3
+    links:
+      - elasticsearch
+    ports:
+      - "5601:5601"
     networks:
       - my_network
 

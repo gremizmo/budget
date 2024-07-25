@@ -11,7 +11,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/envelope/{id}', name: 'app_envelope_delete', methods: ['DELETE'])]
 class DeleteEnvelopeController extends AbstractController
@@ -26,10 +26,10 @@ class DeleteEnvelopeController extends AbstractController
     {
         try {
             $this->commandBus->execute(new DeleteEnvelopeCommand($envelope));
-        } catch (\Throwable $e) {
-            $this->logger->error('Failed to process Envelope delete request: '.$e->getMessage());
+        } catch (\Throwable $exception) {
+            $this->logger->error('Failed to process Envelope delete request: '.$exception->getMessage());
 
-            return $this->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->json(['error' => $exception->getMessage()], $exception->getCode());
         }
 
         return $this->json(['message' => 'Envelope delete request received'], Response::HTTP_ACCEPTED);

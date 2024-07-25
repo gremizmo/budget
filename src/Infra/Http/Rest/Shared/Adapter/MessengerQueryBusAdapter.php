@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Infra\Http\Rest\Shared\Adapter;
 
+use App\Domain\Envelope\Exception\QueryBusException;
 use App\Domain\Shared\Adapter\MessengerQueryBusInterface;
 use App\Domain\Shared\Query\QueryInterface;
-use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
 
@@ -16,12 +16,19 @@ readonly class MessengerQueryBusAdapter implements MessengerQueryBusInterface
     {
     }
 
+    /**
+     * @throws QueryBusException
+     */
     public function query(QueryInterface $query): object
     {
         try {
             return $this->messageBus->dispatch($query)->last(HandledStamp::class)->getResult();
-        } catch (ExceptionInterface $e) {
-            throw new \RuntimeException('An error occurred while querying the bus.', 0, $e);
+        } catch (\Throwable $exception) {
+            throw new QueryBusException(
+                'An error occurred while querying the bus.',
+                $exception->getCode(),
+                $exception,
+            );
         }
     }
 }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Envelope\CommandHandler;
 
 use App\Application\Envelope\Command\UpdateEnvelopeCommand;
-use App\Domain\Envelope\Entity\EnvelopeInterface;
+use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentException;
 use App\Domain\Envelope\Factory\EnvelopeFactoryInterface;
 use App\Domain\Envelope\Repository\EnvelopeCommandRepositoryInterface;
 use App\Domain\Shared\Adapter\LoggerInterface;
@@ -20,7 +20,7 @@ readonly class UpdateEnvelopeCommandHandler
     }
 
     /**
-     * @throws \Exception
+     * @throws ChildrenTargetBudgetsExceedsParentException
      */
     public function __invoke(UpdateEnvelopeCommand $command): void
     {
@@ -28,25 +28,21 @@ readonly class UpdateEnvelopeCommandHandler
         $updateEnvelopeDTO = $command->getUpdateEnvelopeDTO();
         $parentEnvelope = $envelope->getParent();
 
-        if ($parentEnvelope) {
-            $totalChildrenBudget = array_reduce(
-                $parentEnvelope->getChildren()->filter(fn (EnvelopeInterface $child) => $child !== $envelope)->toArray(),
-                fn ($carry, $child) => $carry + floatval($child->getCurrentBudget()),
-                0.0
-            ) + floatval($updateEnvelopeDTO->getCurrentBudget());
-
-            if ($totalChildrenBudget > floatval($parentEnvelope->getTargetBudget())) {
-                throw new \Exception("Total budget of child envelopes exceeds the parent envelope's target budget.");
-            }
+        if ($parentEnvelope && $parentEnvelope->exceedsTargetBudget(floatval($updateEnvelopeDTO->getTargetBudget()))) {
+            $this->logger->error(
+                "Total target budget of child envelopes exceeds the parent envelope's target budget."
+            );
+            throw new ChildrenTargetBudgetsExceedsParentException(
+                "Total target budget of child envelopes exceeds the parent envelope's target budget.",
+                400,
+            );
         }
 
-        $updatedEnvelope = $this->envelopeFactory->updateEnvelope($envelope, $updateEnvelopeDTO);
-
-        try {
-            $this->envelopeRepository->save($updatedEnvelope);
-        } catch (\Exception $e) {
-            $this->logger->error($e->getMessage());
-            throw $e;
-        }
+        $this->envelopeRepository->save(
+            $this->envelopeFactory->updateEnvelope(
+                $envelope,
+                $updateEnvelopeDTO
+            )
+        );
     }
 }

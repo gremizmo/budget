@@ -6,12 +6,12 @@ namespace App\Tests\Application\Envelope\CommandHandler;
 
 use App\Application\Envelope\Command\CreateEnvelopeCommand;
 use App\Application\Envelope\CommandHandler\CreateEnvelopeCommandHandler;
+use App\Domain\Envelope\Dto\CreateEnvelopeDto;
 use App\Domain\Envelope\Entity\Envelope;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Factory\EnvelopeFactory;
 use App\Domain\Envelope\Repository\EnvelopeCommandRepositoryInterface;
 use App\Domain\Shared\Adapter\LoggerInterface;
-use App\Infra\Http\Rest\Envelope\Dto\CreateEnvelopeDto;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 

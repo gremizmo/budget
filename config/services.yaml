@@ -41,3 +41,5 @@ services:
     App\Infra\Http\Rest\Envelope\EventListener\EnvelopeUpdateListener:
         tags:
             - { name: 'doctrine.event_listener', event: 'preUpdate' }
+
+    FOS\ElasticaBundle\Finder\PaginatedFinderInterface: '@fos_elastica.finder.envelope'

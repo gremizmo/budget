@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping
+        https://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
+
+    <class name="App\Domain\Envelope\Dto\CreateEnvelopeDto">
+        <property name="title">
+            <constraint name="NotBlank"/>
+        </property>
+        <property name="currentBudget">
+            <constraint name="NotBlank"/>
+            <constraint name="Type">
+                <option name="type">string</option>
+            </constraint>
+        </property>
+        <property name="targetBudget">
+            <constraint name="NotBlank"/>
+            <constraint name="Type">
+                <option name="type">string</option>
+            </constraint>
+            <constraint name="GreaterThanOrEqual">
+                <option name="propertyPath">currentBudget</option>
+                <option name="message">The target budget must be greater than or equal to the current budget.</option>
+            </constraint>
+        </property>
+        <property name="parentId">
+            <constraint name="Type">
+                <option name="type">integer</option>
+            </constraint>
+        </property>
+    </class>
+
+</constraint-mapping>

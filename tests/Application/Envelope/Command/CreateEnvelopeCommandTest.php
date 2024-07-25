@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Application\Envelope\Command;
 
 use App\Application\Envelope\Command\UpdateEnvelopeCommand;
+use App\Domain\Envelope\Dto\UpdateEnvelopeDto;
 use App\Domain\Envelope\Entity\Envelope;
-use App\Infra\Http\Rest\Envelope\Dto\UpdateEnvelopeDto;
 use PHPUnit\Framework\TestCase;
 
 class CreateEnvelopeCommandTest extends TestCase

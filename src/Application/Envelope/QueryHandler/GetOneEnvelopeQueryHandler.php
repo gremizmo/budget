@@ -19,19 +19,15 @@ readonly class GetOneEnvelopeQueryHandler
     }
 
     /**
-     * @throws \Exception
+     * @throws EnvelopeNotFoundException
      */
     public function __invoke(GetOneEnvelopeQuery $getOneEnvelopeQuery): EnvelopeInterface
     {
-        try {
-            $envelope = $this->envelopeQueryRepository->findOneBy(['id' => $getOneEnvelopeQuery->getEnvelopeId()]);
+        $envelope = $this->envelopeQueryRepository->findOneBy(['id' => $getOneEnvelopeQuery->getEnvelopeId()]);
 
-            if (!$envelope) {
-                throw new EnvelopeNotFoundException(sprintf('Envelope not found with ID: %d', $getOneEnvelopeQuery->getEnvelopeId()));
-            }
-        } catch (\Exception $exception) {
-            $this->logger->error($exception->getMessage());
-            throw new \Exception($exception->getMessage());
+        if (!$envelope) {
+            $this->logger->error(sprintf('Envelope not found with ID: %d', $getOneEnvelopeQuery->getEnvelopeId()));
+            throw new EnvelopeNotFoundException(sprintf('Envelope not found with ID: %d', $getOneEnvelopeQuery->getEnvelopeId()));
         }
 
         return $envelope;

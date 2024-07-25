@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infra\Http\Rest\Envelope\Dto;
-
-use App\Domain\Envelope\Dto\ListEnvelopesDtoInterface;
+namespace App\Domain\Envelope\Dto;
 
 final readonly class ListEnvelopesDto implements ListEnvelopesDtoInterface
 {

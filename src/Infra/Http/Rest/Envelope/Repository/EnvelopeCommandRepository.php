@@ -6,6 +6,7 @@ namespace App\Infra\Http\Rest\Envelope\Repository;
 
 use App\Domain\Envelope\Entity\Envelope;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
+use App\Domain\Envelope\Exception\EnvelopeCommandRepositoryException;
 use App\Domain\Envelope\Repository\EnvelopeCommandRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,30 +27,38 @@ class EnvelopeCommandRepository extends ServiceEntityRepository implements Envel
     }
 
     /**
-     * @throws \Exception
+     * @throws \Throwable
      */
     public function save(EnvelopeInterface $envelope): void
     {
         try {
             $this->em->persist($envelope);
             $this->em->flush();
-        } catch (\Exception $exception) {
+        } catch (\Throwable $exception) {
             $this->logger->error($exception->getMessage());
-            throw new \Exception($exception->getMessage());
+            throw new EnvelopeCommandRepositoryException(
+                'An Error occurred in method save of EnvelopeCommandRepository',
+                $exception->getCode(),
+                $exception,
+            );
         }
     }
 
     /**
-     * @throws \Exception
+     * @throws \Throwable
      */
     public function delete(EnvelopeInterface $envelope): void
     {
         try {
             $this->em->remove($envelope);
             $this->em->flush();
-        } catch (\Exception $exception) {
+        } catch (\Throwable $exception) {
             $this->logger->error($exception->getMessage());
-            throw new \Exception($exception->getMessage());
+            throw new EnvelopeCommandRepositoryException(
+                'An Error occurred in method delete of EnvelopeCommandRepository',
+                $exception->getCode(),
+                $exception,
+            );
         }
     }
 }

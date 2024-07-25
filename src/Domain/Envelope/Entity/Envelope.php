@@ -153,4 +153,19 @@ class Envelope implements EnvelopeInterface
     {
         return $this->children;
     }
+
+    public function calculateTotalChildrenTargetBudget(): float
+    {
+        return $this->getChildren()->reduce(
+            fn (float $carry, EnvelopeInterface $child) => $carry + floatval($child->getTargetBudget()),
+            0.0
+        );
+    }
+
+    public function exceedsTargetBudget(float $additionalTargetBudget): bool
+    {
+        $totalChildrenTargetBudget = $this->calculateTotalChildrenTargetBudget() + $additionalTargetBudget;
+
+        return $totalChildrenTargetBudget > floatval($this->getTargetBudget());
+    }
 }

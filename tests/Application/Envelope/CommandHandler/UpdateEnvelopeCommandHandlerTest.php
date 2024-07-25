@@ -6,11 +6,11 @@ namespace App\Tests\Application\Envelope\CommandHandler;
 
 use App\Application\Envelope\Command\UpdateEnvelopeCommand;
 use App\Application\Envelope\CommandHandler\UpdateEnvelopeCommandHandler;
+use App\Domain\Envelope\Dto\UpdateEnvelopeDto;
 use App\Domain\Envelope\Entity\Envelope;
 use App\Domain\Envelope\Factory\EnvelopeFactory;
 use App\Domain\Envelope\Repository\EnvelopeCommandRepositoryInterface;
 use App\Domain\Shared\Adapter\LoggerInterface;
-use App\Infra\Http\Rest\Envelope\Dto\UpdateEnvelopeDto;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 

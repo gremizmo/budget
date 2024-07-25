@@ -1,0 +1,59 @@
+fos_elastica:
+    clients:
+        default: { url: '%env(ELASTICSEARCH_URL)%' }
+    indexes:
+        envelope:
+            index_name: envelope_%kernel.environment%
+            persistence:
+                driver: orm
+                model: App\Domain\Envelope\Entity\Envelope
+                listener:
+                    insert: true
+                    update: true
+                    delete: true
+            properties:
+                id:
+                    type: integer
+                createdAt:
+                    type: date
+                updatedAt:
+                    type: date
+                createdBy:
+                    type: keyword
+                updatedBy:
+                    type: keyword
+                currentBudget:
+                    type: float
+                targetBudget:
+                    type: float
+                title:
+                    type: text
+                parent:
+                    type: object
+                    properties:
+                        id:
+                            type: integer
+                children:
+                    type: nested
+                    properties:
+                        id:
+                            type: integer
+                        createdAt:
+                            type: date
+                        updatedAt:
+                            type: date
+                        createdBy:
+                            type: keyword
+                        updatedBy:
+                            type: keyword
+                        currentBudget:
+                            type: float
+                        targetBudget:
+                            type: float
+                        title:
+                            type: text
+                        parent:
+                            type: object
+                            properties:
+                                id:
+                                    type: integer

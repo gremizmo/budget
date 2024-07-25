@@ -5,42 +5,70 @@ declare(strict_types=1);
 namespace App\Infra\Http\Rest\Envelope\Repository;
 
 use App\Domain\Envelope\Entity\Envelope;
+use App\Domain\Envelope\Exception\EnvelopeQueryRepositoryException;
 use App\Domain\Envelope\Repository\EnvelopeQueryRepositoryInterface;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Domain\Shared\Adapter\LoggerInterface;
+use Elastica\Query;
+use FOS\ElasticaBundle\Finder\PaginatedFinderInterface;
+use FOS\ElasticaBundle\Repository;
 
-/**
- * @extends ServiceEntityRepository<Envelope>
- */
-class EnvelopeQueryRepository extends ServiceEntityRepository implements EnvelopeQueryRepositoryInterface
+class EnvelopeQueryRepository extends Repository implements EnvelopeQueryRepositoryInterface
 {
     public function __construct(
-        ManagerRegistry $registry,
+        protected PaginatedFinderInterface $finder,
+        private readonly LoggerInterface $logger,
     ) {
-        parent::__construct($registry, Envelope::class);
+        parent::__construct($finder);
     }
 
     /**
-     * @throws \Exception
+     * @throws \Throwable
      */
     public function findOneBy(array $criteria, ?array $orderBy = null): ?Envelope
     {
+        $query = new Query();
+        $query->setQuery(new Query\Term($criteria));
+
         try {
-            return parent::findOneBy($criteria);
-        } catch (\Exception $exception) {
-            throw new \Exception($exception->getMessage());
+            $result = $this->find($query);
+        } catch (\Throwable $exception) {
+            $this->logger->error($exception->getMessage());
+            throw new EnvelopeQueryRepositoryException(
+                'An Error occurred in method findOneBy of EnvelopeQueryRepository',
+                $exception->getCode(),
+                $exception,
+            );
         }
+
+        $envelope = reset($result);
+
+        return $envelope instanceof Envelope ? $envelope : null;
     }
 
     /**
-     * @throws \Exception
+     * @throws \Throwable
      */
     public function findBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
     {
+        $query = new Query();
+        $nestedQuery = new Query\BoolQuery();
+        isset($criteria['parent']) ?
+            $nestedQuery->addMust(new Query\Term(['parent.id' => $criteria['parent']])) :
+            $nestedQuery->addMustNot(new Query\Exists('parent.id'));
+        $query->setQuery($nestedQuery);
+        $query->setFrom($offset ?? 0);
+        $query->setSize($limit ?? 10);
+        $query->setSort($orderBy ?? []);
+
         try {
-            return parent::findBy($criteria, $orderBy, $limit, $offset);
-        } catch (\Exception $exception) {
-            throw new \Exception($exception->getMessage());
+            return $this->find($query);
+        } catch (\Throwable $exception) {
+            $this->logger->error($exception->getMessage());
+            throw new EnvelopeQueryRepositoryException(
+                'An Error occurred in method findBy of EnvelopeQueryRepository',
+                $exception->getCode(),
+                $exception,
+            );
         }
     }
 }

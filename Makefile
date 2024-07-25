@@ -21,6 +21,9 @@ start-server:
 stop-server:
 	docker exec -it my_symfony_app symfony server:stop
 
+cache-clear:
+	docker exec -it my_symfony_app bin/console cache:clear
+
 # Database commands
 database-create:
 	docker exec -it my_symfony_app bin/console doctrine:database:create
@@ -49,3 +52,7 @@ rector:
 
 cs-fixer:
 	docker exec -it my_symfony_app ./vendor/bin/php-cs-fixer fix
+
+# Elastica commands
+elastica-populate:
+	docker exec -it my_symfony_app php bin/console fos:elastica:populate
