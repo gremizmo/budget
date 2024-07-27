@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Infra\Http\Rest\Shared\Adapter;
 
-use App\Domain\Shared\Adapter\MessengerQueryBusInterface;
+use App\Domain\Shared\Adapter\QueryBusInterface;
 use App\Domain\Shared\Query\QueryInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
 
-readonly class MessengerQueryBusAdapter implements MessengerQueryBusInterface
+readonly class QueryBusAdapter implements QueryBusInterface
 {
     public function __construct(private MessageBusInterface $messageBus)
     {

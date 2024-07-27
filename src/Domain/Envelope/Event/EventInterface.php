@@ -7,6 +7,7 @@ namespace App\Domain\Envelope\Event;
 interface EventInterface
 {
     public function getEnvelopeId(): int;
+
     /**
      * @return array{
      *     title?: array{
@@ -40,5 +41,6 @@ interface EventInterface
      * }
      */
     public function getChanges(): array;
+
     public function getOccurredOn(): \DateTimeImmutable;
 }

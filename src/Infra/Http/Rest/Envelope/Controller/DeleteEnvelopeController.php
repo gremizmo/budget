@@ -6,7 +6,7 @@ namespace App\Infra\Http\Rest\Envelope\Controller;
 
 use App\Application\Envelope\Command\DeleteEnvelopeCommand;
 use App\Domain\Envelope\Entity\Envelope;
-use App\Domain\Shared\Adapter\MessengerCommandBusInterface;
+use App\Domain\Shared\Adapter\CommandBusInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,7 +18,7 @@ class DeleteEnvelopeController extends AbstractController
 {
     public function __construct(
         private readonly LoggerInterface $logger,
-        private readonly MessengerCommandBusInterface $commandBus,
+        private readonly CommandBusInterface $commandBus,
     ) {
     }
 

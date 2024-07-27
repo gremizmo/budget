@@ -6,7 +6,7 @@ namespace App\Domain\Shared\Adapter;
 
 use App\Domain\Shared\Query\QueryInterface;
 
-interface MessengerQueryBusInterface
+interface QueryBusInterface
 {
     public function query(QueryInterface $query): mixed;
 }

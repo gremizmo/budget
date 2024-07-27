@@ -6,7 +6,7 @@ namespace App\Infra\Http\Rest\Envelope\Controller;
 
 use App\Application\Envelope\Query\ListEnvelopesQuery;
 use App\Domain\Envelope\Dto\ListEnvelopesDto;
-use App\Domain\Shared\Adapter\MessengerQueryBusInterface;
+use App\Domain\Shared\Adapter\QueryBusInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,7 +19,7 @@ class ListEnvelopesController extends AbstractController
 {
     public function __construct(
         private readonly LoggerInterface $logger,
-        private readonly MessengerQueryBusInterface $queryBus,
+        private readonly QueryBusInterface $queryBus,
     ) {
     }
 

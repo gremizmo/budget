@@ -9,8 +9,8 @@ use App\Application\Envelope\Query\GetOneEnvelopeQuery;
 use App\Domain\Envelope\Dto\UpdateEnvelopeDto;
 use App\Domain\Envelope\Entity\Envelope;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
-use App\Domain\Shared\Adapter\MessengerCommandBusInterface;
-use App\Domain\Shared\Adapter\MessengerQueryBusInterface;
+use App\Domain\Shared\Adapter\CommandBusInterface;
+use App\Domain\Shared\Adapter\QueryBusInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -23,8 +23,8 @@ class EditEnvelopeController extends AbstractController
 {
     public function __construct(
         private readonly LoggerInterface $logger,
-        private readonly MessengerCommandBusInterface $commandBus,
-        private readonly MessengerQueryBusInterface $queryBus,
+        private readonly CommandBusInterface $commandBus,
+        private readonly QueryBusInterface $queryBus,
     ) {
     }
 

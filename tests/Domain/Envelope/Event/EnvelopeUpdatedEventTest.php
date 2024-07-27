@@ -15,11 +15,11 @@ class EnvelopeUpdatedEventTest extends TestCase
             'title' => ['new' => 'New Title', 'old' => 'Old Title'],
             'updatedAt' => [
                 'new' => ['date' => '2023-10-01 00:00:00.000000', 'timezone' => 'UTC', 'timezone_type' => 3],
-                'old' => ['date' => '2023-09-01 00:00:00.000000', 'timezone' => 'UTC', 'timezone_type' => 3]
+                'old' => ['date' => '2023-09-01 00:00:00.000000', 'timezone' => 'UTC', 'timezone_type' => 3],
             ],
             'updatedBy' => ['new' => 'user2', 'old' => 'user1'],
             'targetBudget' => ['new' => '2000.00', 'old' => '1000.00'],
-            'currentBudget' => ['new' => '1500.00', 'old' => '500.00']
+            'currentBudget' => ['new' => '1500.00', 'old' => '500.00'],
         ];
 
         $event = new EnvelopeUpdatedEvent(1, $changes);
@@ -38,7 +38,7 @@ class EnvelopeUpdatedEventTest extends TestCase
     public function testGetChanges(): void
     {
         $changes = [
-            'title' => ['new' => 'New Title', 'old' => 'Old Title']
+            'title' => ['new' => 'New Title', 'old' => 'Old Title'],
         ];
         $event = new EnvelopeUpdatedEvent(1, $changes);
 

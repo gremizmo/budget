@@ -7,7 +7,7 @@ namespace App\Infra\Http\Rest\Shared\Adapter;
 use App\Domain\Shared\Adapter\LoggerInterface;
 use Psr\Log\LoggerInterface as PsrLoggerInterface;
 
-readonly class PsrLoggerAdapter implements LoggerInterface
+readonly class LoggerAdapter implements LoggerInterface
 {
     public function __construct(private PsrLoggerInterface $psrLogger)
     {

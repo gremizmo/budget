@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Infra\Http\Rest\Shared\Adapter;
 
-use App\Domain\Shared\Adapter\MessengerCommandBusInterface;
+use App\Domain\Shared\Adapter\CommandBusInterface;
 use App\Domain\Shared\Command\CommandInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-readonly class MessengerCommandBusAdapter implements MessengerCommandBusInterface
+readonly class CommandBusAdapter implements CommandBusInterface
 {
     public function __construct(private MessageBusInterface $messageBus)
     {
