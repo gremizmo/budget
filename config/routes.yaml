@@ -1,5 +1,11 @@
-controllers:
+controllers_rest:
     resource:
         path: ../src/Infra/Http/Rest/Envelope/Controller/
         namespace: App\Infra\Http\Rest\Envelope\Controller
+    type: attribute
+
+controllers_web:
+    resource:
+        path: ../src/Infra/Http/Web/
+        namespace: App\Infra\Http\Web
     type: attribute
