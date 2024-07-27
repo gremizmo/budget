@@ -27,7 +27,7 @@ readonly class GetOneEnvelopeQueryHandler
 
         if (!$envelope) {
             $this->logger->error(sprintf('Envelope not found with ID: %d', $getOneEnvelopeQuery->getEnvelopeId()));
-            throw new EnvelopeNotFoundException(sprintf('Envelope not found with ID: %d', $getOneEnvelopeQuery->getEnvelopeId()));
+            throw new EnvelopeNotFoundException(sprintf('Envelope not found with ID: %d', $getOneEnvelopeQuery->getEnvelopeId()), 404);
         }
 
         return $envelope;

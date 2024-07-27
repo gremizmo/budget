@@ -6,10 +6,12 @@ namespace App\Domain\Envelope\Exception;
 
 class EnvelopeQueryRepositoryException extends \Exception
 {
+    public const MESSAGE = 'An Error occurred in EnvelopeQueryRepository';
+
     public function __construct(
-        string $message = 'An Error occurred in EnvelopeQueryRepository.',
-        int $code = 0,
-        \Throwable $previous = null,
+        string $message,
+        int $code,
+        ?\Throwable $previous = null,
     ) {
         parent::__construct($message, $code, $previous);
     }

@@ -5,6 +5,7 @@
         https://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
 
     <class name="App\Domain\Envelope\Dto\UpdateEnvelopeDto">
+        <constraint name="App\Infra\Http\Rest\Envelope\Validator\Constraints\ExceedsParentTargetBudget"/>
         <property name="title">
             <constraint name="NotBlank"/>
         </property>
@@ -18,6 +19,10 @@
             <constraint name="NotBlank"/>
             <constraint name="Type">
                 <option name="type">string</option>
+            </constraint>
+            <constraint name="GreaterThanOrEqual">
+                <option name="propertyPath">currentBudget</option>
+                <option name="message">The target budget must be greater than or equal to the current budget.</option>
             </constraint>
         </property>
         <property name="parentId">

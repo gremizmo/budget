@@ -33,11 +33,7 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
             $result = $this->find($query);
         } catch (\Throwable $exception) {
             $this->logger->error($exception->getMessage());
-            throw new EnvelopeQueryRepositoryException(
-                'An Error occurred in method findOneBy of EnvelopeQueryRepository',
-                $exception->getCode(),
-                $exception,
-            );
+            throw new EnvelopeQueryRepositoryException(sprintf('%s on method findOneBy', EnvelopeQueryRepositoryException::MESSAGE), $exception->getCode(), $exception);
         }
 
         $envelope = reset($result);
@@ -64,11 +60,7 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
             return $this->find($query);
         } catch (\Throwable $exception) {
             $this->logger->error($exception->getMessage());
-            throw new EnvelopeQueryRepositoryException(
-                'An Error occurred in method findBy of EnvelopeQueryRepository',
-                $exception->getCode(),
-                $exception,
-            );
+            throw new EnvelopeQueryRepositoryException(sprintf('%s on method findBy', EnvelopeQueryRepositoryException::MESSAGE), $exception->getCode(), $exception);
         }
     }
 }

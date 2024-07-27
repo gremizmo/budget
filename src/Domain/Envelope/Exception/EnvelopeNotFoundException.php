@@ -6,9 +6,11 @@ namespace App\Domain\Envelope\Exception;
 
 class EnvelopeNotFoundException extends \Exception
 {
+    public const MESSAGE = 'Envelope not found';
+
     public function __construct(
-        string $message = 'Envelope not found.',
-        int $code = 0,
+        string $message,
+        int $code,
         ?\Throwable $previous = null,
     ) {
         parent::__construct($message, $code, $previous);
