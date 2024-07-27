@@ -5,7 +5,6 @@
         https://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
 
     <class name="App\Domain\Envelope\Dto\CreateEnvelopeDto">
-        <constraint name="App\Infra\Http\Rest\Envelope\Validator\Constraints\ExceedsParentTargetBudget"/>
         <property name="title">
             <constraint name="NotBlank"/>
         </property>

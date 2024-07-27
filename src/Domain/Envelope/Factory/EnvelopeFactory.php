@@ -37,11 +37,12 @@ readonly class EnvelopeFactory implements EnvelopeFactoryInterface
     public function updateEnvelope(
         EnvelopeInterface $envelope,
         UpdateEnvelopeDtoInterface $updateEnvelopeDto,
+        ?EnvelopeInterface $parentEnvelope = null,
     ): EnvelopeInterface {
         $envelope->setTitle($updateEnvelopeDto->getTitle())
             ->setCurrentBudget($updateEnvelopeDto->getCurrentBudget())
             ->setTargetBudget($updateEnvelopeDto->getTargetBudget())
-            ->setParent($envelope->getParent())
+            ->setParent($parentEnvelope)
             ->setUpdatedAt(new \DateTime('now'))
             ->setUpdatedBy($this->uuidGenerator->generateUuid());
 

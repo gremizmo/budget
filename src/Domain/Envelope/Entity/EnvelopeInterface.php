@@ -10,7 +10,7 @@ interface EnvelopeInterface
 
     public function getParent(): ?EnvelopeInterface;
 
-    public function setParent(?EnvelopeInterface $parent): self;
+    public function setParent(?EnvelopeInterface $parent = null): self;
 
     public function getCreatedAt(): \DateTimeImmutable;
 
@@ -43,4 +43,6 @@ interface EnvelopeInterface
     public function setChildren(EnvelopeCollectionInterface $envelopes): self;
 
     public function getChildren(): EnvelopeCollectionInterface|iterable;
+
+    public function exceedsTargetBudget(float $additionalTargetBudget): bool;
 }

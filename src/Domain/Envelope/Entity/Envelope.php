@@ -41,7 +41,7 @@ class Envelope implements EnvelopeInterface
         return $this->parent;
     }
 
-    public function setParent(?EnvelopeInterface $parent): self
+    public function setParent(?EnvelopeInterface $parent = null): self
     {
         $this->parent = $parent;
 

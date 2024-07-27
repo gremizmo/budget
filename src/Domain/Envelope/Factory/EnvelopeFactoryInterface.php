@@ -18,5 +18,6 @@ interface EnvelopeFactoryInterface
     public function updateEnvelope(
         EnvelopeInterface $envelope,
         UpdateEnvelopeDtoInterface $updateEnvelopeDto,
+        ?EnvelopeInterface $parentEnvelope = null,
     ): EnvelopeInterface;
 }

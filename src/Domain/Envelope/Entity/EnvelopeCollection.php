@@ -8,7 +8,7 @@ class EnvelopeCollection implements EnvelopeCollectionInterface, \Iterator
 {
     private int $position;
 
-    public function __construct(private readonly iterable $elements = [])
+    public function __construct(private iterable $elements = [])
     {
         $this->position = 0;
     }
@@ -71,5 +71,12 @@ class EnvelopeCollection implements EnvelopeCollectionInterface, \Iterator
     public function rewind(): void
     {
         $this->position = 0;
+    }
+
+    public function add(EnvelopeInterface $element): self
+    {
+        $this->elements[] = $element;
+
+        return $this;
     }
 }

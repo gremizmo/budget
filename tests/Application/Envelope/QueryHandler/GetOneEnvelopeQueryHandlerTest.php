@@ -7,6 +7,7 @@ namespace App\Tests\Application\Envelope\QueryHandler;
 use App\Application\Envelope\Query\GetOneEnvelopeQuery;
 use App\Application\Envelope\QueryHandler\GetOneEnvelopeQueryHandler;
 use App\Domain\Envelope\Entity\Envelope;
+use App\Domain\Envelope\Exception\EnvelopeNotFoundException;
 use App\Domain\Envelope\Repository\EnvelopeQueryRepositoryInterface;
 use App\Domain\Shared\Adapter\LoggerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -25,44 +26,50 @@ class GetOneEnvelopeQueryHandlerTest extends TestCase
         $this->getOneEnvelopeQueryHandler = new GetOneEnvelopeQueryHandler($this->envelopeQueryRepositoryMock, $this->loggerMock);
     }
 
-    public function testInvokeSuccess(): void
+    /**
+     * @dataProvider envelopeDataProvider
+     */
+    public function testInvoke(GetOneEnvelopeQuery $query, ?Envelope $envelope, bool $shouldLogError): void
     {
-        $envelopeId = 1;
-        $envelope = new Envelope();
-        $query = new GetOneEnvelopeQuery($envelopeId);
-
-        $this->envelopeQueryRepositoryMock->method('findOneBy')
+        $this->envelopeQueryRepositoryMock->expects($this->once())
+            ->method('findOneBy')
+            ->with(['id' => $query->getEnvelopeId()])
             ->willReturn($envelope);
+
+        if ($shouldLogError) {
+            $this->loggerMock->expects($this->once())
+                ->method('error')
+                ->with($this->stringContains(EnvelopeNotFoundException::MESSAGE));
+            $this->expectException(EnvelopeNotFoundException::class);
+        } else {
+            $this->loggerMock->expects($this->never())
+                ->method('error');
+        }
 
         $result = $this->getOneEnvelopeQueryHandler->__invoke($query);
 
-        $this->assertSame($envelope, $result);
+        if (!$shouldLogError) {
+            $this->assertInstanceOf(Envelope::class, $result);
+            $this->assertEquals($envelope->getId(), $result->getId());
+        }
     }
 
-    public function testInvokeNotFound(): void
+    public function envelopeDataProvider(): array
     {
-        $this->envelopeQueryRepositoryMock->method('findOneBy')
-            ->willReturn(null);
+        $envelope = new Envelope();
+        $envelope->setId(1);
 
-        $this->expectException(\Exception::class);
-
-        $query = new GetOneEnvelopeQuery(1);
-        $this->getOneEnvelopeQueryHandler->__invoke($query);
-    }
-
-    public function testInvokeException(): void
-    {
-        $exception = new \Exception('Test Exception');
-        $this->envelopeQueryRepositoryMock->method('findOneBy')
-            ->willThrowException($exception);
-
-        $this->loggerMock->expects($this->once())
-            ->method('error')
-            ->with($this->equalTo('Test Exception'));
-
-        $this->expectException(\Exception::class);
-
-        $query = new GetOneEnvelopeQuery(1);
-        $this->getOneEnvelopeQueryHandler->__invoke($query);
+        return [
+            'success' => [
+                new GetOneEnvelopeQuery(1),
+                $envelope,
+                false,
+            ],
+            'failure' => [
+                new GetOneEnvelopeQuery(2),
+                null,
+                true,
+            ],
+        ];
     }
 }

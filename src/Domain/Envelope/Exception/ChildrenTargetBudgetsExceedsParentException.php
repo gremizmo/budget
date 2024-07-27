@@ -6,7 +6,7 @@ namespace App\Domain\Envelope\Exception;
 
 class ChildrenTargetBudgetsExceedsParentException extends \Exception
 {
-    public const MESSAGE = 'Total target budget of child envelopes exceeds the parent envelope\'s target budget';
+    public const MESSAGE = 'Total target budget of children envelopes exceeds the parent envelope\'s target budget';
 
     public function __construct(
         string $message,

@@ -32,7 +32,8 @@
     <listeners>
         <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
     </listeners>
-
+    <logging>
+    </logging>
     <extensions>
     </extensions>
 </phpunit>

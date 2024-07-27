@@ -22,4 +22,6 @@ interface EnvelopeCollectionInterface
     public function count(): int;
 
     public function contains(EnvelopeInterface $element): bool;
+
+    public function add(EnvelopeInterface $element): self;
 }

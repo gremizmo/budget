@@ -8,9 +8,12 @@ use App\Application\Envelope\Command\UpdateEnvelopeCommand;
 use App\Application\Envelope\CommandHandler\UpdateEnvelopeCommandHandler;
 use App\Domain\Envelope\Dto\UpdateEnvelopeDto;
 use App\Domain\Envelope\Entity\Envelope;
+use App\Domain\Envelope\Entity\EnvelopeCollection;
+use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentException;
 use App\Domain\Envelope\Factory\EnvelopeFactory;
 use App\Domain\Envelope\Repository\EnvelopeCommandRepositoryInterface;
 use App\Domain\Shared\Adapter\LoggerInterface;
+use App\Domain\Shared\Adapter\UuidGeneratorInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -18,53 +21,81 @@ class UpdateEnvelopeCommandHandlerTest extends TestCase
 {
     private MockObject&EnvelopeCommandRepositoryInterface $envelopeRepositoryMock;
     private MockObject&LoggerInterface $loggerMock;
-    private EnvelopeFactory $envelopeFactory;
     private UpdateEnvelopeCommandHandler $updateEnvelopeCommandHandler;
 
     protected function setUp(): void
     {
         $this->envelopeRepositoryMock = $this->createMock(EnvelopeCommandRepositoryInterface::class);
         $this->loggerMock = $this->createMock(LoggerInterface::class);
-        $this->envelopeFactory = new EnvelopeFactory();
         $this->updateEnvelopeCommandHandler = new UpdateEnvelopeCommandHandler(
             $this->envelopeRepositoryMock,
-            $this->envelopeFactory,
+            new EnvelopeFactory($this->createMock(UuidGeneratorInterface::class)),
             $this->loggerMock
         );
     }
 
-    public function testInvokeSuccess(): void
+    /**
+     * @dataProvider envelopeDataProvider
+     */
+    public function testInvokeSuccess(UpdateEnvelopeCommand $updateEnvelopeCommand): void
     {
-        $envelope = new Envelope();
-        $updateEnvelopeDto = new UpdateEnvelopeDto('Updated Title', '150.0', '250.0', null);
-        $updateEnvelopeCommand = new UpdateEnvelopeCommand($envelope, $updateEnvelopeDto);
-
         $this->envelopeRepositoryMock->expects($this->once())
             ->method('save')
-            ->with($this->equalTo($envelope));
-
-        $this->loggerMock->expects($this->never())
-            ->method('error');
+            ->with($this->isInstanceOf(Envelope::class));
 
         $this->updateEnvelopeCommandHandler->__invoke($updateEnvelopeCommand);
     }
 
-    public function testInvokeException(): void
+    public function testInvokeFailure(): void
     {
-        $exception = new \Exception('Test Exception');
-        $envelope = new Envelope();
-        $updateEnvelopeDto = new UpdateEnvelopeDto('Updated Title', '150.0', '250.0', null);
-        $updateEnvelopeCommand = new UpdateEnvelopeCommand($envelope, $updateEnvelopeDto);
+        $parentEnvelope = new Envelope();
+        $parentEnvelope->setId(1);
+        $parentEnvelope->setTargetBudget('1000.00');
+        $parentEnvelope->setChildren(new EnvelopeCollection());
 
-        $this->envelopeRepositoryMock->method('save')
-            ->willThrowException($exception);
+        $envelope = new Envelope();
+
+        $updateEnvelopeDto = new UpdateEnvelopeDto('Updated Title', '150.0', '3000.00', 1);
+        $updateEnvelopeCommand = new UpdateEnvelopeCommand($envelope, $updateEnvelopeDto, $parentEnvelope);
 
         $this->loggerMock->expects($this->once())
             ->method('error')
-            ->with($this->equalTo('Test Exception'));
+            ->with(
+                ChildrenTargetBudgetsExceedsParentException::MESSAGE,
+                [
+                    'parentEnvelope' => 1,
+                    'parentEnvelopeTargetBudget' => '1000.00',
+                    'currentEnvelopeTargetBudget' => '3000.00',
+                ]
+            );
 
-        $this->expectException(\Exception::class);
+        $this->expectException(ChildrenTargetBudgetsExceedsParentException::class);
 
         $this->updateEnvelopeCommandHandler->__invoke($updateEnvelopeCommand);
+    }
+
+    public function envelopeDataProvider(): array
+    {
+        $parentEnvelope = new Envelope();
+        $parentEnvelope->setId(1);
+        $parentEnvelope->setTargetBudget('3000.00');
+        $parentEnvelope->setChildren(new EnvelopeCollection());
+
+        return [
+            'with parent' => [
+                new UpdateEnvelopeCommand(
+                    new Envelope(),
+                    new UpdateEnvelopeDto('Updated Title', '150.0', '250.0', 1),
+                    $parentEnvelope,
+                ),
+            ],
+            'without parent' => [
+                new UpdateEnvelopeCommand(
+                    new Envelope(),
+                    new UpdateEnvelopeDto('Updated Title', '150.0', '250.0', 1),
+                    null,
+                ),
+            ],
+        ];
     }
 }

@@ -15,8 +15,8 @@ readonly class MessengerQueryBusAdapter implements MessengerQueryBusInterface
     {
     }
 
-    public function query(QueryInterface $query): object
+    public function query(QueryInterface $query): mixed
     {
-        return $this->messageBus->dispatch($query)->last(HandledStamp::class)->getResult();
+        return $this->messageBus->dispatch($query)->last(HandledStamp::class)?->getResult();
     }
 }

@@ -12,7 +12,8 @@ readonly class UpdateEnvelopeCommand implements CommandInterface
 {
     public function __construct(
         private EnvelopeInterface $envelope,
-        private UpdateEnvelopeDtoInterface $updateEnvelopeDTO
+        private UpdateEnvelopeDtoInterface $updateEnvelopeDTO,
+        private ?EnvelopeInterface $parentEnvelope = null,
     ) {
     }
 
@@ -24,5 +25,10 @@ readonly class UpdateEnvelopeCommand implements CommandInterface
     public function getUpdateEnvelopeDTO(): UpdateEnvelopeDtoInterface
     {
         return $this->updateEnvelopeDTO;
+    }
+
+    public function getParentEnvelope(): ?EnvelopeInterface
+    {
+        return $this->parentEnvelope;
     }
 }
