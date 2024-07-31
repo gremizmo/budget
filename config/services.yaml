@@ -18,6 +18,7 @@ services:
         exclude:
             - '../src/DependencyInjection/'
             - '../src/Domain/Envelope/Entity/'
+            - '../src/Domain/User/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
 
@@ -26,20 +27,35 @@ services:
     App\Application\Envelope\CommandHandler\CreateEnvelopeCommandHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\Application\Envelope\CommandHandler\UpdateEnvelopeCommandHandler:
+    App\Application\Envelope\CommandHandler\EditEnvelopeCommandHandler:
         tags: [ 'messenger.message_handler' ]
 
     App\Application\Envelope\CommandHandler\DeleteEnvelopeCommandHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\Application\Envelope\QueryHandler\GetOneEnvelopeQueryHandler:
+    App\Application\Envelope\QueryHandler\ShowEnvelopeQueryHandler:
         tags: [ 'messenger.message_handler' ]
 
     App\Application\Envelope\QueryHandler\ListEnvelopesQueryHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\Infra\Http\Rest\Envelope\EventListener\EnvelopeUpdateListener:
+    App\Application\User\CommandHandler\CreateUserCommandHandler:
+        tags: [ 'messenger.message_handler' ]
+
+    App\Application\User\QueryHandler\ShowUserQueryHandler:
+        tags: [ 'messenger.message_handler' ]
+
+    App\Infra\Http\Rest\Envelope\EventListener\EnvelopeEditListener:
         tags:
             - { name: 'doctrine.event_listener', event: 'preUpdate' }
 
-    FOS\ElasticaBundle\Finder\PaginatedFinderInterface: '@fos_elastica.finder.envelope'
+    Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface:
+        alias: 'security.password_hasher'
+
+    App\Infra\Http\Rest\User\Repository\UserQueryRepository:
+        arguments:
+            $finder: '@fos_elastica.finder.user'
+
+    App\Infra\Http\Rest\Envelope\Repository\EnvelopeQueryRepository:
+        arguments:
+            $finder: '@fos_elastica.finder.envelope'

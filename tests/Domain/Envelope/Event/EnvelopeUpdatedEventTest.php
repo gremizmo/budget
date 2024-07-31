@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\Envelope\Event;
 
-use App\Domain\Envelope\Event\EnvelopeUpdatedEvent;
+use App\Domain\Envelope\Event\EnvelopeEditedEvent;
 use PHPUnit\Framework\TestCase;
 
 class EnvelopeUpdatedEventTest extends TestCase
@@ -22,15 +22,15 @@ class EnvelopeUpdatedEventTest extends TestCase
             'currentBudget' => ['new' => '1500.00', 'old' => '500.00'],
         ];
 
-        $event = new EnvelopeUpdatedEvent(1, $changes);
+        $event = new EnvelopeEditedEvent(1, $changes);
 
-        $this->assertInstanceOf(EnvelopeUpdatedEvent::class, $event);
+        $this->assertInstanceOf(EnvelopeEditedEvent::class, $event);
     }
 
     public function testGetEnvelopeId(): void
     {
         $changes = [];
-        $event = new EnvelopeUpdatedEvent(1, $changes);
+        $event = new EnvelopeEditedEvent(1, $changes);
 
         $this->assertSame(1, $event->getEnvelopeId());
     }
@@ -40,7 +40,7 @@ class EnvelopeUpdatedEventTest extends TestCase
         $changes = [
             'title' => ['new' => 'New Title', 'old' => 'Old Title'],
         ];
-        $event = new EnvelopeUpdatedEvent(1, $changes);
+        $event = new EnvelopeEditedEvent(1, $changes);
 
         $this->assertSame($changes, $event->getChanges());
     }
@@ -48,7 +48,7 @@ class EnvelopeUpdatedEventTest extends TestCase
     public function testGetOccurredOn(): void
     {
         $changes = [];
-        $event = new EnvelopeUpdatedEvent(1, $changes);
+        $event = new EnvelopeEditedEvent(1, $changes);
 
         $this->assertInstanceOf(\DateTimeImmutable::class, $event->getOccurredOn());
     }

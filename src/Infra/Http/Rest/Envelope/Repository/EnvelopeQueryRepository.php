@@ -27,7 +27,19 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
     public function findOneBy(array $criteria, ?array $orderBy = null): ?Envelope
     {
         $query = new Query();
-        $query->setQuery(new Query\Term($criteria));
+        $query->setRawQuery(
+            [
+                'size' => 1,
+                'query' => [
+                    'bool' => [
+                        'must' => [
+                            ['term' => ['id'      => $criteria['id']]],
+                            ['term' => ['user.id' => $criteria['user']]],
+                        ],
+                    ],
+                ],
+            ]
+        );
 
         try {
             $result = $this->find($query);
@@ -47,11 +59,13 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
     public function findBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
     {
         $query = new Query();
-        $nestedQuery = new Query\BoolQuery();
-        isset($criteria['parent']) ?
-            $nestedQuery->addMust(new Query\Term(['parent.id' => $criteria['parent']])) :
-            $nestedQuery->addMustNot(new Query\Exists('parent.id'));
-        $query->setQuery($nestedQuery);
+        $query->setRawQuery(
+            [
+                'query' => [
+                    'bool' => $this->filterByParent($criteria),
+                ],
+            ]
+        );
         $query->setFrom($offset ?? 0);
         $query->setSize($limit ?? 10);
         $query->setSort($orderBy ?? []);
@@ -62,5 +76,22 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
             $this->logger->error($exception->getMessage());
             throw new EnvelopeQueryRepositoryException(sprintf('%s on method findBy', EnvelopeQueryRepositoryException::MESSAGE), $exception->getCode(), $exception);
         }
+    }
+
+    private function filterByParent($criteria): array
+    {
+        if (isset($criteria['parent'])) {
+            return [
+                'must' => [
+                    ['term' => ['parent.id' => $criteria['parent']]],
+                ],
+            ];
+        }
+
+        return [
+            'must_not' => [
+                ['exists' => ['field' => 'parent']],
+            ],
+        ];
     }
 }

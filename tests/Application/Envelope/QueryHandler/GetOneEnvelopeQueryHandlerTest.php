@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\Envelope\QueryHandler;
 
-use App\Application\Envelope\Query\GetOneEnvelopeQuery;
-use App\Application\Envelope\QueryHandler\GetOneEnvelopeQueryHandler;
+use App\Application\Envelope\Query\ShowEnvelopeQuery;
+use App\Application\Envelope\QueryHandler\ShowEnvelopeQueryHandler;
 use App\Domain\Envelope\Entity\Envelope;
 use App\Domain\Envelope\Exception\EnvelopeNotFoundException;
 use App\Domain\Envelope\Repository\EnvelopeQueryRepositoryInterface;
@@ -17,19 +17,19 @@ class GetOneEnvelopeQueryHandlerTest extends TestCase
 {
     private MockObject&EnvelopeQueryRepositoryInterface $envelopeQueryRepositoryMock;
     private MockObject&LoggerInterface $loggerMock;
-    private GetOneEnvelopeQueryHandler $getOneEnvelopeQueryHandler;
+    private ShowEnvelopeQueryHandler $getOneEnvelopeQueryHandler;
 
     protected function setUp(): void
     {
         $this->envelopeQueryRepositoryMock = $this->createMock(EnvelopeQueryRepositoryInterface::class);
         $this->loggerMock = $this->createMock(LoggerInterface::class);
-        $this->getOneEnvelopeQueryHandler = new GetOneEnvelopeQueryHandler($this->envelopeQueryRepositoryMock, $this->loggerMock);
+        $this->getOneEnvelopeQueryHandler = new ShowEnvelopeQueryHandler($this->envelopeQueryRepositoryMock, $this->loggerMock);
     }
 
     /**
      * @dataProvider envelopeDataProvider
      */
-    public function testInvoke(GetOneEnvelopeQuery $query, ?Envelope $envelope, bool $shouldLogError): void
+    public function testInvoke(ShowEnvelopeQuery $query, ?Envelope $envelope, bool $shouldLogError): void
     {
         $this->envelopeQueryRepositoryMock->expects($this->once())
             ->method('findOneBy')
@@ -61,12 +61,12 @@ class GetOneEnvelopeQueryHandlerTest extends TestCase
 
         return [
             'success' => [
-                new GetOneEnvelopeQuery(1),
+                new ShowEnvelopeQuery(1),
                 $envelope,
                 false,
             ],
             'failure' => [
-                new GetOneEnvelopeQuery(2),
+                new ShowEnvelopeQuery(2),
                 null,
                 true,
             ],

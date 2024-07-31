@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Domain\User\Entity\User" repository-class="App\Infra\Http\Rest\User\Repository\UserCommandRepository">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO"/>
+        </id>
+        <field name="firstname" type="string" column="firstname" length="255"/>
+        <field name="lastname" type="string" column="lastname" length="255"/>
+        <field name="password" type="string" column="password" length="255"/>
+        <field name="email" type="string" column="email" length="255"/>
+        <field name="consentGiven" type="boolean" column="consent_given"/>
+        <field name="consentDate" type="datetime_immutable" column="consent_date"/>
+        <field name="createdAt" type="datetime_immutable" column="created_at"/>
+        <field name="updatedAt" type="datetime" column="updated_at"/>
+        <field name="roles" type="json" column="roles"/>
+
+        <one-to-many field="envelopes" target-entity="App\Domain\Envelope\Entity\Envelope" mapped-by="user">
+            <cascade>
+                <cascade-persist/>
+                <cascade-remove/>
+            </cascade>
+            <order-by>
+                <order-by-field name="createdAt" direction="ASC"/>
+            </order-by>
+        </one-to-many>
+    </entity>
+</doctrine-mapping>

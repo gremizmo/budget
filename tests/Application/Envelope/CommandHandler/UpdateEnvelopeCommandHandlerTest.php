@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\Envelope\CommandHandler;
 
-use App\Application\Envelope\Command\UpdateEnvelopeCommand;
-use App\Application\Envelope\CommandHandler\UpdateEnvelopeCommandHandler;
-use App\Domain\Envelope\Dto\UpdateEnvelopeDto;
+use App\Application\Envelope\Command\EditEnvelopeCommand;
+use App\Application\Envelope\CommandHandler\EditEnvelopeCommandHandler;
+use App\Domain\Envelope\Dto\EditEnvelopeDto;
 use App\Domain\Envelope\Entity\Envelope;
 use App\Domain\Envelope\Entity\EnvelopeCollection;
 use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentException;
@@ -21,13 +21,13 @@ class UpdateEnvelopeCommandHandlerTest extends TestCase
 {
     private MockObject&EnvelopeCommandRepositoryInterface $envelopeRepositoryMock;
     private MockObject&LoggerInterface $loggerMock;
-    private UpdateEnvelopeCommandHandler $updateEnvelopeCommandHandler;
+    private EditEnvelopeCommandHandler $updateEnvelopeCommandHandler;
 
     protected function setUp(): void
     {
         $this->envelopeRepositoryMock = $this->createMock(EnvelopeCommandRepositoryInterface::class);
         $this->loggerMock = $this->createMock(LoggerInterface::class);
-        $this->updateEnvelopeCommandHandler = new UpdateEnvelopeCommandHandler(
+        $this->updateEnvelopeCommandHandler = new EditEnvelopeCommandHandler(
             $this->envelopeRepositoryMock,
             new EnvelopeFactory($this->createMock(UuidGeneratorInterface::class)),
             $this->loggerMock
@@ -37,7 +37,7 @@ class UpdateEnvelopeCommandHandlerTest extends TestCase
     /**
      * @dataProvider envelopeDataProvider
      */
-    public function testInvokeSuccess(UpdateEnvelopeCommand $updateEnvelopeCommand): void
+    public function testInvokeSuccess(EditEnvelopeCommand $updateEnvelopeCommand): void
     {
         $this->envelopeRepositoryMock->expects($this->once())
             ->method('save')
@@ -55,8 +55,8 @@ class UpdateEnvelopeCommandHandlerTest extends TestCase
 
         $envelope = new Envelope();
 
-        $updateEnvelopeDto = new UpdateEnvelopeDto('Updated Title', '150.0', '3000.00', 1);
-        $updateEnvelopeCommand = new UpdateEnvelopeCommand($envelope, $updateEnvelopeDto, $parentEnvelope);
+        $updateEnvelopeDto = new EditEnvelopeDto('Updated Title', '150.0', '3000.00', 1);
+        $updateEnvelopeCommand = new EditEnvelopeCommand($envelope, $updateEnvelopeDto, $parentEnvelope);
 
         $this->loggerMock->expects($this->once())
             ->method('error')
@@ -83,16 +83,16 @@ class UpdateEnvelopeCommandHandlerTest extends TestCase
 
         return [
             'with parent' => [
-                new UpdateEnvelopeCommand(
+                new EditEnvelopeCommand(
                     new Envelope(),
-                    new UpdateEnvelopeDto('Updated Title', '150.0', '250.0', 1),
+                    new EditEnvelopeDto('Updated Title', '150.0', '250.0', 1),
                     $parentEnvelope,
                 ),
             ],
             'without parent' => [
-                new UpdateEnvelopeCommand(
+                new EditEnvelopeCommand(
                     new Envelope(),
-                    new UpdateEnvelopeDto('Updated Title', '150.0', '250.0', 1),
+                    new EditEnvelopeDto('Updated Title', '150.0', '250.0', 1),
                     null,
                 ),
             ],

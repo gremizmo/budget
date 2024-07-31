@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Envelope\Entity;
 
+use App\Domain\User\Entity\UserInterface;
+
 interface EnvelopeInterface
 {
     public function getId(): int;
@@ -19,14 +21,6 @@ interface EnvelopeInterface
     public function getUpdatedAt(): \DateTime;
 
     public function setUpdatedAt(\DateTime $updatedAt): self;
-
-    public function getCreatedBy(): string;
-
-    public function setCreatedBy(string $createdBy): self;
-
-    public function getUpdatedBy(): string;
-
-    public function setUpdatedBy(string $updatedBy): self;
 
     public function getCurrentBudget(): string;
 
@@ -45,4 +39,10 @@ interface EnvelopeInterface
     public function getChildren(): EnvelopeCollectionInterface|iterable;
 
     public function exceedsTargetBudget(float $additionalTargetBudget): bool;
+
+    public function getUser(): UserInterface;
+
+    public function setUser(UserInterface $user): self;
+
+    public function calculateTotalChildrenTargetBudget(): float;
 }

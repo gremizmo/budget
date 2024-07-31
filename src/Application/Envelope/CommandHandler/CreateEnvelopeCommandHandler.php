@@ -42,7 +42,8 @@ readonly class CreateEnvelopeCommandHandler
         $this->envelopeCommandRepository->save(
             $this->envelopeFactory->createEnvelope(
                 $createEnvelopeDTO,
-                $parentEnvelope
+                $parentEnvelope,
+                $command->getUser(),
             )
         );
     }

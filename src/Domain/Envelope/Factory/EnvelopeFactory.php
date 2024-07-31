@@ -8,17 +8,14 @@ use App\Domain\Envelope\Dto\CreateEnvelopeDtoInterface;
 use App\Domain\Envelope\Dto\UpdateEnvelopeDtoInterface;
 use App\Domain\Envelope\Entity\Envelope;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
-use App\Domain\Shared\Adapter\UuidGeneratorInterface;
+use App\Domain\User\Entity\UserInterface;
 
 readonly class EnvelopeFactory implements EnvelopeFactoryInterface
 {
-    public function __construct(private UuidGeneratorInterface $uuidGenerator)
-    {
-    }
-
     public function createEnvelope(
         CreateEnvelopeDtoInterface $createEnvelopeDto,
-        ?EnvelopeInterface $parentEnvelope
+        ?EnvelopeInterface $parentEnvelope,
+        UserInterface $user,
     ): EnvelopeInterface {
         $envelope = new Envelope();
 
@@ -28,8 +25,7 @@ readonly class EnvelopeFactory implements EnvelopeFactoryInterface
             ->setTitle($createEnvelopeDto->getTitle())
             ->setCreatedAt(new \DateTimeImmutable('now'))
             ->setUpdatedAt(new \DateTime('now'))
-            ->setCreatedBy($this->uuidGenerator->generateUuid())
-            ->setUpdatedBy($this->uuidGenerator->generateUuid());
+            ->setUser($user);
 
         return $envelope;
     }
@@ -43,8 +39,7 @@ readonly class EnvelopeFactory implements EnvelopeFactoryInterface
             ->setCurrentBudget($updateEnvelopeDto->getCurrentBudget())
             ->setTargetBudget($updateEnvelopeDto->getTargetBudget())
             ->setParent($parentEnvelope)
-            ->setUpdatedAt(new \DateTime('now'))
-            ->setUpdatedBy($this->uuidGenerator->generateUuid());
+            ->setUpdatedAt(new \DateTime('now'));
 
         return $envelope;
     }

@@ -8,7 +8,7 @@ use App\Domain\Envelope\Dto\UpdateEnvelopeDtoInterface;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Shared\Command\CommandInterface;
 
-readonly class UpdateEnvelopeCommand implements CommandInterface
+readonly class EditEnvelopeCommand implements CommandInterface
 {
     public function __construct(
         private EnvelopeInterface $envelope,

@@ -1,7 +1,13 @@
-controllers_rest:
+controllers_rest_envelope:
     resource:
         path: ../src/Infra/Http/Rest/Envelope/Controller/
         namespace: App\Infra\Http\Rest\Envelope\Controller
+    type: attribute
+
+controllers_rest_user:
+    resource:
+        path: ../src/Infra/Http/Rest/User/Controller/
+        namespace: App\Infra\Http\Rest\User\Controller
     type: attribute
 
 controllers_web:
@@ -9,3 +15,6 @@ controllers_web:
         path: ../src/Infra/Http/Web/
         namespace: App\Infra\Http\Web
     type: attribute
+
+api_login_check:
+    path: /api/login_check

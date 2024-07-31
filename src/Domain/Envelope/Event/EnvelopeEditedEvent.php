@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Envelope\Event;
 
-class EnvelopeUpdatedEvent implements EventInterface
+class EnvelopeEditedEvent implements EventInterface
 {
     private \DateTimeImmutable $occurredOn;
 

@@ -7,12 +7,14 @@ namespace App\Domain\Envelope\Factory;
 use App\Domain\Envelope\Dto\CreateEnvelopeDtoInterface;
 use App\Domain\Envelope\Dto\UpdateEnvelopeDtoInterface;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
+use App\Domain\User\Entity\UserInterface;
 
 interface EnvelopeFactoryInterface
 {
     public function createEnvelope(
         CreateEnvelopeDtoInterface $createEnvelopeDto,
-        ?EnvelopeInterface $parentEnvelope
+        ?EnvelopeInterface $parentEnvelope,
+        UserInterface $user,
     ): EnvelopeInterface;
 
     public function updateEnvelope(

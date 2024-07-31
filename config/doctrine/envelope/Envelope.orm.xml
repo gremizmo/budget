@@ -10,8 +10,6 @@
         </id>
         <field name="createdAt" type="datetime_immutable" column="created_at"/>
         <field name="updatedAt" type="datetime" column="updated_at"/>
-        <field name="createdBy" type="string" column="created_by" length="255"/>
-        <field name="updatedBy" type="string" column="updated_by" length="255"/>
         <field name="currentBudget" type="string" column="current_budget"/>
         <field name="targetBudget" type="string" column="target_budget"/>
         <field name="title" type="string" column="title" length="255"/>
@@ -25,5 +23,9 @@
                 <cascade-all/>
             </cascade>
         </one-to-many>
+
+        <many-to-one field="user" target-entity="App\Domain\User\Entity\User">
+            <join-column name="user_id" referenced-column-name="id" nullable="false"/>
+        </many-to-one>
     </entity>
 </doctrine-mapping>

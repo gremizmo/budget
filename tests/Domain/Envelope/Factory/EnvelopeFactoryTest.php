@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Domain\Envelope\Factory;
 
 use App\Domain\Envelope\Dto\CreateEnvelopeDto;
-use App\Domain\Envelope\Dto\UpdateEnvelopeDto;
+use App\Domain\Envelope\Dto\EditEnvelopeDto;
 use App\Domain\Envelope\Entity\Envelope;
 use App\Domain\Envelope\Factory\EnvelopeFactory;
 use App\Domain\Shared\Adapter\UuidGeneratorInterface;
@@ -43,7 +43,7 @@ class EnvelopeFactoryTest extends TestCase
     public function testUpdateEnvelope(): void
     {
         $envelope = new Envelope();
-        $updateEnvelopeDto = new UpdateEnvelopeDto('Updated Title', '1500.00', '2500.00');
+        $updateEnvelopeDto = new EditEnvelopeDto('Updated Title', '1500.00', '2500.00');
         $parentEnvelope = new Envelope();
 
         $updatedEnvelope = $this->envelopeFactory->updateEnvelope($envelope, $updateEnvelopeDto, $parentEnvelope);

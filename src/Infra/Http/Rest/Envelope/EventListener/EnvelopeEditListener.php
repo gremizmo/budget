@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Infra\Http\Rest\Envelope\EventListener;
 
 use App\Domain\Envelope\Entity\Envelope;
-use App\Domain\Envelope\Event\EnvelopeUpdatedEvent;
+use App\Domain\Envelope\Event\EnvelopeEditedEvent;
 use App\Infra\Http\Rest\Envelope\EventStore\EventStore;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 
-class EnvelopeUpdateListener
+class EnvelopeEditListener
 {
     private static bool $processingHistory = false;
 
@@ -40,7 +40,7 @@ class EnvelopeUpdateListener
             return;
         }
 
-        $history = new EnvelopeUpdatedEvent(
+        $history = new EnvelopeEditedEvent(
             $entity->getId(),
             $changes
         );

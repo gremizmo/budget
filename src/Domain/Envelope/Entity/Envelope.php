@@ -4,22 +4,24 @@ declare(strict_types=1);
 
 namespace App\Domain\Envelope\Entity;
 
+use App\Domain\User\Entity\User;
+use App\Domain\User\Entity\UserInterface;
+
 class Envelope implements EnvelopeInterface
 {
     private int $id;
     private \DateTimeImmutable $createdAt;
     private \DateTime $updatedAt;
-    private string $createdBy;
-    private string $updatedBy;
     private string $currentBudget = '0.0';
     private string $targetBudget = '0.0';
     private string $title = '';
     private ?EnvelopeInterface $parent = null;
     private EnvelopeCollectionInterface|iterable $children;
+    private User $user;
 
     public function __construct()
     {
-        $this->children  = [];
+        $this->children = [];
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTime();
     }
@@ -68,30 +70,6 @@ class Envelope implements EnvelopeInterface
     public function setUpdatedAt(\DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    public function getCreatedBy(): string
-    {
-        return $this->createdBy;
-    }
-
-    public function setCreatedBy(string $createdBy): self
-    {
-        $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
-    public function getUpdatedBy(): string
-    {
-        return $this->updatedBy;
-    }
-
-    public function setUpdatedBy(string $updatedBy): self
-    {
-        $this->updatedBy = $updatedBy;
 
         return $this;
     }
@@ -152,6 +130,18 @@ class Envelope implements EnvelopeInterface
     public function getChildren(): EnvelopeCollectionInterface|iterable
     {
         return $this->children;
+    }
+
+    public function getUser(): UserInterface
+    {
+        return $this->user;
+    }
+
+    public function setUser(UserInterface $user): self
+    {
+        $this->user = $user;
+
+        return $this;
     }
 
     public function calculateTotalChildrenTargetBudget(): float

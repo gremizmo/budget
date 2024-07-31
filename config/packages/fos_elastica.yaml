@@ -28,6 +28,11 @@ fos_elastica:
                     type: float
                 title:
                     type: text
+                user:
+                    type: object
+                    properties:
+                        id:
+                            type: integer
                 parent:
                     type: object
                     properties:
@@ -57,3 +62,81 @@ fos_elastica:
                             properties:
                                 id:
                                     type: integer
+        user:
+            index_name: user_%kernel.environment%
+            persistence:
+                driver: orm
+                model: App\Domain\User\Entity\User
+                listener:
+                    insert: true
+                    update: true
+                    delete: true
+            properties:
+                id:
+                    type: integer
+                email:
+                    type: keyword
+                password:
+                    type: keyword
+                firstname:
+                    type: text
+                lastname:
+                    type: text
+                consentGiven:
+                    type: boolean
+                consentDate:
+                    type: date
+                roles:
+                    type: keyword
+                createdAt:
+                    type: date
+                updatedAt:
+                    type: date
+                envelopes:
+                    type: nested
+                    properties:
+                        id:
+                            type: integer
+                        createdAt:
+                            type: date
+                        updatedAt:
+                            type: date
+                        createdBy:
+                            type: keyword
+                        updatedBy:
+                            type: keyword
+                        currentBudget:
+                            type: float
+                        targetBudget:
+                            type: float
+                        title:
+                            type: text
+                        parent:
+                            type: object
+                            properties:
+                                id:
+                                    type: integer
+                        children:
+                            type: nested
+                            properties:
+                                id:
+                                    type: integer
+                                createdAt:
+                                    type: date
+                                updatedAt:
+                                    type: date
+                                createdBy:
+                                    type: keyword
+                                updatedBy:
+                                    type: keyword
+                                currentBudget:
+                                    type: float
+                                targetBudget:
+                                    type: float
+                                title:
+                                    type: text
+                                parent:
+                                    type: object
+                                    properties:
+                                        id:
+                                            type: integer

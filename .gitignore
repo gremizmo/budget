@@ -17,6 +17,7 @@ phpstan.neon
 ###> symfony/phpunit-bridge ###
 .phpunit.result.cache
 /phpunit.xml
+/coverage/
 ###< phpunit/phpunit ###
 
 ###> friendsofphp/php-cs-fixer ###
@@ -24,3 +25,6 @@ phpstan.neon
 /.php-cs-fixer.cache
 ###< friendsofphp/php-cs-fixer ###
 .idea
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
