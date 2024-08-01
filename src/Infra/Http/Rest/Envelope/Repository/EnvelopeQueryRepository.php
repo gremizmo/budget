@@ -59,10 +59,20 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
     public function findBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
     {
         $query = new Query();
+
+        $userFilters = $this->filterByUser($criteria);
+        $parentFilters = $this->filterByParent($criteria);
+
+        $mustFilters = array_merge($userFilters, $parentFilters['must']);
+        $mustNotFilters = $parentFilters['must_not'] ?? [];
+
         $query->setRawQuery(
             [
                 'query' => [
-                    'bool' => $this->filterByParent($criteria),
+                    'bool' => [
+                        'must' => $mustFilters,
+                        'must_not' => $mustNotFilters,
+                    ],
                 ],
             ]
         );
@@ -78,20 +88,28 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
         }
     }
 
-    private function filterByParent($criteria): array
+    private function filterByParent(array $criteria): array
     {
+        $filters = [
+            'must' => [],
+            'must_not' => [],
+        ];
+
         if (isset($criteria['parent'])) {
-            return [
-                'must' => [
-                    ['term' => ['parent.id' => $criteria['parent']]],
-                ],
-            ];
+            $filters['must'][] = ['term' => ['parent.id' => $criteria['parent']]];
+        } else {
+            $filters['must_not'][] = ['exists' => ['field' => 'parent']];
         }
 
-        return [
-            'must_not' => [
-                ['exists' => ['field' => 'parent']],
-            ],
-        ];
+        return $filters;
+    }
+
+    private function filterByUser(array $criteria): array
+    {
+        if (!isset($criteria['user'])) {
+            return [];
+        }
+
+        return ['term' => ['user.id' => $criteria['user']]];
     }
 }

@@ -152,10 +152,17 @@ class Envelope implements EnvelopeInterface
         );
     }
 
-    public function exceedsTargetBudget(float $additionalTargetBudget): bool
+    public function exceedsParentEnvelopeTargetBudget(float $additionalTargetBudget): bool
     {
         $totalChildrenTargetBudget = $this->calculateTotalChildrenTargetBudget() + $additionalTargetBudget;
 
         return $totalChildrenTargetBudget > floatval($this->getTargetBudget());
+    }
+
+    public function exceedsCurrentEnvelopeTargetBudget(float $additionalTargetBudget): bool
+    {
+        $totalChildrenTargetBudget = $this->calculateTotalChildrenTargetBudget();
+
+        return $totalChildrenTargetBudget > $additionalTargetBudget;
     }
 }

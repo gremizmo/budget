@@ -32,7 +32,7 @@ class ListEnvelopesController extends AbstractController
         #[CurrentUser] UserInterface $user
     ): JsonResponse {
         try {
-            $envelope = $this->queryBus->query(new ListEnvelopesQuery($listEnvelopesDto->getId()));
+            $envelope = $this->queryBus->query(new ListEnvelopesQuery($user, $listEnvelopesDto->getId()));
         } catch (\Throwable $exception) {
             $this->logger->error('Failed to process Envelope listing request: '.$exception->getMessage());
 

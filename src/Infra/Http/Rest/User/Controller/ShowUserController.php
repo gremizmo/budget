@@ -30,7 +30,7 @@ class ShowUserController extends AbstractController
             $this->logger->error('Failed to process User getOne request: User not allowed to access this resource');
 
             return $this->json([
-                'error' => 'Failed to process User getOne request: User not allowed to access this resource'
+                'error' => 'Failed to process User getOne request: User not allowed to access this resource',
             ], Response::HTTP_FORBIDDEN);
         }
 

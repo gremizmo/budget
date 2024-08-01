@@ -8,14 +8,14 @@ use App\Application\Envelope\Command\CreateEnvelopeCommand;
 use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentException;
 use App\Domain\Envelope\Factory\EnvelopeFactoryInterface;
 use App\Domain\Envelope\Repository\EnvelopeCommandRepositoryInterface;
-use App\Domain\Shared\Adapter\LoggerInterface;
+use App\Domain\Envelope\Service\TargetBudgetValidatorInterface;
 
 readonly class CreateEnvelopeCommandHandler
 {
     public function __construct(
         private EnvelopeCommandRepositoryInterface $envelopeCommandRepository,
         private EnvelopeFactoryInterface $envelopeFactory,
-        private LoggerInterface $logger,
+        private TargetBudgetValidatorInterface $targetBudgetValidator,
     ) {
     }
 
@@ -27,17 +27,10 @@ readonly class CreateEnvelopeCommandHandler
         $createEnvelopeDTO = $command->getCreateEnvelopeDTO();
         $parentEnvelope = $command->getParentEnvelope();
 
-        if ($parentEnvelope && $parentEnvelope->exceedsTargetBudget(floatval($createEnvelopeDTO->getTargetBudget()))) {
-            $this->logger->error(
-                ChildrenTargetBudgetsExceedsParentException::MESSAGE,
-                [
-                    'parentEnvelope' => $parentEnvelope->getId(),
-                    'parentEnvelopeTargetBudget' => $parentEnvelope->getTargetBudget(),
-                    'currentEnvelopeTargetBudget' => $createEnvelopeDTO->getTargetBudget(),
-                ]
-            );
-            throw new ChildrenTargetBudgetsExceedsParentException(ChildrenTargetBudgetsExceedsParentException::MESSAGE, 400);
-        }
+        $this->targetBudgetValidator->validate(
+            targetBudget: floatval($createEnvelopeDTO->getTargetBudget()),
+            parentEnvelope: $parentEnvelope
+        );
 
         $this->envelopeCommandRepository->save(
             $this->envelopeFactory->createEnvelope(

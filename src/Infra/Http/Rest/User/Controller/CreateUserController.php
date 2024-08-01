@@ -35,7 +35,7 @@ class CreateUserController extends AbstractController
                 $this->logger->error('Failed to process User creation request: User already exists');
 
                 return $this->json([
-                    'error' => 'Failed to process User creation request: User already exists'
+                    'error' => 'Failed to process User creation request: User already exists',
                 ], Response::HTTP_CONFLICT);
             }
         } catch (\Throwable $exception) {

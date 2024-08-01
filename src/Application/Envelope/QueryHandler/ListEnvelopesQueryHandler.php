@@ -22,6 +22,7 @@ readonly class ListEnvelopesQueryHandler
         return $this->envelopeCollectionFactory->create(
             $this->envelopeQueryRepository->findBy([
                 'parent' => $listEnvelopesQuery->getEnvelopeId(),
+                'user' => $listEnvelopesQuery->getUser()->getId(),
             ])
         );
     }

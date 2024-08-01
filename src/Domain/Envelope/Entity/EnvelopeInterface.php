@@ -38,7 +38,9 @@ interface EnvelopeInterface
 
     public function getChildren(): EnvelopeCollectionInterface|iterable;
 
-    public function exceedsTargetBudget(float $additionalTargetBudget): bool;
+    public function exceedsParentEnvelopeTargetBudget(float $additionalTargetBudget): bool;
+
+    public function exceedsCurrentEnvelopeTargetBudget(float $additionalTargetBudget): bool;
 
     public function getUser(): UserInterface;
 
