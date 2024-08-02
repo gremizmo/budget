@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\Infra\Http\Rest\User\Controller;
 
 use App\Application\User\Command\CreateUserCommand;
-use App\Application\User\Query\ShowUserQuery;
+use App\Application\User\Query\GetUserAlreadyExistsQuery;
 use App\Domain\Shared\Adapter\QueryBusInterface;
 use App\Domain\User\Dto\CreateUserDto;
 use App\Domain\Shared\Adapter\CommandBusInterface;
 use App\Domain\User\Entity\UserInterface;
-use App\Domain\User\Exception\UserNotFoundException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -31,7 +30,9 @@ class CreateUserController extends AbstractController
     public function __invoke(#[MapRequestPayload] CreateUserDto $createUserDto): JsonResponse
     {
         try {
-            if ($this->queryBus->query(new ShowUserQuery($createUserDto->getEmail())) instanceof UserInterface) {
+            if (!$this->queryBus->query(new GetUserAlreadyExistsQuery($createUserDto->getEmail())) instanceof UserInterface) {
+                $this->commandBus->execute(new CreateUserCommand($createUserDto));
+            } else {
                 $this->logger->error('Failed to process User creation request: User already exists');
 
                 return $this->json([
@@ -39,11 +40,6 @@ class CreateUserController extends AbstractController
                 ], Response::HTTP_CONFLICT);
             }
         } catch (\Throwable $exception) {
-            if ($exception->getPrevious() instanceof UserNotFoundException) {
-                $this->commandBus->execute(new CreateUserCommand($createUserDto));
-
-                return $this->json(['message' => 'User creation request received'], Response::HTTP_ACCEPTED);
-            }
             $this->logger->error('Failed to process User creation request: '.$exception->getMessage());
 
             return $this->json(['error' => $exception->getMessage()], $exception->getCode());
