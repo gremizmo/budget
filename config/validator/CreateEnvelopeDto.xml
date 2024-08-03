@@ -13,11 +13,19 @@
             <constraint name="Type">
                 <option name="type">string</option>
             </constraint>
+            <constraint name="Regex">
+                <option name="pattern">/^\d+(\.\d{2})?$/</option>
+                <option name="message">The current budget must be a string representing a number with up to two decimal places (e.g., "0.00").</option>
+            </constraint>
         </property>
         <property name="targetBudget">
             <constraint name="NotBlank"/>
             <constraint name="Type">
                 <option name="type">string</option>
+            </constraint>
+            <constraint name="Regex">
+                <option name="pattern">/^\d+(\.\d{2})?$/</option>
+                <option name="message">The target budget must be a string representing a number with up to two decimal places (e.g., "0.00").</option>
             </constraint>
             <constraint name="GreaterThanOrEqual">
                 <option name="propertyPath">currentBudget</option>

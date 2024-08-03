@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Envelope\Entity;
 
-use App\Domain\User\Entity\User;
 use App\Domain\User\Entity\UserInterface;
 
 class Envelope implements EnvelopeInterface
@@ -12,12 +11,12 @@ class Envelope implements EnvelopeInterface
     private int $id;
     private \DateTimeImmutable $createdAt;
     private \DateTime $updatedAt;
-    private string $currentBudget = '0.0';
-    private string $targetBudget = '0.0';
+    private string $currentBudget = '0.00';
+    private string $targetBudget = '0.00';
     private string $title = '';
     private ?EnvelopeInterface $parent = null;
     private EnvelopeCollectionInterface|iterable $children;
-    private User $user;
+    private UserInterface $user;
 
     public function __construct()
     {
@@ -142,27 +141,5 @@ class Envelope implements EnvelopeInterface
         $this->user = $user;
 
         return $this;
-    }
-
-    public function calculateTotalChildrenTargetBudget(): float
-    {
-        return $this->getChildren()->reduce(
-            fn (float $carry, EnvelopeInterface $child) => $carry + floatval($child->getTargetBudget()),
-            0.0
-        );
-    }
-
-    public function exceedsParentEnvelopeTargetBudget(float $additionalTargetBudget): bool
-    {
-        $totalChildrenTargetBudget = $this->calculateTotalChildrenTargetBudget() + $additionalTargetBudget;
-
-        return $totalChildrenTargetBudget > floatval($this->getTargetBudget());
-    }
-
-    public function exceedsCurrentEnvelopeTargetBudget(float $additionalTargetBudget): bool
-    {
-        $totalChildrenTargetBudget = $this->calculateTotalChildrenTargetBudget();
-
-        return $totalChildrenTargetBudget > $additionalTargetBudget;
     }
 }

@@ -35,7 +35,11 @@ class ShowEnvelopeController extends AbstractController
         } catch (\Throwable $exception) {
             $this->logger->error('Failed to process Envelope getOne request: '.$exception->getMessage());
 
-            return $this->json(['error' => $exception->getMessage()], $exception->getCode());
+            return $this->json([
+                'error' => $exception->getMessage(),
+                'type' => substr(strrchr($exception::class, '\\'), 1),
+                'code' => $exception->getCode(),
+            ], $exception->getCode());
         }
 
         return $this->json($envelope, Response::HTTP_OK);

@@ -14,8 +14,15 @@ readonly class CommandBusAdapter implements CommandBusInterface
     {
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function execute(CommandInterface $command): void
     {
-        $this->messageBus->dispatch($command);
+        try {
+            $this->messageBus->dispatch($command);
+        } catch (\Throwable $exception) {
+            throw $exception?->getPrevious();
+        }
     }
 }

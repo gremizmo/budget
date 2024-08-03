@@ -49,7 +49,11 @@ class CreateEnvelopeController extends AbstractController
         } catch (\Throwable $exception) {
             $this->logger->error('Failed to process Envelope creation request: '.$exception->getMessage());
 
-            return $this->json(['error' => $exception->getMessage()], $exception->getCode());
+            return $this->json([
+                'error' => $exception->getMessage(),
+                'type' => substr(strrchr($exception::class, '\\'), 1),
+                'code' => $exception->getCode(),
+            ], $exception->getCode());
         }
 
         return $this->json(['message' => 'Envelope creation request received'], Response::HTTP_ACCEPTED);

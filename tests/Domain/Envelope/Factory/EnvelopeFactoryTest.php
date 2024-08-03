@@ -7,19 +7,19 @@ namespace App\Tests\Domain\Envelope\Factory;
 use App\Domain\Envelope\Dto\CreateEnvelopeDto;
 use App\Domain\Envelope\Dto\EditEnvelopeDto;
 use App\Domain\Envelope\Entity\Envelope;
-use App\Domain\Envelope\Factory\EnvelopeFactory;
+use App\Domain\Envelope\Factory\CreateEnvelopeFactory;
 use App\Domain\Shared\Adapter\UuidGeneratorInterface;
 use PHPUnit\Framework\TestCase;
 
 class EnvelopeFactoryTest extends TestCase
 {
-    private EnvelopeFactory $envelopeFactory;
+    private CreateEnvelopeFactory $envelopeFactory;
 
     protected function setUp(): void
     {
         $uuidGenerator = $this->createMock(UuidGeneratorInterface::class);
         $uuidGenerator->method('generateUuid')->willReturn('uuid');
-        $this->envelopeFactory = new EnvelopeFactory($uuidGenerator);
+        $this->envelopeFactory = new CreateEnvelopeFactory($uuidGenerator);
     }
 
     public function testCreateEnvelope(): void

@@ -9,8 +9,8 @@ use App\Application\Envelope\CommandHandler\CreateEnvelopeCommandHandler;
 use App\Domain\Envelope\Dto\CreateEnvelopeDto;
 use App\Domain\Envelope\Entity\Envelope;
 use App\Domain\Envelope\Entity\EnvelopeCollection;
-use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentException;
-use App\Domain\Envelope\Factory\EnvelopeFactory;
+use App\Domain\Envelope\Exception\EnvelopeTargetBudgetExceedsParentEnvelopeTargetBudgetException;
+use App\Domain\Envelope\Factory\CreateEnvelopeFactory;
 use App\Domain\Envelope\Repository\EnvelopeCommandRepositoryInterface;
 use App\Domain\Shared\Adapter\LoggerInterface;
 use App\Domain\Shared\Adapter\UuidGeneratorInterface;
@@ -29,7 +29,7 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
         $this->loggerMock = $this->createMock(LoggerInterface::class);
         $this->createEnvelopeCommandHandler = new CreateEnvelopeCommandHandler(
             $this->envelopeRepositoryMock,
-            new EnvelopeFactory($this->createMock(UuidGeneratorInterface::class)),
+            new CreateEnvelopeFactory($this->createMock(UuidGeneratorInterface::class)),
             $this->loggerMock
         );
     }
@@ -61,7 +61,7 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
         $this->loggerMock->expects($this->once())
             ->method('error')
             ->with(
-                ChildrenTargetBudgetsExceedsParentException::MESSAGE,
+                EnvelopeTargetBudgetExceedsParentEnvelopeTargetBudgetException::MESSAGE,
                 [
                     'parentEnvelope' => 1,
                     'parentEnvelopeTargetBudget' => '1000.00',
@@ -69,7 +69,7 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
                 ]
             );
 
-        $this->expectException(ChildrenTargetBudgetsExceedsParentException::class);
+        $this->expectException(EnvelopeTargetBudgetExceedsParentEnvelopeTargetBudgetException::class);
 
         $this->createEnvelopeCommandHandler->__invoke($createEnvelopeCommand);
     }

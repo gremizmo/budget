@@ -36,15 +36,11 @@ interface EnvelopeInterface
 
     public function setChildren(EnvelopeCollectionInterface $envelopes): self;
 
+    public function addChild(EnvelopeInterface $child): self;
+
     public function getChildren(): EnvelopeCollectionInterface|iterable;
-
-    public function exceedsParentEnvelopeTargetBudget(float $additionalTargetBudget): bool;
-
-    public function exceedsCurrentEnvelopeTargetBudget(float $additionalTargetBudget): bool;
 
     public function getUser(): UserInterface;
 
     public function setUser(UserInterface $user): self;
-
-    public function calculateTotalChildrenTargetBudget(): float;
 }

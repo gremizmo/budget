@@ -8,6 +8,7 @@ use App\Domain\Envelope\Entity\EnvelopeCollection;
 use App\Domain\Envelope\Entity\EnvelopeCollectionInterface;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
 
+// TODO: To remove when issue with doctrine collection is solved
 class EnvelopeCollectionFactory implements EnvelopeCollectionFactoryInterface
 {
     /**
