@@ -59,7 +59,7 @@ class EditEnvelopeController extends AbstractController
 
             return $this->json([
                 'error' => $exception->getMessage(),
-                'type' => substr(strrchr($exception::class, '\\'), 1),
+                'type' => \substr(\strrchr($exception::class, '\\'), 1),
                 'code' => $exception->getCode(),
             ], $exception->getCode());
         }
