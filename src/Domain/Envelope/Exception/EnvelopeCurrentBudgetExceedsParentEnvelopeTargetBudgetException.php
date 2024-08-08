@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Envelope\Exception;
 
-class ParentEnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException extends \Exception
+class EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException extends \Exception
 {
     public const MESSAGE = 'Current budget of parent envelope exceeds the parent envelope\'s target budget';
 

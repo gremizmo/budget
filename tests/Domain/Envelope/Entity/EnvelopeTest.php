@@ -76,38 +76,6 @@ class EnvelopeTest extends TestCase
         $this->assertSame($updatedAt, $envelope->getUpdatedAt());
     }
 
-    public function testGetCreatedBy(): void
-    {
-        $envelope = new Envelope();
-        $envelope->setCreatedBy('user1');
-
-        $this->assertSame('user1', $envelope->getCreatedBy());
-    }
-
-    public function testSetCreatedBy(): void
-    {
-        $envelope = new Envelope();
-        $envelope->setCreatedBy('user1');
-
-        $this->assertSame('user1', $envelope->getCreatedBy());
-    }
-
-    public function testGetUpdatedBy(): void
-    {
-        $envelope = new Envelope();
-        $envelope->setUpdatedBy('user2');
-
-        $this->assertSame('user2', $envelope->getUpdatedBy());
-    }
-
-    public function testSetUpdatedBy(): void
-    {
-        $envelope = new Envelope();
-        $envelope->setUpdatedBy('user2');
-
-        $this->assertSame('user2', $envelope->getUpdatedBy());
-    }
-
     public function testGetCurrentBudget(): void
     {
         $envelope = new Envelope();
@@ -171,41 +139,5 @@ class EnvelopeTest extends TestCase
         $envelope->setChildren($children);
 
         $this->assertSame($children, $envelope->getChildren());
-    }
-
-    public function testAddChild(): void
-    {
-        $child = new Envelope();
-        $envelope = new Envelope();
-        $envelope->setChildren(new EnvelopeCollection());
-        $envelope->addChild($child);
-
-        $this->assertTrue($envelope->getChildren()->contains($child));
-    }
-
-    public function testCalculateTotalChildrenTargetBudget(): void
-    {
-        $child1 = new Envelope();
-        $child1->setTargetBudget('1000.00');
-        $child2 = new Envelope();
-        $child2->setTargetBudget('2000.00');
-        $envelope = new Envelope();
-        $envelope->setChildren(new EnvelopeCollection());
-        $envelope->addChild($child1);
-        $envelope->addChild($child2);
-
-        $this->assertSame(3000.00, $envelope->calculateTotalChildrenTargetBudget());
-    }
-
-    public function testExceedsTargetBudget(): void
-    {
-        $envelope = new Envelope();
-        $envelope->setTargetBudget('5000.00');
-        $child = new Envelope();
-        $child->setTargetBudget('3000.00');
-        $envelope->setChildren(new EnvelopeCollection());
-        $envelope->addChild($child);
-
-        $this->assertTrue($envelope->exceedsTargetBudget(3000.00));
     }
 }

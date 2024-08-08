@@ -7,8 +7,8 @@ namespace App\Domain\Envelope\Builder;
 use App\Domain\Envelope\Dto\UpdateEnvelopeDtoInterface;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
-use App\Domain\Envelope\Exception\EnvelopeInvalidArgumentsException;
-use App\Domain\Envelope\Exception\ParentEnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
+use App\Domain\Envelope\Exception\SelfParentEnvelopeException;
+use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
 use App\Domain\Envelope\Validator\TargetBudgetValidator;
 use App\Domain\Envelope\Validator\CurrentBudgetValidator;
 
@@ -51,8 +51,8 @@ class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
 
     /**
      * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
-     * @throws ParentEnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
-     * @throws EnvelopeInvalidArgumentsException
+     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws SelfParentEnvelopeException
      */
     public function build(): EnvelopeInterface
     {
@@ -72,17 +72,13 @@ class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
 
     /**
      * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
-     * @throws ParentEnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
-     * @throws EnvelopeInvalidArgumentsException
+     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws SelfParentEnvelopeException
      */
     private function validateInputs(): void
     {
-        if (!$this->envelope || !$this->updateEnvelopeDto) {
-            throw new EnvelopeInvalidArgumentsException('Envelope and UpdateEnvelopeDto must be set.', 400);
-        }
-
         if ($this->parentEnvelope?->getId() === $this->envelope->getId()) {
-            throw new EnvelopeInvalidArgumentsException('Envelope cannot be its own parent.', 400);
+            throw new SelfParentEnvelopeException('Envelope cannot be its own parent.', 400);
         }
 
         $this->targetBudgetValidator->validate($this->updateEnvelopeDto->getTargetBudget(), $this->parentEnvelope, $this->envelope);
@@ -95,7 +91,7 @@ class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
     }
 
     /**
-     * @throws ParentEnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
      */
     private function handleParentChange(?int $oldEnvelopeParentId): void
     {
@@ -114,7 +110,7 @@ class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
     }
 
     /**
-     * @throws ParentEnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
      */
     private function updateBudgets(float $difference, ?int $oldEnvelopeParentId): void
     {
@@ -128,7 +124,7 @@ class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
     }
 
     /**
-     * @throws ParentEnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
      */
     private function updateParentCurrentBudget(float $difference): void
     {
@@ -136,7 +132,7 @@ class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
     }
 
     /**
-     * @throws ParentEnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
      */
     private function updateAncestorsCurrentBudget(?EnvelopeInterface $envelope, float $difference): void
     {
@@ -153,7 +149,7 @@ class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
         );
 
         if ($envelope->getCurrentBudget() > $envelope->getTargetBudget()) {
-            throw new ParentEnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException(ParentEnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException::MESSAGE, 400);
+            throw new EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException(EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException::MESSAGE, 400);
         }
 
         $this->updateAncestorsCurrentBudget($envelope->getParent(), $difference);

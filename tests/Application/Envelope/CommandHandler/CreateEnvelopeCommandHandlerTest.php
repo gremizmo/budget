@@ -9,29 +9,31 @@ use App\Application\Envelope\CommandHandler\CreateEnvelopeCommandHandler;
 use App\Domain\Envelope\Dto\CreateEnvelopeDto;
 use App\Domain\Envelope\Entity\Envelope;
 use App\Domain\Envelope\Entity\EnvelopeCollection;
-use App\Domain\Envelope\Exception\EnvelopeTargetBudgetExceedsParentEnvelopeTargetBudgetException;
-use App\Domain\Envelope\Factory\CreateEnvelopeFactory;
+use App\Domain\Envelope\Entity\EnvelopeInterface;
+use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
+use App\Domain\Envelope\Factory\CreateEnvelopeFactoryInterface;
 use App\Domain\Envelope\Repository\EnvelopeCommandRepositoryInterface;
-use App\Domain\Shared\Adapter\LoggerInterface;
-use App\Domain\Shared\Adapter\UuidGeneratorInterface;
+use App\Domain\User\Entity\User;
+use App\Domain\User\Entity\UserInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class CreateEnvelopeCommandHandlerTest extends TestCase
 {
     private MockObject&EnvelopeCommandRepositoryInterface $envelopeRepositoryMock;
-    private MockObject&LoggerInterface $loggerMock;
+    private MockObject&CreateEnvelopeFactoryInterface $createEnvelopeFactoryMock;
+    private MockObject&UserInterface $userMock;
     private CreateEnvelopeCommandHandler $createEnvelopeCommandHandler;
 
     protected function setUp(): void
     {
         $this->envelopeRepositoryMock = $this->createMock(EnvelopeCommandRepositoryInterface::class);
-        $this->loggerMock = $this->createMock(LoggerInterface::class);
+        $this->createEnvelopeFactoryMock = $this->createMock(CreateEnvelopeFactoryInterface::class);
         $this->createEnvelopeCommandHandler = new CreateEnvelopeCommandHandler(
             $this->envelopeRepositoryMock,
-            new CreateEnvelopeFactory($this->createMock(UuidGeneratorInterface::class)),
-            $this->loggerMock
+            $this->createEnvelopeFactoryMock
         );
+        $this->userMock = $this->createMock(UserInterface::class);
     }
 
     /**
@@ -39,9 +41,20 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
      */
     public function testInvokeSuccess(CreateEnvelopeCommand $createEnvelopeCommand): void
     {
+        $envelope = $this->createMock(EnvelopeInterface::class);
+
+        $this->createEnvelopeFactoryMock->expects($this->once())
+            ->method('createFromDto')
+            ->with(
+                $createEnvelopeCommand->getCreateEnvelopeDto(),
+                $createEnvelopeCommand->getParentEnvelope(),
+                $createEnvelopeCommand->getUser()
+            )
+            ->willReturn($envelope);
+
         $this->envelopeRepositoryMock->expects($this->once())
             ->method('save')
-            ->with($this->isInstanceOf(Envelope::class));
+            ->with($envelope);
 
         $this->createEnvelopeCommandHandler->__invoke($createEnvelopeCommand);
     }
@@ -55,21 +68,22 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
 
         $createEnvelopeCommand = new CreateEnvelopeCommand(
             new CreateEnvelopeDto('Test', '1000.00', '2000.00'),
-            $parentEnvelope
+            $this->userMock,
+            $parentEnvelope,
         );
 
-        $this->loggerMock->expects($this->once())
-            ->method('error')
-            ->with(
-                EnvelopeTargetBudgetExceedsParentEnvelopeTargetBudgetException::MESSAGE,
-                [
-                    'parentEnvelope' => 1,
-                    'parentEnvelopeTargetBudget' => '1000.00',
-                    'currentEnvelopeTargetBudget' => '2000.00',
-                ]
-            );
+        $exception = new ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException(ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException::MESSAGE, 400);
 
-        $this->expectException(EnvelopeTargetBudgetExceedsParentEnvelopeTargetBudgetException::class);
+        $this->createEnvelopeFactoryMock->expects($this->once())
+            ->method('createFromDto')
+            ->with(
+                $createEnvelopeCommand->getCreateEnvelopeDto(),
+                $createEnvelopeCommand->getParentEnvelope(),
+                $createEnvelopeCommand->getUser()
+            )
+            ->willThrowException($exception);
+
+        $this->expectException(ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException::class);
 
         $this->createEnvelopeCommandHandler->__invoke($createEnvelopeCommand);
     }
@@ -85,13 +99,15 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
             'with parent' => [
                 new CreateEnvelopeCommand(
                     new CreateEnvelopeDto('Test', '1000.00', '2000.00'),
-                    $parentEnvelope
+                    new User(),
+                    $parentEnvelope,
                 ),
             ],
             'without parent' => [
                 new CreateEnvelopeCommand(
                     new CreateEnvelopeDto('Test', '1000.00', '2000.00'),
-                    null
+                    new User(),
+                    null,
                 ),
             ],
         ];

@@ -10,10 +10,11 @@ use App\Domain\Envelope\Entity\Envelope;
 use App\Domain\Envelope\Exception\EnvelopeNotFoundException;
 use App\Domain\Envelope\Repository\EnvelopeQueryRepositoryInterface;
 use App\Domain\Shared\Adapter\LoggerInterface;
+use App\Domain\User\Entity\User;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class GetOneEnvelopeQueryHandlerTest extends TestCase
+class ShowEnvelopeQueryHandlerTest extends TestCase
 {
     private MockObject&EnvelopeQueryRepositoryInterface $envelopeQueryRepositoryMock;
     private MockObject&LoggerInterface $loggerMock;
@@ -33,7 +34,10 @@ class GetOneEnvelopeQueryHandlerTest extends TestCase
     {
         $this->envelopeQueryRepositoryMock->expects($this->once())
             ->method('findOneBy')
-            ->with(['id' => $query->getEnvelopeId()])
+            ->with([
+                'id' => $query->getEnvelopeId(),
+                'user' => $query->getUser()->getId(),
+            ])
             ->willReturn($envelope);
 
         if ($shouldLogError) {
@@ -61,12 +65,12 @@ class GetOneEnvelopeQueryHandlerTest extends TestCase
 
         return [
             'success' => [
-                new ShowEnvelopeQuery(1),
+                new ShowEnvelopeQuery(1, (new User())->setId(1)),
                 $envelope,
                 false,
             ],
             'failure' => [
-                new ShowEnvelopeQuery(2),
+                new ShowEnvelopeQuery(2, (new User())->setId(2)),
                 null,
                 true,
             ],

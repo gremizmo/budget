@@ -8,8 +8,7 @@ use App\Domain\Envelope\Dto\CreateEnvelopeDtoInterface;
 use App\Domain\Envelope\Entity\Envelope;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
-use App\Domain\Envelope\Exception\EnvelopeInvalidArgumentsException;
-use App\Domain\Envelope\Exception\ParentEnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
+use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
 use App\Domain\Envelope\Validator\CurrentBudgetValidator;
 use App\Domain\Envelope\Validator\TargetBudgetValidator;
 use App\Domain\User\Entity\UserInterface;
@@ -48,34 +47,19 @@ readonly class CreateEnvelopeBuilder implements CreateEnvelopeBuilderInterface
     }
 
     /**
-     * @throws ParentEnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
      * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
-     * @throws EnvelopeInvalidArgumentsException
      */
     public function build(): EnvelopeInterface
     {
-        $this->validateInputs();
+        $this->targetBudgetValidator->validate($this->createEnvelopeDto->getTargetBudget(), $this->parentEnvelope);
+        $this->currentBudgetValidator->validate($this->createEnvelopeDto->getCurrentBudget(), $this->parentEnvelope);
 
         $envelope = $this->createNewEnvelope();
 
         $this->updateBudgets();
 
         return $envelope;
-    }
-
-    /**
-     * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
-     * @throws ParentEnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
-     * @throws EnvelopeInvalidArgumentsException
-     */
-    private function validateInputs(): void
-    {
-        if (!$this->createEnvelopeDto || !$this->user) {
-            throw new EnvelopeInvalidArgumentsException('CreateEnvelopeDto and User must be set.', 400);
-        }
-
-        $this->targetBudgetValidator->validate($this->createEnvelopeDto->getTargetBudget(), $this->parentEnvelope);
-        $this->currentBudgetValidator->validate($this->createEnvelopeDto->getCurrentBudget(), $this->parentEnvelope);
     }
 
     private function createNewEnvelope(): EnvelopeInterface
@@ -94,7 +78,7 @@ readonly class CreateEnvelopeBuilder implements CreateEnvelopeBuilderInterface
     }
 
     /**
-     * @throws ParentEnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
      */
     private function updateBudgets(): void
     {
@@ -106,7 +90,7 @@ readonly class CreateEnvelopeBuilder implements CreateEnvelopeBuilderInterface
     }
 
     /**
-     * @throws ParentEnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
      */
     private function updateParentCurrentBudget(float $currentBudget): void
     {
@@ -114,7 +98,7 @@ readonly class CreateEnvelopeBuilder implements CreateEnvelopeBuilderInterface
     }
 
     /**
-     * @throws ParentEnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
      */
     private function updateAncestorsCurrentBudget(?EnvelopeInterface $envelope, float $currentBudget): void
     {
@@ -131,7 +115,7 @@ readonly class CreateEnvelopeBuilder implements CreateEnvelopeBuilderInterface
         );
 
         if ($envelope->getCurrentBudget() > $envelope->getTargetBudget()) {
-            throw new ParentEnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException(ParentEnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException::MESSAGE, 400);
+            throw new EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException(EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException::MESSAGE, 400);
         }
 
         $this->updateAncestorsCurrentBudget($envelope->getParent(), $currentBudget);

@@ -8,8 +8,8 @@ use App\Domain\Envelope\Builder\CreateEnvelopeBuilder;
 use App\Domain\Envelope\Dto\CreateEnvelopeDtoInterface;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
-use App\Domain\Envelope\Exception\EnvelopeInvalidArgumentsException;
-use App\Domain\Envelope\Exception\ParentEnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
+use App\Domain\Envelope\Exception\SelfParentEnvelopeException;
+use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
 use App\Domain\Shared\Adapter\LoggerInterface;
 use App\Domain\User\Entity\UserInterface;
 
@@ -22,9 +22,9 @@ readonly class CreateEnvelopeFactory implements CreateEnvelopeFactoryInterface
     }
 
     /**
-     * @throws ParentEnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
      * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
-     * @throws EnvelopeInvalidArgumentsException
+     * @throws SelfParentEnvelopeException
      */
     public function createFromDto(
         CreateEnvelopeDtoInterface $createEnvelopeDto,
@@ -37,7 +37,7 @@ readonly class CreateEnvelopeFactory implements CreateEnvelopeFactoryInterface
 
         try {
             return $this->createEnvelopeBuilder->build();
-        } catch (ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException|ParentEnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException|EnvelopeInvalidArgumentsException $exception) {
+        } catch (ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException|EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException|SelfParentEnvelopeException $exception) {
             $this->logger->error($exception->getMessage(), [
                 'exception' => $exception::class,
                 'code'      => $exception->getCode(),

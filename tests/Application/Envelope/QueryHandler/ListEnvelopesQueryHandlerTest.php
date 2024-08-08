@@ -10,6 +10,7 @@ use App\Domain\Envelope\Entity\Envelope;
 use App\Domain\Envelope\Entity\EnvelopeCollection;
 use App\Domain\Envelope\Factory\EnvelopeCollectionFactory;
 use App\Domain\Envelope\Repository\EnvelopeQueryRepositoryInterface;
+use App\Domain\User\Entity\User;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -35,7 +36,10 @@ class ListEnvelopesQueryHandlerTest extends TestCase
     {
         $this->envelopeQueryRepositoryMock->expects($this->once())
             ->method('findBy')
-            ->with(['parent' => $query->getEnvelopeId()])
+            ->with([
+                    'parent' => $query->getEnvelopeId(),
+                    'user' => $query->getUser()->getId(),
+                ])
             ->willReturn($envelopes);
 
         $result = $this->listEnvelopesQueryHandler->__invoke($query);
@@ -51,12 +55,12 @@ class ListEnvelopesQueryHandlerTest extends TestCase
 
         return [
             'success' => [
-                new ListEnvelopesQuery(1),
+                new ListEnvelopesQuery((new User())->setId(1), 1),
                 [$envelope],
                 $envelopeCollection,
             ],
             'failure' => [
-                new ListEnvelopesQuery(2),
+                new ListEnvelopesQuery((new User())->setId(2), 2),
                 [],
                 new EnvelopeCollection([]),
             ],
