@@ -37,9 +37,9 @@ class ListEnvelopesQueryHandlerTest extends TestCase
         $this->envelopeQueryRepositoryMock->expects($this->once())
             ->method('findBy')
             ->with([
-                    'parent' => $query->getEnvelopeId(),
-                    'user' => $query->getUser()->getId(),
-                ])
+                'parent' => $query->getEnvelopeId(),
+                'user' => $query->getUser()->getId(),
+            ])
             ->willReturn($envelopes);
 
         $result = $this->listEnvelopesQueryHandler->__invoke($query);

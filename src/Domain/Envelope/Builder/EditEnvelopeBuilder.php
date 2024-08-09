@@ -12,20 +12,16 @@ use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTarg
 use App\Domain\Envelope\Validator\TargetBudgetValidator;
 use App\Domain\Envelope\Validator\CurrentBudgetValidator;
 
-class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
+readonly class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
 {
-    private ?EnvelopeInterface $envelope = null;
-    private ?UpdateEnvelopeDtoInterface $updateEnvelopeDto = null;
-    private ?EnvelopeInterface $parentEnvelope = null;
-    private TargetBudgetValidator $targetBudgetValidator;
-    private CurrentBudgetValidator $currentBudgetValidator;
+    private ?EnvelopeInterface $envelope;
+    private ?UpdateEnvelopeDtoInterface $updateEnvelopeDto;
+    private ?EnvelopeInterface $parentEnvelope;
 
     public function __construct(
-        TargetBudgetValidator $targetBudgetValidator,
-        CurrentBudgetValidator $currentBudgetValidator
+        private TargetBudgetValidator $targetBudgetValidator,
+        private CurrentBudgetValidator $currentBudgetValidator
     ) {
-        $this->targetBudgetValidator = $targetBudgetValidator;
-        $this->currentBudgetValidator = $currentBudgetValidator;
     }
 
     public function setEnvelope(EnvelopeInterface $envelope): self
@@ -114,12 +110,12 @@ class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
      */
     private function updateBudgets(float $difference, ?int $oldEnvelopeParentId): void
     {
-        if (0.00 !== $difference && $this->parentEnvelope) {
+        if (0.0 !== $difference && $this->parentEnvelope) {
             $this->updateParentCurrentBudget($difference);
         }
 
         if ($this->envelope->getParent() && $oldEnvelopeParentId !== $this->parentEnvelope?->getId()) {
-            $this->updateAncestorsCurrentBudget($this->parentEnvelope, floatval($this->envelope->getCurrentBudget()));
+            $this->updateAncestorsCurrentBudget($this->envelope->getParent(), floatval($this->envelope->getCurrentBudget()));
         }
     }
 
