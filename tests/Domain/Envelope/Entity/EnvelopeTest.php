@@ -6,6 +6,7 @@ namespace App\Tests\Domain\Envelope\Entity;
 
 use App\Domain\Envelope\Entity\Envelope;
 use App\Domain\Envelope\Entity\EnvelopeCollection;
+use App\Domain\User\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class EnvelopeTest extends TestCase
@@ -139,5 +140,25 @@ class EnvelopeTest extends TestCase
         $envelope->setChildren($children);
 
         $this->assertSame($children, $envelope->getChildren());
+    }
+
+    public function testAddChild(): void
+    {
+        $parent = new Envelope();
+        $child = new Envelope();
+        $parent->setChildren(new EnvelopeCollection());
+        $parent->addChild($child);
+
+        $this->assertSame($parent, $child->getParent());
+        $this->assertTrue($parent->getChildren()->contains($child));
+    }
+
+    public function testGetUser(): void
+    {
+        $user = new User();
+        $envelope = new Envelope();
+        $envelope->setUser($user);
+
+        $this->assertSame($user, $envelope->getUser());
     }
 }
