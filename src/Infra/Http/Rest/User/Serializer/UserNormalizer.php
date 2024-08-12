@@ -20,7 +20,18 @@ readonly class UserNormalizer implements NormalizerInterface
     {
         $context['ignored_attributes'] = ['envelopes'];
 
-        return $this->normalizer->normalize($object, $format, $context);
+        $data = $this->normalizer->normalize($object, $format, $context);
+        unset(
+            $data['password'],
+            $data['consentGiven'],
+            $data['consentDate'],
+            $data['roles'],
+            $data['createdAt'],
+            $data['updatedAt'],
+            $data['userIdentifier'],
+        );
+
+        return $data;
     }
 
     public function supportsNormalization($data, ?string $format = null, array $context = []): bool

@@ -19,8 +19,23 @@ readonly class EnvelopeNormalizer implements NormalizerInterface
     public function normalize($object, ?string $format = null, array $context = []): array
     {
         $context['ignored_attributes'] = ['parent'];
+        $data = $this->normalizer->normalize($object, $format, $context);
+        if (isset($data['user']) && \is_array($data['user'])) {
+            unset(
+                $data['user']['password'],
+                $data['user']['email'],
+                $data['user']['firstname'],
+                $data['user']['lastname'],
+                $data['user']['consentGiven'],
+                $data['user']['consentDate'],
+                $data['user']['roles'],
+                $data['user']['createdAt'],
+                $data['user']['updatedAt'],
+                $data['user']['userIdentifier'],
+            );
+        }
 
-        return $this->normalizer->normalize($object, $format, $context);
+        return $data;
     }
 
     public function supportsNormalization($data, ?string $format = null, array $context = []): bool
