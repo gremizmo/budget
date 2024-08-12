@@ -152,7 +152,6 @@ class EditEnvelopeBuilderTest extends TestCase
         $envelope->method('getParent')->willReturn($parentEnvelope);
         $envelope->method('getId')->willReturn(2);
 
-
         $this->targetBudgetValidator->expects($this->once())
             ->method('validate')
             ->with('1000.00', $parentEnvelope, $envelope);
