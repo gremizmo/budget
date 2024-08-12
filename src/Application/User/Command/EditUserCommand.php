@@ -21,7 +21,7 @@ readonly class EditUserCommand implements CommandInterface
         return $this->user;
     }
 
-    public function getUpdateUserDTO(): EditUserDtoInterface
+    public function getEditUserDTO(): EditUserDtoInterface
     {
         return $this->updateUserDTO;
     }
