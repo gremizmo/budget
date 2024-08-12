@@ -10,18 +10,12 @@ use PHPUnit\Framework\TestCase;
 
 class ListEnvelopesQueryTest extends TestCase
 {
-    public function testConstructorAndGetterWithNull(): void
+    public function testConstructorAndGetter(): void
     {
-        $query = new ListEnvelopesQuery(new User());
+        $user = new User();
+        $user->setId(1);
+        $query = new ListEnvelopesQuery($user);
 
-        $this->assertNull($query->getEnvelopeId());
-    }
-
-    public function testConstructorAndGetterWithNonNull(): void
-    {
-        $envelopeId = 1;
-        $query = new ListEnvelopesQuery(new User(), $envelopeId);
-
-        $this->assertSame($envelopeId, $query->getEnvelopeId());
+        $this->assertSame(1, $query->getUser()->getId());
     }
 }

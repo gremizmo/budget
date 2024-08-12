@@ -28,11 +28,10 @@ class ListEnvelopesController extends AbstractController
     }
 
     public function __invoke(
-        #[MapRequestPayload] ListEnvelopesDto $listEnvelopesDto,
         #[CurrentUser] UserInterface $user
     ): JsonResponse {
         try {
-            $envelope = $this->queryBus->query(new ListEnvelopesQuery($user, $listEnvelopesDto->getId()));
+            $envelope = $this->queryBus->query(new ListEnvelopesQuery($user));
         } catch (\Throwable $exception) {
             $this->logger->error('Failed to process Envelope listing request: '.$exception->getMessage());
 

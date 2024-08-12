@@ -9,17 +9,12 @@ use App\Domain\User\Entity\UserInterface;
 
 readonly class ListEnvelopesQuery implements QueryInterface
 {
-    public function __construct(private UserInterface $user, private ?int $envelopeId = null)
+    public function __construct(private UserInterface $user)
     {
     }
 
     public function getUser(): UserInterface
     {
         return $this->user;
-    }
-
-    public function getEnvelopeId(): ?int
-    {
-        return $this->envelopeId;
     }
 }

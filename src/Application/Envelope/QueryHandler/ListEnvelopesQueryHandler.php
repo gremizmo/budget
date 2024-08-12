@@ -22,7 +22,6 @@ readonly class ListEnvelopesQueryHandler
         // TODO: remove envelopeCollectionFactory when issue with doctrine collection is solved
         return $this->envelopeCollectionFactory->create(
             $this->envelopeQueryRepository->findBy([
-                'parent' => $listEnvelopesQuery->getEnvelopeId(),
                 'user' => $listEnvelopesQuery->getUser()->getId(),
             ])
         );
