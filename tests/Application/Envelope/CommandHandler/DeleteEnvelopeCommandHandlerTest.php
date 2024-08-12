@@ -32,4 +32,21 @@ class DeleteEnvelopeCommandHandlerTest extends TestCase
 
         $this->deleteEnvelopeCommandHandler->__invoke($deleteEnvelopeCommand);
     }
+
+    public function testUpdateParentCurrentBudget(): void
+    {
+        $parentEnvelope = $this->createMock(Envelope::class);
+        $parentEnvelope->method('getCurrentBudget')->willReturn('100.00');
+        $parentEnvelope->expects($this->once())
+            ->method('setCurrentBudget')
+            ->with($this->equalTo('50.00'));
+
+        $envelope = $this->createMock(Envelope::class);
+        $envelope->method('getCurrentBudget')->willReturn('50.00');
+        $envelope->method('getParent')->willReturn($parentEnvelope);
+
+        $deleteEnvelopeCommand = new DeleteEnvelopeCommand($envelope);
+
+        $this->deleteEnvelopeCommandHandler->__invoke($deleteEnvelopeCommand);
+    }
 }

@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\Envelope\Factory;
 
-use App\Domain\Envelope\Builder\EditEnvelopeBuilderInterface;
-use App\Domain\Envelope\Dto\UpdateEnvelopeDtoInterface;
-use App\Domain\Envelope\Entity\EnvelopeInterface;
+use App\Domain\Envelope\Builder\EditEnvelopeBuilder;
+use App\Domain\Envelope\Dto\EditEnvelopeDto;
+use App\Domain\Envelope\Entity\Envelope;
+use App\Domain\Envelope\Entity\EnvelopeCollection;
 use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
 use App\Domain\Envelope\Exception\SelfParentEnvelopeException;
 use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
 use App\Domain\Envelope\Factory\EditEnvelopeFactory;
+use App\Domain\Envelope\Validator\CurrentBudgetValidator;
+use App\Domain\Envelope\Validator\TargetBudgetValidator;
 use App\Domain\Shared\Adapter\LoggerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -18,13 +21,15 @@ use PHPUnit\Framework\TestCase;
 class EditEnvelopeFactoryTest extends TestCase
 {
     private LoggerInterface&MockObject $logger;
-    private EditEnvelopeBuilderInterface&MockObject $editEnvelopeBuilder;
+    private EditEnvelopeBuilder $editEnvelopeBuilder;
     private EditEnvelopeFactory $editEnvelopeFactory;
 
     protected function setUp(): void
     {
         $this->logger = $this->createMock(LoggerInterface::class);
-        $this->editEnvelopeBuilder = $this->createMock(EditEnvelopeBuilderInterface::class);
+        $targetBudgetValidator = new TargetBudgetValidator();
+        $currentBudgetValidator = new CurrentBudgetValidator();
+        $this->editEnvelopeBuilder = new EditEnvelopeBuilder($targetBudgetValidator, $currentBudgetValidator);
         $this->editEnvelopeFactory = new EditEnvelopeFactory(
             $this->logger,
             $this->editEnvelopeBuilder
@@ -38,32 +43,18 @@ class EditEnvelopeFactoryTest extends TestCase
      */
     public function testCreateFromDtoSuccess(): void
     {
-        $envelope = $this->createMock(EnvelopeInterface::class);
-        $updateEnvelopeDto = $this->createMock(UpdateEnvelopeDtoInterface::class);
-        $parentEnvelope = $this->createMock(EnvelopeInterface::class);
+        $editEnvelopeDto = new EditEnvelopeDto('Test Title', '50.00', '100.00');
+        $parentEnvelope = new Envelope();
+        $parentEnvelope->setTargetBudget('200.00');
+        $parentEnvelope->setChildren(new EnvelopeCollection());
+        $parentEnvelope->setId(1);
+        $envelope = new Envelope();
+        $envelope->setParent($parentEnvelope);
+        $envelope->setId(2);
 
-        $this->editEnvelopeBuilder->expects($this->once())
-            ->method('setEnvelope')
-            ->with($envelope)
-            ->willReturn($this->editEnvelopeBuilder);
+        $result = $this->editEnvelopeFactory->createFromDto($envelope, $editEnvelopeDto, $parentEnvelope);
 
-        $this->editEnvelopeBuilder->expects($this->once())
-            ->method('setUpdateEnvelopeDto')
-            ->with($updateEnvelopeDto)
-            ->willReturn($this->editEnvelopeBuilder);
-
-        $this->editEnvelopeBuilder->expects($this->once())
-            ->method('setParentEnvelope')
-            ->with($parentEnvelope)
-            ->willReturn($this->editEnvelopeBuilder);
-
-        $this->editEnvelopeBuilder->expects($this->once())
-            ->method('build')
-            ->willReturn($envelope);
-
-        $result = $this->editEnvelopeFactory->createFromDto($envelope, $updateEnvelopeDto, $parentEnvelope);
-
-        $this->assertSame($envelope, $result);
+        $this->assertInstanceOf(Envelope::class, $result);
     }
 
     /**
@@ -73,39 +64,18 @@ class EditEnvelopeFactoryTest extends TestCase
      */
     public function testCreateFromDtoFailureDueToChildrenTargetBudgetsExceedsParent(): void
     {
-        $envelope = $this->createMock(EnvelopeInterface::class);
-        $updateEnvelopeDto = $this->createMock(UpdateEnvelopeDtoInterface::class);
-        $parentEnvelope = $this->createMock(EnvelopeInterface::class);
-
-        $this->editEnvelopeBuilder->expects($this->once())
-            ->method('setEnvelope')
-            ->with($envelope)
-            ->willReturn($this->editEnvelopeBuilder);
-
-        $this->editEnvelopeBuilder->expects($this->once())
-            ->method('setUpdateEnvelopeDto')
-            ->with($updateEnvelopeDto)
-            ->willReturn($this->editEnvelopeBuilder);
-
-        $this->editEnvelopeBuilder->expects($this->once())
-            ->method('setParentEnvelope')
-            ->with($parentEnvelope)
-            ->willReturn($this->editEnvelopeBuilder);
-
-        $this->editEnvelopeBuilder->expects($this->once())
-            ->method('build')
-            ->willThrowException(new ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException(ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException::MESSAGE, 400));
-
-        $this->logger->expects($this->once())
-            ->method('error')
-            ->with(
-                $this->isType('string'),
-                $this->callback(fn ($context) => ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException::class === $context['exception'])
-            );
+        $editEnvelopeDto = new EditEnvelopeDto('Test Title', '50.00', '300.00');
+        $parentEnvelope = new Envelope();
+        $parentEnvelope->setTargetBudget('200.00');
+        $parentEnvelope->setChildren(new EnvelopeCollection());
+        $parentEnvelope->setId(1);
+        $envelope = new Envelope();
+        $envelope->setParent($parentEnvelope);
+        $envelope->setId(2);
 
         $this->expectException(ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException::class);
 
-        $this->editEnvelopeFactory->createFromDto($envelope, $updateEnvelopeDto, $parentEnvelope);
+        $this->editEnvelopeFactory->createFromDto($envelope, $editEnvelopeDto, $parentEnvelope);
     }
 
     /**
@@ -115,38 +85,49 @@ class EditEnvelopeFactoryTest extends TestCase
      */
     public function testCreateFromDtoFailureDueToParentCurrentBudgetExceedsTarget(): void
     {
-        $envelope = $this->createMock(EnvelopeInterface::class);
-        $updateEnvelopeDto = $this->createMock(UpdateEnvelopeDtoInterface::class);
-        $parentEnvelope = $this->createMock(EnvelopeInterface::class);
-
-        $this->editEnvelopeBuilder->expects($this->once())
-            ->method('setEnvelope')
-            ->with($envelope)
-            ->willReturn($this->editEnvelopeBuilder);
-
-        $this->editEnvelopeBuilder->expects($this->once())
-            ->method('setUpdateEnvelopeDto')
-            ->with($updateEnvelopeDto)
-            ->willReturn($this->editEnvelopeBuilder);
-
-        $this->editEnvelopeBuilder->expects($this->once())
-            ->method('setParentEnvelope')
-            ->with($parentEnvelope)
-            ->willReturn($this->editEnvelopeBuilder);
-
-        $this->editEnvelopeBuilder->expects($this->once())
-            ->method('build')
-            ->willThrowException(new EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException(EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException::class, 400));
-
-        $this->logger->expects($this->once())
-            ->method('error')
-            ->with(
-                $this->isType('string'),
-                $this->callback(fn ($context) => EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException::class === $context['exception'])
-            );
+        $editEnvelopeDto = new EditEnvelopeDto('Test Title', '250.00', '100.00');
+        $parentEnvelope = new Envelope();
+        $parentEnvelope->setId(1);
+        $parentEnvelope->setTargetBudget('200.00');
+        $parentEnvelope->setChildren(new EnvelopeCollection());
+        $envelope = new Envelope();
+        $envelope->setParent($parentEnvelope);
+        $envelope->setId(2);
 
         $this->expectException(EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException::class);
 
-        $this->editEnvelopeFactory->createFromDto($envelope, $updateEnvelopeDto, $parentEnvelope);
+        $this->editEnvelopeFactory->createFromDto($envelope, $editEnvelopeDto, $parentEnvelope);
+    }
+
+    /**
+     * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
+     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws SelfParentEnvelopeException
+     */
+    public function testHandleParentChange(): void
+    {
+        $editEnvelopeDto = new EditEnvelopeDto('Test Title', '150.00', '100.00');
+        $parentEnvelope = new Envelope();
+        $parentEnvelope->setId(1);
+        $parentEnvelope->setTargetBudget('200.00');
+        $parentEnvelope->setCurrentBudget('150.00');
+        $parentEnvelope->setChildren(new EnvelopeCollection());
+
+        $envelope = new Envelope();
+        $envelope->setId(2);
+        $envelope->setParent($parentEnvelope);
+        $envelope->setCurrentBudget('150.00');
+        $envelope->setTargetBudget('150.00');
+
+        $newParentEnvelope = new Envelope();
+        $newParentEnvelope->setId(3);
+        $newParentEnvelope->setTargetBudget('300.00');
+        $newParentEnvelope->setCurrentBudget('100.00');
+        $newParentEnvelope->setChildren(new EnvelopeCollection());
+
+        $this->editEnvelopeFactory->createFromDto($envelope, $editEnvelopeDto, $newParentEnvelope);
+
+        $this->assertEquals('0.00', $parentEnvelope->getCurrentBudget());
+        $this->assertEquals('250.00', $newParentEnvelope->getCurrentBudget());
     }
 }
