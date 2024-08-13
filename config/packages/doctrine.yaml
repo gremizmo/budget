@@ -28,6 +28,12 @@ doctrine:
                 dir: '%kernel.project_dir%/config/doctrine/user'
                 prefix: 'App\Domain\User\Entity'
                 alias: User
+            RefreshToken:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Infra/Http/Rest/User/Entity'
+                prefix: 'App\Infra\Http\Rest\User\Entity'
+                alias: RefreshToken
         controller_resolver:
             auto_mapping: false
 

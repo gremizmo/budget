@@ -16,7 +16,7 @@ security:
             provider: app_user_provider
             json_login:
                 check_path: /api/login_check
-                success_handler: App\Infra\Http\Rest\User\Handler\CustomAuthenticationSuccessHandler
+                success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
                 username_path: email
                 password_path: password
@@ -24,6 +24,9 @@ security:
             pattern: ^/api
             stateless: true
             jwt: ~
+            entry_point: jwt
+            refresh_jwt:
+                check_path: /api/token/refresh
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
@@ -42,6 +45,7 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/api/(login_check|token/refresh), roles: PUBLIC_ACCESS }
 
 when@test:
     security:
