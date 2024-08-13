@@ -14,6 +14,7 @@ use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTarg
 use App\Domain\Envelope\Factory\EditEnvelopeFactory;
 use App\Domain\Envelope\Validator\CurrentBudgetValidator;
 use App\Domain\Envelope\Validator\TargetBudgetValidator;
+use App\Domain\Envelope\Validator\TitleValidator;
 use App\Domain\Shared\Adapter\LoggerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -29,7 +30,7 @@ class EditEnvelopeFactoryTest extends TestCase
         $this->logger = $this->createMock(LoggerInterface::class);
         $targetBudgetValidator = new TargetBudgetValidator();
         $currentBudgetValidator = new CurrentBudgetValidator();
-        $this->editEnvelopeBuilder = new EditEnvelopeBuilder($targetBudgetValidator, $currentBudgetValidator);
+        $this->editEnvelopeBuilder = new EditEnvelopeBuilder($targetBudgetValidator, $currentBudgetValidator, $this->createMock(TitleValidator::class));
         $this->editEnvelopeFactory = new EditEnvelopeFactory(
             $this->logger,
             $this->editEnvelopeBuilder

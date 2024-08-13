@@ -7,10 +7,12 @@ namespace App\Domain\Envelope\Builder;
 use App\Domain\Envelope\Dto\UpdateEnvelopeDtoInterface;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
+use App\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
 use App\Domain\Envelope\Exception\SelfParentEnvelopeException;
 use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
 use App\Domain\Envelope\Validator\TargetBudgetValidator;
 use App\Domain\Envelope\Validator\CurrentBudgetValidator;
+use App\Domain\Envelope\Validator\TitleValidator;
 
 readonly class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
 {
@@ -20,7 +22,8 @@ readonly class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
 
     public function __construct(
         private TargetBudgetValidator $targetBudgetValidator,
-        private CurrentBudgetValidator $currentBudgetValidator
+        private CurrentBudgetValidator $currentBudgetValidator,
+        private TitleValidator $titleValidator,
     ) {
     }
 
@@ -49,6 +52,7 @@ readonly class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
      * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
      * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
      * @throws SelfParentEnvelopeException
+     * @throws EnvelopeTitleAlreadyExistsForUserException
      */
     public function build(): EnvelopeInterface
     {
@@ -70,6 +74,7 @@ readonly class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
      * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
      * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
      * @throws SelfParentEnvelopeException
+     * @throws EnvelopeTitleAlreadyExistsForUserException
      */
     private function validateInputs(): void
     {
@@ -77,6 +82,7 @@ readonly class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
             throw new SelfParentEnvelopeException('Envelope cannot be its own parent.', 400);
         }
 
+        $this->titleValidator->validate(title: $this->updateEnvelopeDto->getTitle(), envelopeToUpdate: $this->envelope);
         $this->targetBudgetValidator->validate($this->updateEnvelopeDto->getTargetBudget(), $this->parentEnvelope, $this->envelope);
         $this->currentBudgetValidator->validate($this->updateEnvelopeDto->getCurrentBudget(), $this->parentEnvelope);
     }

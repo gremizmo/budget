@@ -32,6 +32,7 @@
             <directory suffix=".php">src/Infra/Http/Rest/Envelope</directory>
             <directory suffix=".php">src/Infra/Http/Rest/User/Controller</directory>
             <directory suffix=".php">src/Infra/Http/Rest/User/Repository</directory>
+            <directory suffix=".php">src/Infra/Http/Rest/User/Handler</directory>
             <directory suffix=".php">src/Infra/Http/Rest/User/Serializer</directory>
             <directory suffix=".php">src/Infra/Http/Web</directory>
         </exclude>

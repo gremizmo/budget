@@ -9,8 +9,10 @@ use App\Domain\Envelope\Entity\Envelope;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
 use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
+use App\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
 use App\Domain\Envelope\Validator\CurrentBudgetValidator;
 use App\Domain\Envelope\Validator\TargetBudgetValidator;
+use App\Domain\Envelope\Validator\TitleValidator;
 use App\Domain\User\Entity\UserInterface;
 
 readonly class CreateEnvelopeBuilder implements CreateEnvelopeBuilderInterface
@@ -22,6 +24,7 @@ readonly class CreateEnvelopeBuilder implements CreateEnvelopeBuilderInterface
     public function __construct(
         private TargetBudgetValidator $targetBudgetValidator,
         private CurrentBudgetValidator $currentBudgetValidator,
+        private TitleValidator $titleValidator,
     ) {
     }
 
@@ -49,9 +52,11 @@ readonly class CreateEnvelopeBuilder implements CreateEnvelopeBuilderInterface
     /**
      * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
      * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
+     * @throws EnvelopeTitleAlreadyExistsForUserException
      */
     public function build(): EnvelopeInterface
     {
+        $this->titleValidator->validate($this->createEnvelopeDto->getTitle(), $this->user);
         $this->targetBudgetValidator->validate($this->createEnvelopeDto->getTargetBudget(), $this->parentEnvelope);
         $this->currentBudgetValidator->validate($this->createEnvelopeDto->getCurrentBudget(), $this->parentEnvelope);
 

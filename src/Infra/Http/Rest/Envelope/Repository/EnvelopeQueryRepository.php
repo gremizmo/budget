@@ -27,15 +27,18 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
     public function findOneBy(array $criteria, ?array $orderBy = null): ?Envelope
     {
         $query = new Query();
+        $mustFilters = array_values(array_filter([
+            $this->filterById($criteria),
+            $this->filterByTitle($criteria),
+            $this->filterByUser($criteria)
+        ]));
+
         $query->setRawQuery(
             [
                 'size' => 1,
                 'query' => [
                     'bool' => [
-                        'must' => [
-                            ['term' => ['id'      => $criteria['id']]],
-                            ['term' => ['user.id' => $criteria['user']]],
-                        ],
+                        'must' => $mustFilters,
                     ],
                 ],
             ]
@@ -79,6 +82,24 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
             $this->logger->error($exception->getMessage());
             throw new EnvelopeQueryRepositoryException(sprintf('%s on method findBy', EnvelopeQueryRepositoryException::MESSAGE), $exception->getCode(), $exception);
         }
+    }
+
+    private function filterById(array $criteria): array
+    {
+        if (!isset($criteria['id'])) {
+            return [];
+        }
+
+        return ['term' => ['id' => $criteria['id']]];
+    }
+
+    private function filterByTitle(array $criteria): array
+    {
+        if (!isset($criteria['title'])) {
+            return [];
+        }
+
+        return ['term' => ['title' => $criteria['title']]];
     }
 
     private function filterByUser(array $criteria): array

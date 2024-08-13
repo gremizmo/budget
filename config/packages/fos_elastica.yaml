@@ -27,7 +27,7 @@ fos_elastica:
                 targetBudget:
                     type: float
                 title:
-                    type: text
+                    type: keyword
                 user:
                     type: object
                     properties:
@@ -56,7 +56,7 @@ fos_elastica:
                         targetBudget:
                             type: float
                         title:
-                            type: text
+                            type: keyword
                         parent:
                             type: object
                             properties:
@@ -110,7 +110,7 @@ fos_elastica:
                         targetBudget:
                             type: float
                         title:
-                            type: text
+                            type: keyword
                         parent:
                             type: object
                             properties:
@@ -134,7 +134,7 @@ fos_elastica:
                                 targetBudget:
                                     type: float
                                 title:
-                                    type: text
+                                    type: keyword
                                 parent:
                                     type: object
                                     properties:

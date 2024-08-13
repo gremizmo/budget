@@ -39,6 +39,9 @@ services:
     App\Application\Envelope\QueryHandler\ListEnvelopesQueryHandler:
         tags: [ 'messenger.message_handler' ]
 
+    App\Application\Envelope\QueryHandler\GetEnvelopeByTitleQueryHandler:
+        tags: [ 'messenger.message_handler' ]
+
     App\Application\User\CommandHandler\CreateUserCommandHandler:
         tags: [ 'messenger.message_handler' ]
 

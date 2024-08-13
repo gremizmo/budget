@@ -13,6 +13,7 @@ use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTarg
 use App\Domain\Envelope\Exception\SelfParentEnvelopeException;
 use App\Domain\Envelope\Validator\CurrentBudgetValidator;
 use App\Domain\Envelope\Validator\TargetBudgetValidator;
+use App\Domain\Envelope\Validator\TitleValidator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -21,14 +22,17 @@ class EditEnvelopeBuilderTest extends TestCase
     private TargetBudgetValidator&MockObject $targetBudgetValidator;
     private CurrentBudgetValidator&MockObject $currentBudgetValidator;
     private EditEnvelopeBuilder $editEnvelopeBuilder;
+    private TitleValidator&MockObject $titleValidator;
 
     protected function setUp(): void
     {
         $this->targetBudgetValidator = $this->createMock(TargetBudgetValidator::class);
         $this->currentBudgetValidator = $this->createMock(CurrentBudgetValidator::class);
+        $this->titleValidator = $this->createMock(TitleValidator::class);
         $this->editEnvelopeBuilder = new EditEnvelopeBuilder(
             $this->targetBudgetValidator,
-            $this->currentBudgetValidator
+            $this->currentBudgetValidator,
+            $this->titleValidator,
         );
     }
 
