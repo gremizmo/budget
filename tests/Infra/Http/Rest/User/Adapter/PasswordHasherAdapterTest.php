@@ -28,4 +28,22 @@ class PasswordHasherAdapterTest extends TestCase
 
         $this->assertSame($hashedPassword, $result);
     }
+
+    public function testVerify(): void
+    {
+        $user = $this->createMock(PasswordAuthenticatedUserInterface::class);
+        $plainPassword = 'password123';
+        $isValid = true;
+
+        $passwordHasher = $this->createMock(UserPasswordHasherInterface::class);
+        $passwordHasher->expects($this->once())
+            ->method('isPasswordValid')
+            ->with($user, $plainPassword)
+            ->willReturn($isValid);
+
+        $adapter = new PasswordHasherAdapter($passwordHasher);
+        $result = $adapter->verify($user, $plainPassword);
+
+        $this->assertTrue($result);
+    }
 }

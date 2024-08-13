@@ -51,6 +51,9 @@ services:
     App\Application\User\QueryHandler\GetUserAlreadyExistsQueryHandler:
         tags: [ 'messenger.message_handler' ]
 
+    App\Application\User\CommandHandler\ChangeUserPasswordCommandHandler:
+        tags: [ 'messenger.message_handler' ]
+
     App\Infra\Http\Rest\Envelope\EventListener\EnvelopeEditListener:
         tags:
             - { name: 'doctrine.event_listener', event: 'preUpdate' }

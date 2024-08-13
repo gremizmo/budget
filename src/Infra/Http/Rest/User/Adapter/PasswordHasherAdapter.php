@@ -19,4 +19,9 @@ class PasswordHasherAdapter implements PasswordHasherInterface
     {
         return $this->passwordHasher->hashPassword($user, $password);
     }
+
+    public function verify(PasswordAuthenticatedUserInterface $user, string $plainPassword): bool
+    {
+        return $this->passwordHasher->isPasswordValid($user, $plainPassword);
+    }
 }
