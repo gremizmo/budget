@@ -96,7 +96,6 @@ class CreateEnvelopeBuilderTest extends TestCase
         $this->assertSame($user, $envelope->getUser());
     }
 
-
     /**
      * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
      * @throws EnvelopeTitleAlreadyExistsForUserException

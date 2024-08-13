@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Envelope\Dto;
 
-interface UpdateEnvelopeDtoInterface
+interface EditEnvelopeDtoInterface
 {
     public function getTitle(): string;
 

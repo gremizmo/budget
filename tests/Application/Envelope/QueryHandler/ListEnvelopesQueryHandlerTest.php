@@ -6,9 +6,10 @@ namespace App\Tests\Application\Envelope\QueryHandler;
 
 use App\Application\Envelope\Query\ListEnvelopesQuery;
 use App\Application\Envelope\QueryHandler\ListEnvelopesQueryHandler;
+use App\Domain\Envelope\Dto\ListEnvelopesDto;
 use App\Domain\Envelope\Entity\Envelope;
-use App\Domain\Envelope\Entity\EnvelopeCollection;
-use App\Domain\Envelope\Factory\EnvelopeCollectionFactory;
+use App\Domain\Envelope\Entity\EnvelopesPaginated;
+use App\Domain\Envelope\Entity\EnvelopesPaginatedInterface;
 use App\Domain\Envelope\Repository\EnvelopeQueryRepositoryInterface;
 use App\Domain\User\Entity\User;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -22,46 +23,44 @@ class ListEnvelopesQueryHandlerTest extends TestCase
     protected function setUp(): void
     {
         $this->envelopeQueryRepositoryMock = $this->createMock(EnvelopeQueryRepositoryInterface::class);
-        $envelopeCollectionFactory = new EnvelopeCollectionFactory();
         $this->listEnvelopesQueryHandler = new ListEnvelopesQueryHandler(
             $this->envelopeQueryRepositoryMock,
-            $envelopeCollectionFactory,
         );
     }
 
     /**
      * @dataProvider envelopeDataProvider
      */
-    public function testInvoke(ListEnvelopesQuery $query, array $envelopes, EnvelopeCollection $expectedCollection): void
+    public function testInvoke(ListEnvelopesQuery $query, array $envelopes, EnvelopesPaginatedInterface $envelopesPaginated): void
     {
         $this->envelopeQueryRepositoryMock->expects($this->once())
             ->method('findBy')
             ->with([
                 'user' => $query->getUser()->getId(),
+                'parent' => null,
             ])
-            ->willReturn($envelopes);
+            ->willReturn(new EnvelopesPaginated($envelopes, \count($envelopes)));
 
         $result = $this->listEnvelopesQueryHandler->__invoke($query);
 
-        $this->assertEquals($expectedCollection, $result);
+        $this->assertEquals($envelopesPaginated, $result);
     }
 
     public function envelopeDataProvider(): array
     {
         $envelope = new Envelope();
         $envelope->setId(1);
-        $envelopeCollection = new EnvelopeCollection([$envelope]);
 
         return [
             'success' => [
-                new ListEnvelopesQuery((new User())->setId(1), 1),
+                new ListEnvelopesQuery((new User())->setId(1), new ListEnvelopesDto()),
                 [$envelope],
-                $envelopeCollection,
+                new EnvelopesPaginated([$envelope], 1),
             ],
             'failure' => [
-                new ListEnvelopesQuery((new User())->setId(2), 2),
+                new ListEnvelopesQuery((new User())->setId(2), new ListEnvelopesDto()),
                 [],
-                new EnvelopeCollection([]),
+                new EnvelopesPaginated([], 0),
             ],
         ];
     }

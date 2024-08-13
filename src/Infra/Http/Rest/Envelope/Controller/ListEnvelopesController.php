@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Infra\Http\Rest\Envelope\Controller;
 
 use App\Application\Envelope\Query\ListEnvelopesQuery;
+use App\Domain\Envelope\Dto\ListEnvelopesDto;
 use App\Domain\Shared\Adapter\QueryBusInterface;
 use App\Domain\User\Entity\UserInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -26,10 +28,11 @@ class ListEnvelopesController extends AbstractController
     }
 
     public function __invoke(
-        #[CurrentUser] UserInterface $user
+        #[CurrentUser] UserInterface $user,
+        #[MapQueryString] ListEnvelopesDto $listEnvelopesDto = new ListEnvelopesDto(),
     ): JsonResponse {
         try {
-            $envelope = $this->queryBus->query(new ListEnvelopesQuery($user));
+            $envelopes = $this->queryBus->query(new ListEnvelopesQuery($user, $listEnvelopesDto));
         } catch (\Throwable $exception) {
             $this->logger->error('Failed to process Envelope listing request: '.$exception->getMessage());
 
@@ -40,6 +43,6 @@ class ListEnvelopesController extends AbstractController
             ], $exception->getCode());
         }
 
-        return $this->json($envelope, Response::HTTP_ACCEPTED);
+        return $this->json($envelopes, Response::HTTP_ACCEPTED);
     }
 }

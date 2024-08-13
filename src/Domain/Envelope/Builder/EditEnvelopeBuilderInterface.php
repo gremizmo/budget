@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Envelope\Builder;
 
-use App\Domain\Envelope\Dto\UpdateEnvelopeDtoInterface;
+use App\Domain\Envelope\Dto\EditEnvelopeDtoInterface;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
 use App\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
@@ -15,7 +15,7 @@ interface EditEnvelopeBuilderInterface
 {
     public function setEnvelope(EnvelopeInterface $envelope): self;
 
-    public function setUpdateEnvelopeDto(UpdateEnvelopeDtoInterface $updateEnvelopeDto): self;
+    public function setUpdateEnvelopeDto(EditEnvelopeDtoInterface $updateEnvelopeDto): self;
 
     public function setParentEnvelope(?EnvelopeInterface $parentEnvelope): self;
 

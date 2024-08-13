@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Envelope\Factory;
 
 use App\Domain\Envelope\Builder\EditEnvelopeBuilderInterface;
-use App\Domain\Envelope\Dto\UpdateEnvelopeDtoInterface;
+use App\Domain\Envelope\Dto\EditEnvelopeDtoInterface;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
 use App\Domain\Envelope\Exception\SelfParentEnvelopeException;
@@ -27,7 +27,7 @@ readonly class EditEnvelopeFactory implements EditEnvelopeFactoryInterface
      */
     public function createFromDto(
         EnvelopeInterface $envelope,
-        UpdateEnvelopeDtoInterface $updateEnvelopeDto,
+        EditEnvelopeDtoInterface $updateEnvelopeDto,
         ?EnvelopeInterface $parentEnvelope = null,
     ): EnvelopeInterface {
         $this->editEnvelopeBuilder->setEnvelope($envelope)

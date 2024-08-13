@@ -18,7 +18,7 @@ readonly class EnvelopeNormalizer implements NormalizerInterface
 
     public function normalize($object, ?string $format = null, array $context = []): array
     {
-        $context['ignored_attributes'] = ['parent'];
+        $context['ignored_attributes'] = ['parent', 'children'];
         $data = $this->normalizer->normalize($object, $format, $context);
         if (isset($data['user']) && \is_array($data['user'])) {
             unset(

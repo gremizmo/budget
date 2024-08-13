@@ -13,7 +13,8 @@ use App\Domain\User\Entity\UserInterface;
 class TitleValidator
 {
     public function __construct(private readonly QueryBusInterface $queryBus)
-    {}
+    {
+    }
 
     /**
      * @throws EnvelopeTitleAlreadyExistsForUserException

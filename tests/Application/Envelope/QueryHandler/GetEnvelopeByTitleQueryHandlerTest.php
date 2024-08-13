@@ -5,15 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\Application\Envelope\QueryHandler;
 
 use App\Application\Envelope\Query\GetEnvelopeByTitleQuery;
-use App\Application\Envelope\Query\ShowEnvelopeQuery;
 use App\Application\Envelope\QueryHandler\GetEnvelopeByTitleQueryHandler;
-use App\Application\Envelope\QueryHandler\ShowEnvelopeQueryHandler;
-use App\Domain\Envelope\Entity\Envelope;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
-use App\Domain\Envelope\Exception\EnvelopeNotFoundException;
 use App\Domain\Envelope\Repository\EnvelopeQueryRepositoryInterface;
-use App\Domain\Shared\Adapter\LoggerInterface;
-use App\Domain\User\Entity\User;
 use App\Domain\User\Entity\UserInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;

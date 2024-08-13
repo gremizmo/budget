@@ -6,7 +6,7 @@ namespace App\Tests\Application\Envelope\CommandHandler;
 
 use App\Application\Envelope\Command\EditEnvelopeCommand;
 use App\Application\Envelope\CommandHandler\EditEnvelopeCommandHandler;
-use App\Domain\Envelope\Dto\UpdateEnvelopeDtoInterface;
+use App\Domain\Envelope\Dto\EditEnvelopeDtoInterface;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Factory\EditEnvelopeFactoryInterface;
 use App\Domain\Envelope\Repository\EnvelopeCommandRepositoryInterface;
@@ -57,7 +57,7 @@ class EditEnvelopeCommandHandlerTest extends TestCase
     {
         $parentEnvelope = $this->createMock(EnvelopeInterface::class);
         $envelope = $this->createMock(EnvelopeInterface::class);
-        $updateEnvelopeDto = $this->createMock(UpdateEnvelopeDtoInterface::class);
+        $updateEnvelopeDto = $this->createMock(EditEnvelopeDtoInterface::class);
 
         $editEnvelopeCommand = new EditEnvelopeCommand(
             $envelope,
@@ -85,7 +85,7 @@ class EditEnvelopeCommandHandlerTest extends TestCase
     {
         $parentEnvelope = $this->createMock(EnvelopeInterface::class);
         $envelope = $this->createMock(EnvelopeInterface::class);
-        $updateEnvelopeDto = $this->createMock(UpdateEnvelopeDtoInterface::class);
+        $updateEnvelopeDto = $this->createMock(EditEnvelopeDtoInterface::class);
 
         return [
             'with parent' => [

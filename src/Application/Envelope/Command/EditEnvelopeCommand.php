@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Envelope\Command;
 
-use App\Domain\Envelope\Dto\UpdateEnvelopeDtoInterface;
+use App\Domain\Envelope\Dto\EditEnvelopeDtoInterface;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Shared\Command\CommandInterface;
 
@@ -12,7 +12,7 @@ readonly class EditEnvelopeCommand implements CommandInterface
 {
     public function __construct(
         private EnvelopeInterface $envelope,
-        private UpdateEnvelopeDtoInterface $updateEnvelopeDTO,
+        private EditEnvelopeDtoInterface $updateEnvelopeDTO,
         private ?EnvelopeInterface $parentEnvelope = null,
     ) {
     }
@@ -22,7 +22,7 @@ readonly class EditEnvelopeCommand implements CommandInterface
         return $this->envelope;
     }
 
-    public function getUpdateEnvelopeDTO(): UpdateEnvelopeDtoInterface
+    public function getUpdateEnvelopeDTO(): EditEnvelopeDtoInterface
     {
         return $this->updateEnvelopeDTO;
     }

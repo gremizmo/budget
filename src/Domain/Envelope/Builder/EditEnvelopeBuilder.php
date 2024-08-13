@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Envelope\Builder;
 
-use App\Domain\Envelope\Dto\UpdateEnvelopeDtoInterface;
+use App\Domain\Envelope\Dto\EditEnvelopeDtoInterface;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
 use App\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
@@ -17,7 +17,7 @@ use App\Domain\Envelope\Validator\TitleValidator;
 readonly class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
 {
     private ?EnvelopeInterface $envelope;
-    private ?UpdateEnvelopeDtoInterface $updateEnvelopeDto;
+    private ?EditEnvelopeDtoInterface $updateEnvelopeDto;
     private ?EnvelopeInterface $parentEnvelope;
 
     public function __construct(
@@ -34,7 +34,7 @@ readonly class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
         return $this;
     }
 
-    public function setUpdateEnvelopeDto(UpdateEnvelopeDtoInterface $updateEnvelopeDto): self
+    public function setUpdateEnvelopeDto(EditEnvelopeDtoInterface $updateEnvelopeDto): self
     {
         $this->updateEnvelopeDto = $updateEnvelopeDto;
 

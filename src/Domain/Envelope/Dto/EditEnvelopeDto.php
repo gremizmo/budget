@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Envelope\Dto;
 
-final readonly class EditEnvelopeDto implements UpdateEnvelopeDtoInterface
+final readonly class EditEnvelopeDto implements EditEnvelopeDtoInterface
 {
     public function __construct(
         public string $title,
