@@ -17,6 +17,10 @@ RUN php -r "readfile('https://getcomposer.org/installer');" | php -- --install-d
 RUN curl -sS https://get.symfony.com/cli/installer | bash && \
     mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
 
+# Install MailHog
+RUN curl -sL https://github.com/mailhog/MailHog/releases/download/v1.0.1/MailHog_linux_amd64 -o /usr/local/bin/mailhog && \
+    chmod +x /usr/local/bin/mailhog
+
 COPY . .
 
 EXPOSE 9000

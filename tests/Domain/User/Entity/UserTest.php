@@ -138,4 +138,22 @@ class UserTest extends TestCase
 
         $this->assertEquals('test@example.com', $user->getUserIdentifier());
     }
+
+    public function testGetSetPasswordResetToken(): void
+    {
+        $user = new User();
+        $token = 'reset-token';
+        $user->setPasswordResetToken($token);
+
+        $this->assertSame($token, $user->getPasswordResetToken());
+    }
+
+    public function testGetSetPasswordResetTokenExpiry(): void
+    {
+        $user = new User();
+        $expiryDate = new \DateTimeImmutable('2023-01-01');
+        $user->setPasswordResetTokenExpiry($expiryDate);
+
+        $this->assertSame($expiryDate, $user->getPasswordResetTokenExpiry());
+    }
 }

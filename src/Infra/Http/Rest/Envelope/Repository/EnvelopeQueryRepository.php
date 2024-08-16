@@ -64,18 +64,28 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
     {
         $query = new Query();
 
+        $userFilters = $this->filterByUser($criteria);
+        $parentFilters = $this->filterByParent($criteria);
+
+        $mustFilters[] = $userFilters;
+        $parentFilter = count($parentFilters['must']) > 0 ? $parentFilters['must'][0] : null;
+        if ($parentFilter) {
+            $mustFilters[] = $parentFilter;
+        }
+        $mustNotFilters = $parentFilters['must_not'] ?? [];
+
         $query->setRawQuery(
             [
                 'query' => [
                     'bool' => [
-                        'must' => array_values(array_filter([
-                            $this->filterByParent($criteria),
-                            $this->filterByUser($criteria),
-                        ])),
+                        'must' => $mustFilters,
+                        'must_not' => $mustNotFilters,
                     ],
                 ],
             ]
         );
+        $count = $this->count($query);
+
         $query->setFrom($offset ?? 0);
         $query->setSize($limit ?? 10);
         $query->setSort($orderBy ?? []);
@@ -83,7 +93,7 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
         try {
             return new EnvelopesPaginated(
                 $this->find($query),
-                $this->count($criteria),
+                $count,
             );
         } catch (\Throwable $exception) {
             $this->logger->error($exception->getMessage());
@@ -91,22 +101,8 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
         }
     }
 
-    private function count(array $criteria): int
+    private function count(Query $query): int
     {
-        $query = new Query();
-        $query->setRawQuery(
-            [
-                'query' => [
-                    'bool' => [
-                        'must' => array_values(array_filter([
-                            $this->filterByParent($criteria),
-                            $this->filterByUser($criteria),
-                        ])),
-                    ],
-                ],
-            ]
-        );
-
         return $this->finder->findPaginated($query)->getNbResults();
     }
 
@@ -130,11 +126,18 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
 
     private function filterByParent(array $criteria): array
     {
-        if (!isset($criteria['parent'])) {
-            return [];
+        $filters = [
+            'must' => [],
+            'must_not' => [],
+        ];
+
+        if (isset($criteria['parent'])) {
+            $filters['must'][] = ['term' => ['parent.id' => $criteria['parent']]];
+        } else {
+            $filters['must_not'][] = ['exists' => ['field' => 'parent']];
         }
 
-        return ['term' => ['parent.id' => $criteria['parent']]];
+        return $filters;
     }
 
     private function filterByUser(array $criteria): array

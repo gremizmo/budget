@@ -18,15 +18,11 @@ readonly class EditEnvelopeCommandHandler
 
     public function __invoke(EditEnvelopeCommand $command): void
     {
-        $updateEnvelopeDTO = $command->getUpdateEnvelopeDTO();
-        $parentEnvelope = $command->getParentEnvelope();
-        $envelope = $command->getEnvelope();
-
         $this->envelopeRepository->save(
             $this->envelopeFactory->createFromDto(
-                $envelope,
-                $updateEnvelopeDTO,
-                $parentEnvelope,
+                $command->getEnvelope(),
+                $command->getUpdateEnvelopeDTO(),
+                $command->getParentEnvelope(),
             )
         );
     }

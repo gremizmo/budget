@@ -6,7 +6,7 @@ namespace App\Tests\Application\User\Command;
 
 use App\Application\User\Command\ChangeUserPasswordCommand;
 use App\Domain\User\Dto\ChangeUserPasswordDtoInterface;
-use App\Domain\User\Entity\UserInterface;
+use App\Domain\User\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class ChangeUserPasswordCommandTest extends TestCase
@@ -14,7 +14,7 @@ class ChangeUserPasswordCommandTest extends TestCase
     public function testChangeUserPasswordCommand(): void
     {
         $changePasswordDto = $this->createMock(ChangeUserPasswordDtoInterface::class);
-        $user = $this->createMock(UserInterface::class);
+        $user = $this->createMock(User::class);
 
         $command = new ChangeUserPasswordCommand($changePasswordDto, $user);
 

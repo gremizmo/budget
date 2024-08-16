@@ -92,6 +92,10 @@ fos_elastica:
                     type: date
                 updatedAt:
                     type: date
+                passwordResetToken:
+                    type: keyword
+                passwordResetTokenExpiry:
+                    type: date
                 envelopes:
                     type: nested
                     properties:

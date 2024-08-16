@@ -21,6 +21,8 @@ class User implements UserInterface, \Symfony\Component\Security\Core\User\UserI
     private \DateTimeImmutable $createdAt;
     private \DateTime $updatedAt;
     private EnvelopeCollectionInterface|iterable $envelopes;
+    private ?string $passwordResetToken = null;
+    private ?\DateTimeImmutable $passwordResetTokenExpiry = null;
 
     public function __construct()
     {
@@ -179,5 +181,29 @@ class User implements UserInterface, \Symfony\Component\Security\Core\User\UserI
     public function getUserIdentifier(): string
     {
         return $this->email;
+    }
+
+    public function getPasswordResetToken(): ?string
+    {
+        return $this->passwordResetToken;
+    }
+
+    public function setPasswordResetToken(?string $passwordResetToken): self
+    {
+        $this->passwordResetToken = $passwordResetToken;
+
+        return $this;
+    }
+
+    public function getPasswordResetTokenExpiry(): ?\DateTimeImmutable
+    {
+        return $this->passwordResetTokenExpiry;
+    }
+
+    public function setPasswordResetTokenExpiry(?\DateTimeImmutable $passwordResetTokenExpiry): self
+    {
+        $this->passwordResetTokenExpiry = $passwordResetTokenExpiry;
+
+        return $this;
     }
 }

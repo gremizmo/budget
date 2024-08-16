@@ -18,13 +18,10 @@ readonly class CreateEnvelopeCommandHandler
 
     public function __invoke(CreateEnvelopeCommand $command): void
     {
-        $createEnvelopeDTO = $command->getCreateEnvelopeDTO();
-        $parentEnvelope = $command->getParentEnvelope();
-
         $this->envelopeCommandRepository->save(
             $this->envelopeFactory->createFromDto(
-                $createEnvelopeDTO,
-                $parentEnvelope,
+                $command->getCreateEnvelopeDTO(),
+                $command->getParentEnvelope(),
                 $command->getUser(),
             )
         );

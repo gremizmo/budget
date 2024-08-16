@@ -58,4 +58,12 @@ interface UserInterface
     public function eraseCredentials(): void;
 
     public function getUserIdentifier(): string;
+
+    public function getPasswordResetToken(): ?string;
+
+    public function setPasswordResetToken(?string $passwordResetToken): self;
+
+    public function getPasswordResetTokenExpiry(): ?\DateTimeImmutable;
+
+    public function setPasswordResetTokenExpiry(?\DateTimeImmutable $passwordResetTokenExpiry): self;
 }

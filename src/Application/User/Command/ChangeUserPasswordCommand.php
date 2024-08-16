@@ -6,17 +6,17 @@ namespace App\Application\User\Command;
 
 use App\Domain\Shared\Command\CommandInterface;
 use App\Domain\User\Dto\ChangeUserPasswordDtoInterface;
-use App\Domain\User\Entity\UserInterface;
+use App\Domain\User\Entity\User;
 
 readonly class ChangeUserPasswordCommand implements CommandInterface
 {
     public function __construct(
         private ChangeUserPasswordDtoInterface $changePasswordDto,
-        private UserInterface $user,
+        private User $user,
     ) {
     }
 
-    public function getUser(): UserInterface
+    public function getUser(): User
     {
         return $this->user;
     }
