@@ -1,0 +1,24 @@
+sequenceDiagram
+    participant User
+    participant DeleteEnvelopeController
+    participant QueryBus
+    participant ShowEnvelopeQueryHandler
+    participant EnvelopeQueryRepository
+    participant CommandBus
+    participant DeleteEnvelopeCommandHandler
+    participant EnvelopeCommandRepository
+
+    User ->> DeleteEnvelopeController: HTTP DELETE /api/envelope/{id}
+    DeleteEnvelopeController ->> QueryBus: query(ShowEnvelopeQuery)
+    QueryBus ->> ShowEnvelopeQueryHandler: handle(ShowEnvelopeQuery)
+    ShowEnvelopeQueryHandler ->> EnvelopeQueryRepository: findOneBy(criteria)
+    EnvelopeQueryRepository -->> ShowEnvelopeQueryHandler: Envelope
+    ShowEnvelopeQueryHandler -->> QueryBus: Envelope
+    QueryBus -->> DeleteEnvelopeController: Envelope
+    DeleteEnvelopeController ->> CommandBus: execute(DeleteEnvelopeCommand)
+    CommandBus ->> DeleteEnvelopeCommandHandler: handle(DeleteEnvelopeCommand)
+    DeleteEnvelopeCommandHandler ->> EnvelopeCommandRepository: delete(Envelope)
+    EnvelopeCommandRepository -->> DeleteEnvelopeCommandHandler: success
+    DeleteEnvelopeCommandHandler -->> CommandBus: success
+    CommandBus -->> DeleteEnvelopeController: success
+    DeleteEnvelopeController -->> User: JSON Response

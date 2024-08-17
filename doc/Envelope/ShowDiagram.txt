@@ -1,0 +1,15 @@
+sequenceDiagram
+    participant User
+    participant ShowEnvelopeController
+    participant QueryBus
+    participant ShowEnvelopeQueryHandler
+    participant EnvelopeQueryRepository
+
+    User ->> ShowEnvelopeController: HTTP GET /api/envelope/{id}
+    ShowEnvelopeController ->> QueryBus: query(ShowEnvelopeQuery)
+    QueryBus ->> ShowEnvelopeQueryHandler: handle(ShowEnvelopeQuery)
+    ShowEnvelopeQueryHandler ->> EnvelopeQueryRepository: findOneBy(criteria)
+    EnvelopeQueryRepository -->> ShowEnvelopeQueryHandler: Envelope
+    ShowEnvelopeQueryHandler -->> QueryBus: Envelope
+    QueryBus -->> ShowEnvelopeController: Envelope
+    ShowEnvelopeController -->> User: JSON Response

@@ -1,0 +1,15 @@
+sequenceDiagram
+    participant User
+    participant ListEnvelopesController
+    participant QueryBus
+    participant ListEnvelopesQueryHandler
+    participant EnvelopeQueryRepository
+
+    User ->> ListEnvelopesController: HTTP GET /api/envelope
+    ListEnvelopesController ->> QueryBus: query(ListEnvelopesQuery)
+    QueryBus ->> ListEnvelopesQueryHandler: handle(ListEnvelopesQuery)
+    ListEnvelopesQueryHandler ->> EnvelopeQueryRepository: findBy(criteria)
+    EnvelopeQueryRepository -->> ListEnvelopesQueryHandler: EnvelopesPaginated
+    ListEnvelopesQueryHandler -->> QueryBus: EnvelopesPaginated
+    QueryBus -->> ListEnvelopesController: EnvelopesPaginated
+    ListEnvelopesController -->> User: JSON Response
