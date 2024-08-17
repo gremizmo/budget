@@ -6,6 +6,9 @@ namespace App\Domain\Envelope\Dto;
 
 interface ListEnvelopesDtoInterface
 {
+    /**
+     * @return array<string, string>|null
+     */
     public function getOrderBy(): ?array;
 
     public function getLimit(): ?int;

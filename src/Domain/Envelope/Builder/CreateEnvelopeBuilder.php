@@ -15,16 +15,16 @@ use App\Domain\Envelope\Validator\TargetBudgetValidator;
 use App\Domain\Envelope\Validator\TitleValidator;
 use App\Domain\User\Entity\UserInterface;
 
-readonly class CreateEnvelopeBuilder implements CreateEnvelopeBuilderInterface
+class CreateEnvelopeBuilder implements CreateEnvelopeBuilderInterface
 {
-    private ?EnvelopeInterface $parentEnvelope;
-    private ?CreateEnvelopeDtoInterface $createEnvelopeDto;
-    private ?UserInterface $user;
+    private ?EnvelopeInterface $parentEnvelope = null;
+    private CreateEnvelopeDtoInterface $createEnvelopeDto;
+    private UserInterface $user;
 
     public function __construct(
-        private TargetBudgetValidator $targetBudgetValidator,
-        private CurrentBudgetValidator $currentBudgetValidator,
-        private TitleValidator $titleValidator,
+        private readonly TargetBudgetValidator $targetBudgetValidator,
+        private readonly CurrentBudgetValidator $currentBudgetValidator,
+        private readonly TitleValidator $titleValidator,
     ) {
     }
 

@@ -9,6 +9,7 @@ use App\Application\User\Query\GetUserByPasswordResetTokenQuery;
 use App\Domain\Shared\Adapter\CommandBusInterface;
 use App\Domain\Shared\Adapter\QueryBusInterface;
 use App\Domain\User\Dto\ResetUserPasswordDto;
+use App\Domain\User\Entity\User;
 use App\Domain\User\Exception\UserPasswordResetTokenIsExpiredException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -30,15 +31,18 @@ class ResetUserPasswordController extends AbstractController
         try {
             $user = $this->queryBus->query(new GetUserByPasswordResetTokenQuery($resetUserPasswordDto->getToken()));
 
-            if ($user->getPasswordResetTokenExpiry() > new \DateTimeImmutable()) {
-                throw new UserPasswordResetTokenIsExpiredException(UserPasswordResetTokenIsExpiredException::MESSAGE, 401);
+            if ($user instanceof User) {
+                if ($user->getPasswordResetTokenExpiry() > new \DateTimeImmutable()) {
+                    throw new UserPasswordResetTokenIsExpiredException(UserPasswordResetTokenIsExpiredException::MESSAGE, 401);
+                }
+                $this->commandBus->execute(new ResetUserPasswordCommand($resetUserPasswordDto, $user));
             }
-
-            $this->commandBus->execute(new ResetUserPasswordCommand($resetUserPasswordDto, $user));
         } catch (\Exception $exception) {
+            $exceptionType = \strrchr($exception::class, '\\');
+
             return $this->json([
                 'error' => $exception->getMessage(),
-                'type' => \substr(\strrchr($exception::class, '\\'), 1),
+                'type' => \substr(\is_string($exceptionType) ? $exceptionType : '', 1),
                 'code' => $exception->getCode(),
             ], $exception->getCode());
         }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Envelope\Validator;
 
+use App\Domain\Envelope\Entity\EnvelopeCollectionInterface;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
 
@@ -85,13 +86,17 @@ class TargetBudgetValidator
 
     private function calculateTotalChildrenTargetBudget(?EnvelopeInterface $parentEnvelope, ?EnvelopeInterface $currentEnvelope): float
     {
-        if ($parentEnvelope instanceof EnvelopeInterface) {
-            return $parentEnvelope->getChildren()->reduce(
+        $parentEnvelopeChildren = $parentEnvelope?->getChildren();
+        $currentEnvelopeChildren = $currentEnvelope?->getChildren();
+
+        // TODO: remove this check when the EnvelopeCollectionInterface issue is solved
+        if ($parentEnvelope instanceof EnvelopeInterface && $parentEnvelopeChildren instanceof EnvelopeCollectionInterface) {
+            return $parentEnvelopeChildren->reduce(
                 fn (float $carry, EnvelopeInterface $child) => $child->getId() === $currentEnvelope?->getId() ? $carry : $carry + floatval($child->getTargetBudget()),
                 0.00
             );
-        } elseif ($currentEnvelope instanceof EnvelopeInterface) {
-            return $currentEnvelope->getChildren()->reduce(
+        } elseif ($currentEnvelope instanceof EnvelopeInterface && $currentEnvelopeChildren instanceof EnvelopeCollectionInterface) {
+            return $currentEnvelopeChildren->reduce(
                 fn (float $carry, EnvelopeInterface $child) => $carry + floatval($child->getTargetBudget()),
                 0.00
             );
@@ -102,9 +107,16 @@ class TargetBudgetValidator
 
     private function calculateTotalChildrenCurrentBudget(EnvelopeInterface $parentEnvelope, ?EnvelopeInterface $currentEnvelope = null): float
     {
-        return $parentEnvelope->getChildren()->reduce(
-            fn (float $carry, EnvelopeInterface $child) => $child->getId() === $currentEnvelope?->getId() ? $carry : $carry + floatval($child->getCurrentBudget()),
-            0.00
-        );
+        $children = $parentEnvelope->getChildren();
+
+        // TODO: remove this check when the EnvelopeCollectionInterface issue is solved
+        if ($children instanceof EnvelopeCollectionInterface) {
+            return $children->reduce(
+                fn (float $carry, EnvelopeInterface $child) => $child->getId() === $currentEnvelope?->getId() ? $carry : $carry + floatval($child->getCurrentBudget()),
+                0.00
+            );
+        }
+
+        return 0.00;
     }
 }

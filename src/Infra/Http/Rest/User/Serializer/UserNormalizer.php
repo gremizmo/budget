@@ -6,6 +6,7 @@ namespace App\Infra\Http\Rest\User\Serializer;
 
 use App\Domain\User\Entity\User;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 readonly class UserNormalizer implements NormalizerInterface
@@ -16,6 +17,13 @@ readonly class UserNormalizer implements NormalizerInterface
     ) {
     }
 
+    /**
+     * @param array<int, string[]> $context
+     *
+     * @return array<string, mixed>
+     *
+     * @throws ExceptionInterface
+     */
     public function normalize($object, ?string $format = null, array $context = []): array
     {
         $context['ignored_attributes'] = ['envelopes'];
@@ -34,11 +42,17 @@ readonly class UserNormalizer implements NormalizerInterface
         return $data;
     }
 
+    /**
+     * @param array<int, string[]> $context
+     */
     public function supportsNormalization($data, ?string $format = null, array $context = []): bool
     {
         return $data instanceof User;
     }
 
+    /**
+     * @return true[]
+     */
     public function getSupportedTypes(?string $format): array
     {
         return [

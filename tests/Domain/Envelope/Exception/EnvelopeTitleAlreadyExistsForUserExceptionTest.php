@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class EnvelopeTitleAlreadyExistsForUserExceptionTest extends TestCase
 {
-    public function testExceptionMessage()
+    public function testExceptionMessage(): void
     {
         $exception = new EnvelopeTitleAlreadyExistsForUserException(
             EnvelopeTitleAlreadyExistsForUserException::MESSAGE,
@@ -18,7 +18,7 @@ class EnvelopeTitleAlreadyExistsForUserExceptionTest extends TestCase
         $this->assertEquals(EnvelopeTitleAlreadyExistsForUserException::MESSAGE, $exception->getMessage());
     }
 
-    public function testExceptionCode()
+    public function testExceptionCode(): void
     {
         $code = 123;
         $exception = new EnvelopeTitleAlreadyExistsForUserException(
@@ -28,7 +28,7 @@ class EnvelopeTitleAlreadyExistsForUserExceptionTest extends TestCase
         $this->assertEquals($code, $exception->getCode());
     }
 
-    public function testPreviousException()
+    public function testPreviousException(): void
     {
         $previous = new \Exception('Previous exception');
         $exception = new EnvelopeTitleAlreadyExistsForUserException(

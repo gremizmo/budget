@@ -8,7 +8,6 @@ use App\Application\User\Command\ChangeUserPasswordCommand;
 use App\Domain\Shared\Adapter\CommandBusInterface;
 use App\Domain\User\Dto\ChangeUserPasswordDto;
 use App\Domain\User\Entity\User;
-use App\Domain\User\Entity\UserInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -30,7 +29,7 @@ class ChangeUserPasswordController extends AbstractController
 
     public function __invoke(
         User $user,
-        #[CurrentUser] UserInterface $currentUser,
+        #[CurrentUser] User $currentUser,
         #[MapRequestPayload] ChangeUserPasswordDto $changePasswordDto,
     ): JsonResponse {
         if ($user->getId() !== $currentUser->getId()) {
@@ -48,9 +47,11 @@ class ChangeUserPasswordController extends AbstractController
         } catch (\Throwable $exception) {
             $this->logger->error('Failed to process password change request: '.$exception->getMessage());
 
+            $exceptionType = \strrchr($exception::class, '\\');
+
             return $this->json([
                 'error' => $exception->getMessage(),
-                'type' => \substr(\strrchr($exception::class, '\\'), 1),
+                'type' => \substr(\is_string($exceptionType) ? $exceptionType : '', 1),
                 'code' => $exception->getCode(),
             ], $exception->getCode());
         }

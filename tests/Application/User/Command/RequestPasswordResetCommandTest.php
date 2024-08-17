@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Tests\Application\User\Command;
 
 use App\Application\User\Command\RequestPasswordResetCommand;
-use App\Domain\User\Entity\UserInterface;
+use App\Domain\User\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class RequestPasswordResetCommandTest extends TestCase
 {
     public function testConstructorSetsUser(): void
     {
-        $user = $this->createMock(UserInterface::class);
+        $user = $this->createMock(User::class);
         $command = new RequestPasswordResetCommand($user);
 
         $this->assertSame($user, $command->getUser());
@@ -20,10 +20,10 @@ class RequestPasswordResetCommandTest extends TestCase
 
     public function testGetUserReturnsUser(): void
     {
-        $user = $this->createMock(UserInterface::class);
+        $user = $this->createMock(User::class);
         $command = new RequestPasswordResetCommand($user);
 
-        $this->assertInstanceOf(UserInterface::class, $command->getUser());
+        $this->assertInstanceOf(User::class, $command->getUser());
         $this->assertSame($user, $command->getUser());
     }
 }

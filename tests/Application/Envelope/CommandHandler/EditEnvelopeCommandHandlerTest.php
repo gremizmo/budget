@@ -81,6 +81,9 @@ class EditEnvelopeCommandHandlerTest extends TestCase
         $this->editEnvelopeCommandHandler->__invoke($editEnvelopeCommand);
     }
 
+    /**
+     * @return array{withParent:array{EditEnvelopeCommand}, withoutParent: array{EditEnvelopeCommand}}
+     */
     public function envelopeDataProvider(): array
     {
         $parentEnvelope = $this->createMock(EnvelopeInterface::class);
@@ -88,14 +91,14 @@ class EditEnvelopeCommandHandlerTest extends TestCase
         $updateEnvelopeDto = $this->createMock(EditEnvelopeDtoInterface::class);
 
         return [
-            'with parent' => [
+            'withParent' => [
                 new EditEnvelopeCommand(
                     $envelope,
                     $updateEnvelopeDto,
                     $parentEnvelope
                 ),
             ],
-            'without parent' => [
+            'withoutParent' => [
                 new EditEnvelopeCommand(
                     $envelope,
                     $updateEnvelopeDto,

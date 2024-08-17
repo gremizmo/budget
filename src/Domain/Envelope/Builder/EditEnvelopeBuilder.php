@@ -14,16 +14,16 @@ use App\Domain\Envelope\Validator\TargetBudgetValidator;
 use App\Domain\Envelope\Validator\CurrentBudgetValidator;
 use App\Domain\Envelope\Validator\TitleValidator;
 
-readonly class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
+class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
 {
-    private ?EnvelopeInterface $envelope;
-    private ?EditEnvelopeDtoInterface $updateEnvelopeDto;
-    private ?EnvelopeInterface $parentEnvelope;
+    private EnvelopeInterface $envelope;
+    private EditEnvelopeDtoInterface $updateEnvelopeDto;
+    private ?EnvelopeInterface $parentEnvelope = null;
 
     public function __construct(
-        private TargetBudgetValidator $targetBudgetValidator,
-        private CurrentBudgetValidator $currentBudgetValidator,
-        private TitleValidator $titleValidator,
+        private readonly TargetBudgetValidator $targetBudgetValidator,
+        private readonly CurrentBudgetValidator $currentBudgetValidator,
+        private readonly TitleValidator $titleValidator,
     ) {
     }
 

@@ -17,6 +17,9 @@ class TargetBudgetValidatorTest extends TestCase
         $this->validator = new TargetBudgetValidator();
     }
 
+    /**
+     * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
+     */
     public function testValidateWithParentEnvelope(): void
     {
         $parentEnvelope = $this->createMock(EnvelopeInterface::class);
@@ -26,14 +29,17 @@ class TargetBudgetValidatorTest extends TestCase
 
         $this->validator->validate('100.00', $parentEnvelope);
 
-        $this->assertTrue(true); // No exception means the test passed
+        $this->assertTrue(true);
     }
 
+    /**
+     * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
+     */
     public function testValidateWithoutParentEnvelope(): void
     {
         $this->validator->validate('100.00', null);
 
-        $this->assertTrue(true); // No exception means the test passed
+        $this->assertTrue(true);
     }
 
     public function testValidateExceedsParentAvailableBudget(): void
@@ -48,6 +54,9 @@ class TargetBudgetValidatorTest extends TestCase
         $this->validator->validate('100.00', $parentEnvelope);
     }
 
+    /**
+     * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
+     */
     public function testValidateDoesNotExceedParentAvailableBudget(): void
     {
         $parentEnvelope = $this->createMock(EnvelopeInterface::class);
@@ -57,9 +66,12 @@ class TargetBudgetValidatorTest extends TestCase
 
         $this->validator->validate('100.00', $parentEnvelope);
 
-        $this->assertTrue(true); // No exception means the test passed
+        $this->assertTrue(true);
     }
 
+    /**
+     * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
+     */
     public function testValidateWithChildrenEnvelopes(): void
     {
         $childEnvelope = $this->createMock(EnvelopeInterface::class);
@@ -72,7 +84,7 @@ class TargetBudgetValidatorTest extends TestCase
 
         $this->validator->validate('100.00', $parentEnvelope);
 
-        $this->assertTrue(true); // No exception means the test passed
+        $this->assertTrue(true);
     }
 
     public function testValidateExceedsTotalChildrenTargetBudgets(): void
@@ -90,6 +102,9 @@ class TargetBudgetValidatorTest extends TestCase
         $this->validator->validate('100.00', $parentEnvelope);
     }
 
+    /**
+     * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
+     */
     public function testValidateWithNoChildrenEnvelopes(): void
     {
         $parentEnvelope = $this->createMock(EnvelopeInterface::class);
@@ -99,7 +114,7 @@ class TargetBudgetValidatorTest extends TestCase
 
         $this->validator->validate('100.00', $parentEnvelope);
 
-        $this->assertTrue(true); // No exception means the test passed
+        $this->assertTrue(true);
     }
 
     public function testValidateTotalChildrenTargetBudgetExceedsParentTargetBudget(): void
@@ -135,5 +150,19 @@ class TargetBudgetValidatorTest extends TestCase
         $currentEnvelope->method('getChildren')->willReturn(new EnvelopeCollection([$childEnvelope1, $childEnvelope2]));
 
         $this->validator->validate('100.00', parentEnvelope: null, currentEnvelope: $currentEnvelope);
+    }
+
+    public function testCalculateTotalChildrenCurrentBudgetReturnsZero(): void
+    {
+        $parentEnvelope = $this->createMock(EnvelopeInterface::class);
+        $parentEnvelope->method('getChildren')->willReturn([]);
+
+        $reflection = new \ReflectionClass(TargetBudgetValidator::class);
+        $method = $reflection->getMethod('calculateTotalChildrenCurrentBudget');
+        $method->setAccessible(true);
+
+        $result = $method->invoke($this->validator, $parentEnvelope);
+
+        $this->assertSame(0.00, $result);
     }
 }

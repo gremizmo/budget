@@ -21,9 +21,15 @@ class TitleValidator
      */
     public function validate(string $title, ?UserInterface $user = null, ?EnvelopeInterface $envelopeToUpdate = null): void
     {
-        $envelope = $this->queryBus->query(new GetEnvelopeByTitleQuery($title, $user ?? $envelopeToUpdate?->getUser()));
+        $envelopeToUpdateUser = $envelopeToUpdate?->getUser();
 
-        if ($envelope && $envelope->getId() !== $envelopeToUpdate?->getId()) {
+        if (!$user instanceof UserInterface && !$envelopeToUpdateUser instanceof UserInterface) {
+            return;
+        }
+
+        $envelope = $this->queryBus->query(new GetEnvelopeByTitleQuery($title, $user ?? $envelopeToUpdateUser));
+
+        if ($envelope instanceof EnvelopeInterface && $envelope->getId() !== $envelopeToUpdate?->getId()) {
             throw new EnvelopeTitleAlreadyExistsForUserException(EnvelopeTitleAlreadyExistsForUserException::MESSAGE, 400);
         }
     }

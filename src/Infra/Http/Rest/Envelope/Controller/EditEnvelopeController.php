@@ -51,15 +51,17 @@ class EditEnvelopeController extends AbstractController
                 new EditEnvelopeCommand(
                     $envelope,
                     $updateEnvelopeDto,
-                    $parentEnvelope,
+                    $parentEnvelope instanceof Envelope ? $parentEnvelope : null,
                 )
             );
         } catch (\Throwable $exception) {
             $this->logger->error('Failed to process Envelope update request: '.$exception->getMessage());
 
+            $exceptionType = \strrchr($exception::class, '\\');
+
             return $this->json([
                 'error' => $exception->getMessage(),
-                'type' => \substr(\strrchr($exception::class, '\\'), 1),
+                'type' => \substr(\is_string($exceptionType) ? $exceptionType : '', 1),
                 'code' => $exception->getCode(),
             ], $exception->getCode());
         }

@@ -54,10 +54,13 @@ class ShowEnvelopeQueryHandlerTest extends TestCase
 
         if (!$shouldLogError) {
             $this->assertInstanceOf(Envelope::class, $result);
-            $this->assertEquals($envelope->getId(), $result->getId());
+            $this->assertEquals($envelope?->getId(), $result->getId());
         }
     }
 
+    /**
+     * @return array{success:array{ShowEnvelopeQuery, Envelope, false}, failure:array{ShowEnvelopeQuery, null, true}}>
+     */
     public function envelopeDataProvider(): array
     {
         $envelope = new Envelope();

@@ -24,6 +24,9 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
     }
 
     /**
+     * @param array<string, string> $criteria
+     * @param array<string, string> $orderBy
+     *
      * @throws \Throwable
      */
     public function findOneBy(array $criteria, ?array $orderBy = null): ?Envelope
@@ -58,6 +61,9 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
     }
 
     /**
+     * @param array<string, string> $criteria
+     * @param array<string, string> $orderBy
+     *
      * @throws \Throwable
      */
     public function findBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): EnvelopesPaginatedInterface
@@ -68,10 +74,12 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
         $parentFilters = $this->filterByParent($criteria);
 
         $mustFilters[] = $userFilters;
-        $parentFilter = count($parentFilters['must']) > 0 ? $parentFilters['must'][0] : null;
-        if ($parentFilter) {
-            $mustFilters[] = $parentFilter;
+        $parentFilterMust = count($parentFilters['must']) > 0 ? $parentFilters['must'][0] : null;
+
+        if ($parentFilterMust) {
+            $mustFilters[] = $parentFilterMust;
         }
+
         $mustNotFilters = $parentFilters['must_not'] ?? [];
 
         $query->setRawQuery(
@@ -106,6 +114,11 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
         return $this->finder->findPaginated($query)->getNbResults();
     }
 
+    /**
+     * @param array<string, string> $criteria
+     *
+     * @return array<string, array<string, string>>
+     */
     private function filterById(array $criteria): array
     {
         if (!isset($criteria['id'])) {
@@ -115,6 +128,11 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
         return ['term' => ['id' => $criteria['id']]];
     }
 
+    /**
+     * @param array<string, string> $criteria
+     *
+     * @return array<string, array<string, string>>
+     */
     private function filterByTitle(array $criteria): array
     {
         if (!isset($criteria['title'])) {
@@ -124,6 +142,11 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
         return ['term' => ['title' => $criteria['title']]];
     }
 
+    /**
+     * @param array<string, string> $criteria
+     *
+     * @return array<string, array<int, array<string, array<string, string>>>>
+     */
     private function filterByParent(array $criteria): array
     {
         $filters = [
@@ -140,6 +163,11 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
         return $filters;
     }
 
+    /**
+     * @param array<string, string> $criteria
+     *
+     * @return array<string, array<string, string>>
+     */
     private function filterByUser(array $criteria): array
     {
         if (!isset($criteria['user'])) {

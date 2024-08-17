@@ -4,6 +4,9 @@ namespace App\Domain\Envelope\Dto;
 
 final readonly class ListEnvelopesDto implements ListEnvelopesDtoInterface
 {
+    /**
+     * @param array<string, string>|null $orderBy
+     */
     public function __construct(
         private ?array $orderBy = null,
         private ?int $limit = null,
@@ -12,6 +15,9 @@ final readonly class ListEnvelopesDto implements ListEnvelopesDtoInterface
     ) {
     }
 
+    /**
+     * @return array<string, string>|null
+     */
     public function getOrderBy(): ?array
     {
         return $this->orderBy;

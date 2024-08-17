@@ -42,9 +42,11 @@ class CreateUserController extends AbstractController
         } catch (\Throwable $exception) {
             $this->logger->error('Failed to process User creation request: '.$exception->getMessage());
 
+            $exceptionType = \strrchr($exception::class, '\\');
+
             return $this->json([
                 'error' => $exception->getMessage(),
-                'type' => \substr(\strrchr($exception::class, '\\'), 1),
+                'type' => \substr(\is_string($exceptionType) ? $exceptionType : '', 1),
                 'code' => $exception->getCode(),
             ], $exception->getCode());
         }

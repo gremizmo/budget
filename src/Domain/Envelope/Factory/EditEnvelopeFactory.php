@@ -8,6 +8,7 @@ use App\Domain\Envelope\Builder\EditEnvelopeBuilderInterface;
 use App\Domain\Envelope\Dto\EditEnvelopeDtoInterface;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
+use App\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
 use App\Domain\Envelope\Exception\SelfParentEnvelopeException;
 use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
 use App\Domain\Shared\Adapter\LoggerInterface;
@@ -24,6 +25,7 @@ readonly class EditEnvelopeFactory implements EditEnvelopeFactoryInterface
      * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
      * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
      * @throws SelfParentEnvelopeException
+     * @throws EnvelopeTitleAlreadyExistsForUserException
      */
     public function createFromDto(
         EnvelopeInterface $envelope,

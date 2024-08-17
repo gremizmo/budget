@@ -22,6 +22,9 @@ class UserQueryRepository extends Repository implements UserQueryRepositoryInter
     }
 
     /**
+     * @param array<string, mixed>       $criteria
+     * @param array<string, string>|null $orderBy
+     *
      * @throws \Throwable
      */
     public function findOneBy(array $criteria, ?array $orderBy = null): ?User
@@ -39,13 +42,5 @@ class UserQueryRepository extends Repository implements UserQueryRepositoryInter
         $user = reset($result);
 
         return $user instanceof User ? $user : null;
-    }
-
-    /**
-     * @throws \Throwable
-     */
-    public function findBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
-    {
-        return [];
     }
 }

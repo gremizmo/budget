@@ -14,5 +14,9 @@ interface EnvelopeQueryRepositoryInterface
      */
     public function findOneBy(array $criteria): ?EnvelopeInterface;
 
+    /**
+     * @param array<string, mixed>       $criteria
+     * @param array<string, string>|null $orderBy
+     */
     public function findBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): EnvelopesPaginatedInterface;
 }

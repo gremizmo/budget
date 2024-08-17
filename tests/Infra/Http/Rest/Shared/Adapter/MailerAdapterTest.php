@@ -44,7 +44,7 @@ class MailerAdapterTest extends TestCase
         $this->mailer->expects($this->once())->method('send')->with($this->callback(function (Email $email) use ($passwordResetUrl) {
             return 'user@example.com' === $email->getTo()[0]->getAddress()
                    && 'Password Reset Request' === $email->getSubject()
-                   && \str_contains($email->getHtmlBody(), $passwordResetUrl);
+                   && \str_contains((string) $email->getHtmlBody(), $passwordResetUrl);
         }));
 
         $this->mailerAdapter->sendPasswordResetEmail($this->user, $token);

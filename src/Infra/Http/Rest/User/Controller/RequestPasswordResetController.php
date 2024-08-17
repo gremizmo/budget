@@ -9,6 +9,7 @@ use App\Application\User\Query\ShowUserQuery;
 use App\Domain\Shared\Adapter\CommandBusInterface;
 use App\Domain\Shared\Adapter\QueryBusInterface;
 use App\Domain\User\Dto\RequestPasswordResetDto;
+use App\Domain\User\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,19 +28,17 @@ class RequestPasswordResetController extends AbstractController
     public function __invoke(#[MapRequestPayload] RequestPasswordResetDto $requestPasswordResetDto): JsonResponse
     {
         try {
-            $this->commandBus->execute(
-                new RequestPasswordResetCommand(
-                    $this->queryBus->query(
-                        new ShowUserQuery(
-                            $requestPasswordResetDto->getEmail(),
-                        ),
-                    ),
-                ),
-            );
+            $user = $this->queryBus->query(new ShowUserQuery($requestPasswordResetDto->getEmail()));
+
+            if ($user instanceof User) {
+                $this->commandBus->execute(new RequestPasswordResetCommand($user));
+            }
         } catch (\Exception $exception) {
+            $exceptionType = \strrchr($exception::class, '\\');
+
             return $this->json([
                 'error' => $exception->getMessage(),
-                'type' => \substr(\strrchr($exception::class, '\\'), 1),
+                'type' => \substr(\is_string($exceptionType) ? $exceptionType : '', 1),
                 'code' => $exception->getCode(),
             ], $exception->getCode());
         }

@@ -54,4 +54,14 @@ class TitleValidatorTest extends TestCase
 
         $this->assertTrue(true);
     }
+
+    public function testValidateUsersDontExist(): void
+    {
+        $title = 'Existing Title';
+        $existingEnvelope = $this->createMock(EnvelopeInterface::class);
+        $existingEnvelope->method('getId')->willReturn(1);
+        $this->assertTrue(true);
+
+        $this->titleValidator->validate($title);
+    }
 }

@@ -7,8 +7,9 @@ namespace App\Domain\User\Entity;
 use App\Domain\Envelope\Entity\EnvelopeCollectionInterface;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 
-class User implements UserInterface, \Symfony\Component\Security\Core\User\UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, SymfonyUserInterface, PasswordAuthenticatedUserInterface
 {
     private int $id;
     private string $email;
@@ -16,10 +17,12 @@ class User implements UserInterface, \Symfony\Component\Security\Core\User\UserI
     private string $firstname;
     private string $lastname;
     private bool $consentGiven;
+    /** @var array<string> */
     private array $roles = ['ROLE_USER'];
     private \DateTimeImmutable $consentDate;
     private \DateTimeImmutable $createdAt;
     private \DateTime $updatedAt;
+    /** @var array<int, EnvelopeInterface> */
     private EnvelopeCollectionInterface|iterable $envelopes;
     private ?string $passwordResetToken = null;
     private ?\DateTimeImmutable $passwordResetTokenExpiry = null;
@@ -109,11 +112,17 @@ class User implements UserInterface, \Symfony\Component\Security\Core\User\UserI
         return $this->consentDate;
     }
 
+    /**
+     * @return array<string>
+     */
     public function getRoles(): array
     {
         return $this->roles;
     }
 
+    /**
+     * @param array<string> $roles
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -152,11 +161,17 @@ class User implements UserInterface, \Symfony\Component\Security\Core\User\UserI
         return $this;
     }
 
+    /**
+     * @return array<int, EnvelopeInterface>
+     */
     public function getEnvelopes(): EnvelopeCollectionInterface|iterable
     {
         return $this->envelopes;
     }
 
+    /**
+     * @param array<int, EnvelopeInterface> $envelopes
+     */
     public function setEnvelopes(EnvelopeCollectionInterface|iterable $envelopes): self
     {
         $this->envelopes = $envelopes;
@@ -166,7 +181,7 @@ class User implements UserInterface, \Symfony\Component\Security\Core\User\UserI
 
     public function addEnvelope(EnvelopeInterface $envelope): self
     {
-        if (!$this->envelopes->contains($envelope)) {
+        if ($this->envelopes instanceof EnvelopeCollectionInterface && !$this->envelopes->contains($envelope)) {
             $this->envelopes->add($envelope);
             $envelope->setUser($this);
         }

@@ -33,16 +33,28 @@ interface UserInterface
 
     public function setConsentGiven(bool $consentGiven): self;
 
+    /**
+     * @return array<string>
+     */
     public function getRoles(): array;
 
+    /**
+     * @param array<string> $roles
+     */
     public function setRoles(array $roles): self;
 
     public function getConsentDate(): \DateTimeImmutable;
 
     public function setConsentDate(\DateTimeImmutable $consentDate): self;
 
+    /**
+     * @return array <int, EnvelopeInterface>
+     */
     public function getEnvelopes(): EnvelopeCollectionInterface|iterable;
 
+    /**
+     * @param array <int, EnvelopeInterface> $envelopes
+     */
     public function setEnvelopes(EnvelopeCollectionInterface|iterable $envelopes): self;
 
     public function getCreatedAt(): \DateTimeImmutable;
