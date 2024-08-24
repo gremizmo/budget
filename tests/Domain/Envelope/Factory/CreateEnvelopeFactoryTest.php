@@ -9,7 +9,8 @@ use App\Domain\Envelope\Dto\CreateEnvelopeDto;
 use App\Domain\Envelope\Entity\Envelope;
 use App\Domain\Envelope\Entity\EnvelopeCollection;
 use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
-use App\Domain\Envelope\Exception\SelfParentEnvelopeException;
+use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException;
+use App\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
 use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
 use App\Domain\Envelope\Factory\CreateEnvelopeFactory;
 use App\Domain\Envelope\Validator\CurrentBudgetValidator;
@@ -41,7 +42,7 @@ class CreateEnvelopeFactoryTest extends TestCase
     /**
      * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
      * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
-     * @throws SelfParentEnvelopeException
+     * @throws EnvelopeTitleAlreadyExistsForUserException
      */
     public function testCreateFromDtoSuccess(): void
     {
@@ -59,7 +60,7 @@ class CreateEnvelopeFactoryTest extends TestCase
     /**
      * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
      * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
-     * @throws SelfParentEnvelopeException
+     * @throws EnvelopeTitleAlreadyExistsForUserException
      */
     public function testCreateFromDtoFailureDueToChildrenTargetBudgetsExceedsParent(): void
     {
@@ -77,9 +78,9 @@ class CreateEnvelopeFactoryTest extends TestCase
     /**
      * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
      * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
-     * @throws SelfParentEnvelopeException
+     * @throws EnvelopeTitleAlreadyExistsForUserException
      */
-    public function testCreateFromDtoFailureDueToParentCurrentBudgetExceedsTarget(): void
+    public function testCreateFromDtoFailureDueToCurrentBudgetExceedsTarget(): void
     {
         $createEnvelopeDto = new CreateEnvelopeDto('Test Title', '250.00', '100.00');
         $parentEnvelope = new Envelope();
@@ -88,7 +89,7 @@ class CreateEnvelopeFactoryTest extends TestCase
 
         $user = new User();
 
-        $this->expectException(EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException::class);
+        $this->expectException(EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException::class);
 
         $this->createEnvelopeFactory->createFromDto($createEnvelopeDto, $parentEnvelope, $user);
     }

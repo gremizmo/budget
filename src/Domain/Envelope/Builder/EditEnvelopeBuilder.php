@@ -6,7 +6,9 @@ namespace App\Domain\Envelope\Builder;
 
 use App\Domain\Envelope\Dto\EditEnvelopeDtoInterface;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
+use App\Domain\Envelope\Exception\ChildrenCurrentBudgetExceedsCurrentEnvelopeCurrentBudgetException;
 use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
+use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException;
 use App\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
 use App\Domain\Envelope\Exception\SelfParentEnvelopeException;
 use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
@@ -53,6 +55,8 @@ class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
      * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
      * @throws SelfParentEnvelopeException
      * @throws EnvelopeTitleAlreadyExistsForUserException
+     * @throws ChildrenCurrentBudgetExceedsCurrentEnvelopeCurrentBudgetException
+     * @throws EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException
      */
     public function build(): EnvelopeInterface
     {
@@ -75,6 +79,8 @@ class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
      * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
      * @throws SelfParentEnvelopeException
      * @throws EnvelopeTitleAlreadyExistsForUserException
+     * @throws ChildrenCurrentBudgetExceedsCurrentEnvelopeCurrentBudgetException
+     * @throws EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException
      */
     private function validateInputs(): void
     {
@@ -84,7 +90,7 @@ class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
 
         $this->titleValidator->validate(title: $this->updateEnvelopeDto->getTitle(), envelopeToUpdate: $this->envelope);
         $this->targetBudgetValidator->validate($this->updateEnvelopeDto->getTargetBudget(), $this->parentEnvelope, $this->envelope);
-        $this->currentBudgetValidator->validate($this->updateEnvelopeDto->getCurrentBudget(), $this->parentEnvelope);
+        $this->currentBudgetValidator->validate($this->updateEnvelopeDto->getCurrentBudget(), $this->updateEnvelopeDto->getTargetBudget(), $this->parentEnvelope, $this->envelope);
     }
 
     private function calculateDifference(): float

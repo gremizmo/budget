@@ -9,6 +9,8 @@ use App\Domain\Envelope\Dto\EditEnvelopeDto;
 use App\Domain\Envelope\Entity\Envelope;
 use App\Domain\Envelope\Entity\EnvelopeCollection;
 use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
+use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException;
+use App\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
 use App\Domain\Envelope\Exception\SelfParentEnvelopeException;
 use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
 use App\Domain\Envelope\Factory\EditEnvelopeFactory;
@@ -38,7 +40,9 @@ class EditEnvelopeFactoryTest extends TestCase
     }
 
     /**
+     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
      * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
+     * @throws EnvelopeTitleAlreadyExistsForUserException
      * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
      * @throws SelfParentEnvelopeException
      */
@@ -59,7 +63,9 @@ class EditEnvelopeFactoryTest extends TestCase
     }
 
     /**
+     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
      * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
+     * @throws EnvelopeTitleAlreadyExistsForUserException
      * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
      * @throws SelfParentEnvelopeException
      */
@@ -80,11 +86,13 @@ class EditEnvelopeFactoryTest extends TestCase
     }
 
     /**
+     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
      * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
+     * @throws EnvelopeTitleAlreadyExistsForUserException
      * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
      * @throws SelfParentEnvelopeException
      */
-    public function testCreateFromDtoFailureDueToParentCurrentBudgetExceedsTarget(): void
+    public function testCreateFromDtoFailureDueToCurrentBudgetExceedsTarget(): void
     {
         $editEnvelopeDto = new EditEnvelopeDto('Test Title', '250.00', '100.00');
         $parentEnvelope = new Envelope();
@@ -95,19 +103,21 @@ class EditEnvelopeFactoryTest extends TestCase
         $envelope->setParent($parentEnvelope);
         $envelope->setId(2);
 
-        $this->expectException(EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException::class);
+        $this->expectException(EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException::class);
 
         $this->editEnvelopeFactory->createFromDto($envelope, $editEnvelopeDto, $parentEnvelope);
     }
 
     /**
+     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
      * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
+     * @throws EnvelopeTitleAlreadyExistsForUserException
      * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
      * @throws SelfParentEnvelopeException
      */
     public function testHandleParentChange(): void
     {
-        $editEnvelopeDto = new EditEnvelopeDto('Test Title', '150.00', '100.00');
+        $editEnvelopeDto = new EditEnvelopeDto('Test Title', '100.00', '150.00');
         $parentEnvelope = new Envelope();
         $parentEnvelope->setId(1);
         $parentEnvelope->setTargetBudget('200.00');
@@ -117,8 +127,8 @@ class EditEnvelopeFactoryTest extends TestCase
         $envelope = new Envelope();
         $envelope->setId(2);
         $envelope->setParent($parentEnvelope);
-        $envelope->setCurrentBudget('150.00');
-        $envelope->setTargetBudget('150.00');
+        $envelope->setCurrentBudget('50.00');
+        $envelope->setTargetBudget('50.00');
 
         $newParentEnvelope = new Envelope();
         $newParentEnvelope->setId(3);
@@ -128,7 +138,7 @@ class EditEnvelopeFactoryTest extends TestCase
 
         $this->editEnvelopeFactory->createFromDto($envelope, $editEnvelopeDto, $newParentEnvelope);
 
-        $this->assertEquals('0.00', $parentEnvelope->getCurrentBudget());
+        $this->assertEquals('100.00', $parentEnvelope->getCurrentBudget());
         $this->assertEquals('250.00', $newParentEnvelope->getCurrentBudget());
     }
 }

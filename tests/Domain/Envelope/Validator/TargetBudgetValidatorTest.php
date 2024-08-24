@@ -152,6 +152,9 @@ class TargetBudgetValidatorTest extends TestCase
         $this->validator->validate('100.00', parentEnvelope: null, currentEnvelope: $currentEnvelope);
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     public function testCalculateTotalChildrenCurrentBudgetReturnsZero(): void
     {
         $parentEnvelope = $this->createMock(EnvelopeInterface::class);
@@ -164,5 +167,23 @@ class TargetBudgetValidatorTest extends TestCase
         $result = $method->invoke($this->validator, $parentEnvelope);
 
         $this->assertSame(0.00, $result);
+    }
+
+    /**
+     * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
+     */
+    public function testValidateWithCurrentEnvelopeTargetBudgetGreaterThanNewTargetBudget(): void
+    {
+        $currentEnvelope = $this->createMock(EnvelopeInterface::class);
+        $currentEnvelope->method('getTargetBudget')->willReturn('300.00');
+
+        $parentEnvelope = $this->createMock(EnvelopeInterface::class);
+        $parentEnvelope->method('getTargetBudget')->willReturn('500.00');
+        $parentEnvelope->method('getCurrentBudget')->willReturn('100.00');
+        $parentEnvelope->method('getChildren')->willReturn(new EnvelopeCollection());
+
+        $this->validator->validate('200.00', $parentEnvelope, $currentEnvelope);
+
+        $this->assertTrue(true);
     }
 }

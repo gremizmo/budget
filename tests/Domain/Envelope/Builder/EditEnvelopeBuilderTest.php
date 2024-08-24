@@ -8,8 +8,11 @@ use App\Domain\Envelope\Builder\EditEnvelopeBuilder;
 use App\Domain\Envelope\Dto\EditEnvelopeDtoInterface;
 use App\Domain\Envelope\Entity\Envelope;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
+use App\Domain\Envelope\Exception\ChildrenCurrentBudgetExceedsCurrentEnvelopeCurrentBudgetException;
 use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
+use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException;
 use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
+use App\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
 use App\Domain\Envelope\Exception\SelfParentEnvelopeException;
 use App\Domain\Envelope\Validator\CurrentBudgetValidator;
 use App\Domain\Envelope\Validator\TargetBudgetValidator;
@@ -61,8 +64,12 @@ class EditEnvelopeBuilderTest extends TestCase
     }
 
     /**
-     * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
      * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
+     * @throws EnvelopeTitleAlreadyExistsForUserException
+     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws ChildrenCurrentBudgetExceedsCurrentEnvelopeCurrentBudgetException
+     * @throws EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException
      * @throws SelfParentEnvelopeException
      */
     public function testBuildSuccess(): void
@@ -90,7 +97,7 @@ class EditEnvelopeBuilderTest extends TestCase
 
         $this->currentBudgetValidator->expects($this->once())
             ->method('validate')
-            ->with('500.00', $parentEnvelope);
+            ->with('500.00', '1000.00', $parentEnvelope);
 
         $this->editEnvelopeBuilder->setUpdateEnvelopeDto($updateEnvelopeDto);
         $this->editEnvelopeBuilder->setParentEnvelope($parentEnvelope);
@@ -105,8 +112,12 @@ class EditEnvelopeBuilderTest extends TestCase
     }
 
     /**
-     * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
      * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
+     * @throws EnvelopeTitleAlreadyExistsForUserException
+     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws ChildrenCurrentBudgetExceedsCurrentEnvelopeCurrentBudgetException
+     * @throws EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException
      * @throws SelfParentEnvelopeException
      */
     public function testSelfParentEnvelopeException(): void
@@ -136,7 +147,12 @@ class EditEnvelopeBuilderTest extends TestCase
     }
 
     /**
+     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
      * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
+     * @throws EnvelopeTitleAlreadyExistsForUserException
+     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws ChildrenCurrentBudgetExceedsCurrentEnvelopeCurrentBudgetException
+     * @throws EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException
      * @throws SelfParentEnvelopeException
      */
     public function testBuildFailureDueToCurrentBudgetExceedsParentTarget(): void
@@ -162,7 +178,7 @@ class EditEnvelopeBuilderTest extends TestCase
 
         $this->currentBudgetValidator->expects($this->once())
             ->method('validate')
-            ->with('1500.00', $parentEnvelope)
+            ->with('1500.00', '1000.00', $parentEnvelope)
             ->willThrowException(new EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException(EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException::MESSAGE, 400));
 
         $this->editEnvelopeBuilder->setUpdateEnvelopeDto($updateEnvelopeDto);
@@ -175,7 +191,12 @@ class EditEnvelopeBuilderTest extends TestCase
     }
 
     /**
+     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
      * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
+     * @throws EnvelopeTitleAlreadyExistsForUserException
+     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws ChildrenCurrentBudgetExceedsCurrentEnvelopeCurrentBudgetException
+     * @throws EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException
      * @throws SelfParentEnvelopeException
      */
     public function testUpdateParentCurrentBudgetThrowsException(): void
@@ -201,7 +222,7 @@ class EditEnvelopeBuilderTest extends TestCase
 
         $this->currentBudgetValidator->expects($this->once())
             ->method('validate')
-            ->with('1500.00', $parentEnvelope);
+            ->with('1500.00', '1000.00', $parentEnvelope);
 
         $this->editEnvelopeBuilder->setUpdateEnvelopeDto($updateEnvelopeDto);
         $this->editEnvelopeBuilder->setParentEnvelope($parentEnvelope);
