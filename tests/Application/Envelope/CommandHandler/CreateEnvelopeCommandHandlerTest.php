@@ -88,6 +88,9 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
         $this->createEnvelopeCommandHandler->__invoke($createEnvelopeCommand);
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function envelopeDataProvider(): array
     {
         $parentEnvelope = new Envelope();

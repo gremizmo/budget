@@ -66,10 +66,6 @@ services:
     App\Application\User\QueryHandler\GetUserByPasswordResetTokenQueryHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\Infra\Http\Rest\Envelope\EventListener\EnvelopeEditListener:
-        tags:
-            - { name: 'doctrine.event_listener', event: 'preUpdate' }
-
     Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface:
         alias: 'security.password_hasher'
 

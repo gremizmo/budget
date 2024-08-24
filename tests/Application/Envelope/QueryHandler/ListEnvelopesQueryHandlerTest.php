@@ -8,6 +8,7 @@ use App\Application\Envelope\Query\ListEnvelopesQuery;
 use App\Application\Envelope\QueryHandler\ListEnvelopesQueryHandler;
 use App\Domain\Envelope\Dto\ListEnvelopesDto;
 use App\Domain\Envelope\Entity\Envelope;
+use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Entity\EnvelopesPaginated;
 use App\Domain\Envelope\Entity\EnvelopesPaginatedInterface;
 use App\Domain\Envelope\Repository\EnvelopeQueryRepositoryInterface;
@@ -30,6 +31,8 @@ class ListEnvelopesQueryHandlerTest extends TestCase
 
     /**
      * @dataProvider envelopeDataProvider
+     *
+     * @param array<EnvelopeInterface> $envelopes
      */
     public function testInvoke(ListEnvelopesQuery $query, array $envelopes, EnvelopesPaginatedInterface $envelopesPaginated): void
     {
@@ -46,6 +49,9 @@ class ListEnvelopesQueryHandlerTest extends TestCase
         $this->assertEquals($envelopesPaginated, $result);
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function envelopeDataProvider(): array
     {
         $envelope = new Envelope();

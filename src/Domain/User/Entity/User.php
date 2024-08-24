@@ -181,7 +181,7 @@ class User implements UserInterface, SymfonyUserInterface, PasswordAuthenticated
 
     public function addEnvelope(EnvelopeInterface $envelope): self
     {
-        if ($this->envelopes instanceof EnvelopeCollectionInterface && !$this->envelopes->contains($envelope)) {
+        if (!$this->envelopes->contains($envelope)) {
             $this->envelopes->add($envelope);
             $envelope->setUser($this);
         }

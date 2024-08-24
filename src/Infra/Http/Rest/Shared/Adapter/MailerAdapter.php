@@ -34,7 +34,7 @@ readonly class MailerAdapter implements MailerInterface
 
     private function generatePasswordResetUrl(string $token): string
     {
-        // TODO: Change this to your frontend URL
+        // TODO: Change this to frontend URL
         return $this->urlGeneratorAdapter->generate('app_user_reset_password', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
     }
 

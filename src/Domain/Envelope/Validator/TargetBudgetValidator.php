@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Envelope\Validator;
 
-use App\Domain\Envelope\Entity\EnvelopeCollectionInterface;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
 
@@ -16,12 +15,11 @@ class TargetBudgetValidator
     public function validate(string $targetBudget, ?EnvelopeInterface $parentEnvelope, ?EnvelopeInterface $currentEnvelope = null): void
     {
         $targetBudgetFloat = floatval($targetBudget);
-        $totalChildrenTargetBudget = $this->calculateTotalChildrenTargetBudget($parentEnvelope, $currentEnvelope);
 
         if ($parentEnvelope instanceof EnvelopeInterface) {
-            $this->validateParentEnvelope($targetBudgetFloat, $totalChildrenTargetBudget, $parentEnvelope, $currentEnvelope);
+            $this->validateParentEnvelope($targetBudgetFloat, $this->calculateTotalChildrenTargetBudgetOfParentEnvelope($parentEnvelope, $currentEnvelope), $parentEnvelope, $currentEnvelope);
         } elseif ($currentEnvelope instanceof EnvelopeInterface) {
-            $this->validateAgainstCurrentEnvelope($totalChildrenTargetBudget, $targetBudgetFloat);
+            $this->validateAgainstCurrentEnvelope($this->calculateTotalChildrenTargetBudgetOfParentEnvelope($parentEnvelope, $currentEnvelope), $targetBudgetFloat);
         }
     }
 
@@ -84,19 +82,15 @@ class TargetBudgetValidator
         }
     }
 
-    private function calculateTotalChildrenTargetBudget(?EnvelopeInterface $parentEnvelope, ?EnvelopeInterface $currentEnvelope): float
+    private function calculateTotalChildrenTargetBudgetOfParentEnvelope(?EnvelopeInterface $parentEnvelope, ?EnvelopeInterface $currentEnvelope): float
     {
-        $parentEnvelopeChildren = $parentEnvelope?->getChildren();
-        $currentEnvelopeChildren = $currentEnvelope?->getChildren();
-
-        // TODO: remove this check when the EnvelopeCollectionInterface issue is solved
-        if ($parentEnvelope instanceof EnvelopeInterface && $parentEnvelopeChildren instanceof EnvelopeCollectionInterface) {
-            return $parentEnvelopeChildren->reduce(
+        if ($parentEnvelope instanceof EnvelopeInterface) {
+            return $parentEnvelope->getChildren()->reduce(
                 fn (float $carry, EnvelopeInterface $child) => $child->getId() === $currentEnvelope?->getId() ? $carry : $carry + floatval($child->getTargetBudget()),
                 0.00
             );
-        } elseif ($currentEnvelope instanceof EnvelopeInterface && $currentEnvelopeChildren instanceof EnvelopeCollectionInterface) {
-            return $currentEnvelopeChildren->reduce(
+        } elseif ($currentEnvelope instanceof EnvelopeInterface) {
+            return $currentEnvelope->getChildren()->reduce(
                 fn (float $carry, EnvelopeInterface $child) => $carry + floatval($child->getTargetBudget()),
                 0.00
             );
@@ -109,14 +103,9 @@ class TargetBudgetValidator
     {
         $children = $parentEnvelope->getChildren();
 
-        // TODO: remove this check when the EnvelopeCollectionInterface issue is solved
-        if ($children instanceof EnvelopeCollectionInterface) {
-            return $children->reduce(
-                fn (float $carry, EnvelopeInterface $child) => $child->getId() === $currentEnvelope?->getId() ? $carry : $carry + floatval($child->getCurrentBudget()),
-                0.00
-            );
-        }
-
-        return 0.00;
+        return $children->reduce(
+            fn (float $carry, EnvelopeInterface $child) => $child->getId() === $currentEnvelope?->getId() ? $carry : $carry + floatval($child->getCurrentBudget()),
+            0.00
+        );
     }
 }

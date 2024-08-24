@@ -106,29 +106,9 @@ parameters:
 			path: src/Domain/Envelope/Entity/EnvelopeCollectionInterface.php
 
 		-
-			message: "#^Method App\\\\Domain\\\\Envelope\\\\Entity\\\\EnvelopeHistory\\:\\:__construct\\(\\) has parameter \\$changes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Domain/Envelope/Entity/EnvelopeHistory.php
-
-		-
-			message: "#^Method App\\\\Domain\\\\Envelope\\\\Entity\\\\EnvelopeHistory\\:\\:setChanges\\(\\) has parameter \\$changes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Domain/Envelope/Entity/EnvelopeHistory.php
-
-		-
-			message: "#^Property App\\\\Domain\\\\Envelope\\\\Entity\\\\EnvelopeHistory\\:\\:\\$changes type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Domain/Envelope/Entity/EnvelopeHistory.php
-
-		-
 			message: "#^Method App\\\\Domain\\\\Envelope\\\\Entity\\\\EnvelopeInterface\\:\\:getChildren\\(\\) return type has no value type specified in iterable type iterable\\.$#"
 			count: 1
 			path: src/Domain/Envelope/Entity/EnvelopeInterface.php
-
-		-
-			message: "#^Parameter \\#2 \\$changes of class App\\\\Domain\\\\Envelope\\\\Event\\\\EnvelopeEditedEvent constructor expects array\\{title\\?\\: array\\{new\\?\\: string, old\\?\\: string\\}, updatedAt\\?\\: array\\{new\\?\\: array\\{date\\?\\: string, timezone\\?\\: string, timezone_type\\?\\: int\\}, old\\?\\: array\\{date\\?\\: string, timezone\\?\\: string, timezone_type\\?\\: int\\}\\}, updatedBy\\?\\: array\\{new\\?\\: string, old\\?\\: string\\}, targetBudget\\?\\: array\\{new\\?\\: string, old\\?\\: string\\}, currentBudget\\?\\: array\\{new\\?\\: string, old\\?\\: string\\}\\}, non\\-empty\\-array\\<string, array\\{old\\: mixed, new\\: mixed\\}\\> given\\.$#"
-			count: 1
-			path: src/Infra/Http/Rest/Envelope/EventListener/EnvelopeEditListener.php
 
 		-
 			message: "#^Method App\\\\Infra\\\\Http\\\\Rest\\\\Envelope\\\\Serializer\\\\EnvelopeNormalizer\\:\\:normalize\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
@@ -149,23 +129,3 @@ parameters:
 			message: "#^Method App\\\\Infra\\\\Http\\\\Rest\\\\Envelope\\\\Serializer\\\\EnvelopeNormalizer\\:\\:supportsNormalization\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Infra/Http/Rest/Envelope/Serializer/EnvelopeNormalizer.php
-
-		-
-			message: "#^Method App\\\\Tests\\\\Application\\\\Envelope\\\\CommandHandler\\\\CreateEnvelopeCommandHandlerTest\\:\\:envelopeDataProvider\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Application/Envelope/CommandHandler/CreateEnvelopeCommandHandlerTest.php
-
-		-
-			message: "#^Method App\\\\Tests\\\\Application\\\\Envelope\\\\QueryHandler\\\\ListEnvelopesQueryHandlerTest\\:\\:envelopeDataProvider\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Application/Envelope/QueryHandler/ListEnvelopesQueryHandlerTest.php
-
-		-
-			message: "#^Method App\\\\Tests\\\\Application\\\\Envelope\\\\QueryHandler\\\\ListEnvelopesQueryHandlerTest\\:\\:testInvoke\\(\\) has parameter \\$envelopes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Application/Envelope/QueryHandler/ListEnvelopesQueryHandlerTest.php
-
-		-
-			message: "#^Cannot call method contains\\(\\) on App\\\\Domain\\\\Envelope\\\\Entity\\\\EnvelopeCollectionInterface\\|iterable\\.$#"
-			count: 1
-			path: tests/Domain/Envelope/Entity/EnvelopeTest.php

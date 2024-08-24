@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Envelope\Validator;
 
-use App\Domain\Envelope\Entity\EnvelopeCollectionInterface;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Exception\ChildrenCurrentBudgetExceedsCurrentEnvelopeCurrentBudgetException;
 use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException;
@@ -36,14 +35,9 @@ class CurrentBudgetValidator
     {
         $children = $currentEnvelope->getChildren();
 
-        // TODO: remove this check when the EnvelopeCollectionInterface issue is solved
-        if ($children instanceof EnvelopeCollectionInterface) {
-            return $children->reduce(
-                fn (float $carry, EnvelopeInterface $child) => $carry + floatval($child->getCurrentBudget()),
-                0.00
-            );
-        }
-
-        return 0.00;
+        return $children->reduce(
+            fn (float $carry, EnvelopeInterface $child) => $carry + floatval($child->getCurrentBudget()),
+            0.00
+        );
     }
 }
