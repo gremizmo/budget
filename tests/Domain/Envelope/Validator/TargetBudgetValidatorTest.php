@@ -158,7 +158,7 @@ class TargetBudgetValidatorTest extends TestCase
     public function testCalculateTotalChildrenCurrentBudgetReturnsZero(): void
     {
         $parentEnvelope = $this->createMock(EnvelopeInterface::class);
-        $parentEnvelope->method('getChildren')->willReturn([]);
+        $parentEnvelope->method('getChildren')->willReturn(new EnvelopeCollection());
 
         $reflection = new \ReflectionClass(TargetBudgetValidator::class);
         $method = $reflection->getMethod('calculateTotalChildrenCurrentBudget');

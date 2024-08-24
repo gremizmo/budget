@@ -35,7 +35,8 @@ class CurrentBudgetValidator
     {
         $children = $currentEnvelope->getChildren();
 
-        return $children->reduce(
+        return array_reduce(
+            $children->toArray(),
             fn (float $carry, EnvelopeInterface $child) => $carry + floatval($child->getCurrentBudget()),
             0.00
         );

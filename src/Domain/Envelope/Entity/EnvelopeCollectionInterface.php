@@ -15,13 +15,16 @@ interface EnvelopeCollectionInterface
 
     public function filter(\Closure $p): EnvelopeCollectionInterface;
 
-    public function reduce(\Closure $func, $initial = null);
+    public function reduce(\Closure $func, mixed $initial = null): mixed;
 
+    /**
+     * @return \Traversable<int, EnvelopeInterface>
+     */
     public function getIterator(): \Traversable;
 
     public function count(): int;
 
     public function contains(EnvelopeInterface $element): bool;
 
-    public function add(EnvelopeInterface $element): self;
+    public function add(EnvelopeInterface $element): void;
 }

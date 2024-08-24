@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Domain\User\Entity;
 
+use App\Domain\Envelope\Entity\EnvelopeCollection;
 use App\Domain\Envelope\Entity\EnvelopeCollectionInterface;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 
@@ -22,14 +24,13 @@ class User implements UserInterface, SymfonyUserInterface, PasswordAuthenticated
     private \DateTimeImmutable $consentDate;
     private \DateTimeImmutable $createdAt;
     private \DateTime $updatedAt;
-    /** @var array<int, EnvelopeInterface> */
-    private EnvelopeCollectionInterface|iterable $envelopes;
+    private Collection $envelopes;
     private ?string $passwordResetToken = null;
     private ?\DateTimeImmutable $passwordResetTokenExpiry = null;
 
     public function __construct()
     {
-        $this->envelopes = [];
+        $this->envelopes = new EnvelopeCollection();
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTime();
         $this->consentDate = new \DateTimeImmutable();
@@ -161,18 +162,12 @@ class User implements UserInterface, SymfonyUserInterface, PasswordAuthenticated
         return $this;
     }
 
-    /**
-     * @return array<int, EnvelopeInterface>
-     */
-    public function getEnvelopes(): EnvelopeCollectionInterface|iterable
+    public function getEnvelopes(): EnvelopeCollectionInterface
     {
         return $this->envelopes;
     }
 
-    /**
-     * @param array<int, EnvelopeInterface> $envelopes
-     */
-    public function setEnvelopes(EnvelopeCollectionInterface|iterable $envelopes): self
+    public function setEnvelopes(EnvelopeCollectionInterface $envelopes): self
     {
         $this->envelopes = $envelopes;
 

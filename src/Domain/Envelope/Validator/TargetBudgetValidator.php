@@ -85,12 +85,14 @@ class TargetBudgetValidator
     private function calculateTotalChildrenTargetBudgetOfParentEnvelope(?EnvelopeInterface $parentEnvelope, ?EnvelopeInterface $currentEnvelope): float
     {
         if ($parentEnvelope instanceof EnvelopeInterface) {
-            return $parentEnvelope->getChildren()->reduce(
+            return array_reduce(
+                $parentEnvelope->getChildren()->toArray(),
                 fn (float $carry, EnvelopeInterface $child) => $child->getId() === $currentEnvelope?->getId() ? $carry : $carry + floatval($child->getTargetBudget()),
                 0.00
             );
         } elseif ($currentEnvelope instanceof EnvelopeInterface) {
-            return $currentEnvelope->getChildren()->reduce(
+            return array_reduce(
+                $currentEnvelope->getChildren()->toArray(),
                 fn (float $carry, EnvelopeInterface $child) => $carry + floatval($child->getTargetBudget()),
                 0.00
             );
@@ -101,9 +103,8 @@ class TargetBudgetValidator
 
     private function calculateTotalChildrenCurrentBudget(EnvelopeInterface $parentEnvelope, ?EnvelopeInterface $currentEnvelope = null): float
     {
-        $children = $parentEnvelope->getChildren();
-
-        return $children->reduce(
+        return array_reduce(
+            $parentEnvelope->getChildren()->toArray(),
             fn (float $carry, EnvelopeInterface $child) => $child->getId() === $currentEnvelope?->getId() ? $carry : $carry + floatval($child->getCurrentBudget()),
             0.00
         );

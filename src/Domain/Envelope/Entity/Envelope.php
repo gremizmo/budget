@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Envelope\Entity;
 
 use App\Domain\User\Entity\UserInterface;
+use Doctrine\Common\Collections\Collection;
 
 class Envelope implements EnvelopeInterface
 {
@@ -15,12 +16,12 @@ class Envelope implements EnvelopeInterface
     private string $targetBudget = '0.00';
     private string $title = '';
     private ?EnvelopeInterface $parent = null;
-    private EnvelopeCollectionInterface|iterable $children;
+    private Collection $children;
     private UserInterface $user;
 
     public function __construct()
     {
-        $this->children = [];
+        $this->children = new EnvelopeCollection();
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTime();
     }
@@ -109,7 +110,7 @@ class Envelope implements EnvelopeInterface
         return $this;
     }
 
-    public function setChildren(EnvelopeCollectionInterface|iterable $envelopes): self
+    public function setChildren(EnvelopeCollectionInterface $envelopes): self
     {
         $this->children = $envelopes;
 
@@ -126,7 +127,7 @@ class Envelope implements EnvelopeInterface
         return $this;
     }
 
-    public function getChildren(): EnvelopeCollectionInterface|iterable
+    public function getChildren(): Collection
     {
         return $this->children;
     }

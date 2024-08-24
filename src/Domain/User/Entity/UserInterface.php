@@ -47,15 +47,9 @@ interface UserInterface
 
     public function setConsentDate(\DateTimeImmutable $consentDate): self;
 
-    /**
-     * @return array <int, EnvelopeInterface>
-     */
-    public function getEnvelopes(): EnvelopeCollectionInterface|iterable;
+    public function getEnvelopes(): EnvelopeCollectionInterface;
 
-    /**
-     * @param array <int, EnvelopeInterface> $envelopes
-     */
-    public function setEnvelopes(EnvelopeCollectionInterface|iterable $envelopes): self;
+    public function setEnvelopes(EnvelopeCollectionInterface $envelopes): self;
 
     public function getCreatedAt(): \DateTimeImmutable;
 

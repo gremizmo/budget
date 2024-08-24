@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Envelope\Entity;
 
 use App\Domain\User\Entity\UserInterface;
+use Doctrine\Common\Collections\Collection;
 
 interface EnvelopeInterface
 {
@@ -38,7 +39,7 @@ interface EnvelopeInterface
 
     public function addChild(EnvelopeInterface $child): self;
 
-    public function getChildren(): EnvelopeCollectionInterface|iterable;
+    public function getChildren(): Collection;
 
     public function getUser(): UserInterface;
 

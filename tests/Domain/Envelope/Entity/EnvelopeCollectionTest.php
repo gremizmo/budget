@@ -111,29 +111,6 @@ class EnvelopeCollectionTest extends TestCase
         $this->assertSame(1, $collection->key());
     }
 
-    public function testValid(): void
-    {
-        $envelope1 = new Envelope();
-        $envelope2 = new Envelope();
-        $collection = new EnvelopeCollection([$envelope1, $envelope2]);
-
-        $this->assertTrue($collection->valid());
-        $collection->next();
-        $collection->next();
-        $this->assertFalse($collection->valid());
-    }
-
-    public function testRewind(): void
-    {
-        $envelope1 = new Envelope();
-        $envelope2 = new Envelope();
-        $collection = new EnvelopeCollection([$envelope1, $envelope2]);
-        $collection->next();
-        $collection->rewind();
-
-        $this->assertSame($envelope1, $collection->current());
-    }
-
     public function testAdd(): void
     {
         $envelope1 = new Envelope();

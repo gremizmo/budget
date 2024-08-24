@@ -47,6 +47,7 @@ class CreateEnvelopeController extends AbstractController
                 ),
             );
         } catch (\Throwable $exception) {
+            dump($exception);
             $this->logger->error('Failed to process Envelope creation request: '.$exception->getMessage());
 
             $exceptionType = \strrchr($exception::class, '\\');

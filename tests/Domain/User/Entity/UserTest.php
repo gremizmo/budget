@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\User\Entity;
 
-use App\Domain\Envelope\Entity\EnvelopeCollectionInterface;
+use App\Domain\Envelope\Entity\EnvelopeCollection;
 use App\Domain\User\Entity\User;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
 use PHPUnit\Framework\TestCase;
@@ -105,7 +105,7 @@ class UserTest extends TestCase
     public function testGetSetEnvelopes(): void
     {
         $user = new User();
-        $envelopes = $this->createMock(EnvelopeCollectionInterface::class);
+        $envelopes = $this->createMock(EnvelopeCollection::class);
         $user->setEnvelopes($envelopes);
 
         $this->assertEquals($envelopes, $user->getEnvelopes());
@@ -115,7 +115,7 @@ class UserTest extends TestCase
     {
         $user = new User();
         $envelope = $this->createMock(EnvelopeInterface::class);
-        $envelopes = $this->createMock(EnvelopeCollectionInterface::class);
+        $envelopes = $this->createMock(EnvelopeCollection::class);
         $envelopes->expects($this->once())->method('contains')->with($envelope)->willReturn(false);
         $envelopes->expects($this->once())->method('add')->with($envelope);
         $user->setEnvelopes($envelopes);

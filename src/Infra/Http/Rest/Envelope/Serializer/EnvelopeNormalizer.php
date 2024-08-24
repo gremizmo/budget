@@ -6,6 +6,7 @@ namespace App\Infra\Http\Rest\Envelope\Serializer;
 
 use App\Domain\Envelope\Entity\Envelope;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 readonly class EnvelopeNormalizer implements NormalizerInterface
@@ -16,10 +17,22 @@ readonly class EnvelopeNormalizer implements NormalizerInterface
     ) {
     }
 
+    /**
+     * @param array<string, mixed> $context
+     *
+     * @return array<string, mixed>
+     *
+     * @throws ExceptionInterface
+     */
     public function normalize($object, ?string $format = null, array $context = []): array
     {
         $context['ignored_attributes'] = ['parent', 'children'];
         $data = $this->normalizer->normalize($object, $format, $context);
+
+        if (!\is_array($data)) {
+            $data = (array) $data;
+        }
+
         if (isset($data['user']) && \is_array($data['user'])) {
             unset(
                 $data['user']['password'],
@@ -38,6 +51,9 @@ readonly class EnvelopeNormalizer implements NormalizerInterface
         return $data;
     }
 
+    /**
+     * @param array<string, mixed> $context
+     */
     public function supportsNormalization($data, ?string $format = null, array $context = []): bool
     {
         return $data instanceof Envelope;

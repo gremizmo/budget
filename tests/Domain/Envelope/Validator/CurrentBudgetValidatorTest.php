@@ -47,7 +47,7 @@ class CurrentBudgetValidatorTest extends TestCase
         $childEnvelope->method('getCurrentBudget')->willReturn('300.00');
 
         $currentEnvelope = $this->createMock(EnvelopeInterface::class);
-        $currentEnvelope->method('getChildren')->willReturn([$childEnvelope]);
+        $currentEnvelope->method('getChildren')->willReturn(new EnvelopeCollection([$childEnvelope]));
 
         $this->validator->validate('300.00', '300.00', $parentEnvelope, $currentEnvelope);
     }
@@ -87,7 +87,7 @@ class CurrentBudgetValidatorTest extends TestCase
         $childEnvelope->method('getCurrentBudget')->willReturn('50.00');
 
         $currentEnvelope = $this->createMock(EnvelopeInterface::class);
-        $currentEnvelope->method('getChildren')->willReturn([$childEnvelope]);
+        $currentEnvelope->method('getChildren')->willReturn(new EnvelopeCollection([$childEnvelope]));
 
         $this->validator->validate('200.00', '250.00', $parentEnvelope, $currentEnvelope);
 
