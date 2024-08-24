@@ -45,6 +45,6 @@ class ListEnvelopesController extends AbstractController
             ], $exception->getCode());
         }
 
-        return $this->json($envelopes, Response::HTTP_ACCEPTED);
+        return $this->json($envelopes, Response::HTTP_OK);
     }
 }

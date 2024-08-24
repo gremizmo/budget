@@ -45,6 +45,9 @@ services:
     App\Application\User\CommandHandler\CreateUserCommandHandler:
         tags: [ 'messenger.message_handler' ]
 
+    App\Application\User\CommandHandler\EditUserCommandHandler:
+        tags: [ 'messenger.message_handler' ]
+
     App\Application\User\QueryHandler\ShowUserQueryHandler:
         tags: [ 'messenger.message_handler' ]
 

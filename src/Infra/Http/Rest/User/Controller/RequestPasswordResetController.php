@@ -10,6 +10,7 @@ use App\Domain\Shared\Adapter\CommandBusInterface;
 use App\Domain\Shared\Adapter\QueryBusInterface;
 use App\Domain\User\Dto\RequestPasswordResetDto;
 use App\Domain\User\Entity\User;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,6 +23,7 @@ class RequestPasswordResetController extends AbstractController
     public function __construct(
         private readonly QueryBusInterface $queryBus,
         private readonly CommandBusInterface $commandBus,
+        private readonly LoggerInterface $logger,
     ) {
     }
 
@@ -34,6 +36,7 @@ class RequestPasswordResetController extends AbstractController
                 $this->commandBus->execute(new RequestPasswordResetCommand($user));
             }
         } catch (\Exception $exception) {
+            $this->logger->error(\sprintf('Failed to process Password reset request: %s', $exception->getMessage()));
             $exceptionType = \strrchr($exception::class, '\\');
 
             return $this->json([

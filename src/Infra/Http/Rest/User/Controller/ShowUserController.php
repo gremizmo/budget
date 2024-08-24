@@ -23,10 +23,10 @@ class ShowUserController extends AbstractController
     }
 
     public function __invoke(
-        User $user,
+        int $id,
         #[CurrentUser] UserInterface $currentUser
     ): JsonResponse {
-        if ($user->getId() !== $currentUser->getId()) {
+        if ($id !== $currentUser->getId()) {
             $this->logger->error('Failed to process User getOne request: User not allowed to access this resource');
 
             return $this->json([
@@ -34,6 +34,6 @@ class ShowUserController extends AbstractController
             ], Response::HTTP_FORBIDDEN);
         }
 
-        return $this->json($user, Response::HTTP_OK);
+        return $this->json($currentUser, Response::HTTP_OK);
     }
 }

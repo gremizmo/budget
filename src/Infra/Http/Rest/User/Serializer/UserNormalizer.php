@@ -26,7 +26,7 @@ readonly class UserNormalizer implements NormalizerInterface
      */
     public function normalize($object, ?string $format = null, array $context = []): array
     {
-        $context['ignored_attributes'] = ['envelopes'];
+        $context['ignored_attributes'] = ['envelopes', 'passwordResetToken', 'passwordResetTokenExpiry'];
 
         $data = $this->normalizer->normalize($object, $format, $context);
         unset(

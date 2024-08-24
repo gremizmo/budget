@@ -26,7 +26,7 @@ class CreateUserFactoryTest extends TestCase
         );
 
         $factory = new CreateUserFactory($passwordHasher);
-        $user = $factory->createUser($createUserDto);
+        $user = $factory->createFromDto($createUserDto);
 
         $this->assertInstanceOf(User::class, $user);
         $this->assertEquals('John', $user->getFirstname());

@@ -7,22 +7,9 @@ namespace App\Domain\User\Dto;
 final readonly class EditUserDto implements EditUserDtoInterface
 {
     public function __construct(
-        public string $email,
-        public string $password,
         public string $firstname,
         public string $lastname,
-        public bool $consentGiven,
     ) {
-    }
-
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
-
-    public function getPassword(): string
-    {
-        return $this->password;
     }
 
     public function getFirstname(): string
@@ -33,10 +20,5 @@ final readonly class EditUserDto implements EditUserDtoInterface
     public function getLastname(): string
     {
         return $this->lastname;
-    }
-
-    public function isConsentGiven(): bool
-    {
-        return $this->consentGiven;
     }
 }

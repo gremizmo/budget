@@ -18,6 +18,6 @@ readonly class CreateUserCommandHandler
 
     public function __invoke(CreateUserCommand $command): void
     {
-        $this->userCommandRepository->save($this->userFactory->createUser($command->getCreateUserDto()));
+        $this->userCommandRepository->save($this->userFactory->createFromDto($command->getCreateUserDto()));
     }
 }

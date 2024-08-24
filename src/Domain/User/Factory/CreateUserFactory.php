@@ -15,7 +15,7 @@ readonly class CreateUserFactory implements CreateUserFactoryInterface
     {
     }
 
-    public function createUser(CreateUserDto $createUserDto): UserInterface
+    public function createFromDto(CreateUserDto $createUserDto): UserInterface
     {
         $user = new User();
 

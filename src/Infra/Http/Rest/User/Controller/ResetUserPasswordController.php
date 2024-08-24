@@ -11,6 +11,7 @@ use App\Domain\Shared\Adapter\QueryBusInterface;
 use App\Domain\User\Dto\ResetUserPasswordDto;
 use App\Domain\User\Entity\User;
 use App\Domain\User\Exception\UserPasswordResetTokenIsExpiredException;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,6 +24,7 @@ class ResetUserPasswordController extends AbstractController
     public function __construct(
         private readonly CommandBusInterface $commandBus,
         private readonly QueryBusInterface $queryBus,
+        private readonly LoggerInterface $logger,
     ) {
     }
 
@@ -38,6 +40,7 @@ class ResetUserPasswordController extends AbstractController
                 $this->commandBus->execute(new ResetUserPasswordCommand($resetUserPasswordDto, $user));
             }
         } catch (\Exception $exception) {
+            $this->logger->error(\sprintf('Failed to process Password reset: %s', $exception->getMessage()));
             $exceptionType = \strrchr($exception::class, '\\');
 
             return $this->json([

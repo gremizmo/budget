@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Infra\Http\Rest\Envelope\Controller;
 
 use App\Application\Envelope\Query\ShowEnvelopeQuery;
-use App\Domain\Envelope\Entity\Envelope;
 use App\Domain\Shared\Adapter\QueryBusInterface;
 use App\Domain\User\Entity\UserInterface;
 use Psr\Log\LoggerInterface;
@@ -27,11 +26,11 @@ class ShowEnvelopeController extends AbstractController
     }
 
     public function __invoke(
-        Envelope $envelope,
+        int $id,
         #[CurrentUser] UserInterface $user
     ): JsonResponse {
         try {
-            $envelope = $this->queryBus->query(new ShowEnvelopeQuery($envelope->getId(), $user));
+            $envelope = $this->queryBus->query(new ShowEnvelopeQuery($id, $user));
         } catch (\Throwable $exception) {
             $this->logger->error('Failed to process Envelope getOne request: '.$exception->getMessage());
 

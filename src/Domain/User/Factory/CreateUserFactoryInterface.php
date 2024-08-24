@@ -9,5 +9,5 @@ use App\Domain\User\Entity\UserInterface;
 
 interface CreateUserFactoryInterface
 {
-    public function createUser(CreateUserDto $createUserDto): UserInterface;
+    public function createFromDto(CreateUserDto $createUserDto): UserInterface;
 }
