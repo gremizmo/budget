@@ -12,6 +12,7 @@ use App\Domain\Envelope\Exception\EnvelopeNotFoundException;
 use App\Domain\Shared\Adapter\CommandBusInterface;
 use App\Domain\Shared\Adapter\QueryBusInterface;
 use App\Domain\User\Entity\UserInterface;
+use App\Infra\Http\Rest\Shared\Exception\CreateEnvelopeControllerException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -54,18 +55,12 @@ class EditEnvelopeController extends AbstractController
                     $parentEnvelope instanceof Envelope ? $parentEnvelope : null,
                 )
             );
-        } catch (\Throwable $exception) {
-            $this->logger->error('Failed to process Envelope update request: '.$exception->getMessage());
 
-            $exceptionType = \strrchr($exception::class, '\\');
+            return $this->json(['message' => 'Envelope edit request received'], Response::HTTP_OK);
+        }  catch (\Throwable $exception) {
+            $this->logger->error('Failed to process Envelope creation request: '.$exception->getMessage());
 
-            return $this->json([
-                'error' => $exception->getMessage(),
-                'type' => \substr(\is_string($exceptionType) ? $exceptionType : '', 1),
-                'code' => $exception->getCode(),
-            ], $exception->getCode());
+            throw new CreateEnvelopeControllerException(CreateEnvelopeControllerException::MESSAGE, $exception->getCode(), $exception);
         }
-
-        return $this->json(['message' => 'Envelope update request received'], Response::HTTP_ACCEPTED);
     }
 }

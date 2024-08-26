@@ -7,9 +7,7 @@ namespace App\Domain\Envelope\Factory;
 use App\Domain\Envelope\Builder\CreateEnvelopeBuilder;
 use App\Domain\Envelope\Dto\CreateEnvelopeDtoInterface;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
-use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
-use App\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
-use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
+use App\Domain\Envelope\Exception\Factory\CreateEnvelopeFactoryException;
 use App\Domain\Shared\Adapter\LoggerInterface;
 use App\Domain\User\Entity\UserInterface;
 
@@ -22,27 +20,24 @@ readonly class CreateEnvelopeFactory implements CreateEnvelopeFactoryInterface
     }
 
     /**
-     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
-     * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
-     * @throws EnvelopeTitleAlreadyExistsForUserException
+     * @throws CreateEnvelopeFactoryException
      */
     public function createFromDto(
         CreateEnvelopeDtoInterface $createEnvelopeDto,
         ?EnvelopeInterface $parentEnvelope,
         UserInterface $user,
     ): EnvelopeInterface {
-        $this->createEnvelopeBuilder->setCreateEnvelopeDto($createEnvelopeDto)
-            ->setParentEnvelope($parentEnvelope)
-            ->setUser($user);
-
         try {
-            return $this->createEnvelopeBuilder->build();
-        } catch (ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException|EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException $exception) {
+            return $this->createEnvelopeBuilder->setCreateEnvelopeDto($createEnvelopeDto)
+                ->setParentEnvelope($parentEnvelope)
+                ->setUser($user)
+                ->build();
+        } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage(), [
                 'exception' => $exception::class,
-                'code'      => $exception->getCode(),
+                'code' => $exception->getCode(),
             ]);
-            throw $exception;
+            throw new CreateEnvelopeFactoryException(CreateEnvelopeFactoryException::MESSAGE, $exception->getCode(), $exception);
         }
     }
 }

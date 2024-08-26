@@ -6,9 +6,6 @@ namespace App\Domain\Envelope\Builder;
 
 use App\Domain\Envelope\Dto\CreateEnvelopeDtoInterface;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
-use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
-use App\Domain\Envelope\Exception\SelfParentEnvelopeException;
-use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
 use App\Domain\User\Entity\UserInterface;
 
 interface CreateEnvelopeBuilderInterface
@@ -19,10 +16,5 @@ interface CreateEnvelopeBuilderInterface
 
     public function setUser(UserInterface $user): self;
 
-    /**
-     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
-     * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
-     * @throws SelfParentEnvelopeException
-     */
     public function build(): EnvelopeInterface;
 }

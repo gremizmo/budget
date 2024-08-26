@@ -8,14 +8,11 @@ use App\Domain\Envelope\Builder\CreateEnvelopeBuilder;
 use App\Domain\Envelope\Dto\CreateEnvelopeDto;
 use App\Domain\Envelope\Entity\Envelope;
 use App\Domain\Envelope\Entity\EnvelopeCollection;
-use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
-use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException;
-use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
-use App\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
+use App\Domain\Envelope\Exception\Factory\CreateEnvelopeFactoryException;
 use App\Domain\Envelope\Factory\CreateEnvelopeFactory;
-use App\Domain\Envelope\Validator\CurrentBudgetValidator;
-use App\Domain\Envelope\Validator\TargetBudgetValidator;
-use App\Domain\Envelope\Validator\TitleValidator;
+use App\Domain\Envelope\Validator\EditEnvelopeCurrentBudgetValidator;
+use App\Domain\Envelope\Validator\EditEnvelopeTargetBudgetValidator;
+use App\Domain\Envelope\Validator\EditEnvelopeTitleValidator;
 use App\Domain\Shared\Adapter\LoggerInterface;
 use App\Domain\User\Entity\User;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -30,9 +27,9 @@ class CreateEnvelopeFactoryTest extends TestCase
     protected function setUp(): void
     {
         $this->logger = $this->createMock(LoggerInterface::class);
-        $targetBudgetValidator = new TargetBudgetValidator();
-        $currentBudgetValidator = new CurrentBudgetValidator();
-        $this->createEnvelopeBuilder = new CreateEnvelopeBuilder($targetBudgetValidator, $currentBudgetValidator, $this->createMock(TitleValidator::class));
+        $targetBudgetValidator = new EditEnvelopeTargetBudgetValidator();
+        $currentBudgetValidator = new EditEnvelopeCurrentBudgetValidator();
+        $this->createEnvelopeBuilder = new CreateEnvelopeBuilder($targetBudgetValidator, $currentBudgetValidator, $this->createMock(EditEnvelopeTitleValidator::class));
         $this->createEnvelopeFactory = new CreateEnvelopeFactory(
             $this->logger,
             $this->createEnvelopeBuilder
@@ -40,9 +37,7 @@ class CreateEnvelopeFactoryTest extends TestCase
     }
 
     /**
-     * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
-     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
-     * @throws EnvelopeTitleAlreadyExistsForUserException
+     * @throws CreateEnvelopeFactoryException
      */
     public function testCreateFromDtoSuccess(): void
     {
@@ -58,9 +53,7 @@ class CreateEnvelopeFactoryTest extends TestCase
     }
 
     /**
-     * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
-     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
-     * @throws EnvelopeTitleAlreadyExistsForUserException
+     * @throws CreateEnvelopeFactoryException
      */
     public function testCreateFromDtoFailureDueToChildrenTargetBudgetsExceedsParent(): void
     {
@@ -70,15 +63,13 @@ class CreateEnvelopeFactoryTest extends TestCase
         $parentEnvelope->setChildren(new EnvelopeCollection());
         $user = new User();
 
-        $this->expectException(ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException::class);
+        $this->expectException(CreateEnvelopeFactoryException::class);
 
         $this->createEnvelopeFactory->createFromDto($createEnvelopeDto, $parentEnvelope, $user);
     }
 
     /**
-     * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
-     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
-     * @throws EnvelopeTitleAlreadyExistsForUserException
+     * @throws CreateEnvelopeFactoryException
      */
     public function testCreateFromDtoFailureDueToCurrentBudgetExceedsTarget(): void
     {
@@ -89,7 +80,7 @@ class CreateEnvelopeFactoryTest extends TestCase
 
         $user = new User();
 
-        $this->expectException(EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException::class);
+        $this->expectException(CreateEnvelopeFactoryException::class);
 
         $this->createEnvelopeFactory->createFromDto($createEnvelopeDto, $parentEnvelope, $user);
     }

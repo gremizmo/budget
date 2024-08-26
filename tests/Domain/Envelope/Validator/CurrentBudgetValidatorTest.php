@@ -9,16 +9,16 @@ use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Exception\ChildrenCurrentBudgetExceedsCurrentEnvelopeCurrentBudgetException;
 use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException;
 use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
-use App\Domain\Envelope\Validator\CurrentBudgetValidator;
+use App\Domain\Envelope\Validator\EditEnvelopeCurrentBudgetValidator;
 use PHPUnit\Framework\TestCase;
 
 class CurrentBudgetValidatorTest extends TestCase
 {
-    private CurrentBudgetValidator $validator;
+    private EditEnvelopeCurrentBudgetValidator $validator;
 
     protected function setUp(): void
     {
-        $this->validator = new CurrentBudgetValidator();
+        $this->validator = new EditEnvelopeCurrentBudgetValidator();
     }
 
     /**

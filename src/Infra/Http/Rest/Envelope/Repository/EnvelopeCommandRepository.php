@@ -35,7 +35,10 @@ class EnvelopeCommandRepository extends ServiceEntityRepository implements Envel
             $this->em->persist($envelope);
             $this->em->flush();
         } catch (\Throwable $exception) {
-            $this->logger->error($exception->getMessage());
+            $this->logger->error($exception->getMessage(), [
+                'exception' => $exception::class,
+                'code' => $exception->getCode(),
+            ]);
             throw new EnvelopeCommandRepositoryException(sprintf('%s on method save', EnvelopeCommandRepositoryException::MESSAGE), $exception->getCode(), $exception);
         }
     }
@@ -49,8 +52,11 @@ class EnvelopeCommandRepository extends ServiceEntityRepository implements Envel
             $this->em->remove($envelope);
             $this->em->flush();
         } catch (\Throwable $exception) {
-            $this->logger->error($exception->getMessage());
-            throw new EnvelopeCommandRepositoryException(sprintf('%s on method delete', EnvelopeCommandRepositoryException::MESSAGE), $exception->getCode(), $exception);
+            $this->logger->error($exception->getMessage(), [
+                'exception' => $exception::class,
+                'code' => $exception->getCode(),
+            ]);
+            throw new EnvelopeCommandRepositoryException(sprintf('%s on method delete', EnvelopeCommandRepositoryException::MESSAGE), $exception->getCode(), $exception->getPrevious());
         }
     }
 }

@@ -76,3 +76,7 @@ services:
     App\Infra\Http\Rest\Envelope\Repository\EnvelopeQueryRepository:
         arguments:
             $finder: '@fos_elastica.finder.envelope'
+
+    App\Infra\Http\Rest\Shared\EventListener\ExceptionListener:
+        tags:
+            - { name: 'kernel.event_listener', event: 'kernel.exception' }

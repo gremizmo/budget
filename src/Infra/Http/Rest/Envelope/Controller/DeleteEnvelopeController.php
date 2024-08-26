@@ -54,6 +54,6 @@ class DeleteEnvelopeController extends AbstractController
             ], $exception->getCode());
         }
 
-        return $this->json(['message' => 'Envelope delete request received'], Response::HTTP_ACCEPTED);
+        return $this->json(['message' => 'Envelope delete request received'], Response::HTTP_OK);
     }
 }

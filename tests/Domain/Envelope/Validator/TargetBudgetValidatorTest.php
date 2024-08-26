@@ -5,16 +5,16 @@ namespace App\Tests\Domain\Envelope\Validator;
 use App\Domain\Envelope\Entity\EnvelopeCollection;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
-use App\Domain\Envelope\Validator\TargetBudgetValidator;
+use App\Domain\Envelope\Validator\EditEnvelopeTargetBudgetValidator;
 use PHPUnit\Framework\TestCase;
 
 class TargetBudgetValidatorTest extends TestCase
 {
-    private TargetBudgetValidator $validator;
+    private EditEnvelopeTargetBudgetValidator $validator;
 
     protected function setUp(): void
     {
-        $this->validator = new TargetBudgetValidator();
+        $this->validator = new EditEnvelopeTargetBudgetValidator();
     }
 
     /**
@@ -160,7 +160,7 @@ class TargetBudgetValidatorTest extends TestCase
         $parentEnvelope = $this->createMock(EnvelopeInterface::class);
         $parentEnvelope->method('getChildren')->willReturn(new EnvelopeCollection());
 
-        $reflection = new \ReflectionClass(TargetBudgetValidator::class);
+        $reflection = new \ReflectionClass(EditEnvelopeTargetBudgetValidator::class);
         $method = $reflection->getMethod('calculateTotalChildrenCurrentBudget');
         $method->setAccessible(true);
 

@@ -5,7 +5,7 @@ namespace App\Tests\Domain\Envelope\Validator;
 use App\Application\Envelope\Query\GetEnvelopeByTitleQuery;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
-use App\Domain\Envelope\Validator\TitleValidator;
+use App\Domain\Envelope\Validator\EditEnvelopeTitleValidator;
 use App\Domain\Shared\Adapter\QueryBusInterface;
 use App\Domain\User\Entity\UserInterface;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -14,12 +14,12 @@ use PHPUnit\Framework\TestCase;
 class TitleValidatorTest extends TestCase
 {
     private QueryBusInterface&MockObject $queryBus;
-    private TitleValidator $titleValidator;
+    private EditEnvelopeTitleValidator $titleValidator;
 
     protected function setUp(): void
     {
         $this->queryBus = $this->createMock(QueryBusInterface::class);
-        $this->titleValidator = new TitleValidator($this->queryBus);
+        $this->titleValidator = new EditEnvelopeTitleValidator($this->queryBus);
     }
 
     public function testValidateThrowsExceptionWhenTitleAlreadyExists(): void

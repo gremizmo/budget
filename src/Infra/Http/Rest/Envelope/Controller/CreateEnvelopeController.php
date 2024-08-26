@@ -11,6 +11,8 @@ use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Shared\Adapter\CommandBusInterface;
 use App\Domain\Shared\Adapter\QueryBusInterface;
 use App\Domain\User\Entity\UserInterface;
+use App\Infra\Http\Rest\Shared\Exception\CreateEnvelopeControllerException;
+use App\Infra\Http\Rest\Shared\Exception\EditEnvelopeControllerException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -31,6 +33,9 @@ class CreateEnvelopeController extends AbstractController
     ) {
     }
 
+    /**
+     * @throws CreateEnvelopeControllerException
+     */
     public function __invoke(
         #[MapRequestPayload] CreateEnvelopeDto $createEnvelopeDto,
         #[CurrentUser] UserInterface $user,
@@ -46,19 +51,12 @@ class CreateEnvelopeController extends AbstractController
                     $parentEnvelope instanceof EnvelopeInterface ? $parentEnvelope : null,
                 ),
             );
+
+            return $this->json(['message' => 'Envelope creation request received'], Response::HTTP_OK);
         } catch (\Throwable $exception) {
-            dump($exception);
             $this->logger->error('Failed to process Envelope creation request: '.$exception->getMessage());
 
-            $exceptionType = \strrchr($exception::class, '\\');
-
-            return $this->json([
-                'error' => $exception->getMessage(),
-                'type' => \substr(\is_string($exceptionType) ? $exceptionType : '', 1),
-                'code' => $exception->getCode(),
-            ], $exception->getCode());
+            throw new EditEnvelopeControllerException(EditEnvelopeControllerException::MESSAGE, $exception->getCode(), $exception);
         }
-
-        return $this->json(['message' => 'Envelope creation request received'], Response::HTTP_ACCEPTED);
     }
 }

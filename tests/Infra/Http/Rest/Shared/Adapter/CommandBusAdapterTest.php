@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Infra\Http\Rest\Shared\Adapter;
 
+use App\Domain\Envelope\Exception\Adapter\CommandBusAdapterException;
 use App\Domain\Shared\Command\CommandInterface;
 use App\Infra\Http\Rest\Shared\Adapter\CommandBusAdapter;
 use PHPUnit\Framework\TestCase;
@@ -14,7 +15,7 @@ use Symfony\Component\Messenger\Envelope;
 class CommandBusAdapterTest extends TestCase
 {
     /**
-     * @throws \Throwable
+     * @throws CommandBusAdapterException
      */
     public function testExecute(): void
     {
@@ -32,7 +33,7 @@ class CommandBusAdapterTest extends TestCase
     }
 
     /**
-     * @throws ExceptionInterface
+     * @throws CommandBusAdapterException
      */
     public function testExecuteThrowsException(): void
     {
@@ -51,16 +52,16 @@ class CommandBusAdapterTest extends TestCase
     }
 
     /**
-     * @throws \Throwable
+     * @throws CommandBusAdapterException
      */
     public function testExecuteThrowsPreviousException(): void
     {
-        $this->expectException(ExceptionInterface::class);
+        $this->expectException(CommandBusAdapterException::class);
 
         $messageBus = $this->createMock(MessageBusInterface::class);
         $command = $this->createMock(CommandInterface::class);
         $previousException = $this->createMock(ExceptionInterface::class);
-        $exception = new \Exception('Dispatch failed', 0, $previousException);
+        $exception = new CommandBusAdapterException('Dispatch failed', 0, $previousException);
 
         $messageBus->expects($this->once())
             ->method('dispatch')

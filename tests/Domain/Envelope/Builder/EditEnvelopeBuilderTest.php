@@ -14,24 +14,24 @@ use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsEnvelopeTargetBudg
 use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
 use App\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
 use App\Domain\Envelope\Exception\SelfParentEnvelopeException;
-use App\Domain\Envelope\Validator\CurrentBudgetValidator;
-use App\Domain\Envelope\Validator\TargetBudgetValidator;
-use App\Domain\Envelope\Validator\TitleValidator;
+use App\Domain\Envelope\Validator\EditEnvelopeCurrentBudgetValidator;
+use App\Domain\Envelope\Validator\EditEnvelopeTargetBudgetValidator;
+use App\Domain\Envelope\Validator\EditEnvelopeTitleValidator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class EditEnvelopeBuilderTest extends TestCase
 {
-    private TargetBudgetValidator&MockObject $targetBudgetValidator;
-    private CurrentBudgetValidator&MockObject $currentBudgetValidator;
+    private EditEnvelopeTargetBudgetValidator&MockObject $targetBudgetValidator;
+    private EditEnvelopeCurrentBudgetValidator&MockObject $currentBudgetValidator;
     private EditEnvelopeBuilder $editEnvelopeBuilder;
-    private TitleValidator&MockObject $titleValidator;
+    private EditEnvelopeTitleValidator&MockObject $titleValidator;
 
     protected function setUp(): void
     {
-        $this->targetBudgetValidator = $this->createMock(TargetBudgetValidator::class);
-        $this->currentBudgetValidator = $this->createMock(CurrentBudgetValidator::class);
-        $this->titleValidator = $this->createMock(TitleValidator::class);
+        $this->targetBudgetValidator = $this->createMock(EditEnvelopeTargetBudgetValidator::class);
+        $this->currentBudgetValidator = $this->createMock(EditEnvelopeCurrentBudgetValidator::class);
+        $this->titleValidator = $this->createMock(EditEnvelopeTitleValidator::class);
         $this->editEnvelopeBuilder = new EditEnvelopeBuilder(
             $this->targetBudgetValidator,
             $this->currentBudgetValidator,

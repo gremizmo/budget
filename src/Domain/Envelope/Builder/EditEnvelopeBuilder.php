@@ -6,26 +6,24 @@ namespace App\Domain\Envelope\Builder;
 
 use App\Domain\Envelope\Dto\EditEnvelopeDtoInterface;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
-use App\Domain\Envelope\Exception\ChildrenCurrentBudgetExceedsCurrentEnvelopeCurrentBudgetException;
-use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
-use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException;
-use App\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
+use App\Domain\Envelope\Exception\Builder\EditEnvelopeBuilderException;
 use App\Domain\Envelope\Exception\SelfParentEnvelopeException;
-use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
-use App\Domain\Envelope\Validator\TargetBudgetValidator;
-use App\Domain\Envelope\Validator\CurrentBudgetValidator;
-use App\Domain\Envelope\Validator\TitleValidator;
+use App\Domain\Envelope\Validator\EditEnvelopeTargetBudgetValidator;
+use App\Domain\Envelope\Validator\EditEnvelopeCurrentBudgetValidator;
+use App\Domain\Envelope\Validator\EditEnvelopeTitleValidator;
+use App\Domain\Shared\Adapter\LoggerInterface;
 
 class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
 {
     private EnvelopeInterface $envelope;
     private EditEnvelopeDtoInterface $updateEnvelopeDto;
-    private ?EnvelopeInterface $parentEnvelope = null;
+    private ?EnvelopeInterface $newParentEnvelope = null;
 
     public function __construct(
-        private readonly TargetBudgetValidator $targetBudgetValidator,
-        private readonly CurrentBudgetValidator $currentBudgetValidator,
-        private readonly TitleValidator $titleValidator,
+        private readonly EditEnvelopeTargetBudgetValidator $targetBudgetValidator,
+        private readonly EditEnvelopeCurrentBudgetValidator $currentBudgetValidator,
+        private readonly EditEnvelopeTitleValidator $titleValidator,
+        private readonly LoggerInterface $logger,
     ) {
     }
 
@@ -43,123 +41,53 @@ class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
         return $this;
     }
 
-    public function setParentEnvelope(?EnvelopeInterface $parentEnvelope): self
+    public function setParentEnvelope(?EnvelopeInterface $newParentEnvelope): self
     {
-        $this->parentEnvelope = $parentEnvelope;
+        $this->newParentEnvelope = $newParentEnvelope;
 
         return $this;
     }
 
     /**
-     * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
-     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
-     * @throws SelfParentEnvelopeException
-     * @throws EnvelopeTitleAlreadyExistsForUserException
-     * @throws ChildrenCurrentBudgetExceedsCurrentEnvelopeCurrentBudgetException
-     * @throws EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException
+     * @throws EditEnvelopeBuilderException
      */
     public function build(): EnvelopeInterface
     {
-        $this->validateInputs();
+        try {
+            if ($this->newParentEnvelope?->getId() === $this->envelope->getId()) {
+                throw new SelfParentEnvelopeException('Envelope cannot be its own parent.', 400);
+            }
 
-        $difference = $this->calculateDifference();
-        $oldEnvelopeParentId = $this->envelope->getParent()?->getId();
+            $this->titleValidator->validate($this->updateEnvelopeDto->getTitle(), $this->envelope);
+            $this->targetBudgetValidator->validate($this->updateEnvelopeDto->getTargetBudget(), $this->envelope, $this->newParentEnvelope);
+            $this->currentBudgetValidator->validate($this->updateEnvelopeDto->getCurrentBudget(), $this->updateEnvelopeDto->getTargetBudget(), $this->envelope, $this->newParentEnvelope);
+            $oldParentEnvelopeId = $this->envelope->getParent()->getId();
 
-        $this->handleParentChange($oldEnvelopeParentId);
+            if ($oldParentEnvelopeId !== $this->newParentEnvelope?->getId()) {
+                $this->envelope->getParent()->updateAncestorsCurrentBudget(-floatval($this->envelope->getCurrentBudget()));
+            }
 
-        $this->updateEnvelopeProperties();
+            $difference = floatval($this->updateEnvelopeDto->getCurrentBudget()) - floatval($this->envelope->getCurrentBudget());
 
-        $this->updateBudgets($difference, $oldEnvelopeParentId);
+            if (0.0 !== $difference && $this->newParentEnvelope instanceof EnvelopeInterface) {
+                $this->newParentEnvelope->updateAncestorsCurrentBudget($difference);
+            }
 
-        return $this->envelope;
-    }
+            if ($this->newParentEnvelope instanceof EnvelopeInterface && $oldParentEnvelopeId !== $this->newParentEnvelope->getId()) {
+                $this->newParentEnvelope->updateAncestorsCurrentBudget(floatval($this->envelope->getCurrentBudget()));
+            }
 
-    /**
-     * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
-     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
-     * @throws SelfParentEnvelopeException
-     * @throws EnvelopeTitleAlreadyExistsForUserException
-     * @throws ChildrenCurrentBudgetExceedsCurrentEnvelopeCurrentBudgetException
-     * @throws EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException
-     */
-    private function validateInputs(): void
-    {
-        if ($this->parentEnvelope?->getId() === $this->envelope->getId()) {
-            throw new SelfParentEnvelopeException('Envelope cannot be its own parent.', 400);
+            return $this->envelope->setParent($this->newParentEnvelope)
+                ->setTitle($this->updateEnvelopeDto->getTitle())
+                ->setCurrentBudget($this->updateEnvelopeDto->getCurrentBudget())
+                ->setTargetBudget($this->updateEnvelopeDto->getTargetBudget())
+                ->setUpdatedAt(new \DateTime('now'));
+        } catch (\Exception $exception) {
+            $this->logger->error($exception->getMessage(), [
+                'exception' => $exception::class,
+                'code'      => $exception->getCode(),
+            ]);
+            throw new EditEnvelopeBuilderException(EditEnvelopeBuilderException::MESSAGE, $exception->getCode(), $exception);
         }
-
-        $this->titleValidator->validate(title: $this->updateEnvelopeDto->getTitle(), envelopeToUpdate: $this->envelope);
-        $this->targetBudgetValidator->validate($this->updateEnvelopeDto->getTargetBudget(), $this->parentEnvelope, $this->envelope);
-        $this->currentBudgetValidator->validate($this->updateEnvelopeDto->getCurrentBudget(), $this->updateEnvelopeDto->getTargetBudget(), $this->parentEnvelope, $this->envelope);
-    }
-
-    private function calculateDifference(): float
-    {
-        return floatval($this->updateEnvelopeDto->getCurrentBudget()) - floatval($this->envelope->getCurrentBudget());
-    }
-
-    /**
-     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
-     */
-    private function handleParentChange(?int $oldEnvelopeParentId): void
-    {
-        if ($this->envelope->getParent() && $oldEnvelopeParentId !== $this->parentEnvelope?->getId()) {
-            $this->updateAncestorsCurrentBudget($this->envelope->getParent(), -floatval($this->envelope->getCurrentBudget()));
-        }
-    }
-
-    private function updateEnvelopeProperties(): void
-    {
-        $this->envelope->setParent($this->parentEnvelope)
-            ->setTitle($this->updateEnvelopeDto->getTitle())
-            ->setCurrentBudget($this->updateEnvelopeDto->getCurrentBudget())
-            ->setTargetBudget($this->updateEnvelopeDto->getTargetBudget())
-            ->setUpdatedAt(new \DateTime('now'));
-    }
-
-    /**
-     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
-     */
-    private function updateBudgets(float $difference, ?int $oldEnvelopeParentId): void
-    {
-        if (0.0 !== $difference && $this->parentEnvelope) {
-            $this->updateParentCurrentBudget($difference);
-        }
-
-        if ($this->envelope->getParent() && $oldEnvelopeParentId !== $this->parentEnvelope?->getId()) {
-            $this->updateAncestorsCurrentBudget($this->envelope->getParent(), floatval($this->envelope->getCurrentBudget()));
-        }
-    }
-
-    /**
-     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
-     */
-    private function updateParentCurrentBudget(float $difference): void
-    {
-        $this->updateAncestorsCurrentBudget($this->parentEnvelope, $difference);
-    }
-
-    /**
-     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
-     */
-    private function updateAncestorsCurrentBudget(?EnvelopeInterface $envelope, float $difference): void
-    {
-        if (null === $envelope) {
-            return;
-        }
-
-        $envelope->setCurrentBudget(
-            \number_format(
-                num: \floatval($envelope->getCurrentBudget()) + $difference,
-                decimals: 2,
-                thousands_separator: ''
-            )
-        );
-
-        if ($envelope->getCurrentBudget() > $envelope->getTargetBudget()) {
-            throw new EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException(EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException::MESSAGE, 400);
-        }
-
-        $this->updateAncestorsCurrentBudget($envelope->getParent(), $difference);
     }
 }

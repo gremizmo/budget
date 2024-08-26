@@ -8,30 +8,26 @@ use App\Domain\Envelope\Builder\CreateEnvelopeBuilder;
 use App\Domain\Envelope\Dto\CreateEnvelopeDtoInterface;
 use App\Domain\Envelope\Entity\Envelope;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
-use App\Domain\Envelope\Exception\ChildrenCurrentBudgetExceedsCurrentEnvelopeCurrentBudgetException;
-use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
-use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException;
-use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
-use App\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
-use App\Domain\Envelope\Validator\CurrentBudgetValidator;
-use App\Domain\Envelope\Validator\TargetBudgetValidator;
-use App\Domain\Envelope\Validator\TitleValidator;
+use App\Domain\Envelope\Exception\Builder\CreateEnvelopeBuilderException;
+use App\Domain\Envelope\Validator\EditEnvelopeCurrentBudgetValidator;
+use App\Domain\Envelope\Validator\EditEnvelopeTargetBudgetValidator;
+use App\Domain\Envelope\Validator\EditEnvelopeTitleValidator;
 use App\Domain\User\Entity\UserInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class CreateEnvelopeBuilderTest extends TestCase
 {
-    private TargetBudgetValidator&MockObject $targetBudgetValidator;
-    private CurrentBudgetValidator&MockObject $currentBudgetValidator;
-    private TitleValidator&MockObject $titleValidator;
+    private EditEnvelopeTargetBudgetValidator&MockObject $targetBudgetValidator;
+    private EditEnvelopeCurrentBudgetValidator&MockObject $currentBudgetValidator;
+    private EditEnvelopeTitleValidator&MockObject $titleValidator;
     private CreateEnvelopeBuilder $createEnvelopeBuilder;
 
     protected function setUp(): void
     {
-        $this->targetBudgetValidator = $this->createMock(TargetBudgetValidator::class);
-        $this->currentBudgetValidator = $this->createMock(CurrentBudgetValidator::class);
-        $this->titleValidator = $this->createMock(TitleValidator::class);
+        $this->targetBudgetValidator = $this->createMock(EditEnvelopeTargetBudgetValidator::class);
+        $this->currentBudgetValidator = $this->createMock(EditEnvelopeCurrentBudgetValidator::class);
+        $this->titleValidator = $this->createMock(EditEnvelopeTitleValidator::class);
         $this->createEnvelopeBuilder = new CreateEnvelopeBuilder(
             $this->targetBudgetValidator,
             $this->currentBudgetValidator,
@@ -64,12 +60,7 @@ class CreateEnvelopeBuilderTest extends TestCase
     }
 
     /**
-     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
-     * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
-     * @throws EnvelopeTitleAlreadyExistsForUserException
-     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
-     * @throws ChildrenCurrentBudgetExceedsCurrentEnvelopeCurrentBudgetException
-     * @throws EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException
+     * @throws CreateEnvelopeBuilderException
      */
     public function testBuildSuccess(): void
     {
@@ -102,12 +93,7 @@ class CreateEnvelopeBuilderTest extends TestCase
     }
 
     /**
-     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
-     * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
-     * @throws EnvelopeTitleAlreadyExistsForUserException
-     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
-     * @throws ChildrenCurrentBudgetExceedsCurrentEnvelopeCurrentBudgetException
-     * @throws EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException
+     * @throws CreateEnvelopeBuilderException
      */
     public function testBuildFailureDueToCurrentBudgetExceedsParentTarget(): void
     {
@@ -130,23 +116,18 @@ class CreateEnvelopeBuilderTest extends TestCase
         $this->currentBudgetValidator->expects($this->once())
             ->method('validate')
             ->with('1500.00', '1000.00', $parentEnvelope)
-            ->willThrowException(new EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException(EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException::MESSAGE, 400));
+            ->willThrowException(new CreateEnvelopeBuilderException(CreateEnvelopeBuilderException::MESSAGE, 400));
 
         $this->createEnvelopeBuilder->setCreateEnvelopeDto($createEnvelopeDto);
         $this->createEnvelopeBuilder->setParentEnvelope($parentEnvelope);
 
-        $this->expectException(EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException::class);
+        $this->expectException(CreateEnvelopeBuilderException::class);
 
         $this->createEnvelopeBuilder->build();
     }
 
     /**
-     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
-     * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
-     * @throws EnvelopeTitleAlreadyExistsForUserException
-     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
-     * @throws ChildrenCurrentBudgetExceedsCurrentEnvelopeCurrentBudgetException
-     * @throws EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException
+     * @throws CreateEnvelopeBuilderException
      */
     public function testUpdateParentCurrentBudgetThrowsException(): void
     {
@@ -179,7 +160,7 @@ class CreateEnvelopeBuilderTest extends TestCase
         $this->createEnvelopeBuilder->setUser($user);
         $this->createEnvelopeBuilder->setParentEnvelope($parentEnvelope);
 
-        $this->expectException(EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException::class);
+        $this->expectException(CreateEnvelopeBuilderException::class);
 
         $this->createEnvelopeBuilder->build();
     }

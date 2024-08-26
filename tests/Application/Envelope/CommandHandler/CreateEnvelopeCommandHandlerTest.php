@@ -10,7 +10,7 @@ use App\Domain\Envelope\Dto\CreateEnvelopeDto;
 use App\Domain\Envelope\Entity\Envelope;
 use App\Domain\Envelope\Entity\EnvelopeCollection;
 use App\Domain\Envelope\Entity\EnvelopeInterface;
-use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
+use App\Domain\Envelope\Exception\CommandHandler\CreateEnvelopeCommandHandlerException;
 use App\Domain\Envelope\Factory\CreateEnvelopeFactoryInterface;
 use App\Domain\Envelope\Repository\EnvelopeCommandRepositoryInterface;
 use App\Domain\User\Entity\User;
@@ -72,7 +72,7 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
             $parentEnvelope,
         );
 
-        $exception = new ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException(ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException::MESSAGE, 400);
+        $exception = new CreateEnvelopeCommandHandlerException(CreateEnvelopeCommandHandlerException::MESSAGE, 400);
 
         $this->createEnvelopeFactoryMock->expects($this->once())
             ->method('createFromDto')
@@ -83,7 +83,7 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
             )
             ->willThrowException($exception);
 
-        $this->expectException(ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException::class);
+        $this->expectException(CreateEnvelopeCommandHandlerException::class);
 
         $this->createEnvelopeCommandHandler->__invoke($createEnvelopeCommand);
     }
