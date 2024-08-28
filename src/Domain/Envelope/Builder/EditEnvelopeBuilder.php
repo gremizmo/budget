@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Domain\Envelope\Builder;
 
 use App\Domain\Envelope\Dto\EditEnvelopeDtoInterface;
-use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Exception\Builder\EditEnvelopeBuilderException;
 use App\Domain\Envelope\Exception\SelfParentEnvelopeException;
-use App\Domain\Envelope\Validator\EditEnvelopeTargetBudgetValidator;
+use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Envelope\Validator\EditEnvelopeCurrentBudgetValidator;
+use App\Domain\Envelope\Validator\EditEnvelopeTargetBudgetValidator;
 use App\Domain\Envelope\Validator\EditEnvelopeTitleValidator;
 use App\Domain\Shared\Adapter\LoggerInterface;
 

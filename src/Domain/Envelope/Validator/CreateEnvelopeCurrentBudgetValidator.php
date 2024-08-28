@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Domain\Envelope\Validator;
 
-use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException;
 use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
+use App\Domain\Envelope\Model\EnvelopeInterface;
 
 class CreateEnvelopeCurrentBudgetValidator
 {

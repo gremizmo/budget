@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infra\Http\Rest\Envelope\Serializer;
 
-use App\Domain\Envelope\Entity\Envelope;
+use App\Infra\Http\Rest\Envelope\Entity\Envelope;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;

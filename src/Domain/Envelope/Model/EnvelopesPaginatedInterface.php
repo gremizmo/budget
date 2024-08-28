@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Envelope\Entity;
+namespace App\Domain\Envelope\Model;
 
 interface EnvelopesPaginatedInterface
 {

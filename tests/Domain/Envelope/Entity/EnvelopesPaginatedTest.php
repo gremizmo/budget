@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\Envelope\Entity;
 
-use App\Domain\Envelope\Entity\Envelope;
-use App\Domain\Envelope\Entity\EnvelopesPaginated;
+use App\Domain\Envelope\Model\EnvelopesPaginated;
+use App\Infra\Http\Rest\Envelope\Entity\Envelope;
 use PHPUnit\Framework\TestCase;
 
 class EnvelopesPaginatedTest extends TestCase

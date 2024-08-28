@@ -6,7 +6,7 @@ namespace App\Tests\Application\Envelope\Command;
 
 use App\Application\Envelope\Command\EditEnvelopeCommand;
 use App\Domain\Envelope\Dto\EditEnvelopeDto;
-use App\Domain\Envelope\Entity\Envelope;
+use App\Infra\Http\Rest\Envelope\Entity\Envelope;
 use PHPUnit\Framework\TestCase;
 
 class UpdateEnvelopeCommandTest extends TestCase

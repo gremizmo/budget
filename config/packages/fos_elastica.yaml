@@ -6,7 +6,7 @@ fos_elastica:
             index_name: envelope_%kernel.environment%
             persistence:
                 driver: orm
-                model: App\Domain\Envelope\Entity\Envelope
+                model: App\Infra\Http\Rest\Envelope\Entity\Envelope
                 listener:
                     insert: true
                     update: true

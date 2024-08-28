@@ -20,7 +20,7 @@ doctrine:
                 type: xml
                 is_bundle: false
                 dir: '%kernel.project_dir%/config/doctrine/envelope'
-                prefix: 'App\Domain\Envelope\Entity'
+                prefix: 'App\Infra\Http\Rest\Envelope\Entity'
                 alias: Envelope
             User:
                 type: xml

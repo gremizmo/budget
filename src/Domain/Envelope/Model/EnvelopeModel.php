@@ -2,32 +2,30 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Envelope\Entity;
+namespace App\Domain\Envelope\Model;
 
 use App\Domain\Envelope\Exception\ChildrenCurrentBudgetExceedsCurrentEnvelopeCurrentBudgetException;
 use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
 use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException;
 use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
+use App\Domain\Shared\Model\Collection;
 use App\Domain\User\Entity\UserInterface;
-use Doctrine\Common\Collections\Collection;
 
-class Envelope implements EnvelopeInterface
+class EnvelopeModel implements EnvelopeInterface
 {
-    private int $id;
-    private \DateTimeImmutable $createdAt;
-    private \DateTime $updatedAt;
-    private string $currentBudget = '0.00';
-    private string $targetBudget = '0.00';
-    private string $title = '';
-    private ?EnvelopeInterface $parent = null;
-    private Collection $children;
-    private UserInterface $user;
+    protected int $id;
+    protected \DateTimeImmutable $createdAt;
+    protected \DateTime $updatedAt;
+    protected string $currentBudget;
+    protected string $targetBudget;
+    protected string $title;
+    protected ?EnvelopeInterface $parent = null;
+    protected \ArrayAccess|\IteratorAggregate|\Serializable|\Countable $children;
+    protected UserInterface $user;
 
     public function __construct()
     {
-        $this->children = new EnvelopeCollection();
-        $this->createdAt = new \DateTimeImmutable();
-        $this->updatedAt = new \DateTime();
+        $this->children = new Collection();
     }
 
     public function getId(): int
@@ -35,60 +33,9 @@ class Envelope implements EnvelopeInterface
         return $this->id;
     }
 
-    public function setId(int $id): self
+    public function getChildren(): \ArrayAccess|\IteratorAggregate|\Serializable|\Countable
     {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    public function getParent(): ?EnvelopeInterface
-    {
-        return $this->parent;
-    }
-
-    public function setParent(?EnvelopeInterface $parent = null): self
-    {
-        $this->parent = $parent;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): \DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): \DateTime
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTime $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-        $this->getParent()?->setUpdatedAt($updatedAt);
-
-        return $this;
-    }
-
-    public function getCurrentBudget(): string
-    {
-        return $this->currentBudget;
-    }
-
-    public function setCurrentBudget(string $currentBudget): self
-    {
-        $this->currentBudget = $currentBudget;
-
-        return $this;
+        return $this->children;
     }
 
     public function getTargetBudget(): string
@@ -96,55 +43,19 @@ class Envelope implements EnvelopeInterface
         return $this->targetBudget;
     }
 
-    public function setTargetBudget(string $targetBudget): self
+    public function getCurrentBudget(): string
     {
-        $this->targetBudget = $targetBudget;
-
-        return $this;
+        return $this->currentBudget;
     }
 
-    public function getTitle(): string
+    public function getParent(): ?EnvelopeInterface
     {
-        return $this->title;
+        return $this->parent;
     }
 
-    public function setTitle(string $title): self
+    public function setCurrentBudget(string $currentBudget): self
     {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    public function setChildren(EnvelopeCollectionInterface $envelopes): self
-    {
-        $this->children = $envelopes;
-
-        return $this;
-    }
-
-    public function addChild(EnvelopeInterface $child): self
-    {
-        if (!$this->getChildren()->contains($child)) {
-            $this->getChildren()->add($child);
-            $child->setParent($this);
-        }
-
-        return $this;
-    }
-
-    public function getChildren(): Collection
-    {
-        return $this->children;
-    }
-
-    public function getUser(): UserInterface
-    {
-        return $this->user;
-    }
-
-    public function setUser(UserInterface $user): self
-    {
-        $this->user = $user;
+        $this->currentBudget = $currentBudget;
 
         return $this;
     }
@@ -176,15 +87,6 @@ class Envelope implements EnvelopeInterface
         );
     }
 
-    public function calculateTotalChildrenTargetBudgetOfParentEnvelope(?EnvelopeInterface $envelopeToUpdate = null): float
-    {
-        return array_reduce(
-            $this->getChildren()->toArray(),
-            fn (float $carry, EnvelopeInterface $child) => $child->getId() === $envelopeToUpdate?->getId() ? $carry : $carry + floatval($child->getTargetBudget()),
-            0.00,
-        );
-    }
-
     public function calculateTotalChildrenTargetBudget(): float
     {
         return array_reduce(
@@ -202,9 +104,9 @@ class Envelope implements EnvelopeInterface
     /**
      * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
      */
-    public function validateAgainstParentAvailableTargetBudget(float $targetBudgetFloat, float $availableTargetBudget, float $envelopeToUpdateTargetBudget): void
+    public function validateAgainstParentAvailableTargetBudget(float $targetBudget, float $availableTargetBudget, float $envelopeToUpdateTargetBudget): void
     {
-        if ($targetBudgetFloat !== $envelopeToUpdateTargetBudget && ($targetBudgetFloat - $envelopeToUpdateTargetBudget) > $availableTargetBudget) {
+        if ($targetBudget !== $envelopeToUpdateTargetBudget && ($targetBudget - $envelopeToUpdateTargetBudget) > $availableTargetBudget) {
             throw new ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException(ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException::MESSAGE, 400);
         }
     }
@@ -222,9 +124,9 @@ class Envelope implements EnvelopeInterface
     /**
      * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
      */
-    public function validateAgainstCurrentEnvelope(float $totalChildrenTargetBudget, float $targetBudgetFloat): void
+    public function validateAgainstCurrentEnvelope(float $totalChildrenTargetBudget, float $targetBudget): void
     {
-        if ($totalChildrenTargetBudget > $targetBudgetFloat) {
+        if ($totalChildrenTargetBudget > $targetBudget) {
             throw new ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException(ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException::MESSAGE, 400);
         }
     }
@@ -232,9 +134,9 @@ class Envelope implements EnvelopeInterface
     /**
      * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
      */
-    public function validateMaxAllowedTargetBudgetAvailable(EnvelopeInterface $envelopeToUpdate, float $targetBudgetFloat): void
+    public function validateMaxAllowedTargetBudgetAvailable(EnvelopeInterface $envelope, float $targetBudget): void
     {
-        if ($targetBudgetFloat > $this->calculateMaxAllowableTargetBudget($envelopeToUpdate)) {
+        if (($this->getTargetBudget() < $targetBudget + floatval($this->getCurrentBudget())) && floatval($envelope->getTargetBudget()) !== $targetBudget) {
             throw new ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException(ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException::MESSAGE, 400);
         }
     }
@@ -292,15 +194,5 @@ class Envelope implements EnvelopeInterface
         }
 
         $this->getParent()?->updateAncestorsCurrentBudget($currentBudget);
-    }
-
-    private function calculateMaxAllowableTargetBudget(EnvelopeInterface $envelopeToUpdate): float
-    {
-        return floatval($this->getTargetBudget()) - (floatval($this->getCurrentBudget()) + $this->calculateTotalChildrenBudgetDiff($envelopeToUpdate)) + floatval($envelopeToUpdate->getCurrentBudget());
-    }
-
-    private function calculateTotalChildrenBudgetDiff(EnvelopeInterface $envelopeToUpdate): float
-    {
-        return $this->calculateTotalChildrenTargetBudgetOfParentEnvelope($envelopeToUpdate) - $this->calculateTotalChildrenCurrentBudgetOfParentEnvelope($envelopeToUpdate);
     }
 }

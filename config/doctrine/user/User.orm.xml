@@ -19,8 +19,7 @@
         <field name="roles" type="json" column="roles"/>
         <field name="passwordResetToken" type="string" column="password_reset_token" length="64" nullable="true"/>
         <field name="passwordResetTokenExpiry" type="datetime_immutable" column="password_reset_token_expiry" nullable="true"/>
-
-        <one-to-many field="envelopes" target-entity="App\Domain\Envelope\Entity\Envelope" mapped-by="user">
+        <one-to-many field="envelopes" target-entity="App\Infra\Http\Rest\Envelope\Entity\Envelope" mapped-by="user">
             <cascade>
                 <cascade-persist/>
                 <cascade-remove/>

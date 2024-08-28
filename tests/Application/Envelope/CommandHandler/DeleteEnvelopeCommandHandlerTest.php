@@ -6,8 +6,8 @@ namespace App\Tests\Application\Envelope\CommandHandler;
 
 use App\Application\Envelope\Command\DeleteEnvelopeCommand;
 use App\Application\Envelope\CommandHandler\DeleteEnvelopeCommandHandler;
-use App\Domain\Envelope\Entity\Envelope;
 use App\Domain\Envelope\Repository\EnvelopeCommandRepositoryInterface;
+use App\Infra\Http\Rest\Envelope\Entity\Envelope;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 

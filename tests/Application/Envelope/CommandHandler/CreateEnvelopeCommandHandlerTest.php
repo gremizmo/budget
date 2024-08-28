@@ -7,14 +7,14 @@ namespace App\Tests\Application\Envelope\CommandHandler;
 use App\Application\Envelope\Command\CreateEnvelopeCommand;
 use App\Application\Envelope\CommandHandler\CreateEnvelopeCommandHandler;
 use App\Domain\Envelope\Dto\CreateEnvelopeDto;
-use App\Domain\Envelope\Entity\Envelope;
 use App\Domain\Envelope\Entity\EnvelopeCollection;
-use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Exception\CommandHandler\CreateEnvelopeCommandHandlerException;
 use App\Domain\Envelope\Factory\CreateEnvelopeFactoryInterface;
+use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Envelope\Repository\EnvelopeCommandRepositoryInterface;
 use App\Domain\User\Entity\User;
 use App\Domain\User\Entity\UserInterface;
+use App\Infra\Http\Rest\Envelope\Entity\Envelope;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 

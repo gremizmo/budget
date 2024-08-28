@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Application\Envelope\QueryHandler;
 
 use App\Application\Envelope\Query\ShowEnvelopeQuery;
-use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Exception\EnvelopeNotFoundException;
+use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Envelope\Repository\EnvelopeQueryRepositoryInterface;
 use App\Domain\Shared\Adapter\LoggerInterface;
 

@@ -6,17 +6,17 @@ namespace App\Tests\Domain\Envelope\Builder;
 
 use App\Domain\Envelope\Builder\EditEnvelopeBuilder;
 use App\Domain\Envelope\Dto\EditEnvelopeDtoInterface;
-use App\Domain\Envelope\Entity\Envelope;
-use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Exception\ChildrenCurrentBudgetExceedsCurrentEnvelopeCurrentBudgetException;
 use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
 use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException;
 use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
 use App\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
 use App\Domain\Envelope\Exception\SelfParentEnvelopeException;
+use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Envelope\Validator\EditEnvelopeCurrentBudgetValidator;
 use App\Domain\Envelope\Validator\EditEnvelopeTargetBudgetValidator;
 use App\Domain\Envelope\Validator\EditEnvelopeTitleValidator;
+use App\Infra\Http\Rest\Envelope\Entity\Envelope;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 

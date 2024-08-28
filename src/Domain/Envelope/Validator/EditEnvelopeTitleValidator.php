@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Domain\Envelope\Validator;
 
 use App\Application\Envelope\Query\GetEnvelopeByTitleQuery;
-use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
+use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Shared\Adapter\QueryBusInterface;
 
 readonly class EditEnvelopeTitleValidator

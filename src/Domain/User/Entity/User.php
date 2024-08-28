@@ -6,7 +6,7 @@ namespace App\Domain\User\Entity;
 
 use App\Domain\Envelope\Entity\EnvelopeCollection;
 use App\Domain\Envelope\Entity\EnvelopeCollectionInterface;
-use App\Domain\Envelope\Entity\EnvelopeInterface;
+use App\Domain\Envelope\Model\EnvelopeInterface;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Envelope\Entity;
+namespace App\Domain\Envelope\Model;
 
 class EnvelopesPaginated implements EnvelopesPaginatedInterface
 {

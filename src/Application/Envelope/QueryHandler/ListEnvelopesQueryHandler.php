@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Envelope\QueryHandler;
 
 use App\Application\Envelope\Query\ListEnvelopesQuery;
-use App\Domain\Envelope\Entity\EnvelopesPaginatedInterface;
+use App\Domain\Envelope\Model\EnvelopesPaginatedInterface;
 use App\Domain\Envelope\Repository\EnvelopeQueryRepositoryInterface;
 
 readonly class ListEnvelopesQueryHandler

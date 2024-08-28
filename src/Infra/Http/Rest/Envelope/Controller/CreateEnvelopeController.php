@@ -7,7 +7,7 @@ namespace App\Infra\Http\Rest\Envelope\Controller;
 use App\Application\Envelope\Command\CreateEnvelopeCommand;
 use App\Application\Envelope\Query\ShowEnvelopeQuery;
 use App\Domain\Envelope\Dto\CreateEnvelopeDto;
-use App\Domain\Envelope\Entity\EnvelopeInterface;
+use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Shared\Adapter\CommandBusInterface;
 use App\Domain\Shared\Adapter\QueryBusInterface;
 use App\Domain\User\Entity\UserInterface;

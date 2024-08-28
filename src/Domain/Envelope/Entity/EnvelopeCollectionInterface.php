@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Envelope\Entity;
 
+use App\Domain\Envelope\Model\EnvelopeInterface;
+
 interface EnvelopeCollectionInterface
 {
     /**

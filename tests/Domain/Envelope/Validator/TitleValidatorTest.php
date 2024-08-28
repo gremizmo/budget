@@ -3,8 +3,8 @@
 namespace App\Tests\Domain\Envelope\Validator;
 
 use App\Application\Envelope\Query\GetEnvelopeByTitleQuery;
-use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
+use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Envelope\Validator\EditEnvelopeTitleValidator;
 use App\Domain\Shared\Adapter\QueryBusInterface;
 use App\Domain\User\Entity\UserInterface;

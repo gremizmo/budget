@@ -6,13 +6,13 @@ namespace App\Tests\Domain\Envelope\Builder;
 
 use App\Domain\Envelope\Builder\CreateEnvelopeBuilder;
 use App\Domain\Envelope\Dto\CreateEnvelopeDtoInterface;
-use App\Domain\Envelope\Entity\Envelope;
-use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Exception\Builder\CreateEnvelopeBuilderException;
+use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Envelope\Validator\EditEnvelopeCurrentBudgetValidator;
 use App\Domain\Envelope\Validator\EditEnvelopeTargetBudgetValidator;
 use App\Domain\Envelope\Validator\EditEnvelopeTitleValidator;
 use App\Domain\User\Entity\UserInterface;
+use App\Infra\Http\Rest\Envelope\Entity\Envelope;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Envelope\Validator;
 
-use App\Domain\Envelope\Entity\EnvelopeInterface;
+use App\Domain\Envelope\Model\EnvelopeInterface;
 
 class EditEnvelopeCurrentBudgetValidator
 {

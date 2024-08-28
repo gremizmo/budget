@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Tests\Domain\Envelope\Validator;
 
 use App\Domain\Envelope\Entity\EnvelopeCollection;
-use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Exception\ChildrenCurrentBudgetExceedsCurrentEnvelopeCurrentBudgetException;
 use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException;
 use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
+use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Envelope\Validator\EditEnvelopeCurrentBudgetValidator;
 use PHPUnit\Framework\TestCase;
 

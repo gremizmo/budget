@@ -6,11 +6,11 @@ namespace App\Tests\Application\Envelope\QueryHandler;
 
 use App\Application\Envelope\Query\ShowEnvelopeQuery;
 use App\Application\Envelope\QueryHandler\ShowEnvelopeQueryHandler;
-use App\Domain\Envelope\Entity\Envelope;
 use App\Domain\Envelope\Exception\EnvelopeNotFoundException;
 use App\Domain\Envelope\Repository\EnvelopeQueryRepositoryInterface;
 use App\Domain\Shared\Adapter\LoggerInterface;
 use App\Domain\User\Entity\User;
+use App\Infra\Http\Rest\Envelope\Entity\Envelope;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 

@@ -6,8 +6,8 @@ namespace App\Domain\Envelope\Factory;
 
 use App\Domain\Envelope\Builder\EditEnvelopeBuilderInterface;
 use App\Domain\Envelope\Dto\EditEnvelopeDtoInterface;
-use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Exception\Factory\EditEnvelopeFactoryException;
+use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Shared\Adapter\LoggerInterface;
 
 readonly class EditEnvelopeFactory implements EditEnvelopeFactoryInterface

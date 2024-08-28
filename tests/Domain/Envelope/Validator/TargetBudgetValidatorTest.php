@@ -3,8 +3,8 @@
 namespace App\Tests\Domain\Envelope\Validator;
 
 use App\Domain\Envelope\Entity\EnvelopeCollection;
-use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
+use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Envelope\Validator\EditEnvelopeTargetBudgetValidator;
 use PHPUnit\Framework\TestCase;
 

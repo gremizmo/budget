@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Envelope\Validator;
 
-use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
+use App\Domain\Envelope\Model\EnvelopeInterface;
 
 class CreateEnvelopeTargetBudgetValidator
 {
@@ -17,7 +17,7 @@ class CreateEnvelopeTargetBudgetValidator
         $targetBudgetFloat = floatval($targetBudget);
 
         if ($parentEnvelope instanceof EnvelopeInterface) {
-            $totalChildrenTargetBudget = $parentEnvelope->calculateTotalChildrenTargetBudgetOfParentEnvelope();
+            $totalChildrenTargetBudget = $parentEnvelope->calculateChildrenTargetBudget();
 
             if ($totalChildrenTargetBudget > floatval($parentEnvelope->getTargetBudget())) {
                 throw new ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException(ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException::MESSAGE, 400);

@@ -7,12 +7,12 @@ namespace App\Tests\Application\Envelope\QueryHandler;
 use App\Application\Envelope\Query\ListEnvelopesQuery;
 use App\Application\Envelope\QueryHandler\ListEnvelopesQueryHandler;
 use App\Domain\Envelope\Dto\ListEnvelopesDto;
-use App\Domain\Envelope\Entity\Envelope;
-use App\Domain\Envelope\Entity\EnvelopeInterface;
-use App\Domain\Envelope\Entity\EnvelopesPaginated;
-use App\Domain\Envelope\Entity\EnvelopesPaginatedInterface;
+use App\Domain\Envelope\Model\EnvelopeInterface;
+use App\Domain\Envelope\Model\EnvelopesPaginated;
+use App\Domain\Envelope\Model\EnvelopesPaginatedInterface;
 use App\Domain\Envelope\Repository\EnvelopeQueryRepositoryInterface;
 use App\Domain\User\Entity\User;
+use App\Infra\Http\Rest\Envelope\Entity\Envelope;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 

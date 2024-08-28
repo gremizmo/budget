@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Infra\Http\Rest\Envelope\Repository;
 
-use App\Domain\Envelope\Entity\Envelope;
-use App\Domain\Envelope\Entity\EnvelopeInterface;
-use App\Domain\Envelope\Exception\EnvelopeCommandRepositoryException;
+use App\Domain\Envelope\Exception\Repository\EnvelopeCommandRepositoryException;
+use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Envelope\Repository\EnvelopeCommandRepositoryInterface;
+use App\Infra\Http\Rest\Envelope\Entity\Envelope;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;

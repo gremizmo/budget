@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace App\Domain\Envelope\Builder;
 
 use App\Domain\Envelope\Dto\CreateEnvelopeDtoInterface;
-use App\Domain\Envelope\Entity\Envelope;
-use App\Domain\Envelope\Entity\EnvelopeInterface;
 use App\Domain\Envelope\Exception\Builder\CreateEnvelopeBuilderException;
+use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Envelope\Validator\CreateEnvelopeCurrentBudgetValidator;
 use App\Domain\Envelope\Validator\CreateEnvelopeTargetBudgetValidator;
 use App\Domain\Envelope\Validator\CreateEnvelopeTitleValidator;
@@ -25,7 +24,12 @@ class CreateEnvelopeBuilder implements CreateEnvelopeBuilderInterface
         private readonly CreateEnvelopeCurrentBudgetValidator $currentBudgetValidator,
         private readonly CreateEnvelopeTitleValidator $titleValidator,
         private readonly LoggerInterface $logger,
+        private readonly string $envelopeClass,
     ) {
+        $model = new $envelopeClass();
+        if (!$model instanceof EnvelopeInterface) {
+            throw new \RuntimeException('Class should be Envelope in CreateEnvelopeBuilder');
+        }
     }
 
     public function setParentEnvelope(?EnvelopeInterface $parentEnvelope): self
@@ -62,7 +66,7 @@ class CreateEnvelopeBuilder implements CreateEnvelopeBuilderInterface
                 $this->parentEnvelope->updateAncestorsCurrentBudget($currentBudget);
             }
 
-            return (new Envelope())
+            return (new $this->envelopeClass())
                 ->setParent($this->parentEnvelope)
                 ->setCurrentBudget($this->createEnvelopeDto->getCurrentBudget())
                 ->setTargetBudget($this->createEnvelopeDto->getTargetBudget())

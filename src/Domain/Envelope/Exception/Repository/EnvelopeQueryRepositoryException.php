@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Envelope\Exception;
+namespace App\Domain\Envelope\Exception\Repository;
 
 class EnvelopeQueryRepositoryException extends \Exception
 {

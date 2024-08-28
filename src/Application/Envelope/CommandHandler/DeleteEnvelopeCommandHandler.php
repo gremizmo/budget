@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Envelope\CommandHandler;
 
 use App\Application\Envelope\Command\DeleteEnvelopeCommand;
-use App\Domain\Envelope\Entity\EnvelopeInterface;
+use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Envelope\Repository\EnvelopeCommandRepositoryInterface;
 
 readonly class DeleteEnvelopeCommandHandler

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Infra\Http\Rest\Envelope\Repository;
 
-use App\Domain\Envelope\Entity\Envelope;
-use App\Domain\Envelope\Entity\EnvelopesPaginated;
-use App\Domain\Envelope\Entity\EnvelopesPaginatedInterface;
-use App\Domain\Envelope\Exception\EnvelopeQueryRepositoryException;
+use App\Domain\Envelope\Exception\Repository\EnvelopeQueryRepositoryException;
+use App\Domain\Envelope\Model\EnvelopesPaginated;
+use App\Domain\Envelope\Model\EnvelopesPaginatedInterface;
 use App\Domain\Envelope\Repository\EnvelopeQueryRepositoryInterface;
 use App\Domain\Shared\Adapter\LoggerInterface;
+use App\Infra\Http\Rest\Envelope\Entity\Envelope;
 use Elastica\Query;
 use FOS\ElasticaBundle\Finder\PaginatedFinderInterface;
 use FOS\ElasticaBundle\Repository;

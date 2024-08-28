@@ -6,7 +6,7 @@ namespace App\Tests\Application\Envelope\QueryHandler;
 
 use App\Application\Envelope\Query\GetEnvelopeByTitleQuery;
 use App\Application\Envelope\QueryHandler\GetEnvelopeByTitleQueryHandler;
-use App\Domain\Envelope\Entity\EnvelopeInterface;
+use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Envelope\Repository\EnvelopeQueryRepositoryInterface;
 use App\Domain\User\Entity\UserInterface;
 use PHPUnit\Framework\MockObject\MockObject;
