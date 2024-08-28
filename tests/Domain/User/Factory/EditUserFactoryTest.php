@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\User\Factory;
 
-use App\Domain\User\Dto\EditUserDto;
+use App\Application\User\Dto\EditUserInput;
 use App\Domain\User\Factory\EditUserFactory;
 use App\Infra\Http\Rest\User\Entity\User;
 use PHPUnit\Framework\TestCase;
@@ -13,7 +13,7 @@ class EditUserFactoryTest extends TestCase
 {
     public function testUpdateUser(): void
     {
-        $editUserDto = new EditUserDto(
+        $editUserDto = new EditUserInput(
             firstname: 'Jane',
             lastname: 'Smith',
         );

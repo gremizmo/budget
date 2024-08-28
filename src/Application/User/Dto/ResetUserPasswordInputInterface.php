@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\User\Dto;
+namespace App\Application\User\Dto;
 
-interface ResetUserPasswordDtoInterface
+interface ResetUserPasswordInputInterface
 {
     public function getToken(): string;
 

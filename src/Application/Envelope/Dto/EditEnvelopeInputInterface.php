@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Envelope\Dto;
+namespace App\Application\Envelope\Dto;
 
-interface CreateEnvelopeDtoInterface
+interface EditEnvelopeInputInterface
 {
     public function getTitle(): string;
 

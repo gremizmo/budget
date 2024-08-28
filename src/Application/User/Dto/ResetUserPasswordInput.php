@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\User\Dto;
+namespace App\Application\User\Dto;
 
-readonly class ResetUserPasswordDto implements ResetUserPasswordDtoInterface
+readonly class ResetUserPasswordInput implements ResetUserPasswordInputInterface
 {
     public function __construct(
         private string $token,

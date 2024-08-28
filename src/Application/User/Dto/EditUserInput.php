@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\User\Dto;
+namespace App\Application\User\Dto;
 
-final readonly class EditUserDto implements EditUserDtoInterface
+final readonly class EditUserInput implements EditUserInputInterface
 {
     public function __construct(
         public string $firstname,

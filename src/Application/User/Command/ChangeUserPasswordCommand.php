@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Application\User\Command;
 
+use App\Application\User\Dto\ChangeUserPasswordInputInterface;
 use App\Domain\Shared\Command\CommandInterface;
 use App\Domain\Shared\Model\UserInterface;
-use App\Domain\User\Dto\ChangeUserPasswordDtoInterface;
 
 readonly class ChangeUserPasswordCommand implements CommandInterface
 {
     public function __construct(
-        private ChangeUserPasswordDtoInterface $changePasswordDto,
+        private ChangeUserPasswordInputInterface $changePasswordDto,
         private UserInterface $user,
     ) {
     }
@@ -21,7 +21,7 @@ readonly class ChangeUserPasswordCommand implements CommandInterface
         return $this->user;
     }
 
-    public function getChangePasswordDto(): ChangeUserPasswordDtoInterface
+    public function getChangePasswordDto(): ChangeUserPasswordInputInterface
     {
         return $this->changePasswordDto;
     }

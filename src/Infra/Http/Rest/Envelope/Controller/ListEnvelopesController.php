@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infra\Http\Rest\Envelope\Controller;
 
+use App\Application\Envelope\Dto\ListEnvelopesInput;
 use App\Application\Envelope\Query\ListEnvelopesQuery;
-use App\Domain\Envelope\Dto\ListEnvelopesDto;
 use App\Domain\Shared\Adapter\QueryBusInterface;
 use App\Domain\Shared\Model\UserInterface;
 use Psr\Log\LoggerInterface;
@@ -29,7 +29,7 @@ class ListEnvelopesController extends AbstractController
 
     public function __invoke(
         #[CurrentUser] UserInterface $user,
-        #[MapQueryString] ListEnvelopesDto $listEnvelopesDto = new ListEnvelopesDto(),
+        #[MapQueryString] ListEnvelopesInput $listEnvelopesDto = new ListEnvelopesInput(),
     ): JsonResponse {
         try {
             $envelopes = $this->queryBus->query(new ListEnvelopesQuery($user, $listEnvelopesDto));

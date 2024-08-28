@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Infra\Http\Rest\User\Controller;
 
 use App\Application\User\Command\ResetUserPasswordCommand;
+use App\Application\User\Dto\ResetUserPasswordInput;
 use App\Application\User\Query\GetUserByPasswordResetTokenQuery;
 use App\Domain\Shared\Adapter\CommandBusInterface;
 use App\Domain\Shared\Adapter\QueryBusInterface;
-use App\Domain\User\Dto\ResetUserPasswordDto;
 use App\Domain\User\Exception\UserPasswordResetTokenIsExpiredException;
 use App\Infra\Http\Rest\User\Entity\User;
 use Psr\Log\LoggerInterface;
@@ -28,7 +28,7 @@ class ResetUserPasswordController extends AbstractController
     ) {
     }
 
-    public function __invoke(#[MapRequestPayload] ResetUserPasswordDto $resetUserPasswordDto): JsonResponse
+    public function __invoke(#[MapRequestPayload] ResetUserPasswordInput $resetUserPasswordDto): JsonResponse
     {
         try {
             $user = $this->queryBus->query(new GetUserByPasswordResetTokenQuery($resetUserPasswordDto->getToken()));

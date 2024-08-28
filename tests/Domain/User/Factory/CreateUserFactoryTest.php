@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\User\Factory;
 
+use App\Application\User\Dto\CreateUserInput;
 use App\Domain\User\Adapter\PasswordHasherInterface;
-use App\Domain\User\Dto\CreateUserDto;
 use App\Domain\User\Factory\CreateUserFactory;
 use App\Infra\Http\Rest\User\Entity\User;
 use PHPUnit\Framework\TestCase;
@@ -17,7 +17,7 @@ class CreateUserFactoryTest extends TestCase
         $passwordHasher = $this->createMock(PasswordHasherInterface::class);
         $passwordHasher->method('hash')->willReturn('hashed_password');
 
-        $createUserDto = new CreateUserDto(
+        $createUserDto = new CreateUserInput(
             email: 'test@example.com',
             password: 'password123',
             firstname: 'John',

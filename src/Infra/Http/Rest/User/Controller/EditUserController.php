@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Infra\Http\Rest\User\Controller;
 
 use App\Application\User\Command\EditUserCommand;
+use App\Application\User\Dto\EditUserInput;
 use App\Domain\Shared\Adapter\CommandBusInterface;
 use App\Domain\Shared\Model\UserInterface;
-use App\Domain\User\Dto\EditUserDto;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -30,7 +30,7 @@ class EditUserController extends AbstractController
     public function __invoke(
         int $id,
         #[CurrentUser] UserInterface $currentUser,
-        #[MapRequestPayload] EditUserDto $editUserDto,
+        #[MapRequestPayload] EditUserInput $editUserDto,
     ): JsonResponse {
         if ($id !== $currentUser->getId()) {
             $this->logger->error('Failed to process User edit request: User not allowed to access this resource');

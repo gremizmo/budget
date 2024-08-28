@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Infra\Http\Rest\User\Controller;
 
 use App\Application\User\Command\CreateUserCommand;
+use App\Application\User\Dto\CreateUserInput;
 use App\Application\User\Query\GetUserAlreadyExistsQuery;
 use App\Domain\Shared\Adapter\CommandBusInterface;
 use App\Domain\Shared\Adapter\QueryBusInterface;
 use App\Domain\Shared\Model\UserInterface;
-use App\Domain\User\Dto\CreateUserDto;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -27,7 +27,7 @@ class CreateUserController extends AbstractController
     ) {
     }
 
-    public function __invoke(#[MapRequestPayload] CreateUserDto $createUserDto): JsonResponse
+    public function __invoke(#[MapRequestPayload] CreateUserInput $createUserDto): JsonResponse
     {
         try {
             if (!$this->queryBus->query(new GetUserAlreadyExistsQuery($createUserDto->getEmail())) instanceof UserInterface) {

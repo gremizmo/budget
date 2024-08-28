@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\User\Dto;
 
-use App\Domain\User\Dto\RequestPasswordResetDto;
+use App\Application\User\Dto\RequestPasswordResetInput;
 use PHPUnit\Framework\TestCase;
 
 class RequestPasswordResetDtoTest extends TestCase
@@ -12,7 +12,7 @@ class RequestPasswordResetDtoTest extends TestCase
     public function testConstructorSetsEmail(): void
     {
         $email = 'user@example.com';
-        $dto = new RequestPasswordResetDto($email);
+        $dto = new RequestPasswordResetInput($email);
 
         $this->assertSame($email, $dto->getEmail());
     }
@@ -20,7 +20,7 @@ class RequestPasswordResetDtoTest extends TestCase
     public function testGetEmailReturnsEmail(): void
     {
         $email = 'user@example.com';
-        $dto = new RequestPasswordResetDto($email);
+        $dto = new RequestPasswordResetInput($email);
 
         $this->assertSame($email, $dto->getEmail());
     }

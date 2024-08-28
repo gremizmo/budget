@@ -6,7 +6,7 @@ namespace App\Tests\Application\User\CommandHandler;
 
 use App\Application\User\Command\CreateUserCommand;
 use App\Application\User\CommandHandler\CreateUserCommandHandler;
-use App\Domain\User\Dto\CreateUserDto;
+use App\Application\User\Dto\CreateUserInput;
 use App\Domain\User\Factory\CreateUserFactoryInterface;
 use App\Domain\User\Repository\UserCommandRepositoryInterface;
 use App\Infra\Http\Rest\User\Entity\User;
@@ -16,7 +16,7 @@ class CreateUserCommandHandlerTest extends TestCase
 {
     public function testInvoke(): void
     {
-        $createUserDto = new CreateUserDto(
+        $createUserDto = new CreateUserInput(
             email: 'test@example.com',
             password: 'password123',
             firstname: 'John',

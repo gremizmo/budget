@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Infra\Http\Rest\Envelope\Controller;
 
 use App\Application\Envelope\Command\CreateEnvelopeCommand;
+use App\Application\Envelope\Dto\CreateEnvelopeInput;
 use App\Application\Envelope\Query\ShowEnvelopeQuery;
-use App\Domain\Envelope\Dto\CreateEnvelopeDto;
 use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Shared\Adapter\CommandBusInterface;
 use App\Domain\Shared\Adapter\QueryBusInterface;
@@ -37,7 +37,7 @@ class CreateEnvelopeController extends AbstractController
      * @throws CreateEnvelopeControllerException
      */
     public function __invoke(
-        #[MapRequestPayload] CreateEnvelopeDto $createEnvelopeDto,
+        #[MapRequestPayload] CreateEnvelopeInput $createEnvelopeDto,
         #[CurrentUser] UserInterface $user,
     ): JsonResponse {
         try {

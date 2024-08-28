@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\User\Dto;
+namespace App\Application\User\Dto;
 
-final readonly class ChangeUserPasswordDto implements ChangeUserPasswordDtoInterface
+final readonly class ChangeUserPasswordInput implements ChangeUserPasswordInputInterface
 {
     public function __construct(
         private string $oldPassword,

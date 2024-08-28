@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Domain\Envelope\Dto;
+namespace App\Application\Envelope\Dto;
 
-final readonly class ListEnvelopesDto implements ListEnvelopesDtoInterface
+final readonly class ListEnvelopesInput implements ListEnvelopesInputInterface
 {
     /**
      * @param array<string, string>|null $orderBy

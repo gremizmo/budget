@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\Envelope\QueryHandler;
 
+use App\Application\Envelope\Dto\ListEnvelopesInput;
 use App\Application\Envelope\Query\ListEnvelopesQuery;
 use App\Application\Envelope\QueryHandler\ListEnvelopesQueryHandler;
-use App\Domain\Envelope\Dto\ListEnvelopesDto;
 use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Envelope\Model\EnvelopesPaginated;
 use App\Domain\Envelope\Model\EnvelopesPaginatedInterface;
@@ -59,12 +59,12 @@ class ListEnvelopesQueryHandlerTest extends TestCase
 
         return [
             'success' => [
-                new ListEnvelopesQuery((new User())->setId(1), new ListEnvelopesDto()),
+                new ListEnvelopesQuery((new User())->setId(1), new ListEnvelopesInput()),
                 [$envelope],
                 new EnvelopesPaginated([$envelope], 1),
             ],
             'failure' => [
-                new ListEnvelopesQuery((new User())->setId(2), new ListEnvelopesDto()),
+                new ListEnvelopesQuery((new User())->setId(2), new ListEnvelopesInput()),
                 [],
                 new EnvelopesPaginated([], 0),
             ],

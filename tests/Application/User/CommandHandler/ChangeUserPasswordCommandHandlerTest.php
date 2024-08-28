@@ -6,8 +6,8 @@ namespace App\Tests\Application\User\CommandHandler;
 
 use App\Application\User\Command\ChangeUserPasswordCommand;
 use App\Application\User\CommandHandler\ChangeUserPasswordCommandHandler;
+use App\Application\User\Dto\ChangeUserPasswordInputInterface;
 use App\Domain\User\Adapter\PasswordHasherInterface;
-use App\Domain\User\Dto\ChangeUserPasswordDtoInterface;
 use App\Domain\User\Exception\UserOldPasswordIsIncorrectException;
 use App\Domain\User\Repository\UserCommandRepositoryInterface;
 use App\Infra\Http\Rest\User\Entity\User;
@@ -20,7 +20,7 @@ class ChangeUserPasswordCommandHandlerTest extends TestCase
      */
     public function testSuccessfulPasswordChange(): void
     {
-        $changePasswordDto = $this->createMock(ChangeUserPasswordDtoInterface::class);
+        $changePasswordDto = $this->createMock(ChangeUserPasswordInputInterface::class);
         $user = new User();
         $userCommandRepository = $this->createMock(UserCommandRepositoryInterface::class);
         $passwordHasher = $this->createMock(PasswordHasherInterface::class);
@@ -45,7 +45,7 @@ class ChangeUserPasswordCommandHandlerTest extends TestCase
     {
         $this->expectException(UserOldPasswordIsIncorrectException::class);
 
-        $changePasswordDto = $this->createMock(ChangeUserPasswordDtoInterface::class);
+        $changePasswordDto = $this->createMock(ChangeUserPasswordInputInterface::class);
         $user = new User();
         $userCommandRepository = $this->createMock(UserCommandRepositoryInterface::class);
         $passwordHasher = $this->createMock(PasswordHasherInterface::class);

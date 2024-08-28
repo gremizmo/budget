@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Envelope\Dto;
+namespace App\Application\Envelope\Dto;
 
-final readonly class EditEnvelopeDto implements EditEnvelopeDtoInterface
+final readonly class CreateEnvelopeInput implements CreateEnvelopeInputInterface
 {
     public function __construct(
         public string $title,

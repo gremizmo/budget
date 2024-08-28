@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\User\Dto;
+namespace App\Application\User\Dto;
 
-final readonly class CreateUserDto implements CreateUserDtoInterface
+final readonly class CreateUserInput implements CreateUserInputInterface
 {
     public function __construct(
         public string $email,

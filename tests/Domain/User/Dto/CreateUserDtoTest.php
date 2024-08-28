@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\User\Dto;
 
-use App\Domain\User\Dto\CreateUserDto;
+use App\Application\User\Dto\CreateUserInput;
 use PHPUnit\Framework\TestCase;
 
 class CreateUserDtoTest extends TestCase
 {
     public function testCreateUserDtoInstantiation(): void
     {
-        $dto = new CreateUserDto(
+        $dto = new CreateUserInput(
             email: 'test@example.com',
             password: 'password123',
             firstname: 'John',
@@ -19,12 +19,12 @@ class CreateUserDtoTest extends TestCase
             consentGiven: true
         );
 
-        $this->assertInstanceOf(CreateUserDto::class, $dto);
+        $this->assertInstanceOf(CreateUserInput::class, $dto);
     }
 
     public function testGetEmail(): void
     {
-        $dto = new CreateUserDto(
+        $dto = new CreateUserInput(
             email: 'test@example.com',
             password: 'password123',
             firstname: 'John',
@@ -37,7 +37,7 @@ class CreateUserDtoTest extends TestCase
 
     public function testGetPassword(): void
     {
-        $dto = new CreateUserDto(
+        $dto = new CreateUserInput(
             email: 'test@example.com',
             password: 'password123',
             firstname: 'John',
@@ -50,7 +50,7 @@ class CreateUserDtoTest extends TestCase
 
     public function testGetFirstname(): void
     {
-        $dto = new CreateUserDto(
+        $dto = new CreateUserInput(
             email: 'test@example.com',
             password: 'password123',
             firstname: 'John',
@@ -63,7 +63,7 @@ class CreateUserDtoTest extends TestCase
 
     public function testGetLastname(): void
     {
-        $dto = new CreateUserDto(
+        $dto = new CreateUserInput(
             email: 'test@example.com',
             password: 'password123',
             firstname: 'John',
@@ -76,7 +76,7 @@ class CreateUserDtoTest extends TestCase
 
     public function testIsConsentGiven(): void
     {
-        $dto = new CreateUserDto(
+        $dto = new CreateUserInput(
             email: 'test@example.com',
             password: 'password123',
             firstname: 'John',

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Envelope\Dto;
+namespace App\Application\Envelope\Dto;
 
-interface ListEnvelopesDtoInterface
+interface ListEnvelopesInputInterface
 {
     /**
      * @return array<string, string>|null

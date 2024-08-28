@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\User\Dto;
 
-use App\Domain\User\Dto\ResetUserPasswordDto;
+use App\Application\User\Dto\ResetUserPasswordInput;
 use PHPUnit\Framework\TestCase;
 
 class ResetUserPasswordDtoTest extends TestCase
@@ -13,7 +13,7 @@ class ResetUserPasswordDtoTest extends TestCase
     {
         $token = 'reset-token';
         $newPassword = 'new-password';
-        $dto = new ResetUserPasswordDto($token, $newPassword);
+        $dto = new ResetUserPasswordInput($token, $newPassword);
 
         $this->assertSame($token, $dto->getToken());
         $this->assertSame($newPassword, $dto->getNewPassword());
@@ -22,7 +22,7 @@ class ResetUserPasswordDtoTest extends TestCase
     public function testGetTokenReturnsToken(): void
     {
         $token = 'reset-token';
-        $dto = new ResetUserPasswordDto($token, 'new-password');
+        $dto = new ResetUserPasswordInput($token, 'new-password');
 
         $this->assertSame($token, $dto->getToken());
     }
@@ -30,7 +30,7 @@ class ResetUserPasswordDtoTest extends TestCase
     public function testGetNewPasswordReturnsNewPassword(): void
     {
         $newPassword = 'new-password';
-        $dto = new ResetUserPasswordDto('reset-token', $newPassword);
+        $dto = new ResetUserPasswordInput('reset-token', $newPassword);
 
         $this->assertSame($newPassword, $dto->getNewPassword());
     }

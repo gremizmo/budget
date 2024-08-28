@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Infra\Http\Rest\User\Controller;
 
 use App\Application\User\Command\RequestPasswordResetCommand;
+use App\Application\User\Dto\RequestPasswordResetInput;
 use App\Application\User\Query\ShowUserQuery;
 use App\Domain\Shared\Adapter\CommandBusInterface;
 use App\Domain\Shared\Adapter\QueryBusInterface;
-use App\Domain\User\Dto\RequestPasswordResetDto;
 use App\Infra\Http\Rest\User\Entity\User;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,7 +27,7 @@ class RequestPasswordResetController extends AbstractController
     ) {
     }
 
-    public function __invoke(#[MapRequestPayload] RequestPasswordResetDto $requestPasswordResetDto): JsonResponse
+    public function __invoke(#[MapRequestPayload] RequestPasswordResetInput $requestPasswordResetDto): JsonResponse
     {
         try {
             $user = $this->queryBus->query(new ShowUserQuery($requestPasswordResetDto->getEmail()));

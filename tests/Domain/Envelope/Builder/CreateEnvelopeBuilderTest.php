@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\Envelope\Builder;
 
+use App\Application\Envelope\Dto\CreateEnvelopeInputInterface;
 use App\Domain\Envelope\Builder\CreateEnvelopeBuilder;
-use App\Domain\Envelope\Dto\CreateEnvelopeDtoInterface;
 use App\Domain\Envelope\Exception\Builder\CreateEnvelopeBuilderException;
 use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Envelope\Validator\EditEnvelopeCurrentBudgetValidator;
@@ -45,7 +45,7 @@ class CreateEnvelopeBuilderTest extends TestCase
 
     public function testSetCreateEnvelopeDto(): void
     {
-        $createEnvelopeDto = $this->createMock(CreateEnvelopeDtoInterface::class);
+        $createEnvelopeDto = $this->createMock(CreateEnvelopeInputInterface::class);
         $result = $this->createEnvelopeBuilder->setCreateEnvelopeDto($createEnvelopeDto);
 
         $this->assertSame($this->createEnvelopeBuilder, $result);
@@ -64,7 +64,7 @@ class CreateEnvelopeBuilderTest extends TestCase
      */
     public function testBuildSuccess(): void
     {
-        $createEnvelopeDto = $this->createMock(CreateEnvelopeDtoInterface::class);
+        $createEnvelopeDto = $this->createMock(CreateEnvelopeInputInterface::class);
         $createEnvelopeDto->method('getTargetBudget')->willReturn('1000.00');
         $createEnvelopeDto->method('getCurrentBudget')->willReturn('500.00');
         $createEnvelopeDto->method('getTitle')->willReturn('Test Title');
@@ -97,7 +97,7 @@ class CreateEnvelopeBuilderTest extends TestCase
      */
     public function testBuildFailureDueToCurrentBudgetExceedsParentTarget(): void
     {
-        $createEnvelopeDto = $this->createMock(CreateEnvelopeDtoInterface::class);
+        $createEnvelopeDto = $this->createMock(CreateEnvelopeInputInterface::class);
         $createEnvelopeDto->method('getTargetBudget')->willReturn('1000.00');
         $createEnvelopeDto->method('getCurrentBudget')->willReturn('1500.00');
         $createEnvelopeDto->method('getTitle')->willReturn('Test Title');
@@ -131,7 +131,7 @@ class CreateEnvelopeBuilderTest extends TestCase
      */
     public function testUpdateParentCurrentBudgetThrowsException(): void
     {
-        $createEnvelopeDto = $this->createMock(CreateEnvelopeDtoInterface::class);
+        $createEnvelopeDto = $this->createMock(CreateEnvelopeInputInterface::class);
         $createEnvelopeDto->method('getTargetBudget')->willReturn('1000.00');
         $createEnvelopeDto->method('getCurrentBudget')->willReturn('1500.00');
         $createEnvelopeDto->method('getTitle')->willReturn('Test Title');

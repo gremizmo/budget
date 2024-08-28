@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\User\Dto;
+namespace App\Application\User\Dto;
 
-readonly class RequestPasswordResetDto implements RequestPasswordResetDtoInterface
+readonly class RequestPasswordResetInput implements RequestPasswordResetInputInterface
 {
     public function __construct(
         private string $email

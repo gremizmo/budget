@@ -6,7 +6,7 @@ namespace App\Tests\Application\User\CommandHandler;
 
 use App\Application\User\Command\EditUserCommand;
 use App\Application\User\CommandHandler\EditUserCommandHandler;
-use App\Domain\User\Dto\EditUserDto;
+use App\Application\User\Dto\EditUserInput;
 use App\Domain\User\Factory\EditUserFactoryInterface;
 use App\Domain\User\Repository\UserCommandRepositoryInterface;
 use App\Infra\Http\Rest\User\Entity\User;
@@ -16,7 +16,7 @@ class EditUserCommandHandlerTest extends TestCase
 {
     public function testInvoke(): void
     {
-        $editUserDto = new EditUserDto(
+        $editUserDto = new EditUserInput(
             firstname: 'John',
             lastname: 'Doe',
         );

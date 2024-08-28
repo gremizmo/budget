@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Envelope\Factory;
 
+use App\Application\Envelope\Dto\CreateEnvelopeInputInterface;
 use App\Domain\Envelope\Builder\CreateEnvelopeBuilder;
-use App\Domain\Envelope\Dto\CreateEnvelopeDtoInterface;
 use App\Domain\Envelope\Exception\Factory\CreateEnvelopeFactoryException;
 use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Shared\Adapter\LoggerInterface;
@@ -23,7 +23,7 @@ readonly class CreateEnvelopeFactory implements CreateEnvelopeFactoryInterface
      * @throws CreateEnvelopeFactoryException
      */
     public function createFromDto(
-        CreateEnvelopeDtoInterface $createEnvelopeDto,
+        CreateEnvelopeInputInterface $createEnvelopeDto,
         ?EnvelopeInterface $parentEnvelope,
         UserInterface $user,
     ): EnvelopeInterface {

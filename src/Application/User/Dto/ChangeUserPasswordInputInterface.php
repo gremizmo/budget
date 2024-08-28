@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\User\Dto;
+namespace App\Application\User\Dto;
 
-interface ChangeUserPasswordDtoInterface
+interface ChangeUserPasswordInputInterface
 {
     public function getOldPassword(): string;
 

@@ -7,7 +7,7 @@ namespace App\Tests\Application\Envelope\CommandHandler;
 use App\Application\Envelope\Command\CreateEnvelopeCommand;
 use App\Application\Envelope\CommandHandler\CreateEnvelopeCommandHandler;
 use App\Application\Envelope\CommandHandler\CreateEnvelopeCommandHandlerException;
-use App\Domain\Envelope\Dto\CreateEnvelopeDto;
+use App\Application\Envelope\Dto\CreateEnvelopeInput;
 use App\Domain\Envelope\Entity\EnvelopeCollection;
 use App\Domain\Envelope\Factory\CreateEnvelopeFactoryInterface;
 use App\Domain\Envelope\Model\EnvelopeInterface;
@@ -67,7 +67,7 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
         $parentEnvelope->setChildren(new EnvelopeCollection());
 
         $createEnvelopeCommand = new CreateEnvelopeCommand(
-            new CreateEnvelopeDto('Test', '1000.00', '2000.00'),
+            new CreateEnvelopeInput('Test', '1000.00', '2000.00'),
             $this->userMock,
             $parentEnvelope,
         );
@@ -101,14 +101,14 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
         return [
             'with parent' => [
                 new CreateEnvelopeCommand(
-                    new CreateEnvelopeDto('Test', '1000.00', '2000.00'),
+                    new CreateEnvelopeInput('Test', '1000.00', '2000.00'),
                     new User(),
                     $parentEnvelope,
                 ),
             ],
             'without parent' => [
                 new CreateEnvelopeCommand(
-                    new CreateEnvelopeDto('Test', '1000.00', '2000.00'),
+                    new CreateEnvelopeInput('Test', '1000.00', '2000.00'),
                     new User(),
                     null,
                 ),

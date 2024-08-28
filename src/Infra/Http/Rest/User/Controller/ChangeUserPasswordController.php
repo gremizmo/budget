@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Infra\Http\Rest\User\Controller;
 
 use App\Application\User\Command\ChangeUserPasswordCommand;
+use App\Application\User\Dto\ChangeUserPasswordInput;
 use App\Domain\Shared\Adapter\CommandBusInterface;
-use App\Domain\User\Dto\ChangeUserPasswordDto;
 use App\Infra\Http\Rest\User\Entity\User;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,7 +30,7 @@ class ChangeUserPasswordController extends AbstractController
     public function __invoke(
         User $user,
         #[CurrentUser] User $currentUser,
-        #[MapRequestPayload] ChangeUserPasswordDto $changePasswordDto,
+        #[MapRequestPayload] ChangeUserPasswordInput $changePasswordDto,
     ): JsonResponse {
         if ($user->getId() !== $currentUser->getId()) {
             $this->logger->error('Failed to process User changePassword request: User not allowed to access this resource');

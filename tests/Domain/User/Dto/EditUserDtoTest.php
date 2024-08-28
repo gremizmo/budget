@@ -4,24 +4,24 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\User\Dto;
 
-use App\Domain\User\Dto\EditUserDto;
+use App\Application\User\Dto\EditUserInput;
 use PHPUnit\Framework\TestCase;
 
 class EditUserDtoTest extends TestCase
 {
     public function testEditUserDtoInstantiation(): void
     {
-        $dto = new EditUserDto(
+        $dto = new EditUserInput(
             firstname: 'John',
             lastname: 'Doe',
         );
 
-        $this->assertInstanceOf(EditUserDto::class, $dto);
+        $this->assertInstanceOf(EditUserInput::class, $dto);
     }
 
     public function testGetFirstname(): void
     {
-        $dto = new EditUserDto(
+        $dto = new EditUserInput(
             firstname: 'John',
             lastname: 'Doe',
         );
@@ -31,7 +31,7 @@ class EditUserDtoTest extends TestCase
 
     public function testGetLastname(): void
     {
-        $dto = new EditUserDto(
+        $dto = new EditUserInput(
             firstname: 'John',
             lastname: 'Doe',
         );

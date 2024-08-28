@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\User\Dto;
 
-use App\Domain\User\Dto\ChangeUserPasswordDto;
+use App\Application\User\Dto\ChangeUserPasswordInput;
 use PHPUnit\Framework\TestCase;
 
 class ChangeUserPasswordDtoTest extends TestCase
@@ -14,7 +14,7 @@ class ChangeUserPasswordDtoTest extends TestCase
         $oldPassword = 'oldPassword123';
         $newPassword = 'newPassword123';
 
-        $dto = new ChangeUserPasswordDto($oldPassword, $newPassword);
+        $dto = new ChangeUserPasswordInput($oldPassword, $newPassword);
 
         $this->assertSame($oldPassword, $dto->getOldPassword());
         $this->assertSame($newPassword, $dto->getNewPassword());

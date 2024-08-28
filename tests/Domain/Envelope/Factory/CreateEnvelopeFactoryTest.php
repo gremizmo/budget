@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\Envelope\Factory;
 
+use App\Application\Envelope\Dto\CreateEnvelopeInput;
 use App\Domain\Envelope\Builder\CreateEnvelopeBuilder;
-use App\Domain\Envelope\Dto\CreateEnvelopeDto;
 use App\Domain\Envelope\Entity\EnvelopeCollection;
 use App\Domain\Envelope\Exception\Factory\CreateEnvelopeFactoryException;
 use App\Domain\Envelope\Factory\CreateEnvelopeFactory;
@@ -41,7 +41,7 @@ class CreateEnvelopeFactoryTest extends TestCase
      */
     public function testCreateFromDtoSuccess(): void
     {
-        $createEnvelopeDto = new CreateEnvelopeDto('Test Title', '50.00', '100.00');
+        $createEnvelopeDto = new CreateEnvelopeInput('Test Title', '50.00', '100.00');
         $parentEnvelope = new Envelope();
         $parentEnvelope->setTargetBudget('200.00');
         $parentEnvelope->setChildren(new EnvelopeCollection());
@@ -57,7 +57,7 @@ class CreateEnvelopeFactoryTest extends TestCase
      */
     public function testCreateFromDtoFailureDueToChildrenTargetBudgetsExceedsParent(): void
     {
-        $createEnvelopeDto = new CreateEnvelopeDto('Test Title', '50.00', '300.00');
+        $createEnvelopeDto = new CreateEnvelopeInput('Test Title', '50.00', '300.00');
         $parentEnvelope = new Envelope();
         $parentEnvelope->setTargetBudget('200.00');
         $parentEnvelope->setChildren(new EnvelopeCollection());
@@ -73,7 +73,7 @@ class CreateEnvelopeFactoryTest extends TestCase
      */
     public function testCreateFromDtoFailureDueToCurrentBudgetExceedsTarget(): void
     {
-        $createEnvelopeDto = new CreateEnvelopeDto('Test Title', '250.00', '100.00');
+        $createEnvelopeDto = new CreateEnvelopeInput('Test Title', '250.00', '100.00');
         $parentEnvelope = new Envelope();
         $parentEnvelope->setTargetBudget('200.00');
         $parentEnvelope->setChildren(new EnvelopeCollection());

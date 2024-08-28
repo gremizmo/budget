@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Envelope\Builder;
 
-use App\Domain\Envelope\Dto\EditEnvelopeDtoInterface;
+use App\Application\Envelope\Dto\EditEnvelopeInputInterface;
 use App\Domain\Envelope\Exception\Builder\EditEnvelopeBuilderException;
 use App\Domain\Envelope\Exception\SelfParentEnvelopeException;
 use App\Domain\Envelope\Model\EnvelopeInterface;
@@ -16,7 +16,7 @@ use App\Domain\Shared\Adapter\LoggerInterface;
 class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
 {
     private EnvelopeInterface $envelope;
-    private EditEnvelopeDtoInterface $updateEnvelopeDto;
+    private EditEnvelopeInputInterface $updateEnvelopeDto;
     private ?EnvelopeInterface $newParentEnvelope = null;
 
     public function __construct(
@@ -34,7 +34,7 @@ class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
         return $this;
     }
 
-    public function setUpdateEnvelopeDto(EditEnvelopeDtoInterface $updateEnvelopeDto): self
+    public function setUpdateEnvelopeDto(EditEnvelopeInputInterface $updateEnvelopeDto): self
     {
         $this->updateEnvelopeDto = $updateEnvelopeDto;
 
@@ -61,10 +61,10 @@ class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
             $this->titleValidator->validate($this->updateEnvelopeDto->getTitle(), $this->envelope);
             $this->targetBudgetValidator->validate($this->updateEnvelopeDto->getTargetBudget(), $this->envelope, $this->newParentEnvelope);
             $this->currentBudgetValidator->validate($this->updateEnvelopeDto->getCurrentBudget(), $this->updateEnvelopeDto->getTargetBudget(), $this->envelope, $this->newParentEnvelope);
-            $oldParentEnvelopeId = $this->envelope->getParent()->getId();
+            $oldParentEnvelopeId = $this->envelope->getParent()?->getId();
 
             if ($oldParentEnvelopeId !== $this->newParentEnvelope?->getId()) {
-                $this->envelope->getParent()->updateAncestorsCurrentBudget(-floatval($this->envelope->getCurrentBudget()));
+                $this->envelope->getParent()?->updateAncestorsCurrentBudget(-floatval($this->envelope->getCurrentBudget()));
             }
 
             $difference = floatval($this->updateEnvelopeDto->getCurrentBudget()) - floatval($this->envelope->getCurrentBudget());

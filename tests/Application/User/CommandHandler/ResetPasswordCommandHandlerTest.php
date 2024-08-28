@@ -6,8 +6,8 @@ namespace App\Tests\Application\User\CommandHandler;
 
 use App\Application\User\Command\ResetUserPasswordCommand;
 use App\Application\User\CommandHandler\ResetPasswordCommandHandler;
+use App\Application\User\Dto\ResetUserPasswordInputInterface;
 use App\Domain\User\Adapter\PasswordHasherInterface;
-use App\Domain\User\Dto\ResetUserPasswordDtoInterface;
 use App\Domain\User\Repository\UserCommandRepositoryInterface;
 use App\Infra\Http\Rest\User\Entity\User;
 use PHPUnit\Framework\TestCase;
@@ -18,7 +18,7 @@ class ResetPasswordCommandHandlerTest extends TestCase
     {
         $userCommandRepository = $this->createMock(UserCommandRepositoryInterface::class);
         $passwordHasher = $this->createMock(PasswordHasherInterface::class);
-        $resetUserPasswordDto = $this->createMock(ResetUserPasswordDtoInterface::class);
+        $resetUserPasswordDto = $this->createMock(ResetUserPasswordInputInterface::class);
         $user = $this->createMock(User::class);
 
         $newPassword = 'new-password';

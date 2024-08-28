@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Tests\Application\User\Command;
 
 use App\Application\User\Command\CreateUserCommand;
-use App\Domain\User\Dto\CreateUserDto;
+use App\Application\User\Dto\CreateUserInput;
 use PHPUnit\Framework\TestCase;
 
 class CreateUserCommandTest extends TestCase
 {
     public function testCommandInstantiation(): void
     {
-        $createUserDto = new CreateUserDto(
+        $createUserDto = new CreateUserInput(
             email: 'test@example.com',
             password: 'password123',
             firstname: 'John',
@@ -27,7 +27,7 @@ class CreateUserCommandTest extends TestCase
 
     public function testGetCreateUserDto(): void
     {
-        $createUserDto = new CreateUserDto(
+        $createUserDto = new CreateUserInput(
             email: 'test@example.com',
             password: 'password123',
             firstname: 'John',

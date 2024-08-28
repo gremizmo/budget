@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\User\Factory;
 
+use App\Application\User\Dto\EditUserInputInterface;
 use App\Domain\Shared\Model\UserInterface;
-use App\Domain\User\Dto\EditUserDtoInterface;
 
 readonly class EditUserFactory implements EditUserFactoryInterface
 {
@@ -13,7 +13,7 @@ readonly class EditUserFactory implements EditUserFactoryInterface
     {
     }
 
-    public function createFromDto(UserInterface $user, EditUserDtoInterface $editUserDto): UserInterface
+    public function createFromDto(UserInterface $user, EditUserInputInterface $editUserDto): UserInterface
     {
         $user->setFirstname($editUserDto->getFirstname())
             ->setLastname($editUserDto->getLastname())

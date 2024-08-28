@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Infra\Http\Rest\Envelope\Controller;
 
 use App\Application\Envelope\Command\EditEnvelopeCommand;
+use App\Application\Envelope\Dto\EditEnvelopeInput;
 use App\Application\Envelope\Query\ShowEnvelopeQuery;
-use App\Domain\Envelope\Dto\EditEnvelopeDto;
 use App\Domain\Envelope\Exception\EnvelopeNotFoundException;
 use App\Domain\Shared\Adapter\CommandBusInterface;
 use App\Domain\Shared\Adapter\QueryBusInterface;
 use App\Domain\Shared\Model\UserInterface;
 use App\Infra\Http\Rest\Envelope\Entity\Envelope;
-use App\Infra\Http\Rest\Shared\Exception\CreateEnvelopeControllerException;
+use App\Infra\Http\Rest\Shared\Exception\EditEnvelopeControllerException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,7 +34,7 @@ class EditEnvelopeController extends AbstractController
     }
 
     public function __invoke(
-        #[MapRequestPayload] EditEnvelopeDto $updateEnvelopeDto,
+        #[MapRequestPayload] EditEnvelopeInput $updateEnvelopeDto,
         int $id,
         #[CurrentUser] UserInterface $user,
     ): JsonResponse {
@@ -58,9 +58,9 @@ class EditEnvelopeController extends AbstractController
 
             return $this->json(['message' => 'Envelope edit request received'], Response::HTTP_OK);
         } catch (\Throwable $exception) {
-            $this->logger->error('Failed to process Envelope creation request: '.$exception->getMessage());
+            $this->logger->error('Failed to process Envelope edition request: '.$exception->getMessage());
 
-            throw new CreateEnvelopeControllerException(CreateEnvelopeControllerException::MESSAGE, $exception->getCode(), $exception);
+            throw new EditEnvelopeControllerException(EditEnvelopeControllerException::MESSAGE, $exception->getCode(), $exception);
         }
     }
 }

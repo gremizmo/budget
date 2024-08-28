@@ -6,7 +6,7 @@ namespace App\Tests\Application\Envelope\CommandHandler;
 
 use App\Application\Envelope\Command\EditEnvelopeCommand;
 use App\Application\Envelope\CommandHandler\EditEnvelopeCommandHandler;
-use App\Domain\Envelope\Dto\EditEnvelopeDtoInterface;
+use App\Application\Envelope\Dto\EditEnvelopeInputInterface;
 use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
 use App\Domain\Envelope\Factory\EditEnvelopeFactoryInterface;
 use App\Domain\Envelope\Model\EnvelopeInterface;
@@ -57,7 +57,7 @@ class EditEnvelopeCommandHandlerTest extends TestCase
     {
         $parentEnvelope = $this->createMock(EnvelopeInterface::class);
         $envelope = $this->createMock(EnvelopeInterface::class);
-        $updateEnvelopeDto = $this->createMock(EditEnvelopeDtoInterface::class);
+        $updateEnvelopeDto = $this->createMock(EditEnvelopeInputInterface::class);
 
         $editEnvelopeCommand = new EditEnvelopeCommand(
             $envelope,
@@ -88,7 +88,7 @@ class EditEnvelopeCommandHandlerTest extends TestCase
     {
         $parentEnvelope = $this->createMock(EnvelopeInterface::class);
         $envelope = $this->createMock(EnvelopeInterface::class);
-        $updateEnvelopeDto = $this->createMock(EditEnvelopeDtoInterface::class);
+        $updateEnvelopeDto = $this->createMock(EditEnvelopeInputInterface::class);
 
         return [
             'withParent' => [

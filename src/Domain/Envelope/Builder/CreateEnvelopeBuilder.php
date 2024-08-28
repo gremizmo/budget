@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Envelope\Builder;
 
-use App\Domain\Envelope\Dto\CreateEnvelopeDtoInterface;
+use App\Application\Envelope\Dto\CreateEnvelopeInputInterface;
 use App\Domain\Envelope\Exception\Builder\CreateEnvelopeBuilderException;
 use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Envelope\Validator\CreateEnvelopeCurrentBudgetValidator;
@@ -16,7 +16,7 @@ use App\Domain\Shared\Model\UserInterface;
 class CreateEnvelopeBuilder implements CreateEnvelopeBuilderInterface
 {
     private ?EnvelopeInterface $parentEnvelope = null;
-    private CreateEnvelopeDtoInterface $createEnvelopeDto;
+    private CreateEnvelopeInputInterface $createEnvelopeDto;
     private UserInterface $user;
 
     public function __construct(
@@ -39,7 +39,7 @@ class CreateEnvelopeBuilder implements CreateEnvelopeBuilderInterface
         return $this;
     }
 
-    public function setCreateEnvelopeDto(CreateEnvelopeDtoInterface $createEnvelopeDto): self
+    public function setCreateEnvelopeDto(CreateEnvelopeInputInterface $createEnvelopeDto): self
     {
         $this->createEnvelopeDto = $createEnvelopeDto;
 

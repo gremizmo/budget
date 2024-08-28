@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\Envelope\Factory;
 
+use App\Application\Envelope\Dto\EditEnvelopeInput;
 use App\Domain\Envelope\Builder\EditEnvelopeBuilder;
-use App\Domain\Envelope\Dto\EditEnvelopeDto;
 use App\Domain\Envelope\Entity\EnvelopeCollection;
 use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
 use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException;
@@ -48,7 +48,7 @@ class EditEnvelopeFactoryTest extends TestCase
      */
     public function testCreateFromDtoSuccess(): void
     {
-        $editEnvelopeDto = new EditEnvelopeDto('Test Title', '50.00', '100.00');
+        $editEnvelopeDto = new EditEnvelopeInput('Test Title', '50.00', '100.00');
         $parentEnvelope = new Envelope();
         $parentEnvelope->setTargetBudget('200.00');
         $parentEnvelope->setChildren(new EnvelopeCollection());
@@ -71,7 +71,7 @@ class EditEnvelopeFactoryTest extends TestCase
      */
     public function testCreateFromDtoFailureDueToChildrenTargetBudgetsExceedsParent(): void
     {
-        $editEnvelopeDto = new EditEnvelopeDto('Test Title', '50.00', '300.00');
+        $editEnvelopeDto = new EditEnvelopeInput('Test Title', '50.00', '300.00');
         $parentEnvelope = new Envelope();
         $parentEnvelope->setTargetBudget('200.00');
         $parentEnvelope->setChildren(new EnvelopeCollection());
@@ -94,7 +94,7 @@ class EditEnvelopeFactoryTest extends TestCase
      */
     public function testCreateFromDtoFailureDueToCurrentBudgetExceedsTarget(): void
     {
-        $editEnvelopeDto = new EditEnvelopeDto('Test Title', '250.00', '100.00');
+        $editEnvelopeDto = new EditEnvelopeInput('Test Title', '250.00', '100.00');
         $parentEnvelope = new Envelope();
         $parentEnvelope->setId(1);
         $parentEnvelope->setTargetBudget('200.00');
@@ -117,7 +117,7 @@ class EditEnvelopeFactoryTest extends TestCase
      */
     public function testHandleParentChange(): void
     {
-        $editEnvelopeDto = new EditEnvelopeDto('Test Title', '100.00', '150.00');
+        $editEnvelopeDto = new EditEnvelopeInput('Test Title', '100.00', '150.00');
         $parentEnvelope = new Envelope();
         $parentEnvelope->setId(1);
         $parentEnvelope->setTargetBudget('200.00');
