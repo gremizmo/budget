@@ -2,7 +2,7 @@
 
 namespace App\Infra\Http\Rest\User\Subscriber;
 
-use App\Domain\User\Entity\UserInterface;
+use App\Domain\Shared\Model\UserInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

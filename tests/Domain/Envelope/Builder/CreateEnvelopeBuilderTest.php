@@ -11,7 +11,7 @@ use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Envelope\Validator\EditEnvelopeCurrentBudgetValidator;
 use App\Domain\Envelope\Validator\EditEnvelopeTargetBudgetValidator;
 use App\Domain\Envelope\Validator\EditEnvelopeTitleValidator;
-use App\Domain\User\Entity\UserInterface;
+use App\Domain\Shared\Model\UserInterface;
 use App\Infra\Http\Rest\Envelope\Entity\Envelope;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;

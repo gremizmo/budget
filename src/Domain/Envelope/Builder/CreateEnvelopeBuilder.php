@@ -11,7 +11,7 @@ use App\Domain\Envelope\Validator\CreateEnvelopeCurrentBudgetValidator;
 use App\Domain\Envelope\Validator\CreateEnvelopeTargetBudgetValidator;
 use App\Domain\Envelope\Validator\CreateEnvelopeTitleValidator;
 use App\Domain\Shared\Adapter\LoggerInterface;
-use App\Domain\User\Entity\UserInterface;
+use App\Domain\Shared\Model\UserInterface;
 
 class CreateEnvelopeBuilder implements CreateEnvelopeBuilderInterface
 {

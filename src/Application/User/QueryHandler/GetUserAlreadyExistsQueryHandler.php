@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Application\User\QueryHandler;
 
 use App\Application\User\Query\GetUserAlreadyExistsQuery;
-use App\Domain\User\Entity\UserInterface;
+use App\Domain\Shared\Model\UserInterface;
 use App\Domain\User\Repository\UserQueryRepositoryInterface;
 
 readonly class GetUserAlreadyExistsQueryHandler

@@ -8,8 +8,8 @@ use App\Application\User\Command\ResetUserPasswordCommand;
 use App\Application\User\CommandHandler\ResetPasswordCommandHandler;
 use App\Domain\User\Adapter\PasswordHasherInterface;
 use App\Domain\User\Dto\ResetUserPasswordDtoInterface;
-use App\Domain\User\Entity\User;
 use App\Domain\User\Repository\UserCommandRepositoryInterface;
+use App\Infra\Http\Rest\User\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class ResetPasswordCommandHandlerTest extends TestCase

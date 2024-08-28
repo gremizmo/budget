@@ -3,7 +3,7 @@
 namespace App\Infra\Http\Rest\Shared\Adapter;
 
 use App\Domain\Shared\Adapter\MailerInterface;
-use App\Domain\User\Entity\UserInterface;
+use App\Domain\Shared\Model\UserInterface;
 use Symfony\Component\Mailer\Envelope;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface as SymfonyMailerInterface;

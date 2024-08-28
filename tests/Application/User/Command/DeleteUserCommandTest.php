@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Application\User\Command;
 
 use App\Application\User\Command\DeleteUserCommand;
-use App\Domain\User\Entity\UserInterface;
+use App\Domain\Shared\Model\UserInterface;
 use PHPUnit\Framework\TestCase;
 
 class DeleteUserCommandTest extends TestCase

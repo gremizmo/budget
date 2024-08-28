@@ -6,10 +6,10 @@ namespace App\Tests\Application\User\QueryHandler;
 
 use App\Application\User\Query\ShowUserQuery;
 use App\Application\User\QueryHandler\ShowUserQueryHandler;
-use App\Domain\User\Entity\UserInterface;
+use App\Domain\Shared\Adapter\LoggerInterface;
+use App\Domain\Shared\Model\UserInterface;
 use App\Domain\User\Exception\UserNotFoundException;
 use App\Domain\User\Repository\UserQueryRepositoryInterface;
-use App\Domain\Shared\Adapter\LoggerInterface;
 use PHPUnit\Framework\TestCase;
 
 class ShowUserQueryHandlerTest extends TestCase

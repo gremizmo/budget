@@ -6,10 +6,10 @@ namespace App\Infra\Http\Rest\User\Controller;
 
 use App\Application\User\Command\CreateUserCommand;
 use App\Application\User\Query\GetUserAlreadyExistsQuery;
-use App\Domain\Shared\Adapter\QueryBusInterface;
-use App\Domain\User\Dto\CreateUserDto;
 use App\Domain\Shared\Adapter\CommandBusInterface;
-use App\Domain\User\Entity\UserInterface;
+use App\Domain\Shared\Adapter\QueryBusInterface;
+use App\Domain\Shared\Model\UserInterface;
+use App\Domain\User\Dto\CreateUserDto;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;

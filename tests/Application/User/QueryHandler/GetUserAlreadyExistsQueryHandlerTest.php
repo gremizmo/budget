@@ -6,7 +6,7 @@ namespace App\Tests\Application\User\QueryHandler;
 
 use App\Application\User\Query\GetUserAlreadyExistsQuery;
 use App\Application\User\QueryHandler\GetUserAlreadyExistsQueryHandler;
-use App\Domain\User\Entity\UserInterface;
+use App\Domain\Shared\Model\UserInterface;
 use App\Domain\User\Repository\UserQueryRepositoryInterface;
 use PHPUnit\Framework\TestCase;
 

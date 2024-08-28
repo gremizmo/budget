@@ -9,7 +9,7 @@ use App\Application\User\Query\ShowUserQuery;
 use App\Domain\Shared\Adapter\CommandBusInterface;
 use App\Domain\Shared\Adapter\QueryBusInterface;
 use App\Domain\User\Dto\RequestPasswordResetDto;
-use App\Domain\User\Entity\User;
+use App\Infra\Http\Rest\User\Entity\User;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;

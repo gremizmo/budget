@@ -17,8 +17,8 @@ services:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
-            - '../src/Domain/Envelope/Entity/'
-            - '../src/Domain/User/Entity/'
+            - '../src/Infra/Http/Rest/Envelope/Entity/'
+            - '../src/Infra/Http/Rest/User/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
 
@@ -84,3 +84,7 @@ services:
     App\Domain\Envelope\Builder\CreateEnvelopeBuilder:
         arguments:
             $envelopeClass: App\Infra\Http\Rest\Envelope\Entity\Envelope
+
+    App\Domain\User\Factory\CreateUserFactory:
+        arguments:
+            $userClass: App\Infra\Http\Rest\User\Entity\User

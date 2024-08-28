@@ -6,7 +6,7 @@ namespace App\Tests\Application\User\Command;
 
 use App\Application\User\Command\ResetUserPasswordCommand;
 use App\Domain\User\Dto\ResetUserPasswordDtoInterface;
-use App\Domain\User\Entity\User;
+use App\Infra\Http\Rest\User\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class ResetUserPasswordCommandTest extends TestCase

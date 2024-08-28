@@ -6,8 +6,8 @@ namespace App\Tests\Domain\User\Factory;
 
 use App\Domain\User\Adapter\PasswordHasherInterface;
 use App\Domain\User\Dto\CreateUserDto;
-use App\Domain\User\Entity\User;
 use App\Domain\User\Factory\CreateUserFactory;
+use App\Infra\Http\Rest\User\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class CreateUserFactoryTest extends TestCase

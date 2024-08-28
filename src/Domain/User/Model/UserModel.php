@@ -2,16 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\User\Entity;
+namespace App\Domain\User\Model;
 
-use App\Domain\Envelope\Entity\EnvelopeCollection;
-use App\Domain\Envelope\Entity\EnvelopeCollectionInterface;
 use App\Domain\Envelope\Model\EnvelopeInterface;
-use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
+use App\Domain\Shared\Model\Collection;
+use App\Domain\Shared\Model\UserInterface;
 
-class User implements UserInterface, SymfonyUserInterface, PasswordAuthenticatedUserInterface
+class UserModel implements UserInterface
 {
     private int $id;
     private string $email;
@@ -24,16 +21,13 @@ class User implements UserInterface, SymfonyUserInterface, PasswordAuthenticated
     private \DateTimeImmutable $consentDate;
     private \DateTimeImmutable $createdAt;
     private \DateTime $updatedAt;
-    private Collection $envelopes;
+    private \ArrayAccess|\IteratorAggregate|\Serializable|\Countable $envelopes;
     private ?string $passwordResetToken = null;
     private ?\DateTimeImmutable $passwordResetTokenExpiry = null;
 
     public function __construct()
     {
-        $this->envelopes = new EnvelopeCollection();
-        $this->createdAt = new \DateTimeImmutable();
-        $this->updatedAt = new \DateTime();
-        $this->consentDate = new \DateTimeImmutable();
+        $this->envelopes = new Collection();
     }
 
     public function getId(): int
@@ -143,7 +137,7 @@ class User implements UserInterface, SymfonyUserInterface, PasswordAuthenticated
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): User
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -155,19 +149,19 @@ class User implements UserInterface, SymfonyUserInterface, PasswordAuthenticated
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTime $updatedAt): User
+    public function setUpdatedAt(\DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getEnvelopes(): EnvelopeCollectionInterface
+    public function getEnvelopes(): \ArrayAccess|\IteratorAggregate|\Serializable|\Countable
     {
         return $this->envelopes;
     }
 
-    public function setEnvelopes(EnvelopeCollectionInterface $envelopes): self
+    public function setEnvelopes(\ArrayAccess|\IteratorAggregate|\Serializable|\Countable $envelopes): self
     {
         $this->envelopes = $envelopes;
 

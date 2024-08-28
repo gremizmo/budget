@@ -6,7 +6,7 @@ namespace App\Tests\Domain\User\Entity;
 
 use App\Domain\Envelope\Entity\EnvelopeCollection;
 use App\Domain\Envelope\Model\EnvelopeInterface;
-use App\Domain\User\Entity\User;
+use App\Infra\Http\Rest\User\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class UserTest extends TestCase

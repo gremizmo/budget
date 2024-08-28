@@ -7,9 +7,9 @@ namespace App\Tests\Application\User\CommandHandler;
 use App\Application\User\Command\CreateUserCommand;
 use App\Application\User\CommandHandler\CreateUserCommandHandler;
 use App\Domain\User\Dto\CreateUserDto;
-use App\Domain\User\Entity\User;
 use App\Domain\User\Factory\CreateUserFactoryInterface;
 use App\Domain\User\Repository\UserCommandRepositoryInterface;
+use App\Infra\Http\Rest\User\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class CreateUserCommandHandlerTest extends TestCase

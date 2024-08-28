@@ -13,8 +13,8 @@ use App\Domain\Envelope\Validator\EditEnvelopeCurrentBudgetValidator;
 use App\Domain\Envelope\Validator\EditEnvelopeTargetBudgetValidator;
 use App\Domain\Envelope\Validator\EditEnvelopeTitleValidator;
 use App\Domain\Shared\Adapter\LoggerInterface;
-use App\Domain\User\Entity\User;
 use App\Infra\Http\Rest\Envelope\Entity\Envelope;
+use App\Infra\Http\Rest\User\Entity\User;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 

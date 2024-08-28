@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Infra\Http\Rest\Shared\Adapter;
 
-use App\Domain\User\Entity\UserInterface;
+use App\Domain\Shared\Model\UserInterface;
 use App\Infra\Http\Rest\Shared\Adapter\MailerAdapter;
 use App\Infra\Http\Rest\Shared\Adapter\UrlGeneratorAdapter;
 use PHPUnit\Framework\MockObject\MockObject;

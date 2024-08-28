@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\User\Entity;
+namespace App\Domain\Shared\Model;
 
-use App\Domain\Envelope\Entity\EnvelopeCollectionInterface;
 use App\Domain\Envelope\Model\EnvelopeInterface;
 
 interface UserInterface
@@ -47,9 +46,9 @@ interface UserInterface
 
     public function setConsentDate(\DateTimeImmutable $consentDate): self;
 
-    public function getEnvelopes(): EnvelopeCollectionInterface;
+    public function getEnvelopes(): \ArrayAccess|\IteratorAggregate|\Serializable|\Countable;
 
-    public function setEnvelopes(EnvelopeCollectionInterface $envelopes): self;
+    public function setEnvelopes(\ArrayAccess|\IteratorAggregate|\Serializable|\Countable $envelopes): self;
 
     public function getCreatedAt(): \DateTimeImmutable;
 

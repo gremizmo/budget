@@ -6,7 +6,7 @@ namespace App\Infra\Http\Rest\Envelope\Controller;
 
 use App\Application\Envelope\Query\ShowEnvelopeQuery;
 use App\Domain\Shared\Adapter\QueryBusInterface;
-use App\Domain\User\Entity\UserInterface;
+use App\Domain\Shared\Model\UserInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;

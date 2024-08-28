@@ -6,7 +6,7 @@ namespace App\Tests\Application\Envelope\Query;
 
 use App\Application\Envelope\Query\ListEnvelopesQuery;
 use App\Domain\Envelope\Dto\ListEnvelopesDto;
-use App\Domain\User\Entity\User;
+use App\Infra\Http\Rest\User\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class ListEnvelopesQueryTest extends TestCase

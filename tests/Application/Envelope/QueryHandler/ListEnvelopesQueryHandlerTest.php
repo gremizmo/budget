@@ -11,8 +11,8 @@ use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Envelope\Model\EnvelopesPaginated;
 use App\Domain\Envelope\Model\EnvelopesPaginatedInterface;
 use App\Domain\Envelope\Repository\EnvelopeQueryRepositoryInterface;
-use App\Domain\User\Entity\User;
 use App\Infra\Http\Rest\Envelope\Entity\Envelope;
+use App\Infra\Http\Rest\User\Entity\User;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 

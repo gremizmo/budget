@@ -2,7 +2,7 @@
 
 namespace App\Domain\Shared\Adapter;
 
-use App\Domain\User\Entity\UserInterface;
+use App\Domain\Shared\Model\UserInterface;
 
 interface MailerInterface
 {

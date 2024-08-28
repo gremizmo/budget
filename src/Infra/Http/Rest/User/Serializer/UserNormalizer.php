@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infra\Http\Rest\User\Serializer;
 
-use App\Domain\User\Entity\User;
+use App\Infra\Http\Rest\User\Entity\User;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;

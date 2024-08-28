@@ -8,7 +8,7 @@ use App\Application\Envelope\Query\GetEnvelopeByTitleQuery;
 use App\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
 use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Shared\Adapter\QueryBusInterface;
-use App\Domain\User\Entity\UserInterface;
+use App\Domain\Shared\Model\UserInterface;
 
 readonly class CreateEnvelopeTitleValidator
 {

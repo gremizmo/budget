@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Application\Envelope\CommandHandler;
 
 use App\Application\Envelope\Command\EditEnvelopeCommand;
-use App\Domain\Envelope\Exception\CommandHandler\EditEnvelopeCommandHandlerException;
 use App\Domain\Envelope\Factory\EditEnvelopeFactoryInterface;
 use App\Domain\Envelope\Repository\EnvelopeCommandRepositoryInterface;
 use App\Domain\Shared\Adapter\LoggerInterface;

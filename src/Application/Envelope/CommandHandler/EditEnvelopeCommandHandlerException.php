@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Envelope\Exception\CommandHandler;
+namespace App\Application\Envelope\CommandHandler;
 
 class EditEnvelopeCommandHandlerException extends \Exception
 {

@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Application\User\Command;
 
 use App\Domain\Shared\Command\CommandInterface;
+use App\Domain\Shared\Model\UserInterface;
 use App\Domain\User\Dto\ResetUserPasswordDtoInterface;
-use App\Domain\User\Entity\User;
 
 readonly class ResetUserPasswordCommand implements CommandInterface
 {
     public function __construct(
         private ResetUserPasswordDtoInterface $resetUserPasswordDto,
-        private User $user,
+        private UserInterface $user,
     ) {
     }
 
@@ -21,7 +21,7 @@ readonly class ResetUserPasswordCommand implements CommandInterface
         return $this->resetUserPasswordDto;
     }
 
-    public function getUser(): User
+    public function getUser(): UserInterface
     {
         return $this->user;
     }

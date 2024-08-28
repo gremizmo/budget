@@ -7,9 +7,9 @@ namespace App\Tests\Application\User\CommandHandler;
 use App\Application\User\Command\EditUserCommand;
 use App\Application\User\CommandHandler\EditUserCommandHandler;
 use App\Domain\User\Dto\EditUserDto;
-use App\Domain\User\Entity\User;
 use App\Domain\User\Factory\EditUserFactoryInterface;
 use App\Domain\User\Repository\UserCommandRepositoryInterface;
+use App\Infra\Http\Rest\User\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class EditUserCommandHandlerTest extends TestCase

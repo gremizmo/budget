@@ -6,7 +6,7 @@ namespace App\Tests\Application\User\Command;
 
 use App\Application\User\Command\ChangeUserPasswordCommand;
 use App\Domain\User\Dto\ChangeUserPasswordDtoInterface;
-use App\Domain\User\Entity\User;
+use App\Infra\Http\Rest\User\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class ChangeUserPasswordCommandTest extends TestCase

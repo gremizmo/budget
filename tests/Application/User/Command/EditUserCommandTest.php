@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Application\User\Command;
 
 use App\Application\User\Command\EditUserCommand;
+use App\Domain\Shared\Model\UserInterface;
 use App\Domain\User\Dto\EditUserDtoInterface;
-use App\Domain\User\Entity\UserInterface;
 use PHPUnit\Framework\TestCase;
 
 class EditUserCommandTest extends TestCase

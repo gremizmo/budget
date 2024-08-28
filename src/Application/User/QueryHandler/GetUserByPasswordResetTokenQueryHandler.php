@@ -3,7 +3,7 @@
 namespace App\Application\User\QueryHandler;
 
 use App\Application\User\Query\GetUserByPasswordResetTokenQuery;
-use App\Domain\User\Entity\UserInterface;
+use App\Domain\Shared\Model\UserInterface;
 use App\Domain\User\Exception\UserNotFoundException;
 use App\Domain\User\Repository\UserQueryRepositoryInterface;
 

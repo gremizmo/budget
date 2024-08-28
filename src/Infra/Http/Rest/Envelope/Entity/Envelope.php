@@ -6,19 +6,43 @@ namespace App\Infra\Http\Rest\Envelope\Entity;
 
 use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Envelope\Model\EnvelopeModel;
-use App\Domain\User\Entity\UserInterface;
+use App\Domain\Shared\Model\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\Entity(repositoryClass: 'App\Infra\Http\Rest\Envelope\Repository\EnvelopeCommandRepository')]
+#[ORM\Table(name: 'envelope')]
 class Envelope extends EnvelopeModel
 {
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected int $id;
+
+    #[ORM\Column(name: 'created_at', type: 'datetime_immutable')]
     protected \DateTimeImmutable $createdAt;
+
+    #[ORM\Column(name: 'updated_at', type: 'datetime')]
     protected \DateTime $updatedAt;
+
+    #[ORM\Column(name: 'current_budget', type: 'string')]
     protected string $currentBudget = '0.00';
+
+    #[ORM\Column(name: 'target_budget', type: 'string')]
     protected string $targetBudget = '0.00';
+
+    #[ORM\Column(name: 'title', type: 'string', length: 255)]
     protected string $title = '';
+
+    #[ORM\ManyToOne(targetEntity: 'App\Infra\Http\Rest\Envelope\Entity\Envelope', inversedBy: 'children')]
+    #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id', nullable: true)]
     protected ?EnvelopeInterface $parent = null;
+
+    #[ORM\OneToMany(targetEntity: 'App\Infra\Http\Rest\Envelope\Entity\Envelope', mappedBy: 'parent', cascade: ['persist', 'remove'])]
     protected \ArrayAccess|\IteratorAggregate|\Serializable|\Countable $children;
+
+    #[ORM\ManyToOne(targetEntity: 'App\Infra\Http\Rest\User\Entity\User', inversedBy: 'envelopes')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: false)]
     protected UserInterface $user;
 
     public function __construct()

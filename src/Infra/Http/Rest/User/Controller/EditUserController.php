@@ -6,8 +6,8 @@ namespace App\Infra\Http\Rest\User\Controller;
 
 use App\Application\User\Command\EditUserCommand;
 use App\Domain\Shared\Adapter\CommandBusInterface;
+use App\Domain\Shared\Model\UserInterface;
 use App\Domain\User\Dto\EditUserDto;
-use App\Domain\User\Entity\UserInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;

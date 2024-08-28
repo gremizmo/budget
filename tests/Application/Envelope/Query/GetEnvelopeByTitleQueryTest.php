@@ -3,7 +3,7 @@
 namespace App\Tests\Application\Envelope\Query;
 
 use App\Application\Envelope\Query\GetEnvelopeByTitleQuery;
-use App\Domain\User\Entity\UserInterface;
+use App\Domain\Shared\Model\UserInterface;
 use PHPUnit\Framework\TestCase;
 
 class GetEnvelopeByTitleQueryTest extends TestCase

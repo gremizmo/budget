@@ -6,7 +6,7 @@ namespace App\Domain\Envelope\Builder;
 
 use App\Domain\Envelope\Dto\CreateEnvelopeDtoInterface;
 use App\Domain\Envelope\Model\EnvelopeInterface;
-use App\Domain\User\Entity\UserInterface;
+use App\Domain\Shared\Model\UserInterface;
 
 interface CreateEnvelopeBuilderInterface
 {

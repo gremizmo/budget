@@ -17,16 +17,16 @@ doctrine:
         auto_mapping: true
         mappings:
             Envelope:
-                type: xml
+                type: attribute
                 is_bundle: false
-                dir: '%kernel.project_dir%/config/doctrine/envelope'
+                dir: '%kernel.project_dir%/src/Infra/Http/Rest/Envelope/Entity'
                 prefix: 'App\Infra\Http\Rest\Envelope\Entity'
                 alias: Envelope
             User:
-                type: xml
+                type: attribute
                 is_bundle: false
-                dir: '%kernel.project_dir%/config/doctrine/user'
-                prefix: 'App\Domain\User\Entity'
+                dir: '%kernel.project_dir%/src/Infra/Http/Rest/User/Entity'
+                prefix: 'App\Infra\Http\Rest\User\Entity'
                 alias: User
             RefreshToken:
                 type: attribute

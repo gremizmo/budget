@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Infra\Http\Rest\User\Repository;
 
-use App\Domain\User\Entity\User;
+use App\Domain\Shared\Adapter\LoggerInterface;
 use App\Domain\User\Exception\UserQueryRepositoryException;
 use App\Domain\User\Repository\UserQueryRepositoryInterface;
-use App\Domain\Shared\Adapter\LoggerInterface;
+use App\Infra\Http\Rest\User\Entity\User;
 use Elastica\Query;
 use FOS\ElasticaBundle\Finder\PaginatedFinderInterface;
 use FOS\ElasticaBundle\Repository;

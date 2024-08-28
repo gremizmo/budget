@@ -10,7 +10,7 @@ use App\Domain\Envelope\Dto\CreateEnvelopeDto;
 use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Shared\Adapter\CommandBusInterface;
 use App\Domain\Shared\Adapter\QueryBusInterface;
-use App\Domain\User\Entity\UserInterface;
+use App\Domain\Shared\Model\UserInterface;
 use App\Infra\Http\Rest\Shared\Exception\CreateEnvelopeControllerException;
 use App\Infra\Http\Rest\Shared\Exception\EditEnvelopeControllerException;
 use Psr\Log\LoggerInterface;

@@ -7,7 +7,7 @@ namespace App\Application\Envelope\Command;
 use App\Domain\Envelope\Dto\CreateEnvelopeDtoInterface;
 use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Shared\Command\CommandInterface;
-use App\Domain\User\Entity\UserInterface;
+use App\Domain\Shared\Model\UserInterface;
 
 readonly class CreateEnvelopeCommand implements CommandInterface
 {

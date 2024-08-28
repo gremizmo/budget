@@ -7,7 +7,7 @@ namespace App\Infra\Http\Rest\User\Controller;
 use App\Application\User\Command\ChangeUserPasswordCommand;
 use App\Domain\Shared\Adapter\CommandBusInterface;
 use App\Domain\User\Dto\ChangeUserPasswordDto;
-use App\Domain\User\Entity\User;
+use App\Infra\Http\Rest\User\Entity\User;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;

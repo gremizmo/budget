@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infra\Http\Rest\User\Controller;
 
-use App\Domain\User\Entity\UserInterface;
+use App\Domain\Shared\Model\UserInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;

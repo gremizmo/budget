@@ -6,10 +6,10 @@ namespace App\Domain\Envelope\Factory;
 
 use App\Domain\Envelope\Builder\CreateEnvelopeBuilder;
 use App\Domain\Envelope\Dto\CreateEnvelopeDtoInterface;
-use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Envelope\Exception\Factory\CreateEnvelopeFactoryException;
+use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Shared\Adapter\LoggerInterface;
-use App\Domain\User\Entity\UserInterface;
+use App\Domain\Shared\Model\UserInterface;
 
 readonly class CreateEnvelopeFactory implements CreateEnvelopeFactoryInterface
 {

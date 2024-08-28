@@ -9,7 +9,7 @@ use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTarg
 use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException;
 use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
 use App\Domain\Shared\Model\Collection;
-use App\Domain\User\Entity\UserInterface;
+use App\Domain\Shared\Model\UserInterface;
 
 class EnvelopeModel implements EnvelopeInterface
 {
