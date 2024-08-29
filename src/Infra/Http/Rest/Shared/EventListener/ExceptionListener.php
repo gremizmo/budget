@@ -26,12 +26,12 @@ readonly class ExceptionListener
         $type = '';
 
         while (null !== $exceptionCopy) {
-            $previousExceptions[] = $exceptionCopy->getMessage();
             if (null === $exceptionCopy->getPrevious()) {
                 $type = \strrchr($exceptionCopy::class, '\\');
                 break;
             }
             $exceptionCopy = $exceptionCopy->getPrevious();
+            $previousExceptions[] = $exceptionCopy->getMessage();
         }
 
         $response = new JsonResponse([

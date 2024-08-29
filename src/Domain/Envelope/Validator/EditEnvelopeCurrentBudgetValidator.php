@@ -11,12 +11,12 @@ class EditEnvelopeCurrentBudgetValidator
     public function validate(string $currentBudget, string $targetBudget, EnvelopeInterface $currentEnvelope, ?EnvelopeInterface $parentEnvelope): void
     {
         $currentBudgetFloat = floatval($currentBudget);
-        $currentEnvelope->validateCurrentBudgetExceedsTargetBudget($currentBudgetFloat, floatval($targetBudget));
+        $currentEnvelope->validateCurrentBudgetIsLessThanTargetBudget($currentBudgetFloat, floatval($targetBudget));
 
         if ($parentEnvelope instanceof EnvelopeInterface) {
-            $currentEnvelope->validateCurrentBudgetExceedsParentTargetBudget($currentBudgetFloat, floatval($parentEnvelope->getTargetBudget()));
+            $parentEnvelope->validateCurrentBudgetIsLessThanParentTargetBudget($currentBudgetFloat);
         }
 
-        $currentEnvelope->validateCurrentBudgetLessThanChildrenCurrentBudget($currentBudgetFloat);
+        $currentEnvelope->validateChildrenCurrentBudgetIsLessThanCurrentBudget($currentBudgetFloat);
     }
 }

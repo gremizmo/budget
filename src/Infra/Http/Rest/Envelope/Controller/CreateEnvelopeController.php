@@ -12,7 +12,6 @@ use App\Domain\Shared\Adapter\CommandBusInterface;
 use App\Domain\Shared\Adapter\QueryBusInterface;
 use App\Domain\Shared\Model\UserInterface;
 use App\Infra\Http\Rest\Shared\Exception\CreateEnvelopeControllerException;
-use App\Infra\Http\Rest\Shared\Exception\EditEnvelopeControllerException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -33,9 +32,6 @@ class CreateEnvelopeController extends AbstractController
     ) {
     }
 
-    /**
-     * @throws CreateEnvelopeControllerException
-     */
     public function __invoke(
         #[MapRequestPayload] CreateEnvelopeInput $createEnvelopeDto,
         #[CurrentUser] UserInterface $user,
@@ -56,7 +52,7 @@ class CreateEnvelopeController extends AbstractController
         } catch (\Throwable $exception) {
             $this->logger->error('Failed to process Envelope creation request: '.$exception->getMessage());
 
-            throw new EditEnvelopeControllerException(EditEnvelopeControllerException::MESSAGE, $exception->getCode(), $exception);
+            throw new CreateEnvelopeControllerException(CreateEnvelopeControllerException::MESSAGE, $exception->getCode(), $exception);
         }
     }
 }

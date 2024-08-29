@@ -11,13 +11,12 @@ class EditEnvelopeTargetBudgetValidator
     public function validate(string $targetBudget, EnvelopeInterface $envelopeToUpdate, ?EnvelopeInterface $parentEnvelope = null): void
     {
         $targetBudgetFloat = floatval($targetBudget);
-
-        $envelopeToUpdate->validateAgainstCurrentEnvelope($envelopeToUpdate->calculateChildrenTargetBudget(), $targetBudgetFloat);
+        $envelopeToUpdate->validateEnvelopeChildrenTargetBudgetIsLessThanTargetBudget($targetBudgetFloat);
 
         if ($parentEnvelope instanceof EnvelopeInterface) {
-            $parentEnvelope->validateAgainstParentAvailableTargetBudget($targetBudgetFloat, $parentEnvelope->calculateAvailableTargetBudget(), floatval($envelopeToUpdate->getTargetBudget()));
-            $parentEnvelope->validateAgainstParentTargetBudget($parentEnvelope->calculateTotalChildrenCurrentBudgetOfParentEnvelope($envelopeToUpdate));
-            $parentEnvelope->validateMaxAllowedTargetBudgetAvailable($envelopeToUpdate, $targetBudgetFloat);
+            $parentEnvelope->validateTargetBudgetIsLessThanParentAvailableTargetBudget($targetBudgetFloat, floatval($envelopeToUpdate->getTargetBudget()));
+            $parentEnvelope->validateChildrenCurrentBudgetIsLessThanTargetBudget($parentEnvelope->calculateChildrenCurrentBudgetOfParentEnvelope($envelopeToUpdate));
+            $parentEnvelope->validateTargetBudgetIsLessThanParentMaxAllowableBudget($envelopeToUpdate, $targetBudgetFloat);
         }
     }
 }

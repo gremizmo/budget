@@ -6,8 +6,8 @@ namespace App\Tests\Domain\Envelope\Validator;
 
 use App\Domain\Envelope\Entity\EnvelopeCollection;
 use App\Domain\Envelope\Exception\ChildrenCurrentBudgetExceedsCurrentEnvelopeCurrentBudgetException;
-use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException;
-use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
+use App\Domain\Envelope\Exception\CurrentBudgetExceedsEnvelopeTargetBudgetException;
+use App\Domain\Envelope\Exception\CurrentBudgetExceedsParentEnvelopeTargetBudgetException;
 use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Envelope\Validator\EditEnvelopeCurrentBudgetValidator;
 use PHPUnit\Framework\TestCase;
@@ -22,23 +22,23 @@ class CurrentBudgetValidatorTest extends TestCase
     }
 
     /**
-     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws CurrentBudgetExceedsParentEnvelopeTargetBudgetException
      * @throws ChildrenCurrentBudgetExceedsCurrentEnvelopeCurrentBudgetException
      */
     public function testValidateCurrentBudgetExceedsTargetBudget(): void
     {
-        $this->expectException(EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException::class);
+        $this->expectException(CurrentBudgetExceedsEnvelopeTargetBudgetException::class);
 
         $this->validator->validate('300.00', '200.00', null);
     }
 
     /**
      * @throws ChildrenCurrentBudgetExceedsCurrentEnvelopeCurrentBudgetException
-     * @throws EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException
+     * @throws CurrentBudgetExceedsEnvelopeTargetBudgetException
      */
     public function testValidateCurrentBudgetExceedsParentTargetBudget(): void
     {
-        $this->expectException(EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException::class);
+        $this->expectException(CurrentBudgetExceedsParentEnvelopeTargetBudgetException::class);
 
         $parentEnvelope = $this->createMock(EnvelopeInterface::class);
         $parentEnvelope->method('getTargetBudget')->willReturn('200.00');
@@ -53,8 +53,8 @@ class CurrentBudgetValidatorTest extends TestCase
     }
 
     /**
-     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
-     * @throws EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException
+     * @throws CurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws CurrentBudgetExceedsEnvelopeTargetBudgetException
      */
     public function testValidateCurrentBudgetLessThanTotalChildrenCurrentBudget(): void
     {
@@ -74,9 +74,9 @@ class CurrentBudgetValidatorTest extends TestCase
     }
 
     /**
-     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws CurrentBudgetExceedsParentEnvelopeTargetBudgetException
      * @throws ChildrenCurrentBudgetExceedsCurrentEnvelopeCurrentBudgetException
-     * @throws EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException
+     * @throws CurrentBudgetExceedsEnvelopeTargetBudgetException
      */
     public function testValidateValidBudgets(): void
     {

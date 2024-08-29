@@ -16,31 +16,25 @@ interface EnvelopeInterface
 
     public function setCurrentBudget(string $currentBudget): self;
 
-    public function calculateTotalChildrenCurrentBudgetOfParentEnvelope(EnvelopeInterface $envelopeToUpdate): float;
+    public function calculateChildrenCurrentBudgetOfParentEnvelope(EnvelopeInterface $envelopeToUpdate): float;
 
-    public function calculateTotalChildrenCurrentBudget(): float;
+    public function validateTargetBudgetIsLessThanParentTargetBudget(float $targetBudget): void;
 
-    public function calculateTotalChildrenTargetBudget(): float;
+    public function validateTargetBudgetIsLessThanParentAvailableTargetBudget(float $targetBudget, float $envelopeToUpdateTargetBudget): void;
 
-    public function calculateAvailableTargetBudget(): float;
+    public function validateChildrenCurrentBudgetIsLessThanTargetBudget(float $totalChildrenTargetBudget): void;
 
-    public function isTargetBudgetInputLessThanCurrentTargetBudget(float $targetBudget): bool;
+    public function validateParentEnvelopeChildrenTargetBudgetIsLessThanTargetBudgetInput(): void;
 
-    public function validateAgainstParentAvailableTargetBudget(float $targetBudget, float $availableTargetBudget, float $envelopeToUpdateTargetBudget): void;
+    public function validateEnvelopeChildrenTargetBudgetIsLessThanTargetBudget(float $targetBudget): void;
 
-    public function validateAgainstParentTargetBudget(float $totalChildrenTargetBudget): void;
+    public function validateTargetBudgetIsLessThanParentMaxAllowableBudget(EnvelopeInterface $envelopeToUpdate, float $targetBudgetInput): void;
 
-    public function validateAgainstCurrentEnvelope(float $totalChildrenTargetBudget, float $targetBudget): void;
+    public function validateCurrentBudgetIsLessThanTargetBudget(float $currentBudget, float $targetBudget): void;
 
-    public function validateMaxAllowedTargetBudgetAvailable(EnvelopeInterface $envelope, float $targetBudget): void;
+    public function validateCurrentBudgetIsLessThanParentTargetBudget(float $currentBudget): void;
 
-    public function validateCurrentBudgetExceedsTargetBudget(float $currentBudget, float $targetBudget): void;
-
-    public function validateCurrentBudgetExceedsParentTargetBudget(float $currentBudget, float $parentTargetBudget): void;
-
-    public function validateCurrentBudgetLessThanChildrenCurrentBudget(float $currentBudget): void;
-
-    public function calculateChildrenTargetBudget(): float;
+    public function validateChildrenCurrentBudgetIsLessThanCurrentBudget(float $currentBudget): void;
 
     public function updateAncestorsCurrentBudget(float $currentBudget): void;
 }

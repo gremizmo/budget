@@ -4,28 +4,28 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\Envelope\Exception;
 
-use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
+use App\Domain\Envelope\Exception\CurrentBudgetExceedsParentEnvelopeTargetBudgetException;
 use PHPUnit\Framework\TestCase;
 
 class EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetExceptionTest extends TestCase
 {
     public function testExceptionMessage(): void
     {
-        $exception = new EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException(
-            EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException::MESSAGE,
+        $exception = new CurrentBudgetExceedsParentEnvelopeTargetBudgetException(
+            CurrentBudgetExceedsParentEnvelopeTargetBudgetException::MESSAGE,
             0
         );
 
         $this->assertSame(
-            EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException::MESSAGE,
+            CurrentBudgetExceedsParentEnvelopeTargetBudgetException::MESSAGE,
             $exception->getMessage()
         );
     }
 
     public function testExceptionCode(): void
     {
-        $exception = new EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException(
-            EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException::MESSAGE,
+        $exception = new CurrentBudgetExceedsParentEnvelopeTargetBudgetException(
+            CurrentBudgetExceedsParentEnvelopeTargetBudgetException::MESSAGE,
             123
         );
 
@@ -35,8 +35,8 @@ class EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetExceptionTest extend
     public function testPreviousException(): void
     {
         $previous = new \Exception('Previous exception');
-        $exception = new EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException(
-            EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException::MESSAGE,
+        $exception = new CurrentBudgetExceedsParentEnvelopeTargetBudgetException(
+            CurrentBudgetExceedsParentEnvelopeTargetBudgetException::MESSAGE,
             0,
             $previous
         );

@@ -8,8 +8,8 @@ use App\Application\Envelope\Dto\EditEnvelopeInput;
 use App\Domain\Envelope\Builder\EditEnvelopeBuilder;
 use App\Domain\Envelope\Entity\EnvelopeCollection;
 use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
-use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException;
-use App\Domain\Envelope\Exception\EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException;
+use App\Domain\Envelope\Exception\CurrentBudgetExceedsEnvelopeTargetBudgetException;
+use App\Domain\Envelope\Exception\CurrentBudgetExceedsParentEnvelopeTargetBudgetException;
 use App\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
 use App\Domain\Envelope\Exception\SelfParentEnvelopeException;
 use App\Domain\Envelope\Factory\EditEnvelopeFactory;
@@ -40,10 +40,10 @@ class EditEnvelopeFactoryTest extends TestCase
     }
 
     /**
-     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws CurrentBudgetExceedsParentEnvelopeTargetBudgetException
      * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
      * @throws EnvelopeTitleAlreadyExistsForUserException
-     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws CurrentBudgetExceedsParentEnvelopeTargetBudgetException
      * @throws SelfParentEnvelopeException
      */
     public function testCreateFromDtoSuccess(): void
@@ -63,10 +63,10 @@ class EditEnvelopeFactoryTest extends TestCase
     }
 
     /**
-     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws CurrentBudgetExceedsParentEnvelopeTargetBudgetException
      * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
      * @throws EnvelopeTitleAlreadyExistsForUserException
-     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws CurrentBudgetExceedsParentEnvelopeTargetBudgetException
      * @throws SelfParentEnvelopeException
      */
     public function testCreateFromDtoFailureDueToChildrenTargetBudgetsExceedsParent(): void
@@ -86,10 +86,10 @@ class EditEnvelopeFactoryTest extends TestCase
     }
 
     /**
-     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws CurrentBudgetExceedsParentEnvelopeTargetBudgetException
      * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
      * @throws EnvelopeTitleAlreadyExistsForUserException
-     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws CurrentBudgetExceedsParentEnvelopeTargetBudgetException
      * @throws SelfParentEnvelopeException
      */
     public function testCreateFromDtoFailureDueToCurrentBudgetExceedsTarget(): void
@@ -103,16 +103,16 @@ class EditEnvelopeFactoryTest extends TestCase
         $envelope->setParent($parentEnvelope);
         $envelope->setId(2);
 
-        $this->expectException(EnvelopeCurrentBudgetExceedsEnvelopeTargetBudgetException::class);
+        $this->expectException(CurrentBudgetExceedsEnvelopeTargetBudgetException::class);
 
         $this->editEnvelopeFactory->createFromDto($envelope, $editEnvelopeDto, $parentEnvelope);
     }
 
     /**
-     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws CurrentBudgetExceedsParentEnvelopeTargetBudgetException
      * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
      * @throws EnvelopeTitleAlreadyExistsForUserException
-     * @throws EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws CurrentBudgetExceedsParentEnvelopeTargetBudgetException
      * @throws SelfParentEnvelopeException
      */
     public function testHandleParentChange(): void
