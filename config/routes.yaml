@@ -10,12 +10,6 @@ controllers_rest_user:
         namespace: App\Infra\Http\Rest\User\Controller
     type: attribute
 
-controllers_web:
-    resource:
-        path: ../src/Infra/Http/Web/
-        namespace: App\Infra\Http\Web
-    type: attribute
-
 api_login_check:
     path: /api/login_check
 
