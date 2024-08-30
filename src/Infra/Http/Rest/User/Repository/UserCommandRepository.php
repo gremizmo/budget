@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Infra\Http\Rest\User\Repository;
 
 use App\Domain\Shared\Model\UserInterface;
-use App\Domain\User\Exception\UserCommandRepositoryException;
 use App\Domain\User\Repository\UserCommandRepositoryInterface;
 use App\Infra\Http\Rest\User\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

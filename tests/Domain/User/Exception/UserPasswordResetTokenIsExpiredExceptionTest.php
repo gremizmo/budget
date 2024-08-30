@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\User\Exception;
 
-use App\Domain\User\Exception\UserPasswordResetTokenIsExpiredException;
+use App\Infra\Http\Rest\Envelope\Exception\UserPasswordResetTokenIsExpiredException;
 use PHPUnit\Framework\TestCase;
 
 class UserPasswordResetTokenIsExpiredExceptionTest extends TestCase

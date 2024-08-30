@@ -6,9 +6,9 @@ namespace App\Tests\Application\User\QueryHandler;
 
 use App\Application\User\Query\ShowUserQuery;
 use App\Application\User\QueryHandler\ShowUserQueryHandler;
+use App\Application\User\QueryHandler\UserNotFoundException;
 use App\Domain\Shared\Adapter\LoggerInterface;
 use App\Domain\Shared\Model\UserInterface;
-use App\Domain\User\Exception\UserNotFoundException;
 use App\Domain\User\Repository\UserQueryRepositoryInterface;
 use PHPUnit\Framework\TestCase;
 

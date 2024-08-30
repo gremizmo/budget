@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Envelope\Exception\Repository;
+namespace App\Domain\Envelope\Factory;
 
-class EnvelopeCommandRepositoryException extends \Exception
+class EditEnvelopeFactoryException extends \Exception
 {
-    public const MESSAGE = 'An Error occurred in EnvelopeCommandRepository';
+    public const MESSAGE = 'An error occurred while creating an envelope in EditEnvelopeFactory';
 
     public function __construct(
         string $message,

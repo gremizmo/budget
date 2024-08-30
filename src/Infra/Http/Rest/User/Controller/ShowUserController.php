@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infra\Http\Rest\User\Controller;
 
 use App\Domain\Shared\Model\UserInterface;
+use App\Infra\Http\Rest\User\Exception\ShowUserControllerException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -27,10 +28,7 @@ class ShowUserController extends AbstractController
     ): JsonResponse {
         if ($id !== $currentUser->getId()) {
             $this->logger->error('Failed to process User getOne request: User not allowed to access this resource');
-
-            return $this->json([
-                'error' => 'Failed to process User getOne request: User not allowed to access this resource',
-            ], Response::HTTP_FORBIDDEN);
+            throw new ShowUserControllerException(ShowUserControllerException::MESSAGE, Response::HTTP_FORBIDDEN);
         }
 
         return $this->json($currentUser, Response::HTTP_OK);

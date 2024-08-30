@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Domain\Envelope\Builder;
 
 use App\Application\Envelope\Dto\EditEnvelopeInputInterface;
-use App\Domain\Envelope\Exception\Builder\EditEnvelopeBuilderException;
 use App\Domain\Envelope\Exception\SelfParentEnvelopeException;
 use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Envelope\Validator\EditEnvelopeCurrentBudgetValidator;

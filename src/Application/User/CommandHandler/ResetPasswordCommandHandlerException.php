@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Envelope\Exception\Factory;
+namespace App\Application\User\CommandHandler;
 
-class EditEnvelopeFactoryException extends \Exception
+class ResetPasswordCommandHandlerException extends \Exception
 {
-    public const MESSAGE = 'An error occurred while creating an envelope in EditEnvelopeFactory';
+    public const MESSAGE = 'An error occurred while resetting a password in ResetPasswordCommandHandler';
 
     public function __construct(
         string $message,

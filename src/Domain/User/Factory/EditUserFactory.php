@@ -15,10 +15,8 @@ readonly class EditUserFactory implements EditUserFactoryInterface
 
     public function createFromDto(UserInterface $user, EditUserInputInterface $editUserDto): UserInterface
     {
-        $user->setFirstname($editUserDto->getFirstname())
+        return $user->setFirstname($editUserDto->getFirstname())
             ->setLastname($editUserDto->getLastname())
             ->setUpdatedAt(new \DateTime('now'));
-
-        return $user;
     }
 }

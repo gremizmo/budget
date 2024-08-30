@@ -8,6 +8,7 @@ use App\Application\User\Command\EditUserCommand;
 use App\Application\User\Dto\EditUserInput;
 use App\Domain\Shared\Adapter\CommandBusInterface;
 use App\Domain\Shared\Model\UserInterface;
+use App\Infra\Http\Rest\User\Exception\EditUserControllerException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,24 +35,14 @@ class EditUserController extends AbstractController
     ): JsonResponse {
         if ($id !== $currentUser->getId()) {
             $this->logger->error('Failed to process User edit request: User not allowed to access this resource');
-
-            return $this->json([
-                'error' => 'Failed to process User edit request: User not allowed to access this resource',
-            ], Response::HTTP_FORBIDDEN);
+            throw new EditUserControllerException('User not allowed to access this resource', Response::HTTP_FORBIDDEN);
         }
 
         try {
             $this->commandBus->execute(new EditUserCommand($currentUser, $editUserDto));
         } catch (\Throwable $exception) {
             $this->logger->error('Failed to process User edit request: '.$exception->getMessage());
-
-            $exceptionType = \strrchr($exception::class, '\\');
-
-            return $this->json([
-                'error' => $exception->getMessage(),
-                'type' => \substr(\is_string($exceptionType) ? $exceptionType : '', 1),
-                'code' => $exception->getCode(),
-            ], $exception->getCode());
+            throw new EditUserControllerException(EditUserControllerException::MESSAGE, $exception->getCode(), $exception);
         }
 
         return $this->json($editUserDto, Response::HTTP_OK);

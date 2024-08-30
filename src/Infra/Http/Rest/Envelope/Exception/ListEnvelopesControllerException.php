@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Infra\Http\Rest\Shared\Exception;
+namespace App\Infra\Http\Rest\Envelope\Exception;
 
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
-class EditEnvelopeControllerException extends BadRequestException
+class ListEnvelopesControllerException extends BadRequestException
 {
-    public const MESSAGE = 'An error occurred while editing an envelope in EditEnvelopeController';
+    public const MESSAGE = 'An error occurred while listing envelopes in ListEnvelopesController';
 
     public function __construct(
         string $message,

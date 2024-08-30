@@ -6,7 +6,7 @@ namespace App\Tests\Domain\Envelope\Builder;
 
 use App\Application\Envelope\Dto\CreateEnvelopeInputInterface;
 use App\Domain\Envelope\Builder\CreateEnvelopeBuilder;
-use App\Domain\Envelope\Exception\Builder\CreateEnvelopeBuilderException;
+use App\Domain\Envelope\Builder\CreateEnvelopeBuilderException;
 use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Envelope\Validator\EditEnvelopeCurrentBudgetValidator;
 use App\Domain\Envelope\Validator\EditEnvelopeTargetBudgetValidator;

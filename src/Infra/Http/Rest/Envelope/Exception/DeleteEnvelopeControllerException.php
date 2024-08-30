@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Infra\Http\Rest\Shared\Exception;
+namespace App\Infra\Http\Rest\Envelope\Exception;
 
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
-class CreateEnvelopeControllerException extends BadRequestException
+class DeleteEnvelopeControllerException extends BadRequestException
 {
-    public const MESSAGE = 'An error occurred while creating an envelope in CreateEnvelopeController';
+    public const MESSAGE = 'An error occurred while deleting an envelope in DeleteEnvelopeController';
 
     public function __construct(
         string $message,

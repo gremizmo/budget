@@ -7,6 +7,7 @@ namespace App\Infra\Http\Rest\Envelope\Controller;
 use App\Application\Envelope\Query\ShowEnvelopeQuery;
 use App\Domain\Shared\Adapter\QueryBusInterface;
 use App\Domain\Shared\Model\UserInterface;
+use App\Infra\Http\Rest\Envelope\Exception\ShowEnvelopeControllerException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -32,15 +33,9 @@ class ShowEnvelopeController extends AbstractController
         try {
             $envelope = $this->queryBus->query(new ShowEnvelopeQuery($id, $user));
         } catch (\Throwable $exception) {
-            $this->logger->error('Failed to process Envelope getOne request: '.$exception->getMessage());
+            $this->logger->error('Failed to process Envelope show request: '.$exception->getMessage());
 
-            $exceptionType = \strrchr($exception::class, '\\');
-
-            return $this->json([
-                'error' => $exception->getMessage(),
-                'type' => \substr(\is_string($exceptionType) ? $exceptionType : '', 1),
-                'code' => $exception->getCode(),
-            ], $exception->getCode());
+            throw new ShowEnvelopeControllerException(ShowEnvelopeControllerException::MESSAGE, $exception->getCode(), $exception);
         }
 
         return $this->json($envelope, Response::HTTP_OK);

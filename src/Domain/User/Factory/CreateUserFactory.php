@@ -23,16 +23,13 @@ readonly class CreateUserFactory implements CreateUserFactoryInterface
     public function createFromDto(CreateUserInput $createUserDto): UserInterface
     {
         $user = (new $this->userClass());
-
         $hashedPassword = $this->passwordHasher->hash($user, $createUserDto->getPassword());
 
-        $user->setFirstname($createUserDto->getFirstname())
+        return $user->setFirstname($createUserDto->getFirstname())
             ->setLastname($createUserDto->getLastname())
             ->setEmail($createUserDto->getEmail())
             ->setPassword($hashedPassword)
             ->setConsentGiven($createUserDto->isConsentGiven())
             ->setRoles(['ROLE_USER']);
-
-        return $user;
     }
 }

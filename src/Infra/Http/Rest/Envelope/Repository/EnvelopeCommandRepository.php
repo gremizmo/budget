@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Infra\Http\Rest\Envelope\Repository;
 
-use App\Domain\Envelope\Exception\Repository\EnvelopeCommandRepositoryException;
 use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Envelope\Repository\EnvelopeCommandRepositoryInterface;
 use App\Infra\Http\Rest\Envelope\Entity\Envelope;

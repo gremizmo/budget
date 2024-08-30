@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Domain\User\Exception;
+declare(strict_types=1);
 
-class UserOldPasswordIsIncorrectException extends \Exception
+namespace App\Application\Envelope\QueryHandler;
+
+class EnvelopeNotFoundException extends \Exception
 {
-    public const MESSAGE = 'User old password is incorrect';
+    public const MESSAGE = 'Envelope not found';
 
     public function __construct(
         string $message,

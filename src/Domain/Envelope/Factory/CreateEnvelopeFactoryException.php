@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\User\Exception;
+namespace App\Domain\Envelope\Factory;
 
-class UserNotFoundException extends \Exception
+class CreateEnvelopeFactoryException extends \Exception
 {
-    public const MESSAGE = 'User not found';
+    public const MESSAGE = 'An error occurred while creating an envelope in CreateEnvelopeFactory';
 
     public function __construct(
         string $message,

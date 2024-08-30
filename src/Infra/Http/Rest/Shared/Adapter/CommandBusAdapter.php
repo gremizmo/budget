@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Infra\Http\Rest\Shared\Adapter;
 
-use App\Domain\Envelope\Exception\Adapter\CommandBusAdapterException;
 use App\Domain\Shared\Adapter\CommandBusInterface;
 use App\Domain\Shared\Command\CommandInterface;
 use Symfony\Component\Messenger\MessageBusInterface;

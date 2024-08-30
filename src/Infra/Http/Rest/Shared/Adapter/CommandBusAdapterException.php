@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Domain\User\Exception;
+namespace App\Infra\Http\Rest\Shared\Adapter;
 
-class UserPasswordResetTokenIsExpiredException extends \Exception
+class CommandBusAdapterException extends \Exception
 {
-    public const MESSAGE = 'User password reset token is expired';
+    public const MESSAGE = 'An error occurred for envelope in CommandBusAdapter';
 
     public function __construct(
         string $message,

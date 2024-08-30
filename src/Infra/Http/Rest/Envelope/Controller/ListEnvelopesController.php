@@ -8,6 +8,7 @@ use App\Application\Envelope\Dto\ListEnvelopesInput;
 use App\Application\Envelope\Query\ListEnvelopesQuery;
 use App\Domain\Shared\Adapter\QueryBusInterface;
 use App\Domain\Shared\Model\UserInterface;
+use App\Infra\Http\Rest\Envelope\Exception\ListEnvelopesControllerException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -35,14 +36,7 @@ class ListEnvelopesController extends AbstractController
             $envelopes = $this->queryBus->query(new ListEnvelopesQuery($user, $listEnvelopesDto));
         } catch (\Throwable $exception) {
             $this->logger->error('Failed to process Envelope listing request: '.$exception->getMessage());
-
-            $exceptionType = \strrchr($exception::class, '\\');
-
-            return $this->json([
-                'error' => $exception->getMessage(),
-                'type' => \substr(\is_string($exceptionType) ? $exceptionType : '', 1),
-                'code' => $exception->getCode(),
-            ], $exception->getCode());
+            throw new ListEnvelopesControllerException(ListEnvelopesControllerException::MESSAGE, $exception->getCode(), $exception);
         }
 
         return $this->json($envelopes, Response::HTTP_OK);

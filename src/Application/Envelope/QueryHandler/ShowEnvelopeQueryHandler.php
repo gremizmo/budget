@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Application\Envelope\QueryHandler;
 
 use App\Application\Envelope\Query\ShowEnvelopeQuery;
-use App\Domain\Envelope\Exception\EnvelopeNotFoundException;
 use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Envelope\Repository\EnvelopeQueryRepositoryInterface;
 use App\Domain\Shared\Adapter\LoggerInterface;
@@ -19,23 +18,31 @@ readonly class ShowEnvelopeQueryHandler
     }
 
     /**
-     * @throws EnvelopeNotFoundException
+     * @throws ShowEnvelopeQueryHandlerException
      */
     public function __invoke(ShowEnvelopeQuery $getOneEnvelopeQuery): EnvelopeInterface
     {
-        $envelope = $this->envelopeQueryRepository->findOneBy([
-            'id' => $getOneEnvelopeQuery->getEnvelopeId(),
-            'user' => $getOneEnvelopeQuery->getUser()->getId(),
-        ]);
-
-        if (!$envelope) {
-            $this->logger->error('Envelope not found', [
+        try {
+            $envelope = $this->envelopeQueryRepository->findOneBy([
                 'id' => $getOneEnvelopeQuery->getEnvelopeId(),
-                'user_id' => $getOneEnvelopeQuery->getUser()->getId(),
+                'user' => $getOneEnvelopeQuery->getUser()->getId(),
             ]);
-            throw new EnvelopeNotFoundException(EnvelopeNotFoundException::MESSAGE, 404);
-        }
 
-        return $envelope;
+            if (!$envelope) {
+                $this->logger->error('Envelope not found', [
+                    'id' => $getOneEnvelopeQuery->getEnvelopeId(),
+                    'user_id' => $getOneEnvelopeQuery->getUser()->getId(),
+                ]);
+                throw new EnvelopeNotFoundException(EnvelopeNotFoundException::MESSAGE, 404);
+            }
+
+            return $envelope;
+        } catch (\Exception $exception) {
+            $this->logger->error($exception->getMessage(), [
+                'exception' => $exception::class,
+                'code' => $exception->getCode(),
+            ]);
+            throw new ShowEnvelopeQueryHandlerException(ShowEnvelopeQueryHandlerException::MESSAGE, $exception->getCode(), $exception);
+        }
     }
 }

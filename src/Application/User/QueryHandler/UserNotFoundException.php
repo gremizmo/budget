@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Envelope\Exception\Repository;
+namespace App\Application\User\QueryHandler;
 
-class EnvelopeQueryRepositoryException extends \Exception
+class UserNotFoundException extends \Exception
 {
-    public const MESSAGE = 'An Error occurred in EnvelopeQueryRepository';
+    public const MESSAGE = 'User not found';
 
     public function __construct(
         string $message,

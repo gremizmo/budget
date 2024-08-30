@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Infra\Http\Rest\Shared\Adapter;
 
-use App\Domain\Envelope\Exception\Adapter\CommandBusAdapterException;
 use App\Domain\Shared\Command\CommandInterface;
 use App\Infra\Http\Rest\Shared\Adapter\CommandBusAdapter;
+use App\Infra\Http\Rest\Shared\Adapter\CommandBusAdapterException;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Messenger\Envelope;
 
 class CommandBusAdapterTest extends TestCase
 {

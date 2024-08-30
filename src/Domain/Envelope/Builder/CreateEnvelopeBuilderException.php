@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\User\Exception;
+namespace App\Domain\Envelope\Builder;
 
-class UserCommandRepositoryException extends \Exception
+class CreateEnvelopeBuilderException extends \Exception
 {
-    public const MESSAGE = 'An Error occurred in UserCommandRepository';
+    public const MESSAGE = 'An error occurred while creating an envelope in CreateEnvelopeBuilder';
 
     public function __construct(
         string $message,

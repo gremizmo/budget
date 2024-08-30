@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Domain\Envelope\Exception\Adapter;
+namespace App\Application\User\CommandHandler;
 
-class CommandBusAdapterException extends \Exception
+class UserOldPasswordIsIncorrectException extends \Exception
 {
-    public const MESSAGE = 'An error occurred for envelope in CommandBusAdapter';
+    public const MESSAGE = 'User old password is incorrect';
 
     public function __construct(
         string $message,

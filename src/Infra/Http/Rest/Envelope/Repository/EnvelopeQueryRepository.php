@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Infra\Http\Rest\Envelope\Repository;
 
-use App\Domain\Envelope\Exception\Repository\EnvelopeQueryRepositoryException;
 use App\Domain\Envelope\Model\EnvelopesPaginated;
 use App\Domain\Envelope\Model\EnvelopesPaginatedInterface;
 use App\Domain\Envelope\Repository\EnvelopeQueryRepositoryInterface;

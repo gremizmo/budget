@@ -11,7 +11,7 @@ use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Shared\Adapter\CommandBusInterface;
 use App\Domain\Shared\Adapter\QueryBusInterface;
 use App\Domain\Shared\Model\UserInterface;
-use App\Infra\Http\Rest\Shared\Exception\CreateEnvelopeControllerException;
+use App\Infra\Http\Rest\Envelope\Exception\CreateEnvelopeControllerException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;

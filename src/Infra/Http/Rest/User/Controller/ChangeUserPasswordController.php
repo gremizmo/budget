@@ -8,6 +8,7 @@ use App\Application\User\Command\ChangeUserPasswordCommand;
 use App\Application\User\Dto\ChangeUserPasswordInput;
 use App\Domain\Shared\Adapter\CommandBusInterface;
 use App\Infra\Http\Rest\User\Entity\User;
+use App\Infra\Http\Rest\User\Exception\ChangeUserPasswordControllerException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,10 +35,7 @@ class ChangeUserPasswordController extends AbstractController
     ): JsonResponse {
         if ($user->getId() !== $currentUser->getId()) {
             $this->logger->error('Failed to process User changePassword request: User not allowed to access this resource');
-
-            return $this->json([
-                'error' => 'Failed to process User changePassword request: User not allowed to access this resource',
-            ], Response::HTTP_FORBIDDEN);
+            throw new ChangeUserPasswordControllerException(ChangeUserPasswordControllerException::MESSAGE, Response::HTTP_FORBIDDEN);
         }
         try {
             $this->commandBus->execute(new ChangeUserPasswordCommand(
@@ -46,14 +44,7 @@ class ChangeUserPasswordController extends AbstractController
             ));
         } catch (\Throwable $exception) {
             $this->logger->error('Failed to process password change request: '.$exception->getMessage());
-
-            $exceptionType = \strrchr($exception::class, '\\');
-
-            return $this->json([
-                'error' => $exception->getMessage(),
-                'type' => \substr(\is_string($exceptionType) ? $exceptionType : '', 1),
-                'code' => $exception->getCode(),
-            ], $exception->getCode());
+            throw new ChangeUserPasswordControllerException(ChangeUserPasswordControllerException::MESSAGE, Response::HTTP_FORBIDDEN);
         }
 
         return $this->json(['message' => 'Password change request processed successfully'], Response::HTTP_OK);

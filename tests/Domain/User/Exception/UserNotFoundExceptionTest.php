@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\User\Exception;
 
-use App\Domain\User\Exception\UserNotFoundException;
+use App\Application\User\QueryHandler\UserNotFoundException;
 use PHPUnit\Framework\TestCase;
 
 class UserNotFoundExceptionTest extends TestCase

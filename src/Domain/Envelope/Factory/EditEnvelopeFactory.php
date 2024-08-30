@@ -6,7 +6,6 @@ namespace App\Domain\Envelope\Factory;
 
 use App\Application\Envelope\Dto\EditEnvelopeInputInterface;
 use App\Domain\Envelope\Builder\EditEnvelopeBuilderInterface;
-use App\Domain\Envelope\Exception\Factory\EditEnvelopeFactoryException;
 use App\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Shared\Adapter\LoggerInterface;
 

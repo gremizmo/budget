@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\User\Exception;
 
-use App\Domain\User\Exception\UserQueryRepositoryException;
+use App\Infra\Http\Rest\User\Repository\UserQueryRepositoryException;
 use PHPUnit\Framework\TestCase;
 
 class UserQueryRepositoryExceptionTest extends TestCase

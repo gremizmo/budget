@@ -6,8 +6,8 @@ namespace App\Tests\Application\User\QueryHandler;
 
 use App\Application\User\Query\GetUserByPasswordResetTokenQuery;
 use App\Application\User\QueryHandler\GetUserByPasswordResetTokenQueryHandler;
+use App\Application\User\QueryHandler\UserNotFoundException;
 use App\Domain\Shared\Model\UserInterface;
-use App\Domain\User\Exception\UserNotFoundException;
 use App\Domain\User\Repository\UserQueryRepositoryInterface;
 use PHPUnit\Framework\TestCase;
 

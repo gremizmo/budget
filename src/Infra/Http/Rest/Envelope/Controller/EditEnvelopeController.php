@@ -12,7 +12,7 @@ use App\Domain\Shared\Adapter\CommandBusInterface;
 use App\Domain\Shared\Adapter\QueryBusInterface;
 use App\Domain\Shared\Model\UserInterface;
 use App\Infra\Http\Rest\Envelope\Entity\Envelope;
-use App\Infra\Http\Rest\Shared\Exception\EditEnvelopeControllerException;
+use App\Infra\Http\Rest\Envelope\Exception\EditEnvelopeControllerException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;

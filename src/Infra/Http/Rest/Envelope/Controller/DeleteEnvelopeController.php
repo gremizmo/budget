@@ -11,6 +11,7 @@ use App\Domain\Shared\Adapter\CommandBusInterface;
 use App\Domain\Shared\Adapter\QueryBusInterface;
 use App\Domain\Shared\Model\UserInterface;
 use App\Infra\Http\Rest\Envelope\Entity\Envelope;
+use App\Infra\Http\Rest\Envelope\Exception\DeleteEnvelopeControllerException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -39,19 +40,13 @@ class DeleteEnvelopeController extends AbstractController
             if (!$envelope instanceof Envelope) {
                 $this->logger->error('Envelope does not exist for user');
 
-                return $this->json(['error' => EnvelopeNotFoundException::MESSAGE], Response::HTTP_NOT_FOUND);
+                throw new EnvelopeNotFoundException('Envelope to delete does not exist for user', 404);
             }
             $this->commandBus->execute(new DeleteEnvelopeCommand($envelope));
         } catch (\Throwable $exception) {
             $this->logger->error('Failed to process Envelope delete request: '.$exception->getMessage());
 
-            $exceptionType = \strrchr($exception::class, '\\');
-
-            return $this->json([
-                'error' => $exception->getMessage(),
-                'type' => \substr(\is_string($exceptionType) ? $exceptionType : '', 1),
-                'code' => $exception->getCode(),
-            ], $exception->getCode());
+            throw new DeleteEnvelopeControllerException(DeleteEnvelopeControllerException::MESSAGE, $exception->getCode(), $exception);
         }
 
         return $this->json(['message' => 'Envelope delete request received'], Response::HTTP_OK);

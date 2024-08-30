@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\User\Exception;
+namespace App\Application\Envelope\QueryHandler;
 
-class UserQueryRepositoryException extends \Exception
+class ListEnvelopesQueryHandlerException extends \Exception
 {
-    public const MESSAGE = 'An Error occurred in UserQueryRepository';
+    public const MESSAGE = 'An error occurred while getting envelopes in ListEnvelopesByTitleQueryHandler';
 
     public function __construct(
         string $message,

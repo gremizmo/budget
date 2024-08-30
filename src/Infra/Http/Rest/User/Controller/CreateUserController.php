@@ -10,6 +10,7 @@ use App\Application\User\Query\GetUserAlreadyExistsQuery;
 use App\Domain\Shared\Adapter\CommandBusInterface;
 use App\Domain\Shared\Adapter\QueryBusInterface;
 use App\Domain\Shared\Model\UserInterface;
+use App\Infra\Http\Rest\User\Exception\CreateUserControllerException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,21 +35,11 @@ class CreateUserController extends AbstractController
                 $this->commandBus->execute(new CreateUserCommand($createUserDto));
             } else {
                 $this->logger->error('Failed to process User creation request: User already exists');
-
-                return $this->json([
-                    'error' => 'Failed to process User creation request: User already exists',
-                ], Response::HTTP_CONFLICT);
+                throw new CreateUserControllerException('User already exists', Response::HTTP_CONFLICT);
             }
         } catch (\Throwable $exception) {
             $this->logger->error('Failed to process User creation request: '.$exception->getMessage());
-
-            $exceptionType = \strrchr($exception::class, '\\');
-
-            return $this->json([
-                'error' => $exception->getMessage(),
-                'type' => \substr(\is_string($exceptionType) ? $exceptionType : '', 1),
-                'code' => $exception->getCode(),
-            ], $exception->getCode());
+            throw new CreateUserControllerException(CreateUserControllerException::MESSAGE, $exception->getCode(), $exception);
         }
 
         return $this->json(['message' => 'User creation request received'], Response::HTTP_ACCEPTED);

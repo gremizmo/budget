@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Envelope\Exception\Builder;
+namespace App\Domain\Envelope\Builder;
 
-class CreateEnvelopeBuilderException extends \Exception
+class EditEnvelopeBuilderException extends \Exception
 {
-    public const MESSAGE = 'An error occurred while creating an envelope in CreateEnvelopeBuilder';
+    public const MESSAGE = 'An error occurred while creating an envelope in EditEnvelopeBuilder';
 
     public function __construct(
         string $message,

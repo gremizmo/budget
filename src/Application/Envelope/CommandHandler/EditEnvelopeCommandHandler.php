@@ -34,7 +34,7 @@ readonly class EditEnvelopeCommandHandler
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage(), [
                 'exception' => $exception::class,
-                'code'      => $exception->getCode(),
+                'code' => $exception->getCode(),
             ]);
             throw new EditEnvelopeCommandHandlerException(EditEnvelopeCommandHandlerException::MESSAGE, $exception->getCode(), $exception);
         }

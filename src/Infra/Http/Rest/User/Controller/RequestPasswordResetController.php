@@ -10,6 +10,7 @@ use App\Application\User\Query\ShowUserQuery;
 use App\Domain\Shared\Adapter\CommandBusInterface;
 use App\Domain\Shared\Adapter\QueryBusInterface;
 use App\Infra\Http\Rest\User\Entity\User;
+use App\Infra\Http\Rest\User\Exception\RequestPasswordResetControllerException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -37,13 +38,7 @@ class RequestPasswordResetController extends AbstractController
             }
         } catch (\Exception $exception) {
             $this->logger->error(\sprintf('Failed to process Password reset request: %s', $exception->getMessage()));
-            $exceptionType = \strrchr($exception::class, '\\');
-
-            return $this->json([
-                'error' => $exception->getMessage(),
-                'type' => \substr(\is_string($exceptionType) ? $exceptionType : '', 1),
-                'code' => $exception->getCode(),
-            ], $exception->getCode());
+            throw new RequestPasswordResetControllerException(RequestPasswordResetControllerException::MESSAGE, $exception->getCode(), $exception);
         }
 
         return $this->json(['message' => 'Password reset email sent'], Response::HTTP_OK);

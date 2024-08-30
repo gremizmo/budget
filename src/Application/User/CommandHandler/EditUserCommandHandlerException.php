@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Envelope\Exception\Builder;
+namespace App\Application\User\CommandHandler;
 
-class EditEnvelopeBuilderException extends \Exception
+class EditUserCommandHandlerException extends \Exception
 {
-    public const MESSAGE = 'An error occurred while creating an envelope in EditEnvelopeBuilder';
+    public const MESSAGE = 'An error occurred while editing a user';
 
     public function __construct(
         string $message,
