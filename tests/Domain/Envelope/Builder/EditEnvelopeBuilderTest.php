@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\Envelope\Builder;
 
-use App\Application\Envelope\Dto\EditEnvelopeInputInterface;
-use App\Domain\Envelope\Builder\EditEnvelopeBuilder;
+use App\BudgetManagement\Application\Envelope\Dto\EditEnvelopeInputInterface;
+use App\BudgetManagement\Domain\Envelope\Builder\EditEnvelopeBuilder;
+use App\BudgetManagement\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
+use App\BudgetManagement\Domain\Envelope\Exception\CurrentBudgetExceedsEnvelopeTargetBudgetException;
+use App\BudgetManagement\Domain\Envelope\Exception\CurrentBudgetExceedsParentEnvelopeTargetBudgetException;
+use App\BudgetManagement\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
+use App\BudgetManagement\Domain\Envelope\Exception\SelfParentEnvelopeException;
+use App\BudgetManagement\Domain\Envelope\Model\EnvelopeInterface;
+use App\BudgetManagement\Domain\Envelope\Validator\EditEnvelopeCurrentBudgetValidator;
+use App\BudgetManagement\Domain\Envelope\Validator\EditEnvelopeTargetBudgetValidator;
+use App\BudgetManagement\Domain\Envelope\Validator\EditEnvelopeTitleValidator;
+use App\BudgetManagement\Infrastructure\Http\Rest\Envelope\Entity\Envelope;
 use App\Domain\Envelope\Exception\ChildrenCurrentBudgetExceedsCurrentEnvelopeCurrentBudgetException;
-use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
-use App\Domain\Envelope\Exception\CurrentBudgetExceedsEnvelopeTargetBudgetException;
-use App\Domain\Envelope\Exception\CurrentBudgetExceedsParentEnvelopeTargetBudgetException;
-use App\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
-use App\Domain\Envelope\Exception\SelfParentEnvelopeException;
-use App\Domain\Envelope\Model\EnvelopeInterface;
-use App\Domain\Envelope\Validator\EditEnvelopeCurrentBudgetValidator;
-use App\Domain\Envelope\Validator\EditEnvelopeTargetBudgetValidator;
-use App\Domain\Envelope\Validator\EditEnvelopeTitleValidator;
-use App\Infra\Http\Rest\Envelope\Entity\Envelope;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 

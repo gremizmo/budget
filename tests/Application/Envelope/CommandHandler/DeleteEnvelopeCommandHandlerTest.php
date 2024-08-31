@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\Envelope\CommandHandler;
 
-use App\Application\Envelope\Command\DeleteEnvelopeCommand;
-use App\Application\Envelope\CommandHandler\DeleteEnvelopeCommandHandler;
-use App\Domain\Envelope\Repository\EnvelopeCommandRepositoryInterface;
-use App\Infra\Http\Rest\Envelope\Entity\Envelope;
+use App\BudgetManagement\Application\Envelope\Command\DeleteEnvelopeCommand;
+use App\BudgetManagement\Application\Envelope\CommandHandler\DeleteEnvelopeCommandHandler;
+use App\BudgetManagement\Domain\Envelope\Repository\EnvelopeCommandRepositoryInterface;
+use App\BudgetManagement\Infrastructure\Http\Rest\Envelope\Entity\Envelope;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 

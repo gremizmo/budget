@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\User\Query;
 
-use App\Application\User\Query\GetUserAlreadyExistsQuery;
+use App\UserManagement\Application\User\Query\GetUserAlreadyExistsQuery;
 use PHPUnit\Framework\TestCase;
 
 class GetUserAlreadyExistsQueryTest extends TestCase

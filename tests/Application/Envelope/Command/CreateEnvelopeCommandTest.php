@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\Envelope\Command;
 
-use App\Application\Envelope\Command\EditEnvelopeCommand;
-use App\Application\Envelope\Dto\EditEnvelopeInput;
-use App\Infra\Http\Rest\Envelope\Entity\Envelope;
+use App\BudgetManagement\Application\Envelope\Command\EditEnvelopeCommand;
+use App\BudgetManagement\Application\Envelope\Dto\EditEnvelopeInput;
+use App\BudgetManagement\Infrastructure\Http\Rest\Envelope\Entity\Envelope;
 use PHPUnit\Framework\TestCase;
 
 class CreateEnvelopeCommandTest extends TestCase

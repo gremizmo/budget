@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Infra\Http\Rest\User\Adapter;
 
-use App\Infra\Http\Rest\User\Adapter\PasswordHasherAdapter;
+use App\UserManagement\Infrastructure\User\Adapter\PasswordHasherAdapter;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;

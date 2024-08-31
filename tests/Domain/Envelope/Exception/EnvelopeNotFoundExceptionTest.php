@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\Envelope\Exception;
 
-use App\Domain\Envelope\Exception\EnvelopeNotFoundException;
+use App\BudgetManagement\Domain\Envelope\Exception\EnvelopeNotFoundException;
 use PHPUnit\Framework\TestCase;
 
 class EnvelopeNotFoundExceptionTest extends TestCase

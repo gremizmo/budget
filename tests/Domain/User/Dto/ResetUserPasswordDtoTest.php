@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\User\Dto;
 
-use App\Application\User\Dto\ResetUserPasswordInput;
+use App\UserManagement\Application\User\Dto\ResetUserPasswordInput;
 use PHPUnit\Framework\TestCase;
 
 class ResetUserPasswordDtoTest extends TestCase

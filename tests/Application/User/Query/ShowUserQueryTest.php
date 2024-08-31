@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\User\Query;
 
-use App\Application\User\Query\ShowUserQuery;
+use App\UserManagement\Application\User\Query\ShowUserQuery;
 use PHPUnit\Framework\TestCase;
 
 class ShowUserQueryTest extends TestCase

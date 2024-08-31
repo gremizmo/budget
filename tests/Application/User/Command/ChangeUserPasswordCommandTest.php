@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\User\Command;
 
-use App\Application\User\Command\ChangeUserPasswordCommand;
-use App\Application\User\Dto\ChangeUserPasswordInputInterface;
-use App\Infra\Http\Rest\User\Entity\User;
+use App\UserManagement\Application\User\Command\ChangeUserPasswordCommand;
+use App\UserManagement\Application\User\Dto\ChangeUserPasswordInputInterface;
+use App\UserManagement\Infrastructure\User\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class ChangeUserPasswordCommandTest extends TestCase

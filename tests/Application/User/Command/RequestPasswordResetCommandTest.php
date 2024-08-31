@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\User\Command;
 
-use App\Application\User\Command\RequestPasswordResetCommand;
-use App\Infra\Http\Rest\User\Entity\User;
+use App\UserManagement\Application\User\Command\RequestPasswordResetCommand;
+use App\UserManagement\Infrastructure\User\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class RequestPasswordResetCommandTest extends TestCase

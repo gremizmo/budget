@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\Envelope\Query;
 
-use App\Application\Envelope\Query\ShowEnvelopeQuery;
-use App\Infra\Http\Rest\User\Entity\User;
+use App\BudgetManagement\Application\Envelope\Query\ShowEnvelopeQuery;
+use App\UserManagement\Infrastructure\User\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class GetOneEnvelopeQueryTest extends TestCase

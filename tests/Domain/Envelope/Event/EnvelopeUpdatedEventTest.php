@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\Envelope\Event;
 
-use App\Domain\Envelope\Event\EnvelopeEditedEvent;
+use App\BudgetManagement\Domain\Envelope\Event\EnvelopeEditedEvent;
 use PHPUnit\Framework\TestCase;
 
 class EnvelopeUpdatedEventTest extends TestCase

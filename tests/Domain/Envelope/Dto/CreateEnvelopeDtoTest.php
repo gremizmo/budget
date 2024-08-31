@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\Envelope\Dto;
 
-use App\Application\Envelope\Dto\CreateEnvelopeInput;
+use App\BudgetManagement\Application\Envelope\Dto\CreateEnvelopeInput;
 use PHPUnit\Framework\TestCase;
 
 class CreateEnvelopeDtoTest extends TestCase

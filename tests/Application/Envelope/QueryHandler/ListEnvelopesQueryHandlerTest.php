@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\Envelope\QueryHandler;
 
-use App\Application\Envelope\Dto\ListEnvelopesInput;
-use App\Application\Envelope\Query\ListEnvelopesQuery;
-use App\Application\Envelope\QueryHandler\ListEnvelopesQueryHandler;
-use App\Domain\Envelope\Model\EnvelopeInterface;
-use App\Domain\Envelope\Model\EnvelopesPaginated;
-use App\Domain\Envelope\Model\EnvelopesPaginatedInterface;
-use App\Domain\Envelope\Repository\EnvelopeQueryRepositoryInterface;
-use App\Infra\Http\Rest\Envelope\Entity\Envelope;
-use App\Infra\Http\Rest\User\Entity\User;
+use App\BudgetManagement\Application\Envelope\Dto\ListEnvelopesInput;
+use App\BudgetManagement\Application\Envelope\Query\ListEnvelopesQuery;
+use App\BudgetManagement\Application\Envelope\QueryHandler\ListEnvelopesQueryHandler;
+use App\BudgetManagement\Domain\Envelope\Model\EnvelopeInterface;
+use App\BudgetManagement\Domain\Envelope\Model\EnvelopesPaginated;
+use App\BudgetManagement\Domain\Envelope\Model\EnvelopesPaginatedInterface;
+use App\BudgetManagement\Domain\Envelope\Repository\EnvelopeQueryRepositoryInterface;
+use App\BudgetManagement\Infrastructure\Http\Rest\Envelope\Entity\Envelope;
+use App\UserManagement\Infrastructure\User\Entity\User;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 

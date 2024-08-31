@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\Envelope\Validator;
 
+use App\BudgetManagement\Domain\Envelope\Exception\CurrentBudgetExceedsEnvelopeTargetBudgetException;
+use App\BudgetManagement\Domain\Envelope\Exception\CurrentBudgetExceedsParentEnvelopeTargetBudgetException;
+use App\BudgetManagement\Domain\Envelope\Model\EnvelopeInterface;
+use App\BudgetManagement\Domain\Envelope\Validator\EditEnvelopeCurrentBudgetValidator;
 use App\Domain\Envelope\Entity\EnvelopeCollection;
 use App\Domain\Envelope\Exception\ChildrenCurrentBudgetExceedsCurrentEnvelopeCurrentBudgetException;
-use App\Domain\Envelope\Exception\CurrentBudgetExceedsEnvelopeTargetBudgetException;
-use App\Domain\Envelope\Exception\CurrentBudgetExceedsParentEnvelopeTargetBudgetException;
-use App\Domain\Envelope\Model\EnvelopeInterface;
-use App\Domain\Envelope\Validator\EditEnvelopeCurrentBudgetValidator;
 use PHPUnit\Framework\TestCase;
 
 class CurrentBudgetValidatorTest extends TestCase

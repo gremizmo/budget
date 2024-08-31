@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\Envelope\Query;
 
-use App\Application\Envelope\Dto\ListEnvelopesInput;
-use App\Application\Envelope\Query\ListEnvelopesQuery;
-use App\Infra\Http\Rest\User\Entity\User;
+use App\BudgetManagement\Application\Envelope\Dto\ListEnvelopesInput;
+use App\BudgetManagement\Application\Envelope\Query\ListEnvelopesQuery;
+use App\UserManagement\Infrastructure\User\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class ListEnvelopesQueryTest extends TestCase

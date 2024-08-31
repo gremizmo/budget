@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\User\CommandHandler;
 
-use App\Application\User\Command\RequestPasswordResetCommand;
-use App\Application\User\CommandHandler\RequestPasswordResetCommandHandler;
 use App\Domain\Shared\Adapter\MailerInterface;
-use App\Domain\User\Repository\UserCommandRepositoryInterface;
-use App\Domain\User\Service\PasswordResetTokenGeneratorInterface;
-use App\Infra\Http\Rest\User\Entity\User;
+use App\UserManagement\Application\User\Command\RequestPasswordResetCommand;
+use App\UserManagement\Application\User\CommandHandler\RequestPasswordResetCommandHandler;
+use App\UserManagement\Domain\User\Repository\UserCommandRepositoryInterface;
+use App\UserManagement\Domain\User\Service\PasswordResetTokenGeneratorInterface;
+use App\UserManagement\Infrastructure\User\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class RequestPasswordResetCommandHandlerTest extends TestCase

@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\Envelope\CommandHandler;
 
-use App\Application\Envelope\Command\CreateEnvelopeCommand;
-use App\Application\Envelope\CommandHandler\CreateEnvelopeCommandHandler;
-use App\Application\Envelope\CommandHandler\CreateEnvelopeCommandHandlerException;
-use App\Application\Envelope\Dto\CreateEnvelopeInput;
+use App\BudgetManagement\Application\Envelope\Command\CreateEnvelopeCommand;
+use App\BudgetManagement\Application\Envelope\CommandHandler\CreateEnvelopeCommandHandler;
+use App\BudgetManagement\Application\Envelope\CommandHandler\CreateEnvelopeCommandHandlerException;
+use App\BudgetManagement\Application\Envelope\Dto\CreateEnvelopeInput;
+use App\BudgetManagement\Domain\Envelope\Factory\CreateEnvelopeFactoryInterface;
+use App\BudgetManagement\Domain\Envelope\Model\EnvelopeInterface;
+use App\BudgetManagement\Domain\Envelope\Repository\EnvelopeCommandRepositoryInterface;
+use App\BudgetManagement\Infrastructure\Http\Rest\Envelope\Entity\Envelope;
 use App\Domain\Envelope\Entity\EnvelopeCollection;
-use App\Domain\Envelope\Factory\CreateEnvelopeFactoryInterface;
-use App\Domain\Envelope\Model\EnvelopeInterface;
-use App\Domain\Envelope\Repository\EnvelopeCommandRepositoryInterface;
 use App\Domain\Shared\Model\UserInterface;
-use App\Infra\Http\Rest\Envelope\Entity\Envelope;
-use App\Infra\Http\Rest\User\Entity\User;
+use App\UserManagement\Infrastructure\User\Entity\User;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 

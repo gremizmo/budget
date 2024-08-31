@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\User\Command;
 
-use App\Application\User\Command\CreateUserCommand;
-use App\Application\User\Dto\CreateUserInput;
+use App\UserManagement\Application\User\Command\CreateUserCommand;
+use App\UserManagement\Application\User\Dto\CreateUserInput;
 use PHPUnit\Framework\TestCase;
 
 class CreateUserCommandTest extends TestCase

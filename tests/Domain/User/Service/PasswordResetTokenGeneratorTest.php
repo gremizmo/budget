@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\User\Service;
 
-use App\Domain\User\Service\PasswordResetTokenGenerator;
+use App\UserManagement\Domain\User\Service\PasswordResetTokenGenerator;
 use PHPUnit\Framework\TestCase;
 
 class PasswordResetTokenGeneratorTest extends TestCase

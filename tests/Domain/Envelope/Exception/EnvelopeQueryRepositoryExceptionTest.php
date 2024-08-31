@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\Envelope\Exception;
 
-use App\Infra\Http\Rest\Envelope\Repository\EnvelopeQueryRepositoryException;
+use App\BudgetManagement\Infrastructure\Http\Rest\Envelope\Repository\EnvelopeQueryRepositoryException;
 use PHPUnit\Framework\TestCase;
 
 class EnvelopeQueryRepositoryExceptionTest extends TestCase

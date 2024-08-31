@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\Envelope\Dto;
 
-use App\Application\Envelope\Dto\EditEnvelopeInput;
+use App\BudgetManagement\Application\Envelope\Dto\EditEnvelopeInput;
 use PHPUnit\Framework\TestCase;
 
 class UpdateEnvelopeDtoTest extends TestCase

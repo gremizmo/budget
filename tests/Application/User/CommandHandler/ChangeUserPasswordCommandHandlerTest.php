@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\User\CommandHandler;
 
-use App\Application\User\Command\ChangeUserPasswordCommand;
-use App\Application\User\CommandHandler\ChangeUserPasswordCommandHandler;
-use App\Application\User\CommandHandler\UserOldPasswordIsIncorrectException;
-use App\Application\User\Dto\ChangeUserPasswordInputInterface;
-use App\Domain\User\Adapter\PasswordHasherInterface;
-use App\Domain\User\Repository\UserCommandRepositoryInterface;
-use App\Infra\Http\Rest\User\Entity\User;
+use App\UserManagement\Application\User\Command\ChangeUserPasswordCommand;
+use App\UserManagement\Application\User\CommandHandler\ChangeUserPasswordCommandHandler;
+use App\UserManagement\Application\User\CommandHandler\UserOldPasswordIsIncorrectException;
+use App\UserManagement\Application\User\Dto\ChangeUserPasswordInputInterface;
+use App\UserManagement\Domain\Shared\Adapter\PasswordHasherInterface;
+use App\UserManagement\Domain\User\Repository\UserCommandRepositoryInterface;
+use App\UserManagement\Infrastructure\User\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class ChangeUserPasswordCommandHandlerTest extends TestCase

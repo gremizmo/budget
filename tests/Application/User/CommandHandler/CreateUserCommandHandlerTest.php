@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\User\CommandHandler;
 
-use App\Application\User\Command\CreateUserCommand;
-use App\Application\User\CommandHandler\CreateUserCommandHandler;
-use App\Application\User\Dto\CreateUserInput;
-use App\Domain\User\Factory\CreateUserFactoryInterface;
-use App\Domain\User\Repository\UserCommandRepositoryInterface;
-use App\Infra\Http\Rest\User\Entity\User;
+use App\UserManagement\Application\User\Command\CreateUserCommand;
+use App\UserManagement\Application\User\CommandHandler\CreateUserCommandHandler;
+use App\UserManagement\Application\User\Dto\CreateUserInput;
+use App\UserManagement\Domain\User\Factory\CreateUserFactoryInterface;
+use App\UserManagement\Domain\User\Repository\UserCommandRepositoryInterface;
+use App\UserManagement\Infrastructure\User\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class CreateUserCommandHandlerTest extends TestCase

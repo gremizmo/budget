@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\Envelope\Exception;
 
-use App\Domain\Envelope\Exception\CurrentBudgetExceedsParentEnvelopeTargetBudgetException;
+use App\BudgetManagement\Domain\Envelope\Exception\CurrentBudgetExceedsParentEnvelopeTargetBudgetException;
 use PHPUnit\Framework\TestCase;
 
 class EnvelopeCurrentBudgetExceedsParentEnvelopeTargetBudgetExceptionTest extends TestCase

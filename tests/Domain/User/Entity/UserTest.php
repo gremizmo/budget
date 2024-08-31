@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\User\Entity;
 
+use App\BudgetManagement\Domain\Envelope\Model\EnvelopeInterface;
 use App\Domain\Envelope\Entity\EnvelopeCollection;
-use App\Domain\Envelope\Model\EnvelopeInterface;
-use App\Infra\Http\Rest\User\Entity\User;
+use App\UserManagement\Infrastructure\User\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class UserTest extends TestCase

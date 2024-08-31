@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\User\Exception;
 
-use App\Application\User\CommandHandler\UserOldPasswordIsIncorrectException;
+use App\UserManagement\Application\User\CommandHandler\UserOldPasswordIsIncorrectException;
 use PHPUnit\Framework\TestCase;
 
 class UserOldPasswordIsIncorrectExceptionTest extends TestCase

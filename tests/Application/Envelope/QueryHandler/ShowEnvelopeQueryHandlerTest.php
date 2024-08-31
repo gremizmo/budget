@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\Envelope\QueryHandler;
 
-use App\Application\Envelope\Query\ShowEnvelopeQuery;
-use App\Application\Envelope\QueryHandler\ShowEnvelopeQueryHandler;
-use App\Domain\Envelope\Exception\EnvelopeNotFoundException;
-use App\Domain\Envelope\Repository\EnvelopeQueryRepositoryInterface;
+use App\BudgetManagement\Application\Envelope\Query\ShowEnvelopeQuery;
+use App\BudgetManagement\Application\Envelope\QueryHandler\ShowEnvelopeQueryHandler;
+use App\BudgetManagement\Domain\Envelope\Exception\EnvelopeNotFoundException;
+use App\BudgetManagement\Domain\Envelope\Repository\EnvelopeQueryRepositoryInterface;
+use App\BudgetManagement\Infrastructure\Http\Rest\Envelope\Entity\Envelope;
 use App\Domain\Shared\Adapter\LoggerInterface;
-use App\Infra\Http\Rest\Envelope\Entity\Envelope;
-use App\Infra\Http\Rest\User\Entity\User;
+use App\UserManagement\Infrastructure\User\Entity\User;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 

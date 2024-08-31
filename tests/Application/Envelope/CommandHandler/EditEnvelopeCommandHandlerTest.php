@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\Envelope\CommandHandler;
 
-use App\Application\Envelope\Command\EditEnvelopeCommand;
-use App\Application\Envelope\CommandHandler\EditEnvelopeCommandHandler;
-use App\Application\Envelope\Dto\EditEnvelopeInputInterface;
-use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
-use App\Domain\Envelope\Factory\EditEnvelopeFactoryInterface;
-use App\Domain\Envelope\Model\EnvelopeInterface;
-use App\Domain\Envelope\Repository\EnvelopeCommandRepositoryInterface;
+use App\BudgetManagement\Application\Envelope\Command\EditEnvelopeCommand;
+use App\BudgetManagement\Application\Envelope\CommandHandler\EditEnvelopeCommandHandler;
+use App\BudgetManagement\Application\Envelope\Dto\EditEnvelopeInputInterface;
+use App\BudgetManagement\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
+use App\BudgetManagement\Domain\Envelope\Factory\EditEnvelopeFactoryInterface;
+use App\BudgetManagement\Domain\Envelope\Model\EnvelopeInterface;
+use App\BudgetManagement\Domain\Envelope\Repository\EnvelopeCommandRepositoryInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 

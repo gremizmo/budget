@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\User\Factory;
 
-use App\Application\User\Dto\EditUserInput;
-use App\Domain\User\Factory\EditUserFactory;
-use App\Infra\Http\Rest\User\Entity\User;
+use App\UserManagement\Application\User\Dto\EditUserInput;
+use App\UserManagement\Domain\User\Factory\EditUserFactory;
+use App\UserManagement\Infrastructure\User\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class EditUserFactoryTest extends TestCase

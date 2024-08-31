@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\Envelope\Factory;
 
-use App\Application\Envelope\Dto\CreateEnvelopeInput;
-use App\Domain\Envelope\Builder\CreateEnvelopeBuilder;
+use App\BudgetManagement\Application\Envelope\Dto\CreateEnvelopeInput;
+use App\BudgetManagement\Domain\Envelope\Builder\CreateEnvelopeBuilder;
+use App\BudgetManagement\Domain\Envelope\Factory\CreateEnvelopeFactory;
+use App\BudgetManagement\Domain\Envelope\Factory\CreateEnvelopeFactoryException;
+use App\BudgetManagement\Domain\Envelope\Validator\EditEnvelopeCurrentBudgetValidator;
+use App\BudgetManagement\Domain\Envelope\Validator\EditEnvelopeTargetBudgetValidator;
+use App\BudgetManagement\Domain\Envelope\Validator\EditEnvelopeTitleValidator;
+use App\BudgetManagement\Infrastructure\Http\Rest\Envelope\Entity\Envelope;
 use App\Domain\Envelope\Entity\EnvelopeCollection;
-use App\Domain\Envelope\Factory\CreateEnvelopeFactory;
-use App\Domain\Envelope\Factory\CreateEnvelopeFactoryException;
-use App\Domain\Envelope\Validator\EditEnvelopeCurrentBudgetValidator;
-use App\Domain\Envelope\Validator\EditEnvelopeTargetBudgetValidator;
-use App\Domain\Envelope\Validator\EditEnvelopeTitleValidator;
 use App\Domain\Shared\Adapter\LoggerInterface;
-use App\Infra\Http\Rest\Envelope\Entity\Envelope;
-use App\Infra\Http\Rest\User\Entity\User;
+use App\UserManagement\Infrastructure\User\Entity\User;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 

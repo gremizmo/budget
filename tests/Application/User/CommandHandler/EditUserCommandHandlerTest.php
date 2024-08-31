@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\User\CommandHandler;
 
-use App\Application\User\Command\EditUserCommand;
-use App\Application\User\CommandHandler\EditUserCommandHandler;
-use App\Application\User\Dto\EditUserInput;
-use App\Domain\User\Factory\EditUserFactoryInterface;
-use App\Domain\User\Repository\UserCommandRepositoryInterface;
-use App\Infra\Http\Rest\User\Entity\User;
+use App\UserManagement\Application\User\Command\EditUserCommand;
+use App\UserManagement\Application\User\CommandHandler\EditUserCommandHandler;
+use App\UserManagement\Application\User\Dto\EditUserInput;
+use App\UserManagement\Domain\User\Factory\EditUserFactoryInterface;
+use App\UserManagement\Domain\User\Repository\UserCommandRepositoryInterface;
+use App\UserManagement\Infrastructure\User\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class EditUserCommandHandlerTest extends TestCase

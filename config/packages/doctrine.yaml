@@ -19,20 +19,20 @@ doctrine:
             Envelope:
                 type: attribute
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Infra/Http/Rest/Envelope/Entity'
-                prefix: 'App\Infra\Http\Rest\Envelope\Entity'
+                dir: '%kernel.project_dir%/src/EnvelopeManagement/Infrastructure/Envelope/Entity'
+                prefix: 'App\EnvelopeManagement\Infrastructure\Envelope\Entity'
                 alias: Envelope
             User:
                 type: attribute
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Infra/Http/Rest/User/Entity'
-                prefix: 'App\Infra\Http\Rest\User\Entity'
+                dir: '%kernel.project_dir%/src/UserManagement/Infrastructure/User/Entity'
+                prefix: 'App\UserManagement\Infrastructure\User\Entity'
                 alias: User
             RefreshToken:
                 type: attribute
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Infra/Http/Rest/User/Entity'
-                prefix: 'App\Infra\Http\Rest\User\Entity'
+                dir: '%kernel.project_dir%/src/UserManagement/Infrastructure/User/Entity'
+                prefix: 'App\UserManagement\Infrastructure\User\Entity'
                 alias: RefreshToken
         controller_resolver:
             auto_mapping: false

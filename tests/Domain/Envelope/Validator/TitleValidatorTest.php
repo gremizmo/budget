@@ -2,10 +2,10 @@
 
 namespace App\Tests\Domain\Envelope\Validator;
 
-use App\Application\Envelope\Query\GetEnvelopeByTitleQuery;
-use App\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
-use App\Domain\Envelope\Model\EnvelopeInterface;
-use App\Domain\Envelope\Validator\EditEnvelopeTitleValidator;
+use App\BudgetManagement\Application\Envelope\Query\GetEnvelopeByTitleQuery;
+use App\BudgetManagement\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
+use App\BudgetManagement\Domain\Envelope\Model\EnvelopeInterface;
+use App\BudgetManagement\Domain\Envelope\Validator\EditEnvelopeTitleValidator;
 use App\Domain\Shared\Adapter\QueryBusInterface;
 use App\Domain\Shared\Model\UserInterface;
 use PHPUnit\Framework\MockObject\MockObject;

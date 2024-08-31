@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\Envelope\Exception;
 
-use App\Domain\Envelope\Exception\SelfParentEnvelopeException;
+use App\BudgetManagement\Domain\Envelope\Exception\SelfParentEnvelopeException;
 use PHPUnit\Framework\TestCase;
 
 class SelfParentEnvelopeExceptionTest extends TestCase

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\User\QueryHandler;
 
-use App\Application\User\Query\ShowUserQuery;
-use App\Application\User\QueryHandler\ShowUserQueryHandler;
-use App\Application\User\QueryHandler\UserNotFoundException;
 use App\Domain\Shared\Adapter\LoggerInterface;
 use App\Domain\Shared\Model\UserInterface;
-use App\Domain\User\Repository\UserQueryRepositoryInterface;
+use App\UserManagement\Application\User\Query\ShowUserQuery;
+use App\UserManagement\Application\User\QueryHandler\ShowUserQueryHandler;
+use App\UserManagement\Application\User\QueryHandler\UserNotFoundException;
+use App\UserManagement\Domain\User\Repository\UserQueryRepositoryInterface;
 use PHPUnit\Framework\TestCase;
 
 class ShowUserQueryHandlerTest extends TestCase

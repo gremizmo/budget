@@ -2,10 +2,10 @@
 
 namespace App\Tests\Domain\Envelope\Validator;
 
+use App\BudgetManagement\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
+use App\BudgetManagement\Domain\Envelope\Model\EnvelopeInterface;
+use App\BudgetManagement\Domain\Envelope\Validator\EditEnvelopeTargetBudgetValidator;
 use App\Domain\Envelope\Entity\EnvelopeCollection;
-use App\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
-use App\Domain\Envelope\Model\EnvelopeInterface;
-use App\Domain\Envelope\Validator\EditEnvelopeTargetBudgetValidator;
 use PHPUnit\Framework\TestCase;
 
 class TargetBudgetValidatorTest extends TestCase

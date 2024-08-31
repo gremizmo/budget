@@ -4,7 +4,7 @@
                     xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping
         https://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
 
-    <class name="App\Domain\Envelope\Dto\EditEnvelopeInput">
+    <class name="App\EnvelopeManagement\Domain\Envelope\Dto\EditEnvelopeInput">
         <property name="title">
             <constraint name="NotBlank"/>
         </property>

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\User\Factory;
 
-use App\Application\User\Dto\CreateUserInput;
-use App\Domain\User\Adapter\PasswordHasherInterface;
-use App\Domain\User\Factory\CreateUserFactory;
-use App\Infra\Http\Rest\User\Entity\User;
+use App\UserManagement\Application\User\Dto\CreateUserInput;
+use App\UserManagement\Domain\Shared\Adapter\PasswordHasherInterface;
+use App\UserManagement\Domain\User\Factory\CreateUserFactory;
+use App\UserManagement\Infrastructure\User\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class CreateUserFactoryTest extends TestCase

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\User\Command;
 
-use App\Application\User\Command\EditUserCommand;
-use App\Application\User\Dto\EditUserInputInterface;
 use App\Domain\Shared\Model\UserInterface;
+use App\UserManagement\Application\User\Command\EditUserCommand;
+use App\UserManagement\Application\User\Dto\EditUserInputInterface;
 use PHPUnit\Framework\TestCase;
 
 class EditUserCommandTest extends TestCase

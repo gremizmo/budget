@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\User\Dto;
 
-use App\Application\User\Dto\ChangeUserPasswordInput;
+use App\UserManagement\Application\User\Dto\ChangeUserPasswordInput;
 use PHPUnit\Framework\TestCase;
 
 class ChangeUserPasswordDtoTest extends TestCase
