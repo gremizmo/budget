@@ -44,3 +44,28 @@ parameters:
 			message: "#^Call to an undefined method App\\\\EnvelopeManagement\\\\Domain\\\\Envelope\\\\Model\\\\EnvelopeInterface\\:\\:setId\\(\\)\\.$#"
 			count: 1
 			path: tests/EnvelopeManagement/Application/Envelope/CommandHandler/CreateEnvelopeCommandHandlerTest.php
+
+		-
+			message: "#^Call to an undefined method App\\\\EnvelopeManagement\\\\Domain\\\\Envelope\\\\Model\\\\EnvelopeInterface\\:\\:setId\\(\\)\\.$#"
+			count: 1
+			path: tests/EnvelopeManagement/Application/Envelope/CommandHandler/DeleteEnvelopeCommandHandlerTest.php
+
+		-
+			message: "#^Call to an undefined method App\\\\EnvelopeManagement\\\\Domain\\\\Envelope\\\\Model\\\\EnvelopeInterface\\:\\:setId\\(\\)\\.$#"
+			count: 1
+			path: tests/EnvelopeManagement/Application/Envelope/CommandHandler/EditEnvelopeCommandHandlerTest.php
+
+		-
+			message: "#^Call to an undefined method App\\\\EnvelopeManagement\\\\Domain\\\\Envelope\\\\Model\\\\EnvelopeInterface\\:\\:setId\\(\\)\\.$#"
+			count: 1
+			path: tests/EnvelopeManagement/Application/Envelope/QueryHandler/GetEnvelopeByTitleQueryHandlerTest.php
+
+		-
+			message: "#^Call to an undefined method App\\\\EnvelopeManagement\\\\Domain\\\\Envelope\\\\Model\\\\EnvelopeInterface\\:\\:setId\\(\\)\\.$#"
+			count: 1
+			path: tests/EnvelopeManagement/Application/Envelope/QueryHandler/ListEnvelopesQueryHandlerTest.php
+
+		-
+			message: "#^Call to an undefined method App\\\\EnvelopeManagement\\\\Domain\\\\Envelope\\\\Model\\\\EnvelopeInterface\\:\\:setId\\(\\)\\.$#"
+			count: 1
+			path: tests/EnvelopeManagement/Application/Envelope/QueryHandler/ShowEnvelopeQueryHandlerTest.php

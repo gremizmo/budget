@@ -6,7 +6,7 @@ namespace App\EnvelopeManagement\Application\Envelope\QueryHandler;
 
 class ListEnvelopesQueryHandlerException extends \Exception
 {
-    public const MESSAGE = 'An error occurred while getting envelopes in ListEnvelopesByTitleQueryHandler';
+    public const MESSAGE = 'An error occurred while getting envelopes in ListEnvelopesQueryHandler';
 
     public function __construct(
         string $message,

@@ -37,7 +37,7 @@ interface EnvelopeInterface
 
     public function validateTargetBudgetIsLessThanParentAvailableTargetBudget(float $targetBudget, float $envelopeToUpdateTargetBudget): void;
 
-    public function validateChildrenCurrentBudgetIsLessThanTargetBudget(float $totalChildrenTargetBudget): void;
+    public function validateChildrenCurrentBudgetIsLessThanTargetBudget(float $childrenCurrentBudget): void;
 
     public function validateParentEnvelopeChildrenTargetBudgetIsLessThanTargetBudgetInput(float $targetBudget): void;
 

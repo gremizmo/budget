@@ -138,9 +138,9 @@ class EnvelopeModel implements EnvelopeInterface
     /**
      * @throws ChildrenCurrentBudgetExceedsTargetBudgetException
      */
-    public function validateChildrenCurrentBudgetIsLessThanTargetBudget(float $totalChildrenTargetBudget): void
+    public function validateChildrenCurrentBudgetIsLessThanTargetBudget(float $childrenCurrentBudget): void
     {
-        if ($totalChildrenTargetBudget > floatval($this->getTargetBudget())) {
+        if ($childrenCurrentBudget > floatval($this->getTargetBudget())) {
             throw new ChildrenCurrentBudgetExceedsTargetBudgetException(ChildrenCurrentBudgetExceedsTargetBudgetException::MESSAGE, 400);
         }
     }
