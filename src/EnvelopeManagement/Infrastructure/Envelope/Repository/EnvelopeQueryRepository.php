@@ -169,10 +169,10 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
      */
     private function filterByUser(array $criteria): array
     {
-        if (!isset($criteria['user'])) {
+        if (!isset($criteria['user_id'])) {
             return [];
         }
 
-        return ['term' => ['user.id' => $criteria['user']]];
+        return ['term' => ['userId' => $criteria['user_id']]];
     }
 }

@@ -28,7 +28,7 @@ readonly class CreateEnvelopeCommandHandler
                 $this->envelopeFactory->createFromDto(
                     $command->getCreateEnvelopeDTO(),
                     $command->getParentEnvelope(),
-                    $command->getUser(),
+                    $command->getUserId(),
                 )
             );
         } catch (\Exception $exception) {

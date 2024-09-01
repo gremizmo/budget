@@ -6,14 +6,13 @@ namespace App\EnvelopeManagement\Application\Envelope\Command;
 
 use App\EnvelopeManagement\Application\Envelope\Dto\CreateEnvelopeInputInterface;
 use App\EnvelopeManagement\Domain\Envelope\Model\EnvelopeInterface;
-use App\EnvelopeManagement\Domain\Envelope\Model\UserInterface;
 use App\EnvelopeManagement\Domain\Shared\Command\CommandInterface;
 
 readonly class CreateEnvelopeCommand implements CommandInterface
 {
     public function __construct(
         private CreateEnvelopeInputInterface $createEnvelopeDTO,
-        private UserInterface $user,
+        private int $userId,
         private ?EnvelopeInterface $parentEnvelope = null,
     ) {
     }
@@ -28,8 +27,8 @@ readonly class CreateEnvelopeCommand implements CommandInterface
         return $this->parentEnvelope;
     }
 
-    public function getUser(): UserInterface
+    public function getUserId(): int
     {
-        return $this->user;
+        return $this->userId;
     }
 }

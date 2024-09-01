@@ -24,7 +24,8 @@ class EnvelopeModel implements EnvelopeInterface
     protected string $title;
     protected ?EnvelopeInterface $parent = null;
     protected \ArrayAccess|\IteratorAggregate|\Serializable|\Countable $children;
-    protected UserInterface $user;
+
+    protected int $userId;
 
     public function getId(): int
     {
@@ -51,6 +52,13 @@ class EnvelopeModel implements EnvelopeInterface
         return $this->parent;
     }
 
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
     public function setCurrentBudget(string $currentBudget): self
     {
         $this->currentBudget = $currentBudget;
@@ -58,9 +66,16 @@ class EnvelopeModel implements EnvelopeInterface
         return $this;
     }
 
-    public function getUser(): UserInterface
+    public function getUserId(): int
     {
-        return $this->user;
+        return $this->userId;
+    }
+
+    public function setUserId(int $userId): self
+    {
+        $this->userId = $userId;
+
+        return $this;
     }
 
     public function calculateChildrenCurrentBudgetOfParentEnvelope(EnvelopeInterface $envelopeToUpdate): float
@@ -105,9 +120,9 @@ class EnvelopeModel implements EnvelopeInterface
     /**
      * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
      */
-    public function validateParentEnvelopeChildrenTargetBudgetIsLessThanTargetBudgetInput(): void
+    public function validateParentEnvelopeChildrenTargetBudgetIsLessThanTargetBudgetInput(float $targetBudget): void
     {
-        if ($this->calculateChildrenTargetBudget() > $this->getTargetBudget()) {
+        if ($this->calculateChildrenTargetBudget() + $targetBudget > floatval($this->getTargetBudget())) {
             throw new ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException(ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException::MESSAGE, 400);
         }
     }

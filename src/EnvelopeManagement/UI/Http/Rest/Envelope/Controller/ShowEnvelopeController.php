@@ -31,7 +31,7 @@ class ShowEnvelopeController extends AbstractController
         #[CurrentUser] SharedUserInterface $user
     ): JsonResponse {
         try {
-            $envelope = $this->queryBus->query(new ShowEnvelopeQuery($id, $user));
+            $envelope = $this->queryBus->query(new ShowEnvelopeQuery($id, $user->getId()));
         } catch (\Throwable $exception) {
             $this->logger->error('Failed to process Envelope show request: '.$exception->getMessage());
 

@@ -6,6 +6,10 @@ namespace App\EnvelopeManagement\Domain\Envelope\Model;
 
 interface EnvelopeInterface
 {
+    public function getId(): int;
+
+    public function setTitle(string $title): self;
+
     public function getChildren(): \ArrayAccess|\IteratorAggregate|\Serializable|\Countable;
 
     public function getTargetBudget(): string;
@@ -24,7 +28,7 @@ interface EnvelopeInterface
 
     public function validateChildrenCurrentBudgetIsLessThanTargetBudget(float $totalChildrenTargetBudget): void;
 
-    public function validateParentEnvelopeChildrenTargetBudgetIsLessThanTargetBudgetInput(): void;
+    public function validateParentEnvelopeChildrenTargetBudgetIsLessThanTargetBudgetInput(float $targetBudget): void;
 
     public function validateEnvelopeChildrenTargetBudgetIsLessThanTargetBudget(float $targetBudget): void;
 

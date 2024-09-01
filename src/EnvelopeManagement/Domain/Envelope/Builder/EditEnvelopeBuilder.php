@@ -76,7 +76,8 @@ class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
                 $this->newParentEnvelope->updateAncestorsCurrentBudget(floatval($this->envelope->getCurrentBudget()));
             }
 
-            return $this->envelope->setParent($this->newParentEnvelope)
+            return $this->envelope
+                ->setParent($this->newParentEnvelope)
                 ->setTitle($this->updateEnvelopeDto->getTitle())
                 ->setCurrentBudget($this->updateEnvelopeDto->getCurrentBudget())
                 ->setTargetBudget($this->updateEnvelopeDto->getTargetBudget())

@@ -6,7 +6,6 @@ namespace App\EnvelopeManagement\Infrastructure\Envelope\Entity;
 
 use App\EnvelopeManagement\Domain\Envelope\Model\EnvelopeInterface;
 use App\EnvelopeManagement\Domain\Envelope\Model\EnvelopeModel;
-use App\EnvelopeManagement\Domain\Envelope\Model\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -41,9 +40,8 @@ class Envelope extends EnvelopeModel
     #[ORM\OneToMany(targetEntity: 'App\EnvelopeManagement\Infrastructure\Envelope\Entity\Envelope', mappedBy: 'parent', cascade: ['persist', 'remove'])]
     protected \ArrayAccess|\IteratorAggregate|\Serializable|\Countable $children;
 
-    #[ORM\ManyToOne(targetEntity: 'App\UserManagement\Infrastructure\User\Entity\User', inversedBy: 'envelopes')]
-    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: false)]
-    protected UserInterface $user;
+    #[ORM\Column(name: 'user_id', type: 'integer')]
+    protected int $userId;
 
     public function __construct()
     {
@@ -55,6 +53,13 @@ class Envelope extends EnvelopeModel
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getParent(): ?EnvelopeInterface
@@ -135,14 +140,21 @@ class Envelope extends EnvelopeModel
         return $this->children;
     }
 
-    public function getUser(): UserInterface
+    public function getUserId(): int
     {
-        return $this->user;
+        return $this->userId;
     }
 
-    public function setUser(UserInterface $user): self
+    public function setUserId(int $userId): self
     {
-        $this->user = $user;
+        $this->userId = $userId;
+
+        return $this;
+    }
+
+    public function addChild(EnvelopeInterface $child): self
+    {
+        $this->children->add($child);
 
         return $this;
     }

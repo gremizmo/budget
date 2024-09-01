@@ -33,7 +33,7 @@ class ListEnvelopesController extends AbstractController
         #[MapQueryString] ListEnvelopesInput $listEnvelopesDto = new ListEnvelopesInput(),
     ): JsonResponse {
         try {
-            $envelopes = $this->queryBus->query(new ListEnvelopesQuery($user, $listEnvelopesDto));
+            $envelopes = $this->queryBus->query(new ListEnvelopesQuery($user->getId(), $listEnvelopesDto));
         } catch (\Throwable $exception) {
             $this->logger->error('Failed to process Envelope listing request: '.$exception->getMessage());
             throw new ListEnvelopesControllerException(ListEnvelopesControllerException::MESSAGE, $exception->getCode(), $exception);

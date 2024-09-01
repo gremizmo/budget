@@ -20,7 +20,7 @@ readonly class EditEnvelopeTitleValidator
      */
     public function validate(string $title, EnvelopeInterface $envelopeToUpdate): void
     {
-        $envelope = $this->queryBus->query(new GetEnvelopeByTitleQuery($title, $envelopeToUpdate->getUser()));
+        $envelope = $this->queryBus->query(new GetEnvelopeByTitleQuery($title, $envelopeToUpdate->getUserId()));
 
         if ($envelope instanceof EnvelopeInterface && $envelope->getId() !== $envelopeToUpdate->getId()) {
             throw new EnvelopeTitleAlreadyExistsForUserException(EnvelopeTitleAlreadyExistsForUserException::MESSAGE, 400);

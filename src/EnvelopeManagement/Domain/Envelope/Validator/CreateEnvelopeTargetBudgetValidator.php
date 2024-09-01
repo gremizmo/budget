@@ -11,7 +11,7 @@ class CreateEnvelopeTargetBudgetValidator
     public function validate(string $targetBudget, ?EnvelopeInterface $parentEnvelope): void
     {
         if ($parentEnvelope instanceof EnvelopeInterface) {
-            $parentEnvelope->validateParentEnvelopeChildrenTargetBudgetIsLessThanTargetBudgetInput();
+            $parentEnvelope->validateParentEnvelopeChildrenTargetBudgetIsLessThanTargetBudgetInput(floatval($targetBudget));
             $parentEnvelope->validateTargetBudgetIsLessThanParentTargetBudget(floatval($targetBudget));
         }
     }

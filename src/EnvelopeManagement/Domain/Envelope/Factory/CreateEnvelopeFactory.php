@@ -7,7 +7,6 @@ namespace App\EnvelopeManagement\Domain\Envelope\Factory;
 use App\EnvelopeManagement\Application\Envelope\Dto\CreateEnvelopeInputInterface;
 use App\EnvelopeManagement\Domain\Envelope\Builder\CreateEnvelopeBuilder;
 use App\EnvelopeManagement\Domain\Envelope\Model\EnvelopeInterface;
-use App\EnvelopeManagement\Domain\Envelope\Model\UserInterface;
 use App\EnvelopeManagement\Domain\Shared\Adapter\LoggerInterface;
 
 readonly class CreateEnvelopeFactory implements CreateEnvelopeFactoryInterface
@@ -24,12 +23,12 @@ readonly class CreateEnvelopeFactory implements CreateEnvelopeFactoryInterface
     public function createFromDto(
         CreateEnvelopeInputInterface $createEnvelopeDto,
         ?EnvelopeInterface $parentEnvelope,
-        UserInterface $user,
+        int $userId,
     ): EnvelopeInterface {
         try {
             return $this->createEnvelopeBuilder->setCreateEnvelopeDto($createEnvelopeDto)
                 ->setParentEnvelope($parentEnvelope)
-                ->setUser($user)
+                ->setUserId($userId)
                 ->build();
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage(), [

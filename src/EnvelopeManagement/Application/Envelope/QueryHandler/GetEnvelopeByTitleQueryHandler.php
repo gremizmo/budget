@@ -25,7 +25,7 @@ readonly class GetEnvelopeByTitleQueryHandler
         try {
             return $this->envelopeQueryRepository->findOneBy([
                 'title' => $getOneEnvelopeQuery->getTitle(),
-                'user' => $getOneEnvelopeQuery->getUser()->getId(),
+                'user' => $getOneEnvelopeQuery->getUserId(),
             ]);
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage(), [

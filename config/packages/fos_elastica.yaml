@@ -28,11 +28,8 @@ fos_elastica:
                     type: float
                 title:
                     type: keyword
-                user:
-                    type: object
-                    properties:
-                        id:
-                            type: integer
+                userId:
+                    type: integer
                 parent:
                     type: object
                     properties:
@@ -96,51 +93,3 @@ fos_elastica:
                     type: keyword
                 passwordResetTokenExpiry:
                     type: date
-                envelopes:
-                    type: nested
-                    properties:
-                        id:
-                            type: integer
-                        createdAt:
-                            type: date
-                        updatedAt:
-                            type: date
-                        createdBy:
-                            type: keyword
-                        updatedBy:
-                            type: keyword
-                        currentBudget:
-                            type: float
-                        targetBudget:
-                            type: float
-                        title:
-                            type: keyword
-                        parent:
-                            type: object
-                            properties:
-                                id:
-                                    type: integer
-                        children:
-                            type: nested
-                            properties:
-                                id:
-                                    type: integer
-                                createdAt:
-                                    type: date
-                                updatedAt:
-                                    type: date
-                                createdBy:
-                                    type: keyword
-                                updatedBy:
-                                    type: keyword
-                                currentBudget:
-                                    type: float
-                                targetBudget:
-                                    type: float
-                                title:
-                                    type: keyword
-                                parent:
-                                    type: object
-                                    properties:
-                                        id:
-                                            type: integer

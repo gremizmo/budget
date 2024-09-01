@@ -7,7 +7,6 @@ namespace App\EnvelopeManagement\Domain\Envelope\Validator;
 use App\EnvelopeManagement\Application\Envelope\Query\GetEnvelopeByTitleQuery;
 use App\EnvelopeManagement\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
 use App\EnvelopeManagement\Domain\Envelope\Model\EnvelopeInterface;
-use App\EnvelopeManagement\Domain\Envelope\Model\UserInterface;
 use App\EnvelopeManagement\Domain\Shared\Adapter\QueryBusInterface;
 
 readonly class CreateEnvelopeTitleValidator
@@ -19,9 +18,9 @@ readonly class CreateEnvelopeTitleValidator
     /**
      * @throws EnvelopeTitleAlreadyExistsForUserException
      */
-    public function validate(string $title, UserInterface $user): void
+    public function validate(string $title, int $userId): void
     {
-        $envelope = $this->queryBus->query(new GetEnvelopeByTitleQuery($title, $user));
+        $envelope = $this->queryBus->query(new GetEnvelopeByTitleQuery($title, $userId));
 
         if ($envelope instanceof EnvelopeInterface) {
             throw new EnvelopeTitleAlreadyExistsForUserException(EnvelopeTitleAlreadyExistsForUserException::MESSAGE, 400);

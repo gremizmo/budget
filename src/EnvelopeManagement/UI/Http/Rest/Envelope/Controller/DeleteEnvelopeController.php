@@ -36,7 +36,7 @@ class DeleteEnvelopeController extends AbstractController
         #[CurrentUser] SharedUserInterface $user,
     ): JsonResponse {
         try {
-            $envelope = $this->queryBus->query(new ShowEnvelopeQuery($id, $user));
+            $envelope = $this->queryBus->query(new ShowEnvelopeQuery($id, $user->getId()));
             if (!$envelope instanceof Envelope) {
                 $this->logger->error('Envelope does not exist for user');
 

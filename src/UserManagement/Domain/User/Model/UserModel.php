@@ -17,7 +17,6 @@ class UserModel implements UserInterface
     private \DateTimeImmutable $consentDate;
     private \DateTimeImmutable $createdAt;
     private \DateTime $updatedAt;
-    private \ArrayAccess|\IteratorAggregate|\Serializable|\Countable $envelopes;
     private ?string $passwordResetToken = null;
     private ?\DateTimeImmutable $passwordResetTokenExpiry = null;
 
@@ -143,18 +142,6 @@ class UserModel implements UserInterface
     public function setUpdatedAt(\DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    public function getEnvelopes(): \ArrayAccess|\IteratorAggregate|\Serializable|\Countable
-    {
-        return $this->envelopes;
-    }
-
-    public function setEnvelopes(\ArrayAccess|\IteratorAggregate|\Serializable|\Countable $envelopes): self
-    {
-        $this->envelopes = $envelopes;
 
         return $this;
     }

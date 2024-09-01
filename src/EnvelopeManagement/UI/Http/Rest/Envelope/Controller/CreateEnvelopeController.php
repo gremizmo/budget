@@ -38,12 +38,12 @@ class CreateEnvelopeController extends AbstractController
     ): JsonResponse {
         try {
             $parentEnvelope = $createEnvelopeDto->getParentId() ? $this->queryBus->query(
-                new ShowEnvelopeQuery($createEnvelopeDto->getParentId(), $user)
+                new ShowEnvelopeQuery($createEnvelopeDto->getParentId(), $user->getId())
             ) : null;
             $this->commandBus->execute(
                 new CreateEnvelopeCommand(
                     $createEnvelopeDto,
-                    $user,
+                    $user->getId(),
                     $parentEnvelope instanceof EnvelopeInterface ? $parentEnvelope : null,
                 ),
             );
