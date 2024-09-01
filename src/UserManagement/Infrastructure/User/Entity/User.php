@@ -43,6 +43,9 @@ class User extends UserModel implements UserInterface, SymfonyUserInterface, Pas
     #[ORM\Column(name: 'updated_at', type: 'datetime')]
     private \DateTime $updatedAt;
 
+    /**
+     * @var array<string> $roles
+     */
     #[ORM\Column(name: 'roles', type: 'json')]
     private array $roles = ['ROLE_USER'];
 

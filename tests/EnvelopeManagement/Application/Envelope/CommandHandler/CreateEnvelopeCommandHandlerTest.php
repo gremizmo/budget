@@ -162,7 +162,7 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
     /**
      * @throws CreateEnvelopeFactoryException
      */
-    public function testValidateParentEnvelopeChildrenTargetBudgetIsLessThanTargetBudgetInput(): void
+    public function testValidateParentEnvelopeChildrenTargetBudgetIsLessThanTargetBudgetInputFailure(): void
     {
         $parentEnvelope = $this->generateEnvelope('Bills', '100.00', '200.00', 1);
         $parentEnvelope2 = $this->generateEnvelope('Electricity', '50.00', '50.00', 2, $parentEnvelope);
@@ -171,6 +171,26 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
         $parentEnvelope->addChild($parentEnvelope3);
         $createEnvelopeInput = new CreateEnvelopeInput('Gaz', '50.00', '50.00', $parentEnvelope->getId());
         $createEnvelopeCommand = new CreateEnvelopeCommand($createEnvelopeInput, 1, $parentEnvelope);
+
+        $this->envelopeCommandRepository->expects($this->never())->method('save');
+        $this->expectException(CreateEnvelopeCommandHandlerException::class);
+        $this->expectExceptionMessage('An error occurred while creating an envelope in CreateEnvelopeCommandHandler');
+
+        $this->createEnvelopeCommandHandler->__invoke($createEnvelopeCommand);
+    }
+
+    /**
+     * @throws CreateEnvelopeFactoryException
+     */
+    public function testUpdateAncestorsCurrentBudgetFailure(): void
+    {
+        $parentEnvelope = $this->generateEnvelope('Bills', '100.00', '300.00', 1);
+        $parentEnvelope2 = $this->generateEnvelope('Electricity', '80.00', '120.00', 2, $parentEnvelope);
+        $parentEnvelope3 = $this->generateEnvelope('Water', '50.00', '60.00', 3, $parentEnvelope);
+        $parentEnvelope->addChild($parentEnvelope2);
+        $parentEnvelope->addChild($parentEnvelope3);
+        $createEnvelopeInput = new CreateEnvelopeInput('Gaz', '50.00', '50.00', $parentEnvelope3->getId());
+        $createEnvelopeCommand = new CreateEnvelopeCommand($createEnvelopeInput, 1, $parentEnvelope3);
 
         $this->envelopeCommandRepository->expects($this->never())->method('save');
         $this->expectException(CreateEnvelopeCommandHandlerException::class);

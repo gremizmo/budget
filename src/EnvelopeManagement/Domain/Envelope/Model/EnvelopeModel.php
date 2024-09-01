@@ -23,6 +23,9 @@ class EnvelopeModel implements EnvelopeInterface
     protected string $targetBudget;
     protected string $title;
     protected ?EnvelopeInterface $parent = null;
+    /**
+     * @var \ArrayAccess<int, EnvelopeInterface>|\IteratorAggregate<int, EnvelopeInterface>|\Serializable|\Countable
+     */
     protected \ArrayAccess|\IteratorAggregate|\Serializable|\Countable $children;
 
     protected int $userId;
@@ -32,6 +35,9 @@ class EnvelopeModel implements EnvelopeInterface
         return $this->id;
     }
 
+    /**
+     * @return \ArrayAccess<int, EnvelopeInterface>|\IteratorAggregate<int, EnvelopeInterface>|\Serializable|\Countable
+     */
     public function getChildren(): \ArrayAccess|\IteratorAggregate|\Serializable|\Countable
     {
         return $this->children;
@@ -74,6 +80,28 @@ class EnvelopeModel implements EnvelopeInterface
     public function setUserId(int $userId): self
     {
         $this->userId = $userId;
+
+        return $this;
+    }
+
+    public function setUpdatedAt(\DateTime $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+        $this->getParent()?->setUpdatedAt($updatedAt);
+
+        return $this;
+    }
+
+    public function setTargetBudget(string $targetBudget): self
+    {
+        $this->targetBudget = $targetBudget;
+
+        return $this;
+    }
+
+    public function setParent(?EnvelopeInterface $parent = null): self
+    {
+        $this->parent = $parent;
 
         return $this;
     }
