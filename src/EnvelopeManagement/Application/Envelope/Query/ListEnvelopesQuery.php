@@ -10,14 +10,14 @@ use App\EnvelopeManagement\Domain\Shared\Query\QueryInterface;
 readonly class ListEnvelopesQuery implements QueryInterface
 {
     public function __construct(
-        private int $userId,
+        private string $userUuid,
         private ListEnvelopesInputInterface $listEnvelopesDto,
     ) {
     }
 
-    public function getUserId(): int
+    public function getUserUuid(): string
     {
-        return $this->userId;
+        return $this->userUuid;
     }
 
     public function getListEnvelopesDto(): ListEnvelopesInputInterface

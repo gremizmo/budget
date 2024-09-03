@@ -15,5 +15,5 @@ interface ListEnvelopesInputInterface
 
     public function getOffset(): ?int;
 
-    public function getParentId(): ?int;
+    public function getParentUuid(): ?string;
 }

@@ -13,7 +13,7 @@ sequenceDiagram
     participant CurrentBudgetValidator
     participant EnvelopeCommandRepository
 
-    User ->> EditEnvelopeController: HTTP PUT /api/envelope/{id}/edit
+    User ->> EditEnvelopeController: HTTP PUT /api/envelope/{uuid}/edit
     EditEnvelopeController ->> QueryBus: query(ShowEnvelopeQuery) (for parentEnvelope if exists)
     QueryBus ->> ShowEnvelopeQueryHandler: handle(ShowEnvelopeQuery)
     ShowEnvelopeQueryHandler ->> EnvelopeQueryRepository: findOneBy(criteria)

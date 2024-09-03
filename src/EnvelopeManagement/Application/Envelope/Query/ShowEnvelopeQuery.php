@@ -8,17 +8,17 @@ use App\EnvelopeManagement\Domain\Shared\Query\QueryInterface;
 
 readonly class ShowEnvelopeQuery implements QueryInterface
 {
-    public function __construct(private int $envelopeId, private int $userId)
+    public function __construct(private string $envelopeUuid, private string $userUuid)
     {
     }
 
-    public function getEnvelopeId(): int
+    public function getEnvelopeUuid(): string
     {
-        return $this->envelopeId;
+        return $this->envelopeUuid;
     }
 
-    public function getUserId(): int
+    public function getUserUuid(): string
     {
-        return $this->userId;
+        return $this->userUuid;
     }
 }

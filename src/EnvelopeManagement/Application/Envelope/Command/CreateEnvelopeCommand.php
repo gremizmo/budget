@@ -12,7 +12,7 @@ readonly class CreateEnvelopeCommand implements CommandInterface
 {
     public function __construct(
         private CreateEnvelopeInputInterface $createEnvelopeDTO,
-        private int $userId,
+        private string $userUuid,
         private ?EnvelopeInterface $parentEnvelope = null,
     ) {
     }
@@ -27,8 +27,8 @@ readonly class CreateEnvelopeCommand implements CommandInterface
         return $this->parentEnvelope;
     }
 
-    public function getUserId(): int
+    public function getUserUuid(): string
     {
-        return $this->userId;
+        return $this->userUuid;
     }
 }

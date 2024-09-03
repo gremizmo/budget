@@ -23,12 +23,12 @@ readonly class CreateEnvelopeFactory implements CreateEnvelopeFactoryInterface
     public function createFromDto(
         CreateEnvelopeInputInterface $createEnvelopeDto,
         ?EnvelopeInterface $parentEnvelope,
-        int $userId,
+        string $userUuid,
     ): EnvelopeInterface {
         try {
             return $this->createEnvelopeBuilder->setCreateEnvelopeDto($createEnvelopeDto)
                 ->setParentEnvelope($parentEnvelope)
-                ->setUserId($userId)
+                ->setUserUuid($userUuid)
                 ->build();
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage(), [

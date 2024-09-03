@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/api/envelope/{id}', name: 'app_envelope_delete', methods: ['DELETE'])]
+#[Route('/api/envelope/{uuid}', name: 'app_envelope_delete', methods: ['DELETE'])]
 #[IsGranted('ROLE_USER')]
 class DeleteEnvelopeController extends AbstractController
 {
@@ -32,11 +32,11 @@ class DeleteEnvelopeController extends AbstractController
     }
 
     public function __invoke(
-        int $id,
+        string $uuid,
         #[CurrentUser] SharedUserInterface $user,
     ): JsonResponse {
         try {
-            $envelope = $this->queryBus->query(new ShowEnvelopeQuery($id, $user->getId()));
+            $envelope = $this->queryBus->query(new ShowEnvelopeQuery($uuid, $user->getUuid()));
             if (!$envelope instanceof Envelope) {
                 $this->logger->error('Envelope does not exist for user');
 

@@ -19,6 +19,9 @@ class User extends UserModel implements UserInterface, SymfonyUserInterface, Pas
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private int $id;
 
+    #[ORM\Column(name: 'uuid', type: 'string', length: 100, unique: true)]
+    protected string $uuid;
+
     #[ORM\Column(name: 'email', type: 'string', length: 255)]
     private string $email;
 
@@ -70,6 +73,18 @@ class User extends UserModel implements UserInterface, SymfonyUserInterface, Pas
     public function setId(int $id): self
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    public function getUuid(): string
+    {
+        return $this->uuid;
+    }
+
+    public function setUuid(string $uuid): self
+    {
+        $this->uuid = $uuid;
 
         return $this;
     }

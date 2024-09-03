@@ -8,7 +8,7 @@ use App\EnvelopeManagement\Domain\Shared\Query\QueryInterface;
 
 readonly class GetEnvelopeByTitleQuery implements QueryInterface
 {
-    public function __construct(private string $title, private int $userId)
+    public function __construct(private string $title, private string $userUuid)
     {
     }
 
@@ -17,8 +17,8 @@ readonly class GetEnvelopeByTitleQuery implements QueryInterface
         return $this->title;
     }
 
-    public function getUserId(): int
+    public function getUserUuid(): string
     {
-        return $this->userId;
+        return $this->userUuid;
     }
 }

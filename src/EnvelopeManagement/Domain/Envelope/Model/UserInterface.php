@@ -6,7 +6,7 @@ namespace App\EnvelopeManagement\Domain\Envelope\Model;
 
 interface UserInterface
 {
-    public function getId(): int;
+    public function getUuid(): string;
 
     public function getEmail(): string;
 }

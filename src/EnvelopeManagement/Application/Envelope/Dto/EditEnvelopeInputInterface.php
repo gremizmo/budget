@@ -12,5 +12,5 @@ interface EditEnvelopeInputInterface
 
     public function getTargetBudget(): string;
 
-    public function getParentId(): ?int;
+    public function getParentUuid(): ?string;
 }

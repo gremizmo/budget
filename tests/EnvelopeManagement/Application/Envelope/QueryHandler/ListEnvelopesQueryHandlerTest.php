@@ -12,6 +12,7 @@ use App\EnvelopeManagement\Application\Envelope\Dto\CreateEnvelopeInput;
 use App\EnvelopeManagement\Domain\Envelope\Builder\CreateEnvelopeBuilder;
 use App\EnvelopeManagement\Domain\Envelope\Factory\CreateEnvelopeFactory;
 use App\EnvelopeManagement\Domain\Envelope\Factory\CreateEnvelopeFactoryException;
+use App\EnvelopeManagement\Domain\Envelope\Model\EnvelopeInterface;
 use App\EnvelopeManagement\Domain\Envelope\Model\EnvelopesPaginated;
 use App\EnvelopeManagement\Domain\Envelope\Repository\EnvelopeQueryRepositoryInterface;
 use App\EnvelopeManagement\Domain\Envelope\Validator\CreateEnvelopeCurrentBudgetValidator;
@@ -22,6 +23,7 @@ use App\EnvelopeManagement\Domain\Shared\Adapter\QueryBusInterface;
 use App\EnvelopeManagement\Infrastructure\Envelope\Entity\Envelope;
 use App\EnvelopeManagement\Infrastructure\Envelope\Repository\EnvelopeQueryRepositoryException;
 use App\EnvelopeManagement\Infrastructure\Shared\Adapter\LoggerAdapter;
+use App\EnvelopeManagement\Infrastructure\Shared\Adapter\UuidAdapter;
 use Psr\Log\LoggerInterface as PsrLoggerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -33,17 +35,20 @@ class ListEnvelopesQueryHandlerTest extends TestCase
     private QueryBusInterface&MockObject $queryBus;
     private EnvelopeQueryRepositoryInterface&MockObject $envelopeQueryRepository;
     private CreateEnvelopeFactory $createEnvelopeFactory;
+    private UuidAdapter $uuidAdapter;
 
     protected function setUp(): void
     {
         $this->envelopeQueryRepository = $this->createMock(EnvelopeQueryRepositoryInterface::class);
         $this->queryBus = $this->createMock(QueryBusInterface::class);
         $this->logger = new LoggerAdapter($this->createMock(PsrLoggerInterface::class));
+        $this->uuidAdapter = new UuidAdapter();
 
         $this->createEnvelopeFactory = new CreateEnvelopeFactory($this->logger, new CreateEnvelopeBuilder(
             new CreateEnvelopeTargetBudgetValidator(),
             new CreateEnvelopeCurrentBudgetValidator(),
             new CreateEnvelopeTitleValidator($this->queryBus),
+            $this->uuidAdapter,
             $this->logger,
             Envelope::class,
         ));
@@ -60,9 +65,9 @@ class ListEnvelopesQueryHandlerTest extends TestCase
      */
     public function testListEnvelopesSuccess(): void
     {
-        $envelopePaginated = new EnvelopesPaginated([$this->generateEnvelope('Electricity', '80.00', '80.00', 2)], 1);
-        $listEnvelopesInput = new ListEnvelopesInput([],10, 0);
-        $listEnvelopesQuery = new ListEnvelopesQuery(1, $listEnvelopesInput);
+        $envelopePaginated = new EnvelopesPaginated([$this->generateEnvelope('Electricity', '80.00', '80.00')], 1);
+        $listEnvelopesInput = new ListEnvelopesInput([], 10, 0);
+        $listEnvelopesQuery = new ListEnvelopesQuery('test-uuid', $listEnvelopesInput);
 
         $this->envelopeQueryRepository->expects($this->once())->method('findBy')->willReturn($envelopePaginated);
 
@@ -73,8 +78,8 @@ class ListEnvelopesQueryHandlerTest extends TestCase
 
     public function testListEnvelopesFailure(): void
     {
-        $listEnvelopesInput = new ListEnvelopesInput([],10, 0);
-        $listEnvelopesQuery = new ListEnvelopesQuery(1, $listEnvelopesInput);
+        $listEnvelopesInput = new ListEnvelopesInput([], 10, 0);
+        $listEnvelopesQuery = new ListEnvelopesQuery('test-uuid', $listEnvelopesInput);
 
         $this->envelopeQueryRepository->expects($this->once())->method('findBy')->willThrowException(new EnvelopeQueryRepositoryException(EnvelopeQueryRepositoryException::MESSAGE, 400));
         $this->expectException(ListEnvelopesQueryHandlerException::class);
@@ -90,15 +95,12 @@ class ListEnvelopesQueryHandlerTest extends TestCase
         string $title,
         string $currentBudget,
         string $targetBudget,
-        int $id,
-        ?Envelope $parentEnvelope = null,
-    ): Envelope {
-        $envelope = $this->createEnvelopeFactory->createFromDto(
+        ?EnvelopeInterface $parentEnvelope = null,
+    ): EnvelopeInterface {
+        return $this->createEnvelopeFactory->createFromDto(
             new CreateEnvelopeInput($title, $currentBudget, $targetBudget),
             $parentEnvelope,
-            1,
+            'test-uuid',
         );
-
-        return $envelope->setId($id);
     }
 }

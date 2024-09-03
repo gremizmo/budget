@@ -11,7 +11,7 @@ final readonly class ListEnvelopesInput implements ListEnvelopesInputInterface
         private ?array $orderBy = null,
         private ?int $limit = null,
         private ?int $offset = null,
-        private ?int $parentId = null,
+        private ?string $parentUuid = null,
     ) {
     }
 
@@ -33,8 +33,8 @@ final readonly class ListEnvelopesInput implements ListEnvelopesInputInterface
         return $this->offset;
     }
 
-    public function getParentId(): ?int
+    public function getParentUuid(): ?string
     {
-        return $this->parentId;
+        return $this->parentUuid;
     }
 }

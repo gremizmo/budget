@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/api/envelope/{id}/edit', name: 'app_envelope_edit', methods: ['PUT'])]
+#[Route('/api/envelope/{uuid}/edit', name: 'app_envelope_edit', methods: ['PUT'])]
 #[IsGranted('ROLE_USER')]
 class EditEnvelopeController extends AbstractController
 {
@@ -35,14 +35,14 @@ class EditEnvelopeController extends AbstractController
 
     public function __invoke(
         #[MapRequestPayload] EditEnvelopeInput $updateEnvelopeDto,
-        int $id,
+        string $uuid,
         #[CurrentUser] SharedUserInterface $user,
     ): JsonResponse {
         try {
-            $parentEnvelope = $updateEnvelopeDto->getParentId() ? $this->queryBus->query(
-                new ShowEnvelopeQuery($updateEnvelopeDto->getParentId(), $user->getId())
+            $parentEnvelope = $updateEnvelopeDto->getParentUuid() ? $this->queryBus->query(
+                new ShowEnvelopeQuery($updateEnvelopeDto->getParentUuid(), $user->getUuid())
             ) : null;
-            $envelope = $this->queryBus->query(new ShowEnvelopeQuery($id, $user->getId()));
+            $envelope = $this->queryBus->query(new ShowEnvelopeQuery($uuid, $user->getUuid()));
             if (!$envelope instanceof Envelope) {
                 $this->logger->error('Envelope does not exist for user');
 

@@ -27,8 +27,8 @@ readonly class ListEnvelopesQueryHandler
         try {
             return $this->envelopeQueryRepository->findBy(
                 [
-                    'user_id' => $listEnvelopesQuery->getUserId(),
-                    'parent' => $listEnvelopesDto->getParentId(),
+                    'userUuid' => $listEnvelopesQuery->getUserUuid(),
+                    'parent' => $listEnvelopesDto->getParentUuid(),
                 ],
                 $listEnvelopesDto->getOrderBy(),
                 $listEnvelopesDto->getLimit(),

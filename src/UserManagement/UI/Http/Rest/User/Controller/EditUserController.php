@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/api/user/{id}', name: 'app_user_edit', methods: ['PUT'])]
+#[Route('/api/user/{uuid}', name: 'app_user_edit', methods: ['PUT'])]
 #[IsGranted('ROLE_USER')]
 class EditUserController extends AbstractController
 {
@@ -29,11 +29,11 @@ class EditUserController extends AbstractController
     }
 
     public function __invoke(
-        int $id,
+        string $uuid,
         #[CurrentUser] UserInterface $currentUser,
         #[MapRequestPayload] EditUserInput $editUserDto,
     ): JsonResponse {
-        if ($id !== $currentUser->getId()) {
+        if ($uuid !== $currentUser->getUuid()) {
             $this->logger->error('Failed to process User edit request: User not allowed to access this resource');
             throw new EditUserControllerException('User not allowed to access this resource', Response::HTTP_FORBIDDEN);
         }

@@ -13,7 +13,7 @@ interface CreateEnvelopeBuilderInterface
 
     public function setCreateEnvelopeDto(CreateEnvelopeInputInterface $createEnvelopeDto): self;
 
-    public function setUserId(int $userId): self;
+    public function setUserUuid(string $userUuid): self;
 
     public function build(): EnvelopeInterface;
 }

@@ -6,7 +6,9 @@ namespace App\EnvelopeManagement\Domain\Envelope\Model;
 
 interface EnvelopeInterface
 {
-    public function getId(): int;
+    public function getUuid(): string;
+
+    public function setUuid(string $uuid): self;
 
     public function setTitle(string $title): self;
 
@@ -23,11 +25,17 @@ interface EnvelopeInterface
 
     public function setCurrentBudget(string $currentBudget): self;
 
-    public function getUserId(): int;
+    public function getUserUuid(): string;
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self;
+
+    public function getUpdatedAt(): \DateTime;
 
     public function setUpdatedAt(\DateTime $updatedAt): self;
 
     public function setParent(?EnvelopeInterface $parent = null): self;
+
+    public function addChild(EnvelopeInterface $child): self;
 
     public function setTargetBudget(string $targetBudget): self;
 

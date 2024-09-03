@@ -10,17 +10,19 @@ use App\EnvelopeManagement\Domain\Envelope\Validator\CreateEnvelopeCurrentBudget
 use App\EnvelopeManagement\Domain\Envelope\Validator\CreateEnvelopeTargetBudgetValidator;
 use App\EnvelopeManagement\Domain\Envelope\Validator\CreateEnvelopeTitleValidator;
 use App\EnvelopeManagement\Domain\Shared\Adapter\LoggerInterface;
+use App\EnvelopeManagement\Infrastructure\Shared\Adapter\UuidAdapter;
 
 class CreateEnvelopeBuilder implements CreateEnvelopeBuilderInterface
 {
     private ?EnvelopeInterface $parentEnvelope = null;
     private CreateEnvelopeInputInterface $createEnvelopeDto;
-    private int $userId;
+    private string $userUuid;
 
     public function __construct(
         private readonly CreateEnvelopeTargetBudgetValidator $targetBudgetValidator,
         private readonly CreateEnvelopeCurrentBudgetValidator $currentBudgetValidator,
         private readonly CreateEnvelopeTitleValidator $titleValidator,
+        private readonly UuidAdapter $uuidAdapter,
         private readonly LoggerInterface $logger,
         private readonly string $envelopeClass,
     ) {
@@ -44,9 +46,9 @@ class CreateEnvelopeBuilder implements CreateEnvelopeBuilderInterface
         return $this;
     }
 
-    public function setUserId(int $userId): self
+    public function setUserUuid(string $userUuid): self
     {
-        $this->userId = $userId;
+        $this->userUuid = $userUuid;
 
         return $this;
     }
@@ -57,7 +59,7 @@ class CreateEnvelopeBuilder implements CreateEnvelopeBuilderInterface
     public function build(): EnvelopeInterface
     {
         try {
-            $this->titleValidator->validate($this->createEnvelopeDto->getTitle(), $this->userId);
+            $this->titleValidator->validate($this->createEnvelopeDto->getTitle(), $this->userUuid);
             $this->currentBudgetValidator->validate($this->createEnvelopeDto->getCurrentBudget(), $this->createEnvelopeDto->getTargetBudget(), $this->parentEnvelope);
             $this->targetBudgetValidator->validate($this->createEnvelopeDto->getTargetBudget(), $this->parentEnvelope);
             if ($this->parentEnvelope instanceof EnvelopeInterface && 0.00 !== $currentBudget = floatval($this->createEnvelopeDto->getCurrentBudget())) {
@@ -65,13 +67,14 @@ class CreateEnvelopeBuilder implements CreateEnvelopeBuilderInterface
             }
 
             return (new $this->envelopeClass())
+                ->setUuid($this->uuidAdapter->generate())
                 ->setParent($this->parentEnvelope)
                 ->setCurrentBudget($this->createEnvelopeDto->getCurrentBudget())
                 ->setTargetBudget($this->createEnvelopeDto->getTargetBudget())
                 ->setTitle($this->createEnvelopeDto->getTitle())
                 ->setCreatedAt(new \DateTimeImmutable('now'))
                 ->setUpdatedAt(new \DateTime('now'))
-                ->setUserId($this->userId);
+                ->setUserUuid($this->userUuid);
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage(), [
                 'exception' => $exception::class,

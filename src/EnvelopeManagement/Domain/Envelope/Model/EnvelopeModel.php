@@ -16,23 +16,36 @@ use App\EnvelopeManagement\Domain\Envelope\Exception\TargetBudgetExceedsParentMa
 
 class EnvelopeModel implements EnvelopeInterface
 {
-    protected int $id;
-    protected \DateTimeImmutable $createdAt;
-    protected \DateTime $updatedAt;
-    protected string $currentBudget;
-    protected string $targetBudget;
-    protected string $title;
-    protected ?EnvelopeInterface $parent = null;
+    private int $id;
+    private string $uuid;
+    private \DateTime $updatedAt;
+    private string $currentBudget;
+    private string $targetBudget;
+    private string $title;
+    private \DateTimeImmutable $createdAt;
+    private ?EnvelopeInterface $parent = null;
     /**
      * @var \ArrayAccess<int, EnvelopeInterface>|\IteratorAggregate<int, EnvelopeInterface>|\Serializable|\Countable
      */
-    protected \ArrayAccess|\IteratorAggregate|\Serializable|\Countable $children;
+    private \ArrayAccess|\IteratorAggregate|\Serializable|\Countable $children;
 
-    protected int $userId;
+    private string $userUuid;
 
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function getUuid(): string
+    {
+        return $this->uuid;
+    }
+
+    public function setUuid(string $uuid): self
+    {
+        $this->uuid = $uuid;
+
+        return $this;
     }
 
     /**
@@ -41,6 +54,13 @@ class EnvelopeModel implements EnvelopeInterface
     public function getChildren(): \ArrayAccess|\IteratorAggregate|\Serializable|\Countable
     {
         return $this->children;
+    }
+
+    public function setChildren(\Countable|\IteratorAggregate|\Serializable|\ArrayAccess $children): self
+    {
+        $this->children = $children;
+
+        return $this;
     }
 
     public function getTargetBudget(): string
@@ -72,16 +92,28 @@ class EnvelopeModel implements EnvelopeInterface
         return $this;
     }
 
-    public function getUserId(): int
+    public function getUserUuid(): string
     {
-        return $this->userId;
+        return $this->userUuid;
     }
 
-    public function setUserId(int $userId): self
+    public function setUserUuid(string $userUuid): self
     {
-        $this->userId = $userId;
+        $this->userUuid = $userUuid;
 
         return $this;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): \DateTime
+    {
+        return $this->updatedAt;
     }
 
     public function setUpdatedAt(\DateTime $updatedAt): self
@@ -106,11 +138,18 @@ class EnvelopeModel implements EnvelopeInterface
         return $this;
     }
 
+    public function addChild(EnvelopeInterface $child): self
+    {
+        $this->children->add($child);
+
+        return $this;
+    }
+
     public function calculateChildrenCurrentBudgetOfParentEnvelope(EnvelopeInterface $envelopeToUpdate): float
     {
         return array_reduce(
             $this->getChildren()->toArray(),
-            fn (float $carry, EnvelopeInterface $child) => $child->getId() === $envelopeToUpdate->getId() ? $carry : $carry + floatval($child->getCurrentBudget()),
+            fn (float $carry, EnvelopeInterface $child) => $child->getUuid() === $envelopeToUpdate->getUuid() ? $carry : $carry + floatval($child->getCurrentBudget()),
             0.00,
         );
     }
@@ -170,7 +209,7 @@ class EnvelopeModel implements EnvelopeInterface
      */
     public function validateTargetBudgetIsLessThanParentMaxAllowableBudget(EnvelopeInterface $envelopeToUpdate, float $targetBudgetInput): void
     {
-        if (floatval($this->getTargetBudget()) < $targetBudgetInput + floatval($this->getCurrentBudget()) && $envelopeToUpdate->getParent()?->getId() !== $this->getId()) {
+        if (floatval($this->getTargetBudget()) < $targetBudgetInput + floatval($this->getCurrentBudget()) && $envelopeToUpdate->getParent()?->getUuid() !== $this->getUuid()) {
             throw new TargetBudgetExceedsParentMaxAllowableBudgetException(TargetBudgetExceedsParentMaxAllowableBudgetException::MESSAGE, 400);
         }
     }

@@ -53,16 +53,16 @@ class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
     public function build(): EnvelopeInterface
     {
         try {
-            if ($this->newParentEnvelope?->getId() === $this->envelope->getId()) {
+            if ($this->newParentEnvelope?->getUuid() === $this->envelope->getUuid()) {
                 throw new SelfParentEnvelopeException('Envelope cannot be its own parent.', 400);
             }
 
             $this->titleValidator->validate($this->updateEnvelopeDto->getTitle(), $this->envelope);
             $this->targetBudgetValidator->validate($this->updateEnvelopeDto->getTargetBudget(), $this->envelope, $this->newParentEnvelope);
             $this->currentBudgetValidator->validate($this->updateEnvelopeDto->getCurrentBudget(), $this->updateEnvelopeDto->getTargetBudget(), $this->envelope, $this->newParentEnvelope);
-            $oldParentEnvelopeId = $this->envelope->getParent()?->getId();
+            $oldParentEnvelopeId = $this->envelope->getParent()?->getUuid();
 
-            if ($oldParentEnvelopeId !== $this->newParentEnvelope?->getId()) {
+            if ($oldParentEnvelopeId !== $this->newParentEnvelope?->getUuid()) {
                 $this->envelope->getParent()?->updateAncestorsCurrentBudget(-floatval($this->envelope->getCurrentBudget()));
             }
 
@@ -72,7 +72,7 @@ class EditEnvelopeBuilder implements EditEnvelopeBuilderInterface
                 $this->newParentEnvelope->updateAncestorsCurrentBudget($difference);
             }
 
-            if ($this->newParentEnvelope instanceof EnvelopeInterface && $oldParentEnvelopeId !== $this->newParentEnvelope->getId()) {
+            if ($this->newParentEnvelope instanceof EnvelopeInterface && $oldParentEnvelopeId !== $this->newParentEnvelope->getUuid()) {
                 $this->newParentEnvelope->updateAncestorsCurrentBudget(floatval($this->envelope->getCurrentBudget()));
             }
 

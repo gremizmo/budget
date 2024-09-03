@@ -8,7 +8,7 @@ use App\EnvelopeManagement\Domain\Envelope\Model\UserInterface;
 
 interface SharedUserInterface extends UserInterface
 {
-    public function getId(): int;
+    public function getUuid(): string;
 
     public function getEmail(): string;
 }

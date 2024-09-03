@@ -16,32 +16,35 @@ class Envelope extends EnvelopeModel
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    protected int $id;
+    private int $id;
+
+    #[ORM\Column(name: 'uuid', type: 'string', length: 100, unique: true)]
+    private string $uuid;
 
     #[ORM\Column(name: 'created_at', type: 'datetime_immutable')]
-    protected \DateTimeImmutable $createdAt;
+    private \DateTimeImmutable $createdAt;
 
     #[ORM\Column(name: 'updated_at', type: 'datetime')]
-    protected \DateTime $updatedAt;
+    private \DateTime $updatedAt;
 
     #[ORM\Column(name: 'current_budget', type: 'string')]
-    protected string $currentBudget = '0.00';
+    private string $currentBudget = '0.00';
 
     #[ORM\Column(name: 'target_budget', type: 'string')]
-    protected string $targetBudget = '0.00';
+    private string $targetBudget = '0.00';
 
     #[ORM\Column(name: 'title', type: 'string', length: 255)]
-    protected string $title = '';
+    private string $title = '';
 
     #[ORM\ManyToOne(targetEntity: 'App\EnvelopeManagement\Infrastructure\Envelope\Entity\Envelope', inversedBy: 'children')]
     #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id', nullable: true)]
-    protected ?EnvelopeInterface $parent = null;
+    private ?EnvelopeInterface $parent = null;
 
     #[ORM\OneToMany(targetEntity: 'App\EnvelopeManagement\Infrastructure\Envelope\Entity\Envelope', mappedBy: 'parent', cascade: ['persist', 'remove'])]
-    protected \ArrayAccess|\IteratorAggregate|\Serializable|\Countable $children;
+    private \ArrayAccess|\IteratorAggregate|\Serializable|\Countable $children;
 
-    #[ORM\Column(name: 'user_id', type: 'integer')]
-    protected int $userId;
+    #[ORM\Column(name: 'user_uuid', type: 'string', length: 100, unique: false)]
+    private string $userUuid;
 
     public function __construct()
     {
@@ -55,9 +58,14 @@ class Envelope extends EnvelopeModel
         return $this->id;
     }
 
-    public function setId(int $id): self
+    public function getUuid(): string
     {
-        $this->id = $id;
+        return $this->uuid;
+    }
+
+    public function setUuid(string $uuid): self
+    {
+        $this->uuid = $uuid;
 
         return $this;
     }
@@ -140,14 +148,21 @@ class Envelope extends EnvelopeModel
         return $this->children;
     }
 
-    public function getUserId(): int
+    public function setChildren(\Countable|\IteratorAggregate|\Serializable|\ArrayAccess $children): Envelope
     {
-        return $this->userId;
+        $this->children = $children;
+
+        return $this;
     }
 
-    public function setUserId(int $userId): self
+    public function getUserUuid(): string
     {
-        $this->userId = $userId;
+        return $this->userUuid;
+    }
+
+    public function setUserUuid(string $userUuid): self
+    {
+        $this->userUuid = $userUuid;
 
         return $this;
     }

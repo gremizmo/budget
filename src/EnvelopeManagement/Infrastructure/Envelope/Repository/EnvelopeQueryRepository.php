@@ -38,7 +38,7 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
                 'query' => [
                     'bool' => [
                         'must' => array_values(array_filter([
-                            $this->filterById($criteria),
+                            $this->filterByUuid($criteria),
                             $this->filterByTitle($criteria),
                             $this->filterByUser($criteria),
                         ])),
@@ -118,13 +118,13 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
      *
      * @return array<string, array<string, string>>
      */
-    private function filterById(array $criteria): array
+    private function filterByUuid(array $criteria): array
     {
-        if (!isset($criteria['id'])) {
+        if (!isset($criteria['uuid'])) {
             return [];
         }
 
-        return ['term' => ['id' => $criteria['id']]];
+        return ['term' => ['uuid' => $criteria['uuid']]];
     }
 
     /**
@@ -154,7 +154,7 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
         ];
 
         if (isset($criteria['parent'])) {
-            $filters['must'][] = ['term' => ['parent.id' => $criteria['parent']]];
+            $filters['must'][] = ['term' => ['parent.uuid' => $criteria['parent']]];
         } else {
             $filters['must_not'][] = ['exists' => ['field' => 'parent']];
         }
@@ -169,10 +169,10 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
      */
     private function filterByUser(array $criteria): array
     {
-        if (!isset($criteria['user_id'])) {
+        if (!isset($criteria['userUuid'])) {
             return [];
         }
 
-        return ['term' => ['userId' => $criteria['user_id']]];
+        return ['term' => ['userUuid' => $criteria['userUuid']]];
     }
 }

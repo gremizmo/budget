@@ -18,9 +18,9 @@ readonly class CreateEnvelopeTitleValidator
     /**
      * @throws EnvelopeTitleAlreadyExistsForUserException
      */
-    public function validate(string $title, int $userId): void
+    public function validate(string $title, string $userUuid): void
     {
-        $envelope = $this->queryBus->query(new GetEnvelopeByTitleQuery($title, $userId));
+        $envelope = $this->queryBus->query(new GetEnvelopeByTitleQuery($title, $userUuid));
 
         if ($envelope instanceof EnvelopeInterface) {
             throw new EnvelopeTitleAlreadyExistsForUserException(EnvelopeTitleAlreadyExistsForUserException::MESSAGE, 400);

@@ -12,6 +12,10 @@ interface UserInterface extends SharedUserInterface
 
     public function setId(int $id): self;
 
+    public function getUuid(): string;
+
+    public function setUuid(string $uuid): self;
+
     public function getEmail(): string;
 
     public function setEmail(string $email): self;

@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/api/user/{id}', name: 'app_user_show', methods: ['GET'])]
+#[Route('/api/user/{uuid}', name: 'app_user_show', methods: ['GET'])]
 #[IsGranted('ROLE_USER')]
 class ShowUserController extends AbstractController
 {
@@ -23,10 +23,10 @@ class ShowUserController extends AbstractController
     }
 
     public function __invoke(
-        int $id,
+        string $uuid,
         #[CurrentUser] UserInterface $currentUser
     ): JsonResponse {
-        if ($id !== $currentUser->getId()) {
+        if ($uuid !== $currentUser->getUuid()) {
             $this->logger->error('Failed to process User getOne request: User not allowed to access this resource');
             throw new ShowUserControllerException(ShowUserControllerException::MESSAGE, Response::HTTP_FORBIDDEN);
         }

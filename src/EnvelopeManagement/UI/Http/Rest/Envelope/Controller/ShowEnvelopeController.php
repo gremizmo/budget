@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/api/envelope/{id}', name: 'app_envelope_show', methods: ['GET'])]
+#[Route('/api/envelope/{uuid}', name: 'app_envelope_show', methods: ['GET'])]
 #[IsGranted('ROLE_USER')]
 class ShowEnvelopeController extends AbstractController
 {
@@ -27,11 +27,11 @@ class ShowEnvelopeController extends AbstractController
     }
 
     public function __invoke(
-        int $id,
+        string $uuid,
         #[CurrentUser] SharedUserInterface $user
     ): JsonResponse {
         try {
-            $envelope = $this->queryBus->query(new ShowEnvelopeQuery($id, $user->getId()));
+            $envelope = $this->queryBus->query(new ShowEnvelopeQuery($uuid, $user->getUuid()));
         } catch (\Throwable $exception) {
             $this->logger->error('Failed to process Envelope show request: '.$exception->getMessage());
 

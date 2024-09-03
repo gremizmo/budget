@@ -10,7 +10,7 @@ final readonly class CreateEnvelopeInput implements CreateEnvelopeInputInterface
         public string $title,
         public string $currentBudget,
         public string $targetBudget,
-        public ?int $parentId = null,
+        public ?string $parentUuid = null,
     ) {
     }
 
@@ -29,8 +29,8 @@ final readonly class CreateEnvelopeInput implements CreateEnvelopeInputInterface
         return $this->targetBudget;
     }
 
-    public function getParentId(): ?int
+    public function getParentUuid(): ?string
     {
-        return $this->parentId;
+        return $this->parentUuid;
     }
 }

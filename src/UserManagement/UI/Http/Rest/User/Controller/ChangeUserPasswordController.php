@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/api/user/{id}/change-password', name: 'app_user_change_password', methods: ['POST'])]
+#[Route('/api/user/{uuid}/change-password', name: 'app_user_change_password', methods: ['POST'])]
 #[IsGranted('ROLE_USER')]
 class ChangeUserPasswordController extends AbstractController
 {
@@ -29,11 +29,11 @@ class ChangeUserPasswordController extends AbstractController
     }
 
     public function __invoke(
-        User $user,
+        string $uuid,
         #[CurrentUser] User $currentUser,
         #[MapRequestPayload] ChangeUserPasswordInput $changePasswordDto,
     ): JsonResponse {
-        if ($user->getId() !== $currentUser->getId()) {
+        if ($uuid !== $currentUser->getUuid()) {
             $this->logger->error('Failed to process User changePassword request: User not allowed to access this resource');
             throw new ChangeUserPasswordControllerException(ChangeUserPasswordControllerException::MESSAGE, Response::HTTP_FORBIDDEN);
         }

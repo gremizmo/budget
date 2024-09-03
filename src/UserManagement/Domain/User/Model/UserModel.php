@@ -7,6 +7,7 @@ namespace App\UserManagement\Domain\User\Model;
 class UserModel implements UserInterface
 {
     private int $id;
+    private string $uuid;
     private string $email;
     private string $password;
     private string $firstname;
@@ -28,6 +29,18 @@ class UserModel implements UserInterface
     public function setId(int $id): self
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    public function getUuid(): string
+    {
+        return $this->uuid;
+    }
+
+    public function setUuid(string $uuid): self
+    {
+        $this->uuid = $uuid;
 
         return $this;
     }

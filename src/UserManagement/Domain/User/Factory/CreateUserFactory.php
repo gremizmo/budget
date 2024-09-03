@@ -7,11 +7,13 @@ namespace App\UserManagement\Domain\User\Factory;
 use App\UserManagement\Application\User\Dto\CreateUserInputInterface;
 use App\UserManagement\Domain\Shared\Adapter\PasswordHasherInterface;
 use App\UserManagement\Domain\User\Model\UserInterface;
+use App\UserManagement\Infrastructure\User\Adapter\UuidAdapter;
 
 readonly class CreateUserFactory implements CreateUserFactoryInterface
 {
     public function __construct(
         private PasswordHasherInterface $passwordHasher,
+        private UuidAdapter $uuidAdapter,
         private string $userClass,
     ) {
         $model = new $userClass();
@@ -25,7 +27,8 @@ readonly class CreateUserFactory implements CreateUserFactoryInterface
         $user = (new $this->userClass());
         $hashedPassword = $this->passwordHasher->hash($user, $createUserDto->getPassword());
 
-        return $user->setFirstname($createUserDto->getFirstname())
+        return $user->setUuid($this->uuidAdapter->generate())
+            ->setFirstname($createUserDto->getFirstname())
             ->setLastname($createUserDto->getLastname())
             ->setEmail($createUserDto->getEmail())
             ->setPassword($hashedPassword)

@@ -12,6 +12,6 @@ interface CreateEnvelopeFactoryInterface
     public function createFromDto(
         CreateEnvelopeInputInterface $createEnvelopeDto,
         ?EnvelopeInterface $parentEnvelope,
-        int $userId,
+        string $userUuid,
     ): EnvelopeInterface;
 }

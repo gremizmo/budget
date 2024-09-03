@@ -24,14 +24,14 @@ readonly class ShowEnvelopeQueryHandler
     {
         try {
             $envelope = $this->envelopeQueryRepository->findOneBy([
-                'id' => $getOneEnvelopeQuery->getEnvelopeId(),
-                'user_id' => $getOneEnvelopeQuery->getUserId(),
+                'uuid' => $getOneEnvelopeQuery->getEnvelopeUuid(),
+                'userUuid' => $getOneEnvelopeQuery->getUserUuid(),
             ]);
 
             if (!$envelope) {
                 $this->logger->error('Envelope not found', [
-                    'id' => $getOneEnvelopeQuery->getEnvelopeId(),
-                    'user_id' => $getOneEnvelopeQuery->getUserId(),
+                    'uuid' => $getOneEnvelopeQuery->getEnvelopeUuid(),
+                    'userUuid' => $getOneEnvelopeQuery->getUserUuid(),
                 ]);
                 throw new EnvelopeNotFoundException(EnvelopeNotFoundException::MESSAGE, 404);
             }
