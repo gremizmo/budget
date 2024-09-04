@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\UserManagement\Infrastructure\User\Repository;
 
-use App\UserManagement\Domain\Shared\Adapter\LoggerInterface;
+use App\UserManagement\Domain\User\Adapter\LoggerInterface;
 use App\UserManagement\Domain\User\Repository\UserQueryRepositoryInterface;
 use App\UserManagement\Infrastructure\User\Entity\User;
 use Elastica\Query;

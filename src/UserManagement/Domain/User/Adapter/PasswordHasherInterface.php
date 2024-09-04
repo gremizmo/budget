@@ -1,6 +1,6 @@
 <?php
 
-namespace App\UserManagement\Domain\Shared\Adapter;
+namespace App\UserManagement\Domain\User\Adapter;
 
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 

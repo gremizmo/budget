@@ -6,7 +6,7 @@ namespace App\UserManagement\UI\Http\Rest\User\Controller;
 
 use App\UserManagement\Application\User\Command\EditUserCommand;
 use App\UserManagement\Application\User\Dto\EditUserInput;
-use App\UserManagement\Domain\Shared\Adapter\CommandBusInterface;
+use App\UserManagement\Domain\User\Adapter\CommandBusInterface;
 use App\UserManagement\Domain\User\Model\UserInterface;
 use App\UserManagement\UI\Http\Rest\User\Exception\EditUserControllerException;
 use Psr\Log\LoggerInterface;

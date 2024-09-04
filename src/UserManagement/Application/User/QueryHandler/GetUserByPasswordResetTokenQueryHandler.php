@@ -3,7 +3,7 @@
 namespace App\UserManagement\Application\User\QueryHandler;
 
 use App\UserManagement\Application\User\Query\GetUserByPasswordResetTokenQuery;
-use App\UserManagement\Domain\Shared\Adapter\LoggerInterface;
+use App\UserManagement\Domain\User\Adapter\LoggerInterface;
 use App\UserManagement\Domain\User\Model\UserInterface;
 use App\UserManagement\Domain\User\Repository\UserQueryRepositoryInterface;
 

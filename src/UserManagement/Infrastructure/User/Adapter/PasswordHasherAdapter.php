@@ -2,7 +2,7 @@
 
 namespace App\UserManagement\Infrastructure\User\Adapter;
 
-use App\UserManagement\Domain\Shared\Adapter\PasswordHasherInterface;
+use App\UserManagement\Domain\User\Adapter\PasswordHasherInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 

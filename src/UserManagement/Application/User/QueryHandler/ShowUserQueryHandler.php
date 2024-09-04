@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\UserManagement\Application\User\QueryHandler;
 
 use App\UserManagement\Application\User\Query\ShowUserQuery;
-use App\UserManagement\Domain\Shared\Adapter\LoggerInterface;
+use App\UserManagement\Domain\User\Adapter\LoggerInterface;
 use App\UserManagement\Domain\User\Model\UserInterface;
 use App\UserManagement\Domain\User\Repository\UserQueryRepositoryInterface;
 

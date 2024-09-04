@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\UserManagement\Domain\Shared\Adapter;
+namespace App\UserManagement\Domain\User\Adapter;
 
-use App\UserManagement\Domain\Shared\Query\QueryInterface;
+use App\UserManagement\Domain\User\Query\QueryInterface;
 
 interface QueryBusInterface
 {

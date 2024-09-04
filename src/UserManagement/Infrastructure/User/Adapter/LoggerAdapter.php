@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\UserManagement\Infrastructure\User\Adapter;
 
-use App\UserManagement\Domain\Shared\Adapter\LoggerInterface;
+use App\UserManagement\Domain\User\Adapter\LoggerInterface;
 use Psr\Log\LoggerInterface as PsrLoggerInterface;
 
 readonly class LoggerAdapter implements LoggerInterface

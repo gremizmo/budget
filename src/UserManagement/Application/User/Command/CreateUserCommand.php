@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\UserManagement\Application\User\Command;
 
 use App\UserManagement\Application\User\Dto\CreateUserInputInterface;
-use App\UserManagement\Domain\Shared\Command\CommandInterface;
+use App\UserManagement\Domain\User\Command\CommandInterface;
 
 readonly class CreateUserCommand implements CommandInterface
 {

@@ -2,7 +2,7 @@
 
 namespace App\UserManagement\Infrastructure\User\Adapter;
 
-use App\EnvelopeManagement\Domain\Shared\Adapter\UuidAdapterInterface;
+use App\UserManagement\Domain\User\Adapter\UuidAdapterInterface;
 use Symfony\Component\Uid\Uuid;
 
 readonly class UuidAdapter implements UuidAdapterInterface

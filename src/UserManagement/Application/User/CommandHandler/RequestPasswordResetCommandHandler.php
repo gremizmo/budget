@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\UserManagement\Application\User\CommandHandler;
 
 use App\UserManagement\Application\User\Command\RequestPasswordResetCommand;
-use App\UserManagement\Domain\Shared\Adapter\LoggerInterface;
-use App\UserManagement\Domain\Shared\Adapter\MailerInterface;
+use App\UserManagement\Domain\User\Adapter\LoggerInterface;
+use App\UserManagement\Domain\User\Adapter\MailerInterface;
 use App\UserManagement\Domain\User\Repository\UserCommandRepositoryInterface;
 use App\UserManagement\Domain\User\Service\PasswordResetTokenGeneratorInterface;
 

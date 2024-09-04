@@ -6,7 +6,7 @@ namespace App\UserManagement\UI\Http\Rest\User\Controller;
 
 use App\UserManagement\Application\User\Command\ChangeUserPasswordCommand;
 use App\UserManagement\Application\User\Dto\ChangeUserPasswordInput;
-use App\UserManagement\Domain\Shared\Adapter\CommandBusInterface;
+use App\UserManagement\Domain\User\Adapter\CommandBusInterface;
 use App\UserManagement\Infrastructure\User\Entity\User;
 use App\UserManagement\UI\Http\Rest\User\Exception\ChangeUserPasswordControllerException;
 use Psr\Log\LoggerInterface;

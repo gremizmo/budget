@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\UserManagement\Infrastructure\User\Adapter;
 
-use App\UserManagement\Domain\Shared\Adapter\UrlGeneratorInterface as CustomUrlGeneratorInterface;
+use App\UserManagement\Domain\User\Adapter\UrlGeneratorInterface as CustomUrlGeneratorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface as SymfonyUrlGeneratorInterface;
 
 readonly class UrlGeneratorAdapter implements CustomUrlGeneratorInterface

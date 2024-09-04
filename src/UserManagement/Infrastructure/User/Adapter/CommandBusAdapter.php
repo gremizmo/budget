@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\UserManagement\Infrastructure\User\Adapter;
 
-use App\UserManagement\Domain\Shared\Adapter\CommandBusInterface;
-use App\UserManagement\Domain\Shared\Command\CommandInterface;
+use App\UserManagement\Domain\User\Adapter\CommandBusInterface;
+use App\UserManagement\Domain\User\Command\CommandInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 readonly class CommandBusAdapter implements CommandBusInterface

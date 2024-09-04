@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\UserManagement\Infrastructure\User\Adapter;
 
-use App\UserManagement\Domain\Shared\Adapter\QueryBusInterface;
-use App\UserManagement\Domain\Shared\Query\QueryInterface;
+use App\UserManagement\Domain\User\Adapter\QueryBusInterface;
+use App\UserManagement\Domain\User\Query\QueryInterface;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\HandledStamp;

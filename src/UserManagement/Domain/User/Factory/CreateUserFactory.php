@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace App\UserManagement\Domain\User\Factory;
 
 use App\UserManagement\Application\User\Dto\CreateUserInputInterface;
-use App\UserManagement\Domain\Shared\Adapter\PasswordHasherInterface;
+use App\UserManagement\Domain\User\Adapter\PasswordHasherInterface;
+use App\UserManagement\Domain\User\Adapter\UuidAdapterInterface;
 use App\UserManagement\Domain\User\Model\UserInterface;
-use App\UserManagement\Infrastructure\User\Adapter\UuidAdapter;
 
 readonly class CreateUserFactory implements CreateUserFactoryInterface
 {
     public function __construct(
         private PasswordHasherInterface $passwordHasher,
-        private UuidAdapter $uuidAdapter,
+        private UuidAdapterInterface $uuidAdapter,
         private string $userClass,
     ) {
         $model = new $userClass();

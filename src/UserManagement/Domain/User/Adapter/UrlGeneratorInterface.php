@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\UserManagement\Domain\Shared\Adapter;
+namespace App\UserManagement\Domain\User\Adapter;
 
 interface UrlGeneratorInterface
 {

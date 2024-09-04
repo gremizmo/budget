@@ -2,7 +2,7 @@
 
 namespace App\UserManagement\Infrastructure\User\Adapter;
 
-use App\UserManagement\Domain\Shared\Adapter\MailerInterface;
+use App\UserManagement\Domain\User\Adapter\MailerInterface;
 use App\UserManagement\Domain\User\Model\UserInterface;
 use Symfony\Component\Mailer\Envelope;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
