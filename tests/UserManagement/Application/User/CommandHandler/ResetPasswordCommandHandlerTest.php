@@ -17,8 +17,8 @@ use PHPUnit\Framework\TestCase;
 
 class ResetPasswordCommandHandlerTest extends TestCase
 {
-    private MockObject $userCommandRepository;
-    private MockObject $passwordHasher;
+    private UserCommandRepositoryInterface&MockObject $userCommandRepository;
+    private PasswordHasherInterface&MockObject $passwordHasher;
     private ResetPasswordCommandHandler $handler;
     private LoggerInterface $logger;
 

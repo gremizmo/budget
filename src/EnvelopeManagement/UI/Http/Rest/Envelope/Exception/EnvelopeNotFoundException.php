@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\EnvelopeManagement\Domain\Envelope\Exception;
+namespace App\EnvelopeManagement\UI\Http\Rest\Envelope\Exception;
 
 class EnvelopeNotFoundException extends \Exception
 {

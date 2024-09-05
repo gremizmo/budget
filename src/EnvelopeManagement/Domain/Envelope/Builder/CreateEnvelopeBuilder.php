@@ -10,7 +10,7 @@ use App\EnvelopeManagement\Domain\Envelope\Validator\CreateEnvelopeCurrentBudget
 use App\EnvelopeManagement\Domain\Envelope\Validator\CreateEnvelopeTargetBudgetValidator;
 use App\EnvelopeManagement\Domain\Envelope\Validator\CreateEnvelopeTitleValidator;
 use App\EnvelopeManagement\Domain\Shared\Adapter\LoggerInterface;
-use App\EnvelopeManagement\Infrastructure\Shared\Adapter\UuidAdapter;
+use App\EnvelopeManagement\Domain\Shared\Adapter\UuidAdapterInterface;
 
 class CreateEnvelopeBuilder implements CreateEnvelopeBuilderInterface
 {
@@ -22,7 +22,7 @@ class CreateEnvelopeBuilder implements CreateEnvelopeBuilderInterface
         private readonly CreateEnvelopeTargetBudgetValidator $targetBudgetValidator,
         private readonly CreateEnvelopeCurrentBudgetValidator $currentBudgetValidator,
         private readonly CreateEnvelopeTitleValidator $titleValidator,
-        private readonly UuidAdapter $uuidAdapter,
+        private readonly UuidAdapterInterface $uuidAdapter,
         private readonly LoggerInterface $logger,
         private readonly string $envelopeClass,
     ) {
