@@ -6,7 +6,7 @@ namespace App\Tests\UserManagement\Application\User\QueryHandler;
 
 use App\UserManagement\Application\User\Query\ShowUserQuery;
 use App\UserManagement\Application\User\QueryHandler\ShowUserQueryHandler;
-use App\UserManagement\Application\User\QueryHandler\ShowUserQueryHandlerException;
+use App\UserManagement\Application\User\QueryHandler\UserNotFoundException;
 use App\UserManagement\Domain\User\Adapter\LoggerInterface;
 use App\UserManagement\Domain\User\Model\UserInterface;
 use App\UserManagement\Domain\User\Repository\UserQueryRepositoryInterface;
@@ -29,9 +29,6 @@ class ShowUserQueryHandlerTest extends TestCase
         );
     }
 
-    /**
-     * @throws ShowUserQueryHandlerException
-     */
     public function testShowUserSuccess(): void
     {
         $user = $this->createMock(UserInterface::class);
@@ -46,26 +43,9 @@ class ShowUserQueryHandlerTest extends TestCase
         $this->assertSame($user, $result);
     }
 
-    /**
-     * @throws ShowUserQueryHandlerException
-     */
-    public function testShowUserExceptionDuringProcess(): void
-    {
-        $this->expectException(ShowUserQueryHandlerException::class);
-
-        $query = new ShowUserQuery('test@example.com');
-
-        $this->userQueryRepository->method('findOneBy')->willThrowException(new \Exception('Database error'));
-
-        $this->handler->__invoke($query);
-    }
-
-    /**
-     * @throws ShowUserQueryHandlerException
-     */
     public function testShowUserNotFound(): void
     {
-        $this->expectException(ShowUserQueryHandlerException::class);
+        $this->expectException(UserNotFoundException::class);
 
         $query = new ShowUserQuery('test@example.com');
 

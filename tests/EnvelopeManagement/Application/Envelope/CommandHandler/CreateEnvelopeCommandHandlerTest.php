@@ -6,29 +6,26 @@ namespace App\Tests\EnvelopeManagement\Application\Envelope\CommandHandler;
 
 use App\EnvelopeManagement\Application\Envelope\Command\CreateEnvelopeCommand;
 use App\EnvelopeManagement\Application\Envelope\CommandHandler\CreateEnvelopeCommandHandler;
-use App\EnvelopeManagement\Application\Envelope\CommandHandler\CreateEnvelopeCommandHandlerException;
 use App\EnvelopeManagement\Application\Envelope\Dto\CreateEnvelopeInput;
+use App\EnvelopeManagement\Domain\Envelope\Adapter\QueryBusInterface;
 use App\EnvelopeManagement\Domain\Envelope\Builder\CreateEnvelopeBuilder;
+use App\EnvelopeManagement\Domain\Envelope\Exception\CurrentBudgetException;
+use App\EnvelopeManagement\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
+use App\EnvelopeManagement\Domain\Envelope\Exception\TargetBudgetException;
 use App\EnvelopeManagement\Domain\Envelope\Factory\CreateEnvelopeFactory;
-use App\EnvelopeManagement\Domain\Envelope\Factory\CreateEnvelopeFactoryException;
 use App\EnvelopeManagement\Domain\Envelope\Model\EnvelopeInterface;
 use App\EnvelopeManagement\Domain\Envelope\Repository\EnvelopeCommandRepositoryInterface;
 use App\EnvelopeManagement\Domain\Envelope\Validator\CreateEnvelopeCurrentBudgetValidator;
 use App\EnvelopeManagement\Domain\Envelope\Validator\CreateEnvelopeTargetBudgetValidator;
 use App\EnvelopeManagement\Domain\Envelope\Validator\CreateEnvelopeTitleValidator;
-use App\EnvelopeManagement\Domain\Shared\Adapter\LoggerInterface;
-use App\EnvelopeManagement\Domain\Shared\Adapter\QueryBusInterface;
+use App\EnvelopeManagement\Infrastructure\Envelope\Adapter\UuidAdapter;
 use App\EnvelopeManagement\Infrastructure\Envelope\Entity\Envelope;
-use App\EnvelopeManagement\Infrastructure\Shared\Adapter\LoggerAdapter;
-use App\EnvelopeManagement\Infrastructure\Shared\Adapter\UuidAdapter;
-use Psr\Log\LoggerInterface as PsrLoggerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class CreateEnvelopeCommandHandlerTest extends TestCase
 {
     private CreateEnvelopeCommandHandler $createEnvelopeCommandHandler;
-    private LoggerInterface $logger;
     private QueryBusInterface&MockObject $queryBus;
     private EnvelopeCommandRepositoryInterface&MockObject $envelopeCommandRepository;
     private CreateEnvelopeFactory $createEnvelopeFactory;
@@ -38,28 +35,22 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
     {
         $this->envelopeCommandRepository = $this->createMock(EnvelopeCommandRepositoryInterface::class);
         $this->queryBus = $this->createMock(QueryBusInterface::class);
-        $this->logger = new LoggerAdapter($this->createMock(PsrLoggerInterface::class));
         $this->uuidAdapter = new UuidAdapter();
 
-        $this->createEnvelopeFactory = new CreateEnvelopeFactory($this->logger, new CreateEnvelopeBuilder(
+        $this->createEnvelopeFactory = new CreateEnvelopeFactory(new CreateEnvelopeBuilder(
             new CreateEnvelopeTargetBudgetValidator(),
             new CreateEnvelopeCurrentBudgetValidator(),
             new CreateEnvelopeTitleValidator($this->queryBus),
             $this->uuidAdapter,
-            $this->logger,
             Envelope::class,
         ));
 
         $this->createEnvelopeCommandHandler = new CreateEnvelopeCommandHandler(
             $this->envelopeCommandRepository,
             $this->createEnvelopeFactory,
-            $this->logger,
         );
     }
 
-    /**
-     * @throws CreateEnvelopeCommandHandlerException
-     */
     public function testCreateEnvelopeWithoutParentSuccess(): void
     {
         $createEnvelopeInput = new CreateEnvelopeInput('Groceries', '100.00', '200.00');
@@ -70,9 +61,6 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
         $this->createEnvelopeCommandHandler->__invoke($createEnvelopeCommand);
     }
 
-    /**
-     * @throws CreateEnvelopeCommandHandlerException
-     */
     public function testCreateEnvelopeWithParentSuccess(): void
     {
         $createEnvelopeInput = new CreateEnvelopeInput('Groceries', '100.00', '200.00', 'test-uuid');
@@ -83,25 +71,18 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
         $this->createEnvelopeCommandHandler->__invoke($createEnvelopeCommand);
     }
 
-    /**
-     * @throws CreateEnvelopeCommandHandlerException
-     */
     public function testCreateEnvelopeWithoutParentCurrentBudgetBiggerThanTargetBudgetFailure(): void
     {
         $createEnvelopeInput = new CreateEnvelopeInput('Groceries', '300.00', '200.00');
         $createEnvelopeCommand = new CreateEnvelopeCommand($createEnvelopeInput, 'test-uuid');
 
         $this->envelopeCommandRepository->expects($this->never())->method('save');
-        $this->expectException(CreateEnvelopeCommandHandlerException::class);
-        $this->expectExceptionMessage('An error occurred while creating an envelope in CreateEnvelopeCommandHandler');
+        $this->expectException(CurrentBudgetException::class);
+        $this->expectExceptionMessage('Current budget of envelope exceeds the envelope\'s target budget');
 
         $this->createEnvelopeCommandHandler->__invoke($createEnvelopeCommand);
     }
 
-    /**
-     * @throws CreateEnvelopeCommandHandlerException
-     * @throws CreateEnvelopeFactoryException
-     */
     public function testCreateEnvelopeWithParentWithCurrentBudgetBiggerThanParentTargetBudgetFailure(): void
     {
         $parentEnvelope = $this->generateEnvelope('Parent', '100.00', '200.00');
@@ -109,15 +90,12 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
         $createEnvelopeCommand = new CreateEnvelopeCommand($createEnvelopeInput, 'test-uuid', $parentEnvelope);
 
         $this->envelopeCommandRepository->expects($this->never())->method('save');
-        $this->expectException(CreateEnvelopeCommandHandlerException::class);
-        $this->expectExceptionMessage('An error occurred while creating an envelope in CreateEnvelopeCommandHandler');
+        $this->expectException(CurrentBudgetException::class);
+        $this->expectExceptionMessage('Current budget of parent envelope exceeds the parent envelope\'s target budget');
 
         $this->createEnvelopeCommandHandler->__invoke($createEnvelopeCommand);
     }
 
-    /**
-     * @throws CreateEnvelopeCommandHandlerException
-     */
     public function testCreateEnvelopeWithTitleAlreadyExistsFailure(): void
     {
         $createEnvelopeInput = new CreateEnvelopeInput('Groceries', '300.00', '200.00');
@@ -125,16 +103,12 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
 
         $this->queryBus->expects($this->once())->method('query')->willReturn((new Envelope())->setTitle('Groceries'));
         $this->envelopeCommandRepository->expects($this->never())->method('save');
-        $this->expectException(CreateEnvelopeCommandHandlerException::class);
-        $this->expectExceptionMessage('An error occurred while creating an envelope in CreateEnvelopeCommandHandler');
+        $this->expectException(EnvelopeTitleAlreadyExistsForUserException::class);
+        $this->expectExceptionMessage('Envelope with this title already exists');
 
         $this->createEnvelopeCommandHandler->__invoke($createEnvelopeCommand);
     }
 
-    /**
-     * @throws CreateEnvelopeCommandHandlerException
-     * @throws CreateEnvelopeFactoryException
-     */
     public function testUpdateAncestorsCurrentBudgetSuccess(): void
     {
         $parentEnvelope = $this->generateEnvelope('Bills', '100.00', '200.00');
@@ -147,10 +121,6 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
         $this->createEnvelopeCommandHandler->__invoke($createEnvelopeCommand);
     }
 
-    /**
-     * @throws CreateEnvelopeCommandHandlerException
-     * @throws CreateEnvelopeFactoryException
-     */
     public function testValidateTargetBudgetIsLessThanParentTargetBudgetFailure(): void
     {
         $parentEnvelope = $this->generateEnvelope('Bills', '100.00', '200.00');
@@ -158,15 +128,12 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
         $createEnvelopeCommand = new CreateEnvelopeCommand($createEnvelopeInput, 'test-uuid', $parentEnvelope);
 
         $this->envelopeCommandRepository->expects($this->never())->method('save');
-        $this->expectException(CreateEnvelopeCommandHandlerException::class);
-        $this->expectExceptionMessage('An error occurred while creating an envelope in CreateEnvelopeCommandHandler');
+        $this->expectException(TargetBudgetException::class);
+        $this->expectExceptionMessage('Total target budget of children envelopes exceeds the parent envelope\'s target budget');
 
         $this->createEnvelopeCommandHandler->__invoke($createEnvelopeCommand);
     }
 
-    /**
-     * @throws CreateEnvelopeFactoryException
-     */
     public function testValidateParentEnvelopeChildrenTargetBudgetIsLessThanTargetBudgetInputFailure(): void
     {
         $parentEnvelope = $this->generateEnvelope('Bills', '100.00', '200.00');
@@ -178,15 +145,12 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
         $createEnvelopeCommand = new CreateEnvelopeCommand($createEnvelopeInput, 'test-uuid', $parentEnvelope);
 
         $this->envelopeCommandRepository->expects($this->never())->method('save');
-        $this->expectException(CreateEnvelopeCommandHandlerException::class);
-        $this->expectExceptionMessage('An error occurred while creating an envelope in CreateEnvelopeCommandHandler');
+        $this->expectException(TargetBudgetException::class);
+        $this->expectExceptionMessage('Target budget exceeds parent max allowable budget');
 
         $this->createEnvelopeCommandHandler->__invoke($createEnvelopeCommand);
     }
 
-    /**
-     * @throws CreateEnvelopeFactoryException
-     */
     private function generateEnvelope(
         string $title,
         string $currentBudget,

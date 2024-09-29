@@ -6,6 +6,7 @@ namespace App\UserManagement\Infrastructure\User\Adapter;
 
 use App\UserManagement\Domain\User\Adapter\CommandBusInterface;
 use App\UserManagement\Domain\User\Command\CommandInterface;
+use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 readonly class CommandBusAdapter implements CommandBusInterface
@@ -15,14 +16,10 @@ readonly class CommandBusAdapter implements CommandBusInterface
     }
 
     /**
-     * @throws CommandBusAdapterException
+     * @throws ExceptionInterface
      */
     public function execute(CommandInterface $command): void
     {
-        try {
-            $this->messageBus->dispatch($command);
-        } catch (\Throwable $exception) {
-            throw new CommandBusAdapterException(CommandBusAdapterException::MESSAGE, $exception->getCode(), $exception->getPrevious());
-        }
+        $this->messageBus->dispatch($command);
     }
 }

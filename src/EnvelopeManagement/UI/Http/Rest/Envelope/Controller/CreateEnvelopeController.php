@@ -7,12 +7,10 @@ namespace App\EnvelopeManagement\UI\Http\Rest\Envelope\Controller;
 use App\EnvelopeManagement\Application\Envelope\Command\CreateEnvelopeCommand;
 use App\EnvelopeManagement\Application\Envelope\Dto\CreateEnvelopeInput;
 use App\EnvelopeManagement\Application\Envelope\Query\ShowEnvelopeQuery;
+use App\EnvelopeManagement\Domain\Envelope\Adapter\CommandBusInterface;
+use App\EnvelopeManagement\Domain\Envelope\Adapter\QueryBusInterface;
 use App\EnvelopeManagement\Domain\Envelope\Model\EnvelopeInterface;
-use App\EnvelopeManagement\Domain\Shared\Adapter\CommandBusInterface;
-use App\EnvelopeManagement\Domain\Shared\Adapter\QueryBusInterface;
-use App\EnvelopeManagement\UI\Http\Rest\Envelope\Exception\CreateEnvelopeControllerException;
 use App\SharedContext\Domain\SharedUserInterface;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,7 +24,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class CreateEnvelopeController extends AbstractController
 {
     public function __construct(
-        private readonly LoggerInterface $logger,
         private readonly CommandBusInterface $commandBus,
         private readonly QueryBusInterface $queryBus,
     ) {
@@ -36,23 +33,17 @@ class CreateEnvelopeController extends AbstractController
         #[MapRequestPayload] CreateEnvelopeInput $createEnvelopeDto,
         #[CurrentUser] SharedUserInterface $user,
     ): JsonResponse {
-        try {
-            $parentEnvelope = $createEnvelopeDto->getParentUuid() ? $this->queryBus->query(
-                new ShowEnvelopeQuery($createEnvelopeDto->getParentUuid(), $user->getUuid())
-            ) : null;
-            $this->commandBus->execute(
-                new CreateEnvelopeCommand(
-                    $createEnvelopeDto,
-                    $user->getUuid(),
-                    $parentEnvelope instanceof EnvelopeInterface ? $parentEnvelope : null,
-                ),
-            );
+        $parentEnvelope = $createEnvelopeDto->getParentUuid() ? $this->queryBus->query(
+            new ShowEnvelopeQuery($createEnvelopeDto->getParentUuid(), $user->getUuid())
+        ) : null;
+        $this->commandBus->execute(
+            new CreateEnvelopeCommand(
+                $createEnvelopeDto,
+                $user->getUuid(),
+                $parentEnvelope instanceof EnvelopeInterface ? $parentEnvelope : null,
+            ),
+        );
 
-            return $this->json(['message' => 'Envelope creation request received'], Response::HTTP_OK);
-        } catch (\Throwable $exception) {
-            $this->logger->error('Failed to process Envelope creation request: '.$exception->getMessage());
-
-            throw new CreateEnvelopeControllerException(CreateEnvelopeControllerException::MESSAGE, $exception->getCode(), $exception);
-        }
+        return $this->json(['message' => 'Envelope creation request received'], Response::HTTP_OK);
     }
 }

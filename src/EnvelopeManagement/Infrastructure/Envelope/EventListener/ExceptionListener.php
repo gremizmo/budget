@@ -35,7 +35,6 @@ readonly class ExceptionListener
         }
 
         $response = new JsonResponse([
-            'message' => 'Error.',
             'errors' => $previousExceptions,
             'type' => \substr(\is_string($type) ? $type : '', 1),
         ], Response::HTTP_BAD_REQUEST);

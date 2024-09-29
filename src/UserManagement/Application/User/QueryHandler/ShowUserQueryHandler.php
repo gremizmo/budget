@@ -18,29 +18,22 @@ readonly class ShowUserQueryHandler
     }
 
     /**
-     * @throws ShowUserQueryHandlerException
+     * @throws UserNotFoundException
      */
     public function __invoke(ShowUserQuery $getOneUserQuery): UserInterface
     {
-        try {
-            $user = $this->userQueryRepository->findOneBy([
+        $user = $this->userQueryRepository->findOneBy([
+            'email' => $getOneUserQuery->getUserEmail(),
+        ]);
+
+        if (!$user) {
+            $this->logger->error('User not found', [
                 'email' => $getOneUserQuery->getUserEmail(),
             ]);
 
-            if (!$user) {
-                $this->logger->error('User not found', [
-                    'email' => $getOneUserQuery->getUserEmail(),
-                ]);
-                throw new UserNotFoundException(UserNotFoundException::MESSAGE, 404);
-            }
-
-            return $user;
-        } catch (\Exception $exception) {
-            $this->logger->error($exception->getMessage(), [
-                'exception' => $exception::class,
-                'code' => $exception->getCode(),
-            ]);
-            throw new ShowUserQueryHandlerException(ShowUserQueryHandlerException::MESSAGE, $exception->getCode(), $exception);
+            throw new UserNotFoundException(UserNotFoundException::MESSAGE, 404);
         }
+
+        return $user;
     }
 }

@@ -4,27 +4,25 @@ declare(strict_types=1);
 
 namespace App\Tests\EnvelopeManagement\Application\Envelope\QueryHandler;
 
-use App\EnvelopeManagement\Application\Envelope\Query\ShowEnvelopeQuery;
-use App\EnvelopeManagement\Application\Envelope\QueryHandler\ShowEnvelopeQueryHandler;
-use App\EnvelopeManagement\Application\Envelope\QueryHandler\ShowEnvelopeQueryHandlerException;
 use App\EnvelopeManagement\Application\Envelope\Dto\CreateEnvelopeInput;
+use App\EnvelopeManagement\Application\Envelope\Query\ShowEnvelopeQuery;
+use App\EnvelopeManagement\Application\Envelope\QueryHandler\EnvelopeNotFoundException;
+use App\EnvelopeManagement\Application\Envelope\QueryHandler\ShowEnvelopeQueryHandler;
+use App\EnvelopeManagement\Domain\Envelope\Adapter\LoggerInterface;
+use App\EnvelopeManagement\Domain\Envelope\Adapter\QueryBusInterface;
 use App\EnvelopeManagement\Domain\Envelope\Builder\CreateEnvelopeBuilder;
 use App\EnvelopeManagement\Domain\Envelope\Factory\CreateEnvelopeFactory;
-use App\EnvelopeManagement\Domain\Envelope\Factory\CreateEnvelopeFactoryException;
 use App\EnvelopeManagement\Domain\Envelope\Model\EnvelopeInterface;
 use App\EnvelopeManagement\Domain\Envelope\Repository\EnvelopeQueryRepositoryInterface;
 use App\EnvelopeManagement\Domain\Envelope\Validator\CreateEnvelopeCurrentBudgetValidator;
 use App\EnvelopeManagement\Domain\Envelope\Validator\CreateEnvelopeTargetBudgetValidator;
 use App\EnvelopeManagement\Domain\Envelope\Validator\CreateEnvelopeTitleValidator;
-use App\EnvelopeManagement\Domain\Shared\Adapter\LoggerInterface;
-use App\EnvelopeManagement\Domain\Shared\Adapter\QueryBusInterface;
+use App\EnvelopeManagement\Infrastructure\Envelope\Adapter\LoggerAdapter;
+use App\EnvelopeManagement\Infrastructure\Envelope\Adapter\UuidAdapter;
 use App\EnvelopeManagement\Infrastructure\Envelope\Entity\Envelope;
-use App\EnvelopeManagement\Infrastructure\Envelope\Repository\EnvelopeQueryRepositoryException;
-use App\EnvelopeManagement\Infrastructure\Shared\Adapter\LoggerAdapter;
-use App\EnvelopeManagement\Infrastructure\Shared\Adapter\UuidAdapter;
-use Psr\Log\LoggerInterface as PsrLoggerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface as PsrLoggerInterface;
 
 class ShowEnvelopeQueryHandlerTest extends TestCase
 {
@@ -42,12 +40,11 @@ class ShowEnvelopeQueryHandlerTest extends TestCase
         $this->logger = new LoggerAdapter($this->createMock(PsrLoggerInterface::class));
         $this->uuidAdapter = new UuidAdapter();
 
-        $this->createEnvelopeFactory = new CreateEnvelopeFactory($this->logger, new CreateEnvelopeBuilder(
+        $this->createEnvelopeFactory = new CreateEnvelopeFactory(new CreateEnvelopeBuilder(
             new CreateEnvelopeTargetBudgetValidator(),
             new CreateEnvelopeCurrentBudgetValidator(),
             new CreateEnvelopeTitleValidator($this->queryBus),
             $this->uuidAdapter,
-            $this->logger,
             Envelope::class,
         ));
 
@@ -57,10 +54,6 @@ class ShowEnvelopeQueryHandlerTest extends TestCase
         );
     }
 
-    /**
-     * @throws ShowEnvelopeQueryHandlerException
-     * @throws CreateEnvelopeFactoryException
-     */
     public function testShowEnvelopeSuccess(): void
     {
         $envelopeToShow = $this->generateEnvelope('Electricity', '80.00', '80.00', 'test-envelope-uuid');
@@ -73,39 +66,18 @@ class ShowEnvelopeQueryHandlerTest extends TestCase
         $this->assertEquals($envelopeToShow, $envelope);
     }
 
-    /**
-     * @throws CreateEnvelopeFactoryException
-     */
-    public function testShowEnvelopeFailure(): void
-    {
-        $envelopeToShow = $this->generateEnvelope('Electricity', '80.00', '80.00', 'test-envelope-uuid');
-        $showEnvelopeQuery = new ShowEnvelopeQuery($envelopeToShow->getUuid(), 'test-user-uuid');
-
-        $this->envelopeQueryRepository->expects($this->once())->method('findOneBy')->willThrowException(new EnvelopeQueryRepositoryException(EnvelopeQueryRepositoryException::MESSAGE, 400));
-        $this->expectException(ShowEnvelopeQueryHandlerException::class);
-        $this->expectExceptionMessage('An error occurred while getting an envelope in ShowEnvelopeQueryHandler');
-
-        $this->showEnvelopeQueryHandler->__invoke($showEnvelopeQuery);
-    }
-
-    /**
-     * @throws CreateEnvelopeFactoryException
-     */
     public function testShowEnvelopeReturnsNull(): void
     {
         $envelopeToShow = $this->generateEnvelope('Electricity', '80.00', '80.00', 'test-envelope-uuid');
         $showEnvelopeQuery = new ShowEnvelopeQuery($envelopeToShow->getUuid(), 'test-user-uuid');
 
         $this->envelopeQueryRepository->expects($this->once())->method('findOneBy')->willReturn(null);
-        $this->expectException(ShowEnvelopeQueryHandlerException::class);
-        $this->expectExceptionMessage('An error occurred while getting an envelope in ShowEnvelopeQueryHandler');
+        $this->expectException(EnvelopeNotFoundException::class);
+        $this->expectExceptionMessage('Envelope not found');
 
         $this->showEnvelopeQueryHandler->__invoke($showEnvelopeQuery);
     }
 
-    /**
-     * @throws CreateEnvelopeFactoryException
-     */
     private function generateEnvelope(
         string $title,
         string $currentBudget,

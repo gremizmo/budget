@@ -6,10 +6,8 @@ namespace App\EnvelopeManagement\UI\Http\Rest\Envelope\Controller;
 
 use App\EnvelopeManagement\Application\Envelope\Dto\ListEnvelopesInput;
 use App\EnvelopeManagement\Application\Envelope\Query\ListEnvelopesQuery;
-use App\EnvelopeManagement\Domain\Shared\Adapter\QueryBusInterface;
-use App\EnvelopeManagement\UI\Http\Rest\Envelope\Exception\ListEnvelopesControllerException;
+use App\EnvelopeManagement\Domain\Envelope\Adapter\QueryBusInterface;
 use App\SharedContext\Domain\SharedUserInterface;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +21,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class ListEnvelopesController extends AbstractController
 {
     public function __construct(
-        private readonly LoggerInterface $logger,
         private readonly QueryBusInterface $queryBus,
     ) {
     }
@@ -32,13 +29,9 @@ class ListEnvelopesController extends AbstractController
         #[CurrentUser] SharedUserInterface $user,
         #[MapQueryString] ListEnvelopesInput $listEnvelopesDto = new ListEnvelopesInput(),
     ): JsonResponse {
-        try {
-            $envelopes = $this->queryBus->query(new ListEnvelopesQuery($user->getUuid(), $listEnvelopesDto));
-        } catch (\Throwable $exception) {
-            $this->logger->error('Failed to process Envelope listing request: '.$exception->getMessage());
-            throw new ListEnvelopesControllerException(ListEnvelopesControllerException::MESSAGE, $exception->getCode(), $exception);
-        }
-
-        return $this->json($envelopes, Response::HTTP_OK);
+        return $this->json(
+            $this->queryBus->query(new ListEnvelopesQuery($user->getUuid(), $listEnvelopesDto)),
+            Response::HTTP_OK,
+        );
     }
 }

@@ -4,16 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\EnvelopeManagement\Domain\Envelope\Model;
 
+use App\EnvelopeManagement\Domain\Envelope\Exception\CurrentBudgetException;
+use App\EnvelopeManagement\Domain\Envelope\Exception\TargetBudgetException;
 use App\EnvelopeManagement\Domain\Envelope\Model\EnvelopeModel;
-use App\EnvelopeManagement\Domain\Envelope\Exception\ChildrenCurrentBudgetExceedsCurrentBudgetException;
-use App\EnvelopeManagement\Domain\Envelope\Exception\ChildrenCurrentBudgetExceedsTargetBudgetException;
-use App\EnvelopeManagement\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsEnvelopeTargetBudgetException;
-use App\EnvelopeManagement\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
-use App\EnvelopeManagement\Domain\Envelope\Exception\CurrentBudgetExceedsEnvelopeTargetBudgetException;
-use App\EnvelopeManagement\Domain\Envelope\Exception\CurrentBudgetExceedsParentEnvelopeTargetBudgetException;
-use App\EnvelopeManagement\Domain\Envelope\Exception\CurrentBudgetExceedsTargetBudgetException;
-use App\EnvelopeManagement\Domain\Envelope\Exception\TargetBudgetExceedsParentAvailableTargetBudgetException;
-use App\EnvelopeManagement\Domain\Envelope\Exception\TargetBudgetExceedsParentMaxAllowableBudgetException;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 
@@ -177,7 +170,7 @@ class EnvelopeModelTest extends TestCase
 
     public function testValidateTargetBudgetIsLessThanParentTargetBudget(): void
     {
-        $this->expectException(TargetBudgetExceedsParentMaxAllowableBudgetException::class);
+        $this->expectException(TargetBudgetException::class);
         $envelope = new EnvelopeModel();
         $envelope->setTargetBudget('100.00');
         $envelope->setCurrentBudget('50.00');
@@ -193,7 +186,7 @@ class EnvelopeModelTest extends TestCase
 
     public function testValidateTargetBudgetIsLessThanParentAvailableTargetBudget(): void
     {
-        $this->expectException(TargetBudgetExceedsParentAvailableTargetBudgetException::class);
+        $this->expectException(TargetBudgetException::class);
         $envelope = new EnvelopeModel();
         $envelope->setTargetBudget('100.00');
         $envelope->setCurrentBudget('50.00');
@@ -202,7 +195,7 @@ class EnvelopeModelTest extends TestCase
 
     public function testValidateChildrenCurrentBudgetIsLessThanTargetBudget(): void
     {
-        $this->expectException(ChildrenCurrentBudgetExceedsTargetBudgetException::class);
+        $this->expectException(CurrentBudgetException::class);
         $envelope = new EnvelopeModel();
         $envelope->setTargetBudget('100.00');
         $envelope->validateChildrenCurrentBudgetIsLessThanTargetBudget(120.00);
@@ -210,7 +203,7 @@ class EnvelopeModelTest extends TestCase
 
     public function testValidateParentEnvelopeChildrenTargetBudgetIsLessThanTargetBudgetInput(): void
     {
-        $this->expectException(ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException::class);
+        $this->expectException(TargetBudgetException::class);
         $envelope = new EnvelopeModel();
         $envelope->setTargetBudget('100.00');
         $child = $this->createMock(EnvelopeModel::class);
@@ -225,7 +218,7 @@ class EnvelopeModelTest extends TestCase
 
     public function testValidateEnvelopeChildrenTargetBudgetIsLessThanTargetBudget(): void
     {
-        $this->expectException(ChildrenTargetBudgetsExceedsEnvelopeTargetBudgetException::class);
+        $this->expectException(TargetBudgetException::class);
         $envelope = new EnvelopeModel();
         $envelope->setTargetBudget('100.00');
         $child = $this->createMock(EnvelopeModel::class);
@@ -240,7 +233,7 @@ class EnvelopeModelTest extends TestCase
 
     public function testValidateTargetBudgetIsLessThanParentMaxAllowableBudget(): void
     {
-        $this->expectException(TargetBudgetExceedsParentMaxAllowableBudgetException::class);
+        $this->expectException(TargetBudgetException::class);
         $envelope = new EnvelopeModel();
         $envelope->setUuid('uuid');
         $envelope->setTitle('title');
@@ -259,14 +252,14 @@ class EnvelopeModelTest extends TestCase
 
     public function testValidateCurrentBudgetIsLessThanTargetBudget(): void
     {
-        $this->expectException(CurrentBudgetExceedsTargetBudgetException::class);
+        $this->expectException(CurrentBudgetException::class);
         $envelope = new EnvelopeModel();
         $envelope->validateCurrentBudgetIsLessThanTargetBudget(120.00, 100.00);
     }
 
     public function testValidateCurrentBudgetIsLessThanParentTargetBudget(): void
     {
-        $this->expectException(CurrentBudgetExceedsParentEnvelopeTargetBudgetException::class);
+        $this->expectException(CurrentBudgetException::class);
         $envelope = new EnvelopeModel();
         $envelope->setTargetBudget('100.00');
         $envelope->validateCurrentBudgetIsLessThanParentTargetBudget(120.00);
@@ -274,7 +267,7 @@ class EnvelopeModelTest extends TestCase
 
     public function testValidateChildrenCurrentBudgetIsLessThanCurrentBudget(): void
     {
-        $this->expectException(ChildrenCurrentBudgetExceedsCurrentBudgetException::class);
+        $this->expectException(CurrentBudgetException::class);
         $envelope = new EnvelopeModel();
         $envelope->setCurrentBudget('100.00');
         $child = $this->createMock(EnvelopeModel::class);
@@ -289,7 +282,7 @@ class EnvelopeModelTest extends TestCase
 
     public function testUpdateAncestorsCurrentBudget(): void
     {
-        $this->expectException(CurrentBudgetExceedsEnvelopeTargetBudgetException::class);
+        $this->expectException(CurrentBudgetException::class);
         $envelope = new EnvelopeModel();
         $envelope->setCurrentBudget('100.00');
         $envelope->setTargetBudget('150.00');

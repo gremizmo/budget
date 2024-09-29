@@ -6,7 +6,7 @@ namespace App\Tests\UserManagement\Application\User\CommandHandler;
 
 use App\UserManagement\Application\User\Command\ChangeUserPasswordCommand;
 use App\UserManagement\Application\User\CommandHandler\ChangeUserPasswordCommandHandler;
-use App\UserManagement\Application\User\CommandHandler\ChangeUserPasswordCommandHandlerException;
+use App\UserManagement\Application\User\CommandHandler\UserOldPasswordIsIncorrectException;
 use App\UserManagement\Application\User\Dto\ChangeUserPasswordInput;
 use App\UserManagement\Domain\User\Adapter\LoggerInterface;
 use App\UserManagement\Domain\User\Adapter\PasswordHasherInterface;
@@ -34,9 +34,6 @@ class ChangeUserPasswordCommandHandlerTest extends TestCase
         );
     }
 
-    /**
-     * @throws ChangeUserPasswordCommandHandlerException
-     */
     public function testChangePasswordSuccess(): void
     {
         $user = new User();
@@ -53,12 +50,9 @@ class ChangeUserPasswordCommandHandlerTest extends TestCase
         $this->assertEquals('hashed-new-password', $user->getPassword());
     }
 
-    /**
-     * @throws ChangeUserPasswordCommandHandlerException
-     */
     public function testChangePasswordOldPasswordIncorrect(): void
     {
-        $this->expectException(ChangeUserPasswordCommandHandlerException::class);
+        $this->expectException(UserOldPasswordIsIncorrectException::class);
 
         $user = new User();
         $user->setPassword('hashed-correct-old-password');
