@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\EnvelopeManagement\Domain\Envelope\Exception;
 
-class SelfParentEnvelopeException extends \Exception
+class SelfParentEnvelopeException extends \LogicException
 {
     public const MESSAGE = 'Envelope cannot be its own parent.';
 

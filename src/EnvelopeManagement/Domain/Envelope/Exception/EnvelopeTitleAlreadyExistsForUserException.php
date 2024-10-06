@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\EnvelopeManagement\Domain\Envelope\Exception;
 
-class EnvelopeTitleAlreadyExistsForUserException extends \Exception
+class EnvelopeTitleAlreadyExistsForUserException extends \LogicException
 {
     public const MESSAGE = 'Envelope with this title already exists';
 
