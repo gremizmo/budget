@@ -4,15 +4,8 @@ declare(strict_types=1);
 
 namespace App\EnvelopeManagement\Domain\Envelope\Model;
 
-use App\EnvelopeManagement\Domain\Envelope\Exception\ChildrenCurrentBudgetExceedsCurrentBudgetException;
-use App\EnvelopeManagement\Domain\Envelope\Exception\ChildrenCurrentBudgetExceedsTargetBudgetException;
-use App\EnvelopeManagement\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsEnvelopeTargetBudgetException;
-use App\EnvelopeManagement\Domain\Envelope\Exception\ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException;
-use App\EnvelopeManagement\Domain\Envelope\Exception\CurrentBudgetExceedsEnvelopeTargetBudgetException;
-use App\EnvelopeManagement\Domain\Envelope\Exception\CurrentBudgetExceedsParentEnvelopeTargetBudgetException;
-use App\EnvelopeManagement\Domain\Envelope\Exception\CurrentBudgetExceedsTargetBudgetException;
-use App\EnvelopeManagement\Domain\Envelope\Exception\TargetBudgetExceedsParentAvailableTargetBudgetException;
-use App\EnvelopeManagement\Domain\Envelope\Exception\TargetBudgetExceedsParentMaxAllowableBudgetException;
+use App\EnvelopeManagement\Domain\Envelope\Exception\CurrentBudgetException;
+use App\EnvelopeManagement\Domain\Envelope\Exception\TargetBudgetException;
 
 class EnvelopeModel implements EnvelopeInterface
 {
@@ -155,97 +148,97 @@ class EnvelopeModel implements EnvelopeInterface
     }
 
     /**
-     * @throws TargetBudgetExceedsParentMaxAllowableBudgetException
+     * @throws TargetBudgetException
      */
     public function validateTargetBudgetIsLessThanParentTargetBudget(float $targetBudget): void
     {
         if ($targetBudget > $this->calculateMaxAllowableTargetBudget()) {
-            throw new TargetBudgetExceedsParentMaxAllowableBudgetException(TargetBudgetExceedsParentMaxAllowableBudgetException::MESSAGE, 400);
+            throw TargetBudgetException::createFromTargetBudgetExceedsParentMaxAllowableBudget();
         }
     }
 
     /**
-     * @throws TargetBudgetExceedsParentAvailableTargetBudgetException
+     * @throws TargetBudgetException
      */
     public function validateTargetBudgetIsLessThanParentAvailableTargetBudget(float $targetBudget, float $envelopeToUpdateTargetBudget): void
     {
         if ($targetBudget !== $envelopeToUpdateTargetBudget && ($targetBudget - $envelopeToUpdateTargetBudget) > $this->calculateAvailableTargetBudget()) {
-            throw new TargetBudgetExceedsParentAvailableTargetBudgetException(TargetBudgetExceedsParentAvailableTargetBudgetException::MESSAGE, 400);
+            throw TargetBudgetException::createFromTargetBudgetExceedsParentAvailableTargetBudget();
         }
     }
 
     /**
-     * @throws ChildrenCurrentBudgetExceedsTargetBudgetException
+     * @throws CurrentBudgetException
      */
     public function validateChildrenCurrentBudgetIsLessThanTargetBudget(float $childrenCurrentBudget): void
     {
         if ($childrenCurrentBudget > floatval($this->getTargetBudget())) {
-            throw new ChildrenCurrentBudgetExceedsTargetBudgetException(ChildrenCurrentBudgetExceedsTargetBudgetException::MESSAGE, 400);
+            throw CurrentBudgetException::createFromChildrenCurrentBudgetExceedsTargetBudget();
         }
     }
 
     /**
-     * @throws ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException
+     * @throws TargetBudgetException
      */
     public function validateParentEnvelopeChildrenTargetBudgetIsLessThanTargetBudgetInput(float $targetBudget): void
     {
         if ($this->calculateChildrenTargetBudget() + $targetBudget > floatval($this->getTargetBudget())) {
-            throw new ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException(ChildrenTargetBudgetsExceedsParentEnvelopeTargetBudgetException::MESSAGE, 400);
+            throw TargetBudgetException::createFromChildrenTargetBudgetsExceedsParentEnvelopeTargetBudget();
         }
     }
 
     /**
-     * @throws ChildrenTargetBudgetsExceedsEnvelopeTargetBudgetException
+     * @throws TargetBudgetException
      */
     public function validateEnvelopeChildrenTargetBudgetIsLessThanTargetBudget(float $targetBudget): void
     {
         if ($this->calculateChildrenTargetBudget() > $targetBudget) {
-            throw new ChildrenTargetBudgetsExceedsEnvelopeTargetBudgetException(ChildrenTargetBudgetsExceedsEnvelopeTargetBudgetException::MESSAGE, 400);
+            throw TargetBudgetException::createFromChildrenTargetBudgetsExceedsEnvelopeTargetBudget();
         }
     }
 
     /**
-     * @throws TargetBudgetExceedsParentMaxAllowableBudgetException
+     * @throws TargetBudgetException
      */
     public function validateTargetBudgetIsLessThanParentMaxAllowableBudget(EnvelopeInterface $envelopeToUpdate, float $targetBudgetInput): void
     {
         if (floatval($this->getTargetBudget()) < $targetBudgetInput + floatval($this->getCurrentBudget()) && $envelopeToUpdate->getParent()?->getUuid() !== $this->getUuid()) {
-            throw new TargetBudgetExceedsParentMaxAllowableBudgetException(TargetBudgetExceedsParentMaxAllowableBudgetException::MESSAGE, 400);
+            throw TargetBudgetException::createFromTargetBudgetExceedsParentMaxAllowableBudget();
         }
     }
 
     /**
-     * @throws CurrentBudgetExceedsTargetBudgetException
+     * @throws CurrentBudgetException
      */
     public function validateCurrentBudgetIsLessThanTargetBudget(float $currentBudget, float $targetBudget): void
     {
         if ($currentBudget > $targetBudget) {
-            throw new CurrentBudgetExceedsTargetBudgetException(CurrentBudgetExceedsTargetBudgetException::MESSAGE, 400);
+            throw CurrentBudgetException::createFromCurrentBudgetExceedsTargetBudget();
         }
     }
 
     /**
-     * @throws CurrentBudgetExceedsParentEnvelopeTargetBudgetException
+     * @throws CurrentBudgetException
      */
     public function validateCurrentBudgetIsLessThanParentTargetBudget(float $currentBudget): void
     {
         if ($currentBudget > floatval($this->getTargetBudget())) {
-            throw new CurrentBudgetExceedsParentEnvelopeTargetBudgetException(CurrentBudgetExceedsParentEnvelopeTargetBudgetException::MESSAGE, 400);
+            throw CurrentBudgetException::createFromCurrentBudgetExceedsParentEnvelopeTargetBudget();
         }
     }
 
     /**
-     * @throws ChildrenCurrentBudgetExceedsCurrentBudgetException
+     * @throws CurrentBudgetException
      */
     public function validateChildrenCurrentBudgetIsLessThanCurrentBudget(float $currentBudget): void
     {
         if ($currentBudget < $this->calculateChildrenCurrentBudget()) {
-            throw new ChildrenCurrentBudgetExceedsCurrentBudgetException(ChildrenCurrentBudgetExceedsCurrentBudgetException::MESSAGE, 400);
+            throw CurrentBudgetException::createFromChildrenCurrentBudgetExceedsCurrentBudget();
         }
     }
 
     /**
-     * @throws CurrentBudgetExceedsEnvelopeTargetBudgetException
+     * @throws CurrentBudgetException
      */
     public function updateAncestorsCurrentBudget(float $currentBudget): void
     {
@@ -258,7 +251,7 @@ class EnvelopeModel implements EnvelopeInterface
         );
 
         if ($this->getCurrentBudget() > $this->getTargetBudget()) {
-            throw new CurrentBudgetExceedsEnvelopeTargetBudgetException(CurrentBudgetExceedsEnvelopeTargetBudgetException::MESSAGE, 400);
+            throw CurrentBudgetException::createFromCurrentBudgetExceedsEnvelopeTargetBudget();
         }
 
         $this->getParent()?->updateAncestorsCurrentBudget($currentBudget);

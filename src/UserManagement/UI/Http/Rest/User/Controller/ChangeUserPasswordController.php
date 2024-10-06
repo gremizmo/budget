@@ -8,7 +8,6 @@ use App\UserManagement\Application\User\Command\ChangeUserPasswordCommand;
 use App\UserManagement\Application\User\Dto\ChangeUserPasswordInput;
 use App\UserManagement\Domain\User\Adapter\CommandBusInterface;
 use App\UserManagement\Infrastructure\User\Entity\User;
-use App\UserManagement\UI\Http\Rest\User\Exception\ChangeUserPasswordControllerException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -28,6 +27,9 @@ class ChangeUserPasswordController extends AbstractController
     ) {
     }
 
+    /**
+     * @throws \Exception
+     */
     public function __invoke(
         string $uuid,
         #[CurrentUser] User $currentUser,
@@ -35,17 +37,13 @@ class ChangeUserPasswordController extends AbstractController
     ): JsonResponse {
         if ($uuid !== $currentUser->getUuid()) {
             $this->logger->error('Failed to process User changePassword request: User not allowed to access this resource');
-            throw new ChangeUserPasswordControllerException(ChangeUserPasswordControllerException::MESSAGE, Response::HTTP_FORBIDDEN);
+
+            throw new \Exception('An error occurred on change user password in ChangeUserPasswordController', Response::HTTP_FORBIDDEN);
         }
-        try {
-            $this->commandBus->execute(new ChangeUserPasswordCommand(
-                $changePasswordDto,
-                $currentUser,
-            ));
-        } catch (\Throwable $exception) {
-            $this->logger->error('Failed to process password change request: '.$exception->getMessage());
-            throw new ChangeUserPasswordControllerException(ChangeUserPasswordControllerException::MESSAGE, Response::HTTP_FORBIDDEN);
-        }
+        $this->commandBus->execute(new ChangeUserPasswordCommand(
+            $changePasswordDto,
+            $currentUser,
+        ));
 
         return $this->json(['message' => 'Password change request processed successfully'], Response::HTTP_OK);
     }

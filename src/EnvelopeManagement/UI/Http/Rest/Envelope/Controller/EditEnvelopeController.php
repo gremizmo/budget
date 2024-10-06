@@ -7,11 +7,9 @@ namespace App\EnvelopeManagement\UI\Http\Rest\Envelope\Controller;
 use App\EnvelopeManagement\Application\Envelope\Command\EditEnvelopeCommand;
 use App\EnvelopeManagement\Application\Envelope\Dto\EditEnvelopeInput;
 use App\EnvelopeManagement\Application\Envelope\Query\ShowEnvelopeQuery;
-use App\EnvelopeManagement\Domain\Shared\Adapter\CommandBusInterface;
-use App\EnvelopeManagement\Domain\Shared\Adapter\QueryBusInterface;
+use App\EnvelopeManagement\Domain\Envelope\Adapter\CommandBusInterface;
+use App\EnvelopeManagement\Domain\Envelope\Adapter\QueryBusInterface;
 use App\EnvelopeManagement\Infrastructure\Envelope\Entity\Envelope;
-use App\EnvelopeManagement\UI\Http\Rest\Envelope\Exception\EditEnvelopeControllerException;
-use App\EnvelopeManagement\UI\Http\Rest\Envelope\Exception\EnvelopeNotFoundException;
 use App\SharedContext\Domain\SharedUserInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,34 +31,33 @@ class EditEnvelopeController extends AbstractController
     ) {
     }
 
+    /**
+     * @throws EnvelopeNotFoundException
+     */
     public function __invoke(
         #[MapRequestPayload] EditEnvelopeInput $updateEnvelopeDto,
         string $uuid,
         #[CurrentUser] SharedUserInterface $user,
     ): JsonResponse {
-        try {
-            $parentEnvelope = $updateEnvelopeDto->getParentUuid() ? $this->queryBus->query(
-                new ShowEnvelopeQuery($updateEnvelopeDto->getParentUuid(), $user->getUuid())
-            ) : null;
-            $envelope = $this->queryBus->query(new ShowEnvelopeQuery($uuid, $user->getUuid()));
-            if (!$envelope instanceof Envelope) {
-                $this->logger->error('Envelope does not exist for user');
+        $parentEnvelope = $updateEnvelopeDto->getParentUuid() ? $this->queryBus->query(
+            new ShowEnvelopeQuery($updateEnvelopeDto->getParentUuid(), $user->getUuid())
+        ) : null;
+        $envelope = $this->queryBus->query(new ShowEnvelopeQuery($uuid, $user->getUuid()));
 
-                return $this->json(['error' => EnvelopeNotFoundException::MESSAGE], Response::HTTP_NOT_FOUND);
-            }
-            $this->commandBus->execute(
-                new EditEnvelopeCommand(
-                    $envelope,
-                    $updateEnvelopeDto,
-                    $parentEnvelope instanceof Envelope ? $parentEnvelope : null,
-                )
-            );
+        if (!$envelope instanceof Envelope) {
+            $this->logger->error('Envelope does not exist for user');
 
-            return $this->json(['message' => 'Envelope edit request received'], Response::HTTP_OK);
-        } catch (\Throwable $exception) {
-            $this->logger->error('Failed to process Envelope edition request: '.$exception->getMessage());
-
-            throw new EditEnvelopeControllerException(EditEnvelopeControllerException::MESSAGE, $exception->getCode(), $exception);
+            throw new EnvelopeNotFoundException('Envelope to edit does not exist for user', 404);
         }
+
+        $this->commandBus->execute(
+            new EditEnvelopeCommand(
+                $envelope,
+                $updateEnvelopeDto,
+                $parentEnvelope instanceof Envelope ? $parentEnvelope : null,
+            )
+        );
+
+        return $this->json(['message' => 'Envelope edit request received'], Response::HTTP_OK);
     }
 }

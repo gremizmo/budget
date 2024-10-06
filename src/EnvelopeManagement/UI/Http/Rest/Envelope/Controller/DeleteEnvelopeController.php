@@ -6,11 +6,9 @@ namespace App\EnvelopeManagement\UI\Http\Rest\Envelope\Controller;
 
 use App\EnvelopeManagement\Application\Envelope\Command\DeleteEnvelopeCommand;
 use App\EnvelopeManagement\Application\Envelope\Query\ShowEnvelopeQuery;
-use App\EnvelopeManagement\Domain\Shared\Adapter\CommandBusInterface;
-use App\EnvelopeManagement\Domain\Shared\Adapter\QueryBusInterface;
+use App\EnvelopeManagement\Domain\Envelope\Adapter\CommandBusInterface;
+use App\EnvelopeManagement\Domain\Envelope\Adapter\QueryBusInterface;
 use App\EnvelopeManagement\Infrastructure\Envelope\Entity\Envelope;
-use App\EnvelopeManagement\UI\Http\Rest\Envelope\Exception\DeleteEnvelopeControllerException;
-use App\EnvelopeManagement\UI\Http\Rest\Envelope\Exception\EnvelopeNotFoundException;
 use App\SharedContext\Domain\SharedUserInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,23 +29,20 @@ class DeleteEnvelopeController extends AbstractController
     ) {
     }
 
+    /**
+     * @throws EnvelopeNotFoundException
+     */
     public function __invoke(
         string $uuid,
         #[CurrentUser] SharedUserInterface $user,
     ): JsonResponse {
-        try {
-            $envelope = $this->queryBus->query(new ShowEnvelopeQuery($uuid, $user->getUuid()));
-            if (!$envelope instanceof Envelope) {
-                $this->logger->error('Envelope does not exist for user');
+        $envelope = $this->queryBus->query(new ShowEnvelopeQuery($uuid, $user->getUuid()));
+        if (!$envelope instanceof Envelope) {
+            $this->logger->error('Envelope does not exist for user');
 
-                throw new EnvelopeNotFoundException('Envelope to delete does not exist for user', 404);
-            }
-            $this->commandBus->execute(new DeleteEnvelopeCommand($envelope));
-        } catch (\Throwable $exception) {
-            $this->logger->error('Failed to process Envelope delete request: '.$exception->getMessage());
-
-            throw new DeleteEnvelopeControllerException(DeleteEnvelopeControllerException::MESSAGE, $exception->getCode(), $exception);
+            throw new EnvelopeNotFoundException('Envelope to delete does not exist for user', 404);
         }
+        $this->commandBus->execute(new DeleteEnvelopeCommand($envelope));
 
         return $this->json(['message' => 'Envelope delete request received'], Response::HTTP_OK);
     }

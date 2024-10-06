@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\EnvelopeManagement\Domain\Envelope\Builder;
 
 use App\EnvelopeManagement\Application\Envelope\Dto\CreateEnvelopeInputInterface;
+use App\EnvelopeManagement\Domain\Envelope\Adapter\UuidAdapterInterface;
+use App\EnvelopeManagement\Domain\Envelope\Exception\CurrentBudgetException;
+use App\EnvelopeManagement\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
 use App\EnvelopeManagement\Domain\Envelope\Model\EnvelopeInterface;
 use App\EnvelopeManagement\Domain\Envelope\Validator\CreateEnvelopeCurrentBudgetValidator;
 use App\EnvelopeManagement\Domain\Envelope\Validator\CreateEnvelopeTargetBudgetValidator;
 use App\EnvelopeManagement\Domain\Envelope\Validator\CreateEnvelopeTitleValidator;
-use App\EnvelopeManagement\Domain\Shared\Adapter\LoggerInterface;
-use App\EnvelopeManagement\Domain\Shared\Adapter\UuidAdapterInterface;
 
 class CreateEnvelopeBuilder implements CreateEnvelopeBuilderInterface
 {
@@ -23,7 +24,6 @@ class CreateEnvelopeBuilder implements CreateEnvelopeBuilderInterface
         private readonly CreateEnvelopeCurrentBudgetValidator $currentBudgetValidator,
         private readonly CreateEnvelopeTitleValidator $titleValidator,
         private readonly UuidAdapterInterface $uuidAdapter,
-        private readonly LoggerInterface $logger,
         private readonly string $envelopeClass,
     ) {
         $model = new $envelopeClass();
@@ -54,33 +54,27 @@ class CreateEnvelopeBuilder implements CreateEnvelopeBuilderInterface
     }
 
     /**
-     * @throws CreateEnvelopeBuilderException
+     * @throws CurrentBudgetException
+     * @throws EnvelopeTitleAlreadyExistsForUserException
      */
     public function build(): EnvelopeInterface
     {
-        try {
-            $this->titleValidator->validate($this->createEnvelopeDto->getTitle(), $this->userUuid);
-            $this->currentBudgetValidator->validate($this->createEnvelopeDto->getCurrentBudget(), $this->createEnvelopeDto->getTargetBudget(), $this->parentEnvelope);
-            $this->targetBudgetValidator->validate($this->createEnvelopeDto->getTargetBudget(), $this->parentEnvelope);
-            if ($this->parentEnvelope instanceof EnvelopeInterface && 0.00 !== $currentBudget = floatval($this->createEnvelopeDto->getCurrentBudget())) {
-                $this->parentEnvelope->updateAncestorsCurrentBudget($currentBudget);
-            }
+        $this->titleValidator->validate($this->createEnvelopeDto->getTitle(), $this->userUuid);
+        $this->currentBudgetValidator->validate($this->createEnvelopeDto->getCurrentBudget(), $this->createEnvelopeDto->getTargetBudget(), $this->parentEnvelope);
+        $this->targetBudgetValidator->validate($this->createEnvelopeDto->getTargetBudget(), $this->parentEnvelope);
 
-            return (new $this->envelopeClass())
-                ->setUuid($this->uuidAdapter->generate())
-                ->setParent($this->parentEnvelope)
-                ->setCurrentBudget($this->createEnvelopeDto->getCurrentBudget())
-                ->setTargetBudget($this->createEnvelopeDto->getTargetBudget())
-                ->setTitle($this->createEnvelopeDto->getTitle())
-                ->setCreatedAt(new \DateTimeImmutable('now'))
-                ->setUpdatedAt(new \DateTime('now'))
-                ->setUserUuid($this->userUuid);
-        } catch (\Exception $exception) {
-            $this->logger->error($exception->getMessage(), [
-                'exception' => $exception::class,
-                'code'      => $exception->getCode(),
-            ]);
-            throw new CreateEnvelopeBuilderException(CreateEnvelopeBuilderException::MESSAGE, $exception->getCode(), $exception);
+        if ($this->parentEnvelope instanceof EnvelopeInterface && 0.00 !== $currentBudget = floatval($this->createEnvelopeDto->getCurrentBudget())) {
+            $this->parentEnvelope->updateAncestorsCurrentBudget($currentBudget);
         }
+
+        return (new $this->envelopeClass())
+            ->setUuid($this->uuidAdapter->generate())
+            ->setParent($this->parentEnvelope)
+            ->setCurrentBudget($this->createEnvelopeDto->getCurrentBudget())
+            ->setTargetBudget($this->createEnvelopeDto->getTargetBudget())
+            ->setTitle($this->createEnvelopeDto->getTitle())
+            ->setCreatedAt(new \DateTimeImmutable('now'))
+            ->setUpdatedAt(new \DateTime('now'))
+            ->setUserUuid($this->userUuid);
     }
 }

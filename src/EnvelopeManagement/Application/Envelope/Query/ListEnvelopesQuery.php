@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\EnvelopeManagement\Application\Envelope\Query;
 
 use App\EnvelopeManagement\Application\Envelope\Dto\ListEnvelopesInputInterface;
-use App\EnvelopeManagement\Domain\Shared\Query\QueryInterface;
+use App\EnvelopeManagement\Domain\Envelope\Query\QueryInterface;
 
 readonly class ListEnvelopesQuery implements QueryInterface
 {

@@ -7,7 +7,6 @@ namespace App\EnvelopeManagement\Infrastructure\Envelope\Repository;
 use App\EnvelopeManagement\Domain\Envelope\Model\EnvelopesPaginated;
 use App\EnvelopeManagement\Domain\Envelope\Model\EnvelopesPaginatedInterface;
 use App\EnvelopeManagement\Domain\Envelope\Repository\EnvelopeQueryRepositoryInterface;
-use App\EnvelopeManagement\Domain\Shared\Adapter\LoggerInterface;
 use App\EnvelopeManagement\Infrastructure\Envelope\Entity\Envelope;
 use Elastica\Query;
 use FOS\ElasticaBundle\Finder\PaginatedFinderInterface;
@@ -17,7 +16,6 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
 {
     public function __construct(
         protected PaginatedFinderInterface $finder,
-        private readonly LoggerInterface $logger,
     ) {
         parent::__construct($finder);
     }
@@ -47,13 +45,7 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
             ]
         );
 
-        try {
-            $result = $this->find($query);
-        } catch (\Throwable $exception) {
-            $this->logger->error($exception->getMessage());
-            throw new EnvelopeQueryRepositoryException(sprintf('%s on method findOneBy', EnvelopeQueryRepositoryException::MESSAGE), $exception->getCode(), $exception);
-        }
-
+        $result = $this->find($query);
         $envelope = reset($result);
 
         return $envelope instanceof Envelope ? $envelope : null;
@@ -68,10 +60,8 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
     public function findBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): EnvelopesPaginatedInterface
     {
         $query = new Query();
-
         $userFilters = $this->filterByUser($criteria);
         $parentFilters = $this->filterByParent($criteria);
-
         $mustFilters[] = $userFilters;
         $parentFilterMust = count($parentFilters['must']) > 0 ? $parentFilters['must'][0] : null;
 
@@ -91,21 +81,17 @@ class EnvelopeQueryRepository extends Repository implements EnvelopeQueryReposit
                 ],
             ]
         );
+
         $count = $this->count($query);
 
         $query->setFrom($offset ?? 0);
         $query->setSize($limit ?? 10);
         $query->setSort($orderBy ?? []);
 
-        try {
-            return new EnvelopesPaginated(
-                $this->find($query),
-                $count,
-            );
-        } catch (\Throwable $exception) {
-            $this->logger->error($exception->getMessage());
-            throw new EnvelopeQueryRepositoryException(sprintf('%s on method findBy', EnvelopeQueryRepositoryException::MESSAGE), $exception->getCode(), $exception);
-        }
+        return new EnvelopesPaginated(
+            $this->find($query),
+            $count,
+        );
     }
 
     private function count(Query $query): int

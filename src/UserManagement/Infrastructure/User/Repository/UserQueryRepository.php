@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\UserManagement\Infrastructure\User\Repository;
 
-use App\UserManagement\Domain\User\Adapter\LoggerInterface;
 use App\UserManagement\Domain\User\Repository\UserQueryRepositoryInterface;
 use App\UserManagement\Infrastructure\User\Entity\User;
 use Elastica\Query;
@@ -15,7 +14,6 @@ class UserQueryRepository extends Repository implements UserQueryRepositoryInter
 {
     public function __construct(
         protected PaginatedFinderInterface $finder,
-        private readonly LoggerInterface $logger,
     ) {
         parent::__construct($finder);
     }
@@ -31,12 +29,7 @@ class UserQueryRepository extends Repository implements UserQueryRepositoryInter
         $query = new Query();
         $query->setQuery(new Query\Term($criteria));
 
-        try {
-            $result = $this->find($query, 1);
-        } catch (\Throwable $exception) {
-            $this->logger->error($exception->getMessage());
-            throw new UserQueryRepositoryException(sprintf('%s on method findOneBy', UserQueryRepositoryException::MESSAGE), $exception->getCode(), $exception);
-        }
+        $result = $this->find($query, 1);
 
         $user = reset($result);
 

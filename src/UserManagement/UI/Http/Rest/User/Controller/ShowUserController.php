@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\UserManagement\UI\Http\Rest\User\Controller;
 
 use App\UserManagement\Domain\User\Model\UserInterface;
-use App\UserManagement\UI\Http\Rest\User\Exception\ShowUserControllerException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,13 +21,17 @@ class ShowUserController extends AbstractController
     {
     }
 
+    /**
+     * @throws \Exception
+     */
     public function __invoke(
         string $uuid,
         #[CurrentUser] UserInterface $currentUser
     ): JsonResponse {
         if ($uuid !== $currentUser->getUuid()) {
             $this->logger->error('Failed to process User getOne request: User not allowed to access this resource');
-            throw new ShowUserControllerException(ShowUserControllerException::MESSAGE, Response::HTTP_FORBIDDEN);
+
+            throw new \Exception('An error occurred while getting a user in ShowUserController', Response::HTTP_FORBIDDEN);
         }
 
         return $this->json($currentUser, Response::HTTP_OK);
