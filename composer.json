@@ -1,4 +1,6 @@
 {
+    "name": "gremizmo/budget",
+    "description": "budget management",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
