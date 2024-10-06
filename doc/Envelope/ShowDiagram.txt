@@ -5,7 +5,7 @@ sequenceDiagram
     participant ShowEnvelopeQueryHandler
     participant EnvelopeQueryRepository
 
-    User ->> ShowEnvelopeController: HTTP GET /api/envelope/{id}
+    User ->> ShowEnvelopeController: HTTP GET /api/envelope/{uuid}
     ShowEnvelopeController ->> QueryBus: query(ShowEnvelopeQuery)
     QueryBus ->> ShowEnvelopeQueryHandler: handle(ShowEnvelopeQuery)
     ShowEnvelopeQueryHandler ->> EnvelopeQueryRepository: findOneBy(criteria)

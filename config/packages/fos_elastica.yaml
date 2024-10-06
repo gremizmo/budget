@@ -6,7 +6,7 @@ fos_elastica:
             index_name: envelope_%kernel.environment%
             persistence:
                 driver: orm
-                model: App\Infra\Http\Rest\Envelope\Entity\Envelope
+                model: App\EnvelopeManagement\Infrastructure\Envelope\Entity\Envelope
                 listener:
                     insert: true
                     update: true
@@ -14,6 +14,8 @@ fos_elastica:
             properties:
                 id:
                     type: integer
+                uuid:
+                    type: keyword
                 createdAt:
                     type: date
                 updatedAt:
@@ -28,21 +30,20 @@ fos_elastica:
                     type: float
                 title:
                     type: keyword
-                user:
-                    type: object
-                    properties:
-                        id:
-                            type: integer
+                userUuid:
+                    type: keyword
                 parent:
                     type: object
                     properties:
-                        id:
-                            type: integer
+                        uuid:
+                            type: keyword
                 children:
                     type: nested
                     properties:
                         id:
                             type: integer
+                        uuid:
+                            type: keyword
                         createdAt:
                             type: date
                         updatedAt:
@@ -60,13 +61,13 @@ fos_elastica:
                         parent:
                             type: object
                             properties:
-                                id:
-                                    type: integer
+                                uuid:
+                                    type: keyword
         user:
             index_name: user_%kernel.environment%
             persistence:
                 driver: orm
-                model: App\Infra\Http\Rest\User\Entity\User
+                model: App\UserManagement\Infrastructure\User\Entity\User
                 listener:
                     insert: true
                     update: true
@@ -74,10 +75,12 @@ fos_elastica:
             properties:
                 id:
                     type: integer
+                uuid:
+                    type: keyword
                 email:
                     type: keyword
                 password:
-                    type: keyword
+                    type: text
                 firstname:
                     type: text
                 lastname:
@@ -96,51 +99,3 @@ fos_elastica:
                     type: keyword
                 passwordResetTokenExpiry:
                     type: date
-                envelopes:
-                    type: nested
-                    properties:
-                        id:
-                            type: integer
-                        createdAt:
-                            type: date
-                        updatedAt:
-                            type: date
-                        createdBy:
-                            type: keyword
-                        updatedBy:
-                            type: keyword
-                        currentBudget:
-                            type: float
-                        targetBudget:
-                            type: float
-                        title:
-                            type: keyword
-                        parent:
-                            type: object
-                            properties:
-                                id:
-                                    type: integer
-                        children:
-                            type: nested
-                            properties:
-                                id:
-                                    type: integer
-                                createdAt:
-                                    type: date
-                                updatedAt:
-                                    type: date
-                                createdBy:
-                                    type: keyword
-                                updatedBy:
-                                    type: keyword
-                                currentBudget:
-                                    type: float
-                                targetBudget:
-                                    type: float
-                                title:
-                                    type: keyword
-                                parent:
-                                    type: object
-                                    properties:
-                                        id:
-                                            type: integer

@@ -1,0 +1,81 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Call to an undefined method object\\:\\:setUuid\\(\\)\\.$#"
+			count: 1
+			path: src/EnvelopeManagement/Domain/Envelope/Builder/CreateEnvelopeBuilder.php
+
+		-
+			message: "#^Call to an undefined method ArrayAccess\\<int, App\\\\EnvelopeManagement\\\\Domain\\\\Envelope\\\\Model\\\\EnvelopeInterface\\>\\|Countable\\|IteratorAggregate\\<int, App\\\\EnvelopeManagement\\\\Domain\\\\Envelope\\\\Model\\\\EnvelopeInterface\\>\\|Serializable\\:\\:add\\(\\)\\.$#"
+			count: 1
+			path: src/EnvelopeManagement/Domain/Envelope/Model/EnvelopeModel.php
+
+		-
+			message: "#^Call to an undefined method ArrayAccess\\<int, App\\\\EnvelopeManagement\\\\Domain\\\\Envelope\\\\Model\\\\EnvelopeInterface\\>\\|Countable\\|IteratorAggregate\\<int, App\\\\EnvelopeManagement\\\\Domain\\\\Envelope\\\\Model\\\\EnvelopeInterface\\>\\|Serializable\\:\\:toArray\\(\\)\\.$#"
+			count: 3
+			path: src/EnvelopeManagement/Domain/Envelope/Model/EnvelopeModel.php
+
+		-
+			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Envelope\\\\Model\\\\EnvelopeModel\\:\\:setChildren\\(\\) has parameter \\$children with generic interface ArrayAccess but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: src/EnvelopeManagement/Domain/Envelope/Model/EnvelopeModel.php
+
+		-
+			message: "#^Property App\\\\EnvelopeManagement\\\\Domain\\\\Envelope\\\\Model\\\\EnvelopeModel\\:\\:\\$createdAt is never read, only written\\.$#"
+			count: 1
+			path: src/EnvelopeManagement/Domain/Envelope/Model/EnvelopeModel.php
+
+		-
+			message: "#^Property App\\\\EnvelopeManagement\\\\Domain\\\\Envelope\\\\Model\\\\EnvelopeModel\\:\\:\\$id is never written, only read\\.$#"
+			count: 1
+			path: src/EnvelopeManagement/Domain/Envelope/Model/EnvelopeModel.php
+
+		-
+			message: "#^Property App\\\\EnvelopeManagement\\\\Domain\\\\Envelope\\\\Model\\\\EnvelopeModel\\:\\:\\$title is never read, only written\\.$#"
+			count: 1
+			path: src/EnvelopeManagement/Domain/Envelope/Model/EnvelopeModel.php
+
+		-
+			message: "#^Call to an undefined method ArrayAccess\\|Countable\\|IteratorAggregate\\|Serializable\\:\\:add\\(\\)\\.$#"
+			count: 1
+			path: src/EnvelopeManagement/Infrastructure/Envelope/Entity/Envelope.php
+
+		-
+			message: "#^Method App\\\\EnvelopeManagement\\\\Infrastructure\\\\Envelope\\\\Entity\\\\Envelope\\:\\:setChildren\\(\\) has parameter \\$children with generic interface ArrayAccess but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: src/EnvelopeManagement/Infrastructure/Envelope/Entity/Envelope.php
+
+		-
+			message: "#^Property App\\\\EnvelopeManagement\\\\Infrastructure\\\\Envelope\\\\Entity\\\\Envelope\\:\\:\\$children with generic interface ArrayAccess does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: src/EnvelopeManagement/Infrastructure/Envelope/Entity/Envelope.php
+
+		-
+			message: "#^Property App\\\\EnvelopeManagement\\\\Infrastructure\\\\Envelope\\\\Entity\\\\Envelope\\:\\:\\$id is never written, only read\\.$#"
+			count: 1
+			path: src/EnvelopeManagement/Infrastructure/Envelope/Entity/Envelope.php
+
+		-
+			message: "#^Parameter \\#1 \\$user of method App\\\\UserManagement\\\\Domain\\\\User\\\\Adapter\\\\PasswordHasherInterface\\:\\:hash\\(\\) expects Symfony\\\\Component\\\\Security\\\\Core\\\\User\\\\PasswordAuthenticatedUserInterface, App\\\\UserManagement\\\\Domain\\\\User\\\\Model\\\\UserInterface given\\.$#"
+			count: 1
+			path: src/UserManagement/Application/User/CommandHandler/ChangeUserPasswordCommandHandler.php
+
+		-
+			message: "#^Parameter \\#1 \\$user of method App\\\\UserManagement\\\\Domain\\\\User\\\\Adapter\\\\PasswordHasherInterface\\:\\:verify\\(\\) expects Symfony\\\\Component\\\\Security\\\\Core\\\\User\\\\PasswordAuthenticatedUserInterface, App\\\\UserManagement\\\\Domain\\\\User\\\\Model\\\\UserInterface given\\.$#"
+			count: 1
+			path: src/UserManagement/Application/User/CommandHandler/ChangeUserPasswordCommandHandler.php
+
+		-
+			message: "#^Parameter \\#1 \\$user of method App\\\\UserManagement\\\\Domain\\\\User\\\\Adapter\\\\PasswordHasherInterface\\:\\:hash\\(\\) expects Symfony\\\\Component\\\\Security\\\\Core\\\\User\\\\PasswordAuthenticatedUserInterface, App\\\\UserManagement\\\\Domain\\\\User\\\\Model\\\\UserInterface given\\.$#"
+			count: 1
+			path: src/UserManagement/Application/User/CommandHandler/ResetPasswordCommandHandler.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:setUuid\\(\\)\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/User/Factory/CreateUserFactory.php
+
+		-
+			message: "#^Parameter \\#1 \\$user of method App\\\\UserManagement\\\\Domain\\\\User\\\\Adapter\\\\PasswordHasherInterface\\:\\:hash\\(\\) expects Symfony\\\\Component\\\\Security\\\\Core\\\\User\\\\PasswordAuthenticatedUserInterface, object given\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/User/Factory/CreateUserFactory.php

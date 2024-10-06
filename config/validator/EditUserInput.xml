@@ -4,7 +4,7 @@
                     xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping
         https://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
 
-    <class name="App\Domain\User\Dto\EditUserInput">
+    <class name="App\UserManagement\Domain\User\Dto\EditUserInput">
         <property name="firstname">
             <constraint name="NotBlank"/>
             <constraint name="Length">

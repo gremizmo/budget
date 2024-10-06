@@ -17,74 +17,78 @@ services:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
-            - '../src/Infra/Http/Rest/Envelope/Entity/'
-            - '../src/Infra/Http/Rest/User/Entity/'
+            - '../src/EnvelopeManagement/Infrastructure/Envelope/Entity/'
+            - '../src/UserManagement/Infrastructure/User/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-    App\Application\Envelope\CommandHandler\CreateEnvelopeCommandHandler:
+    App\EnvelopeManagement\Application\Envelope\CommandHandler\CreateEnvelopeCommandHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\Application\Envelope\CommandHandler\EditEnvelopeCommandHandler:
+    App\EnvelopeManagement\Application\Envelope\CommandHandler\EditEnvelopeCommandHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\Application\Envelope\CommandHandler\DeleteEnvelopeCommandHandler:
+    App\EnvelopeManagement\Application\Envelope\CommandHandler\DeleteEnvelopeCommandHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\Application\Envelope\QueryHandler\ShowEnvelopeQueryHandler:
+    App\EnvelopeManagement\Application\Envelope\QueryHandler\ShowEnvelopeQueryHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\Application\Envelope\QueryHandler\ListEnvelopesQueryHandler:
+    App\EnvelopeManagement\Application\Envelope\QueryHandler\ListEnvelopesQueryHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\Application\Envelope\QueryHandler\GetEnvelopeByTitleQueryHandler:
+    App\EnvelopeManagement\Application\Envelope\QueryHandler\GetEnvelopeByTitleQueryHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\Application\User\CommandHandler\CreateUserCommandHandler:
+    App\UserManagement\Application\User\CommandHandler\CreateUserCommandHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\Application\User\CommandHandler\EditUserCommandHandler:
+    App\UserManagement\Application\User\CommandHandler\EditUserCommandHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\Application\User\QueryHandler\ShowUserQueryHandler:
+    App\UserManagement\Application\User\QueryHandler\ShowUserQueryHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\Application\User\QueryHandler\GetUserAlreadyExistsQueryHandler:
+    App\UserManagement\Application\User\QueryHandler\GetUserAlreadyExistsQueryHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\Application\User\CommandHandler\ChangeUserPasswordCommandHandler:
+    App\UserManagement\Application\User\CommandHandler\ChangeUserPasswordCommandHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\Application\User\CommandHandler\RequestPasswordResetCommandHandler:
+    App\UserManagement\Application\User\CommandHandler\RequestPasswordResetCommandHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\Application\User\CommandHandler\ResetPasswordCommandHandler:
+    App\UserManagement\Application\User\CommandHandler\ResetPasswordCommandHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\Application\User\QueryHandler\GetUserByPasswordResetTokenQueryHandler:
+    App\UserManagement\Application\User\QueryHandler\GetUserByPasswordResetTokenQueryHandler:
         tags: [ 'messenger.message_handler' ]
 
     Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface:
         alias: 'security.password_hasher'
 
-    App\Infra\Http\Rest\User\Repository\UserQueryRepository:
+    App\UserManagement\Infrastructure\User\Repository\UserQueryRepository:
         arguments:
             $finder: '@fos_elastica.finder.user'
 
-    App\Infra\Http\Rest\Envelope\Repository\EnvelopeQueryRepository:
+    App\EnvelopeManagement\Infrastructure\Envelope\Repository\EnvelopeQueryRepository:
         arguments:
             $finder: '@fos_elastica.finder.envelope'
 
-    App\Infra\Http\Rest\Shared\EventListener\ExceptionListener:
+    App\EnvelopeManagement\Infrastructure\Envelope\EventListener\ExceptionListener:
+        tags:
+            - { name: 'kernel.event_listener', event: 'kernel.exception' }
+    
+    App\UserManagement\Infrastructure\User\EventListener\ExceptionListener:
         tags:
             - { name: 'kernel.event_listener', event: 'kernel.exception' }
 
-    App\Domain\Envelope\Builder\CreateEnvelopeBuilder:
+    App\EnvelopeManagement\Domain\Envelope\Builder\CreateEnvelopeBuilder:
         arguments:
-            $envelopeClass: App\Infra\Http\Rest\Envelope\Entity\Envelope
+            $envelopeClass: App\EnvelopeManagement\Infrastructure\Envelope\Entity\Envelope
 
-    App\Domain\User\Factory\CreateUserFactory:
+    App\UserManagement\Domain\User\Factory\CreateUserFactory:
         arguments:
-            $userClass: App\Infra\Http\Rest\User\Entity\User
+            $userClass: App\UserManagement\Infrastructure\User\Entity\User

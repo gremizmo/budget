@@ -8,7 +8,7 @@ sequenceDiagram
     participant DeleteEnvelopeCommandHandler
     participant EnvelopeCommandRepository
 
-    User ->> DeleteEnvelopeController: HTTP DELETE /api/envelope/{id}
+    User ->> DeleteEnvelopeController: HTTP DELETE /api/envelope/{uuid}
     DeleteEnvelopeController ->> QueryBus: query(ShowEnvelopeQuery)
     QueryBus ->> ShowEnvelopeQueryHandler: handle(ShowEnvelopeQuery)
     ShowEnvelopeQueryHandler ->> EnvelopeQueryRepository: findOneBy(criteria)
