@@ -1,12 +1,12 @@
 # Docker commands
 up:
-	docker-compose up --build -d
+	docker compose up --build -d
 
 up-no-build:
 	docker compose up
 
 down:
-	docker-compose down
+	docker compose down
 
 shell:
 	docker exec -it my_symfony_app /bin/sh
@@ -36,6 +36,9 @@ migration-diff:
 
 migration-apply:
 	docker exec -it my_symfony_app bin/console doctrine:migrations:migrate
+
+jwt-generate-key:
+	docker exec -it my_symfony_app bin/console lexik:jwt:generate-keypair
 
 # Testing and code quality commands
 phpunit:
