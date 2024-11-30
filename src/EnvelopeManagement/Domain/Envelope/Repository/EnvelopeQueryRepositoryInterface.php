@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\EnvelopeManagement\Domain\Envelope\Repository;
 
-use App\EnvelopeManagement\Domain\Envelope\Model\EnvelopeInterface;
-use App\EnvelopeManagement\Domain\Envelope\Model\EnvelopesPaginatedInterface;
+use App\EnvelopeManagement\Domain\Envelope\View\EnvelopeInterface;
+use App\EnvelopeManagement\Domain\Envelope\View\EnvelopesPaginatedInterface;
 
 interface EnvelopeQueryRepositoryInterface
 {

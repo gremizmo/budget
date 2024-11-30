@@ -7,9 +7,8 @@ namespace App\EnvelopeManagement\Domain\Envelope\Model;
 use App\EnvelopeManagement\Domain\Envelope\Exception\CurrentBudgetException;
 use App\EnvelopeManagement\Domain\Envelope\Exception\TargetBudgetException;
 
-class EnvelopeModel implements EnvelopeInterface
+class Envelope implements EnvelopeInterface
 {
-    private int $id;
     private string $uuid;
     private \DateTime $updatedAt;
     private string $currentBudget;
@@ -23,11 +22,6 @@ class EnvelopeModel implements EnvelopeInterface
     private \ArrayAccess|\IteratorAggregate|\Serializable|\Countable $children;
 
     private string $userUuid;
-
-    public function getId(): int
-    {
-        return $this->id;
-    }
 
     public function getUuid(): string
     {
@@ -78,6 +72,11 @@ class EnvelopeModel implements EnvelopeInterface
         return $this;
     }
 
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
     public function setCurrentBudget(string $currentBudget): self
     {
         $this->currentBudget = $currentBudget;
@@ -102,6 +101,11 @@ class EnvelopeModel implements EnvelopeInterface
         $this->createdAt = $createdAt;
 
         return $this;
+    }
+
+    public function getCreatedAt(): \DateTimeImmutable
+    {
+        return $this->createdAt;
     }
 
     public function getUpdatedAt(): \DateTime

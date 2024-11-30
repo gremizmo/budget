@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\EnvelopeManagement\Application\Envelope\QueryHandler;
 
 use App\EnvelopeManagement\Application\Envelope\Query\ListEnvelopesQuery;
-use App\EnvelopeManagement\Domain\Envelope\Model\EnvelopesPaginatedInterface;
 use App\EnvelopeManagement\Domain\Envelope\Repository\EnvelopeQueryRepositoryInterface;
+use App\EnvelopeManagement\Domain\Envelope\View\EnvelopesPaginatedInterface;
 
 readonly class ListEnvelopesQueryHandler
 {
@@ -21,8 +21,8 @@ readonly class ListEnvelopesQueryHandler
 
         return $this->envelopeQueryRepository->findBy(
             [
-                'userUuid' => $listEnvelopesQuery->getUserUuid(),
-                'parent' => $listEnvelopesDto->getParentUuid(),
+                'user_uuid' => $listEnvelopesQuery->getUserUuid(),
+                'parent_uuid' => $listEnvelopesDto->getParentUuid(),
             ],
             $listEnvelopesDto->getOrderBy(),
             $listEnvelopesDto->getLimit(),

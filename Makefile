@@ -40,6 +40,9 @@ migration-apply:
 jwt-generate-key:
 	docker exec -it my_symfony_app bin/console lexik:jwt:generate-keypair
 
+create-migration:
+	docker exec -it my_symfony_app bin/console make:migration
+
 # Testing and code quality commands
 phpunit:
 	docker exec -it my_symfony_app bin/phpunit tests/

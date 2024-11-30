@@ -9,6 +9,7 @@ use App\EnvelopeManagement\Domain\Envelope\Adapter\UuidAdapterInterface;
 use App\EnvelopeManagement\Domain\Envelope\Exception\CurrentBudgetException;
 use App\EnvelopeManagement\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
 use App\EnvelopeManagement\Domain\Envelope\Model\EnvelopeInterface;
+use App\EnvelopeManagement\Domain\Envelope\Model\Envelope;
 use App\EnvelopeManagement\Domain\Envelope\Validator\CreateEnvelopeCurrentBudgetValidator;
 use App\EnvelopeManagement\Domain\Envelope\Validator\CreateEnvelopeTargetBudgetValidator;
 use App\EnvelopeManagement\Domain\Envelope\Validator\CreateEnvelopeTitleValidator;
@@ -24,12 +25,7 @@ class CreateEnvelopeBuilder implements CreateEnvelopeBuilderInterface
         private readonly CreateEnvelopeCurrentBudgetValidator $currentBudgetValidator,
         private readonly CreateEnvelopeTitleValidator $titleValidator,
         private readonly UuidAdapterInterface $uuidAdapter,
-        private readonly string $envelopeClass,
     ) {
-        $model = new $envelopeClass();
-        if (!$model instanceof EnvelopeInterface) {
-            throw new \RuntimeException('Class should be Envelope in CreateEnvelopeBuilder');
-        }
     }
 
     public function setParentEnvelope(?EnvelopeInterface $parentEnvelope): self
@@ -67,7 +63,7 @@ class CreateEnvelopeBuilder implements CreateEnvelopeBuilderInterface
             $this->parentEnvelope->updateAncestorsCurrentBudget($currentBudget);
         }
 
-        return (new $this->envelopeClass())
+        return (new Envelope())
             ->setUuid($this->uuidAdapter->generate())
             ->setParent($this->parentEnvelope)
             ->setCurrentBudget($this->createEnvelopeDto->getCurrentBudget())

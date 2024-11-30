@@ -19,7 +19,7 @@ readonly class GetEnvelopeByTitleQueryHandler
     {
         return $this->envelopeQueryRepository->findOneBy([
             'title' => $getOneEnvelopeQuery->getTitle(),
-            'userUuid' => $getOneEnvelopeQuery->getUserUuid(),
+            'user_uuid' => $getOneEnvelopeQuery->getUserUuid(),
         ]);
     }
 }

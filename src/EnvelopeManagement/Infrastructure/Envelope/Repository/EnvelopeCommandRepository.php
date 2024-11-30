@@ -6,32 +6,40 @@ namespace App\EnvelopeManagement\Infrastructure\Envelope\Repository;
 
 use App\EnvelopeManagement\Domain\Envelope\Model\EnvelopeInterface;
 use App\EnvelopeManagement\Domain\Envelope\Repository\EnvelopeCommandRepositoryInterface;
-use App\EnvelopeManagement\Infrastructure\Envelope\Entity\Envelope;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 
-/**
- * @extends ServiceEntityRepository<Envelope>
- */
-class EnvelopeCommandRepository extends ServiceEntityRepository implements EnvelopeCommandRepositoryInterface
+class EnvelopeCommandRepository implements EnvelopeCommandRepositoryInterface
 {
-    public function __construct(
-        ManagerRegistry $registry,
-        private readonly EntityManagerInterface $em,
-    ) {
-        parent::__construct($registry, Envelope::class);
+    private Connection $connection;
+
+    public function __construct(Connection $connection)
+    {
+        $this->connection = $connection;
     }
 
+    /**
+     * @throws Exception
+     */
     public function save(EnvelopeInterface $envelope): void
     {
-        $this->em->persist($envelope);
-        $this->em->flush();
+        $this->connection->insert('envelope', [
+            'uuid' => $envelope->getUuid(),
+            'created_at' => $envelope->getCreatedAt()->format('Y-m-d H:i:s'),
+            'updated_at' => $envelope->getUpdatedAt()->format('Y-m-d H:i:s'),
+            'current_budget' => $envelope->getCurrentBudget(),
+            'target_budget' => $envelope->getTargetBudget(),
+            'title' => $envelope->getTitle(),
+            'parent_uuid' => $envelope->getParent()?->getUuid(),
+            'user_uuid' => $envelope->getUserUuid(),
+        ]);
     }
 
+    /**
+     * @throws Exception
+     */
     public function delete(EnvelopeInterface $envelope): void
     {
-        $this->em->remove($envelope);
-        $this->em->flush();
+        $this->connection->delete('envelope', ['uuid' => $envelope->getUuid()]);
     }
 }

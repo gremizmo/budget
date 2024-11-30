@@ -4,161 +4,79 @@ declare(strict_types=1);
 
 namespace App\EnvelopeManagement\Infrastructure\Envelope\Repository;
 
-use App\EnvelopeManagement\Domain\Envelope\Model\EnvelopesPaginated;
-use App\EnvelopeManagement\Domain\Envelope\Model\EnvelopesPaginatedInterface;
 use App\EnvelopeManagement\Domain\Envelope\Repository\EnvelopeQueryRepositoryInterface;
-use App\EnvelopeManagement\Infrastructure\Envelope\Entity\Envelope;
-use Elastica\Query;
-use FOS\ElasticaBundle\Finder\PaginatedFinderInterface;
-use FOS\ElasticaBundle\Repository;
+use App\EnvelopeManagement\Domain\Envelope\View\Envelope;
+use App\EnvelopeManagement\Domain\Envelope\View\EnvelopeInterface;
+use App\EnvelopeManagement\Domain\Envelope\View\EnvelopesPaginated;
+use App\EnvelopeManagement\Domain\Envelope\View\EnvelopesPaginatedInterface;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 
-class EnvelopeQueryRepository extends Repository implements EnvelopeQueryRepositoryInterface
+class EnvelopeQueryRepository implements EnvelopeQueryRepositoryInterface
 {
-    public function __construct(
-        protected PaginatedFinderInterface $finder,
-    ) {
-        parent::__construct($finder);
-    }
+    private Connection $connection;
 
-    /**
-     * @param array<string, string> $criteria
-     * @param array<string, string> $orderBy
-     *
-     * @throws \Throwable
-     */
-    public function findOneBy(array $criteria, ?array $orderBy = null): ?Envelope
+    public function __construct(Connection $connection)
     {
-        $query = new Query();
-
-        $query->setRawQuery(
-            [
-                'size' => 1,
-                'query' => [
-                    'bool' => [
-                        'must' => array_values(array_filter([
-                            $this->filterByUuid($criteria),
-                            $this->filterByTitle($criteria),
-                            $this->filterByUser($criteria),
-                        ])),
-                    ],
-                ],
-            ]
-        );
-
-        $result = $this->find($query);
-        $envelope = reset($result);
-
-        return $envelope instanceof Envelope ? $envelope : null;
+        $this->connection = $connection;
     }
 
     /**
-     * @param array<string, string> $criteria
-     * @param array<string, string> $orderBy
-     *
-     * @throws \Throwable
+     * @throws Exception
+     */
+    public function findOneBy(array $criteria, ?array $orderBy = null): ?EnvelopeInterface
+    {
+        $sql = sprintf('SELECT * FROM envelope WHERE %s LIMIT 1', $this->buildWhereClause($criteria));
+        $stmt = $this->connection->prepare($sql);
+        $result = $stmt->executeQuery($criteria)->fetchAssociative();
+
+        return $result ? Envelope::createFromQueryRepository($result) : null;
+    }
+
+    /**
+     * @throws Exception
      */
     public function findBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): EnvelopesPaginatedInterface
     {
-        $query = new Query();
-        $userFilters = $this->filterByUser($criteria);
-        $parentFilters = $this->filterByParent($criteria);
-        $mustFilters[] = $userFilters;
-        $parentFilterMust = count($parentFilters['must']) > 0 ? $parentFilters['must'][0] : null;
+        $sql = sprintf('SELECT * FROM envelope WHERE %s', $this->buildWhereClause($criteria));
 
-        if ($parentFilterMust) {
-            $mustFilters[] = $parentFilterMust;
+        if ($orderBy) {
+            $sql .= sprintf(' ORDER BY %s', implode(', ', array_map(fn($key, $value) => sprintf('%s %s', $key, $value), array_keys($orderBy), $orderBy)));
         }
 
-        $mustNotFilters = $parentFilters['must_not'] ?? [];
+        if ($limit) {
+            $sql .= sprintf(' LIMIT %d', $limit);
+        }
 
-        $query->setRawQuery(
-            [
-                'query' => [
-                    'bool' => [
-                        'must' => $mustFilters,
-                        'must_not' => $mustNotFilters,
-                    ],
-                ],
-            ]
-        );
+        if ($offset) {
+            $sql .= sprintf(' OFFSET %d', $offset);
+        }
 
-        $count = $this->count($query);
-
-        $query->setFrom($offset ?? 0);
-        $query->setSize($limit ?? 10);
-        $query->setSort($orderBy ?? []);
+        $stmt = $this->connection->prepare($sql);
+        $query = $stmt->executeQuery($this->filterCriteria($criteria));
+        $results = $query->fetchAllAssociative();
+        $count = $query->rowCount();
 
         return new EnvelopesPaginated(
-            $this->find($query),
+            array_map([$this, 'mapToEnvelopeModel'], $results ?? []),
             $count,
         );
     }
 
-    private function count(Query $query): int
+    private function buildWhereClause(array $criteria): string
     {
-        return $this->finder->findPaginated($query)->getNbResults();
+        return implode(' AND ', array_map(function ($key, $value) {
+            return $value === null ? sprintf('%s IS NULL', $key) : sprintf('%s = :%s', $key, $key);
+        }, array_keys($criteria), $criteria));
     }
 
-    /**
-     * @param array<string, string> $criteria
-     *
-     * @return array<string, array<string, string>>
-     */
-    private function filterByUuid(array $criteria): array
+    private function filterCriteria(array $criteria): array
     {
-        if (!isset($criteria['uuid'])) {
-            return [];
-        }
-
-        return ['term' => ['uuid' => $criteria['uuid']]];
+        return array_filter($criteria, fn($value) => $value !== null);
     }
 
-    /**
-     * @param array<string, string> $criteria
-     *
-     * @return array<string, array<string, string>>
-     */
-    private function filterByTitle(array $criteria): array
+    private function mapToEnvelopeModel(array $data): EnvelopeInterface
     {
-        if (!isset($criteria['title'])) {
-            return [];
-        }
-
-        return ['term' => ['title' => $criteria['title']]];
-    }
-
-    /**
-     * @param array<string, string> $criteria
-     *
-     * @return array<string, array<int, array<string, array<string, string>>>>
-     */
-    private function filterByParent(array $criteria): array
-    {
-        $filters = [
-            'must' => [],
-            'must_not' => [],
-        ];
-
-        if (isset($criteria['parent'])) {
-            $filters['must'][] = ['term' => ['parent.uuid' => $criteria['parent']]];
-        } else {
-            $filters['must_not'][] = ['exists' => ['field' => 'parent']];
-        }
-
-        return $filters;
-    }
-
-    /**
-     * @param array<string, string> $criteria
-     *
-     * @return array<string, array<string, string>>
-     */
-    private function filterByUser(array $criteria): array
-    {
-        if (!isset($criteria['userUuid'])) {
-            return [];
-        }
-
-        return ['term' => ['userUuid' => $criteria['userUuid']]];
+        return Envelope::createFromQueryRepository($data);
     }
 }

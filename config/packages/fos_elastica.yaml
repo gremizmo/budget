@@ -2,67 +2,6 @@ fos_elastica:
     clients:
         default: { url: '%env(ELASTICSEARCH_URL)%' }
     indexes:
-        envelope:
-            index_name: envelope_%kernel.environment%
-            persistence:
-                driver: orm
-                model: App\EnvelopeManagement\Infrastructure\Envelope\Entity\Envelope
-                listener:
-                    insert: true
-                    update: true
-                    delete: true
-            properties:
-                id:
-                    type: integer
-                uuid:
-                    type: keyword
-                createdAt:
-                    type: date
-                updatedAt:
-                    type: date
-                createdBy:
-                    type: keyword
-                updatedBy:
-                    type: keyword
-                currentBudget:
-                    type: float
-                targetBudget:
-                    type: float
-                title:
-                    type: keyword
-                userUuid:
-                    type: keyword
-                parent:
-                    type: object
-                    properties:
-                        uuid:
-                            type: keyword
-                children:
-                    type: nested
-                    properties:
-                        id:
-                            type: integer
-                        uuid:
-                            type: keyword
-                        createdAt:
-                            type: date
-                        updatedAt:
-                            type: date
-                        createdBy:
-                            type: keyword
-                        updatedBy:
-                            type: keyword
-                        currentBudget:
-                            type: float
-                        targetBudget:
-                            type: float
-                        title:
-                            type: keyword
-                        parent:
-                            type: object
-                            properties:
-                                uuid:
-                                    type: keyword
         user:
             index_name: user_%kernel.environment%
             persistence:

@@ -17,7 +17,6 @@ services:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
-            - '../src/EnvelopeManagement/Infrastructure/Envelope/Entity/'
             - '../src/UserManagement/Infrastructure/User/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
@@ -73,10 +72,6 @@ services:
         arguments:
             $finder: '@fos_elastica.finder.user'
 
-    App\EnvelopeManagement\Infrastructure\Envelope\Repository\EnvelopeQueryRepository:
-        arguments:
-            $finder: '@fos_elastica.finder.envelope'
-
     App\EnvelopeManagement\Infrastructure\Envelope\EventListener\ExceptionListener:
         tags:
             - { name: 'kernel.event_listener', event: 'kernel.exception' }
@@ -84,10 +79,6 @@ services:
     App\UserManagement\Infrastructure\User\EventListener\ExceptionListener:
         tags:
             - { name: 'kernel.event_listener', event: 'kernel.exception' }
-
-    App\EnvelopeManagement\Domain\Envelope\Builder\CreateEnvelopeBuilder:
-        arguments:
-            $envelopeClass: App\EnvelopeManagement\Infrastructure\Envelope\Entity\Envelope
 
     App\UserManagement\Domain\User\Factory\CreateUserFactory:
         arguments:

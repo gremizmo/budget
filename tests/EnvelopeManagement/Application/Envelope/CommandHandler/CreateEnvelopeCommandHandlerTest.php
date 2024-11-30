@@ -14,12 +14,12 @@ use App\EnvelopeManagement\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsF
 use App\EnvelopeManagement\Domain\Envelope\Exception\TargetBudgetException;
 use App\EnvelopeManagement\Domain\Envelope\Factory\CreateEnvelopeFactory;
 use App\EnvelopeManagement\Domain\Envelope\Model\EnvelopeInterface;
+use App\EnvelopeManagement\Domain\Envelope\Model\Envelope;
 use App\EnvelopeManagement\Domain\Envelope\Repository\EnvelopeCommandRepositoryInterface;
 use App\EnvelopeManagement\Domain\Envelope\Validator\CreateEnvelopeCurrentBudgetValidator;
 use App\EnvelopeManagement\Domain\Envelope\Validator\CreateEnvelopeTargetBudgetValidator;
 use App\EnvelopeManagement\Domain\Envelope\Validator\CreateEnvelopeTitleValidator;
 use App\EnvelopeManagement\Infrastructure\Envelope\Adapter\UuidAdapter;
-use App\EnvelopeManagement\Infrastructure\Envelope\Entity\Envelope;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
