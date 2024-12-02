@@ -19,14 +19,14 @@ doctrine:
             User:
                 type: attribute
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/UserManagement/Infrastructure/User/Entity'
-                prefix: 'App\UserManagement\Infrastructure\User\Entity'
+                dir: '%kernel.project_dir%/src/UserManagement/Infrastructure/Entity'
+                prefix: 'App\UserManagement\Infrastructure\Entity'
                 alias: User
             RefreshToken:
                 type: attribute
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/UserManagement/Infrastructure/User/Entity'
-                prefix: 'App\UserManagement\Infrastructure\User\Entity'
+                dir: '%kernel.project_dir%/src/UserManagement/Infrastructure/Entity'
+                prefix: 'App\UserManagement\Infrastructure\Entity'
                 alias: RefreshToken
         controller_resolver:
             auto_mapping: false

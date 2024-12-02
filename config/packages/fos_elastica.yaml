@@ -6,7 +6,7 @@ fos_elastica:
             index_name: user_%kernel.environment%
             persistence:
                 driver: orm
-                model: App\UserManagement\Infrastructure\User\Entity\User
+                model: App\UserManagement\Infrastructure\Entity\User
                 listener:
                     insert: true
                     update: true

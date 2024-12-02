@@ -7,7 +7,7 @@ security:
         #users_in_memory: { memory: null }
         app_user_provider:
             entity:
-                class: App\UserManagement\Infrastructure\User\Entity\User
+                class: App\UserManagement\Infrastructure\Entity\User
                 property: email
     firewalls:
         login:

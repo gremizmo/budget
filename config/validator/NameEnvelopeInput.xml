@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping
+        https://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
+
+    <class name="App\EnvelopeManagement\Application\Dto\NameEnvelopeInput">
+        <property name="name">
+            <constraint name="NotBlank"/>
+            <constraint name="Length">
+                <option name="min">1</option>
+                <option name="max">255</option>
+                <option name="minMessage">The name must be at least 1 character long.</option>
+                <option name="maxMessage">The name must be at most 255 characters long.</option>
+            </constraint>
+            <constraint name="Regex">
+                <option name="pattern">/^[A-Za-z0-9 ]+$/</option>
+                <option name="message">The name can only contain letters (A-Z, a-z), numbers (0-9), and spaces. No special characters are allowed.</option>
+            </constraint>
+        </property>
+    </class>
+
+</constraint-mapping>
