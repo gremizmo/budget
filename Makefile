@@ -15,12 +15,6 @@ shell:
 composer-install:
 	docker exec -it my_symfony_app composer install
 
-start-server:
-	docker exec -it my_symfony_app symfony server:start -d --no-tls
-
-stop-server:
-	docker exec -it my_symfony_app symfony server:stop
-
 cache-clear:
 	docker exec -it my_symfony_app bin/console cache:clear
 

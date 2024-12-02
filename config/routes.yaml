@@ -1,7 +1,7 @@
 controllers_rest_envelope:
     resource:
-        path: ../src/EnvelopeManagement/UI/Http/Rest/Envelope/Controller/
-        namespace: App\EnvelopeManagement\UI\Http\Rest\Envelope\Controller
+        path: ../src/EnvelopeManagement/UI/Http/Rest/Controller/
+        namespace: App\EnvelopeManagement\UI\Http\Rest\Controller
     type: attribute
 
 controllers_rest_user:

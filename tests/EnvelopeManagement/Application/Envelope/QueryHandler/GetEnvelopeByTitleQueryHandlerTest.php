@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Tests\EnvelopeManagement\Application\Envelope\QueryHandler;
 
-use App\EnvelopeManagement\Application\Envelope\Dto\CreateEnvelopeInput;
-use App\EnvelopeManagement\Application\Envelope\Query\GetEnvelopeByTitleQuery;
-use App\EnvelopeManagement\Application\Envelope\QueryHandler\GetEnvelopeByTitleQueryHandler;
-use App\EnvelopeManagement\Domain\Envelope\Adapter\QueryBusInterface;
-use App\EnvelopeManagement\Domain\Envelope\Builder\CreateEnvelopeBuilder;
-use App\EnvelopeManagement\Domain\Envelope\Factory\CreateEnvelopeFactory;
-use App\EnvelopeManagement\Domain\Envelope\Model\EnvelopeInterface;
-use App\EnvelopeManagement\Domain\Envelope\Model\Envelope;
-use App\EnvelopeManagement\Domain\Envelope\Repository\EnvelopeQueryRepositoryInterface;
-use App\EnvelopeManagement\Domain\Envelope\Validator\CreateEnvelopeCurrentBudgetValidator;
-use App\EnvelopeManagement\Domain\Envelope\Validator\CreateEnvelopeTargetBudgetValidator;
-use App\EnvelopeManagement\Domain\Envelope\Validator\CreateEnvelopeTitleValidator;
-use App\EnvelopeManagement\Infrastructure\Envelope\Adapter\UuidAdapter;
+use App\EnvelopeManagement\Application\Dto\CreateEnvelopeInput;
+use App\EnvelopeManagement\Application\Query\GetEnvelopeByTitleQuery;
+use App\EnvelopeManagement\Application\QueryHandler\GetEnvelopeByTitleQueryHandler;
+use App\EnvelopeManagement\Domain\Adapter\QueryBusInterface;
+use App\EnvelopeManagement\Domain\Aggregate\Envelope;
+use App\EnvelopeManagement\Domain\Aggregate\EnvelopeInterface;
+use App\EnvelopeManagement\Domain\Builder\CreateEnvelopeBuilder;
+use App\EnvelopeManagement\Domain\Factory\CreateEnvelopeFactory;
+use App\EnvelopeManagement\Domain\Repository\EnvelopeQueryRepositoryInterface;
+use App\EnvelopeManagement\Domain\Validator\CreateEnvelopeCurrentBudgetValidator;
+use App\EnvelopeManagement\Domain\Validator\CreateEnvelopeTargetBudgetValidator;
+use App\EnvelopeManagement\Domain\Validator\CreateEnvelopeTitleValidator;
+use App\EnvelopeManagement\Infrastructure\Adapter\UuidAdapter;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 

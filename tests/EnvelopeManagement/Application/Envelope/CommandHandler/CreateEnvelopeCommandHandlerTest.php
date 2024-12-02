@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace App\Tests\EnvelopeManagement\Application\Envelope\CommandHandler;
 
-use App\EnvelopeManagement\Application\Envelope\Command\CreateEnvelopeCommand;
-use App\EnvelopeManagement\Application\Envelope\CommandHandler\CreateEnvelopeCommandHandler;
-use App\EnvelopeManagement\Application\Envelope\Dto\CreateEnvelopeInput;
-use App\EnvelopeManagement\Domain\Envelope\Adapter\QueryBusInterface;
-use App\EnvelopeManagement\Domain\Envelope\Builder\CreateEnvelopeBuilder;
-use App\EnvelopeManagement\Domain\Envelope\Exception\CurrentBudgetException;
-use App\EnvelopeManagement\Domain\Envelope\Exception\EnvelopeTitleAlreadyExistsForUserException;
-use App\EnvelopeManagement\Domain\Envelope\Exception\TargetBudgetException;
-use App\EnvelopeManagement\Domain\Envelope\Factory\CreateEnvelopeFactory;
-use App\EnvelopeManagement\Domain\Envelope\Model\EnvelopeInterface;
-use App\EnvelopeManagement\Domain\Envelope\Model\Envelope;
-use App\EnvelopeManagement\Domain\Envelope\Repository\EnvelopeCommandRepositoryInterface;
-use App\EnvelopeManagement\Domain\Envelope\Validator\CreateEnvelopeCurrentBudgetValidator;
-use App\EnvelopeManagement\Domain\Envelope\Validator\CreateEnvelopeTargetBudgetValidator;
-use App\EnvelopeManagement\Domain\Envelope\Validator\CreateEnvelopeTitleValidator;
-use App\EnvelopeManagement\Infrastructure\Envelope\Adapter\UuidAdapter;
+use App\EnvelopeManagement\Application\Command\CreateEnvelopeCommand;
+use App\EnvelopeManagement\Application\CommandHandler\CreateEnvelopeCommandHandler;
+use App\EnvelopeManagement\Application\Dto\CreateEnvelopeInput;
+use App\EnvelopeManagement\Domain\Adapter\QueryBusInterface;
+use App\EnvelopeManagement\Domain\Aggregate\Envelope;
+use App\EnvelopeManagement\Domain\Aggregate\EnvelopeInterface;
+use App\EnvelopeManagement\Domain\Builder\CreateEnvelopeBuilder;
+use App\EnvelopeManagement\Domain\Exception\CurrentBudgetException;
+use App\EnvelopeManagement\Domain\Exception\EnvelopeTitleAlreadyExistsForUserException;
+use App\EnvelopeManagement\Domain\Exception\TargetBudgetException;
+use App\EnvelopeManagement\Domain\Factory\CreateEnvelopeFactory;
+use App\EnvelopeManagement\Domain\Repository\EnvelopeCommandRepositoryInterface;
+use App\EnvelopeManagement\Domain\Validator\CreateEnvelopeCurrentBudgetValidator;
+use App\EnvelopeManagement\Domain\Validator\CreateEnvelopeTargetBudgetValidator;
+use App\EnvelopeManagement\Domain\Validator\CreateEnvelopeTitleValidator;
+use App\EnvelopeManagement\Infrastructure\Adapter\UuidAdapter;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 

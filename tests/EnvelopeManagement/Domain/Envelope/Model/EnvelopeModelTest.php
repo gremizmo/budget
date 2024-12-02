@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\EnvelopeManagement\Domain\Envelope\Model;
 
-use App\EnvelopeManagement\Domain\Envelope\Exception\CurrentBudgetException;
-use App\EnvelopeManagement\Domain\Envelope\Exception\TargetBudgetException;
-use App\EnvelopeManagement\Domain\Envelope\Model\Envelope;
+use App\EnvelopeManagement\Domain\Aggregate\Envelope;
+use App\EnvelopeManagement\Domain\Exception\CurrentBudgetException;
+use App\EnvelopeManagement\Domain\Exception\TargetBudgetException;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 

@@ -21,24 +21,38 @@ services:
             - '../src/Kernel.php'
             - '../src/Tests/'
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
-    App\EnvelopeManagement\Application\Envelope\CommandHandler\CreateEnvelopeCommandHandler:
+    PhpAmqpLib\Connection\AMQPStreamConnection:
+        arguments:
+            $host: '%env(RABBITMQ_HOST)%'
+            $port: '%env(RABBITMQ_PORT)%'
+            $user: '%env(RABBITMQ_USER)%'
+            $password: '%env(RABBITMQ_PASSWORD)%'
+
+    App\EnvelopeManagement\Application\CommandHandler\CreateEnvelopeCommandHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\EnvelopeManagement\Application\Envelope\CommandHandler\EditEnvelopeCommandHandler:
+    App\EnvelopeManagement\Application\CommandHandler\NameEnvelopeCommandHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\EnvelopeManagement\Application\Envelope\CommandHandler\DeleteEnvelopeCommandHandler:
+    App\EnvelopeManagement\Application\CommandHandler\EditEnvelopeCommandHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\EnvelopeManagement\Application\Envelope\QueryHandler\ShowEnvelopeQueryHandler:
+    App\EnvelopeManagement\Application\CommandHandler\DeleteEnvelopeCommandHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\EnvelopeManagement\Application\Envelope\QueryHandler\ListEnvelopesQueryHandler:
+    App\EnvelopeManagement\Application\QueryHandler\ShowEnvelopeQueryHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\EnvelopeManagement\Application\Envelope\QueryHandler\GetEnvelopeByTitleQueryHandler:
+    App\EnvelopeManagement\Application\QueryHandler\ListEnvelopesQueryHandler:
+        tags: [ 'messenger.message_handler' ]
+
+    App\EnvelopeManagement\Application\QueryHandler\GetEnvelopeByTitleQueryHandler:
+        tags: [ 'messenger.message_handler' ]
+
+    App\EnvelopeManagement\Application\EventHandler\EnvelopeCreatedEventHandler:
+        tags: [ 'messenger.message_handler' ]
+
+    App\EnvelopeManagement\Application\EventHandler\EnvelopeNamedEventHandler:
         tags: [ 'messenger.message_handler' ]
 
     App\UserManagement\Application\User\CommandHandler\CreateUserCommandHandler:
@@ -72,7 +86,7 @@ services:
         arguments:
             $finder: '@fos_elastica.finder.user'
 
-    App\EnvelopeManagement\Infrastructure\Envelope\EventListener\ExceptionListener:
+    App\EnvelopeManagement\Infrastructure\EventListener\ExceptionListener:
         tags:
             - { name: 'kernel.event_listener', event: 'kernel.exception' }
     
