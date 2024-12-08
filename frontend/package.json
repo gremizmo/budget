@@ -1,0 +1,17 @@
+{
+  "name": "nextjs-typescript",
+  "version": "5.7.2",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "typescript": "^5.7.2"
+  },
+  "devDependencies": {}
+}
