@@ -56,3 +56,7 @@ cs-fixer:
 # Elastica commands
 elastica-populate:
 	docker exec -it my_symfony_app php bin/console fos:elastica:populate
+
+# Next commands
+next_shell:
+	docker exec -it nextjs_frontend sh
