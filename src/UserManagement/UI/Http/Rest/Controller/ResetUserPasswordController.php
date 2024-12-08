@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/api/user/reset-password', name: 'app_user_reset_password', methods: ['POST'])]
+#[Route('/api/users/reset-password', name: 'app_user_reset_password', methods: ['POST'])]
 class ResetUserPasswordController extends AbstractController
 {
     public function __construct(

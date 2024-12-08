@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\EnvelopeManagement\Application\QueryHandler;
 
-use App\EnvelopeManagement\Application\Dto\ListEnvelopesInput;
 use App\EnvelopeManagement\Application\Query\ListEnvelopesQuery;
 use App\EnvelopeManagement\Application\QueryHandler\ListEnvelopesQueryHandler;
 use App\EnvelopeManagement\Domain\Adapter\QueryBusInterface;
 use App\EnvelopeManagement\Domain\Repository\EnvelopeQueryRepositoryInterface;
 use App\EnvelopeManagement\Domain\View\Envelope;
 use App\EnvelopeManagement\Domain\View\EnvelopesPaginated;
+use App\EnvelopeManagement\UI\Http\Dto\ListEnvelopesInput;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 

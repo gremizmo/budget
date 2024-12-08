@@ -17,9 +17,9 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/api/envelope/{uuid}', name: 'app_envelope_delete', methods: ['DELETE'])]
+#[Route('/api/envelopes/{uuid}', name: 'app_envelope_delete', methods: ['DELETE'])]
 #[IsGranted('ROLE_USER')]
-class DeleteEnvelopeController extends AbstractController
+final class DeleteEnvelopeController extends AbstractController
 {
     public function __construct(
         private readonly CommandBusInterface $commandBus,

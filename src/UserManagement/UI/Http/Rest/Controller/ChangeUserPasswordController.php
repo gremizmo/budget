@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/api/user/{uuid}/change-password', name: 'app_user_change_password', methods: ['POST'])]
+#[Route('/api/users/{uuid}/change-password', name: 'app_user_change_password', methods: ['POST'])]
 #[IsGranted('ROLE_USER')]
 class ChangeUserPasswordController extends AbstractController
 {

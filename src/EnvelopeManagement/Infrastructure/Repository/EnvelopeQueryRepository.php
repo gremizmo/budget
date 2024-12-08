@@ -42,7 +42,7 @@ class EnvelopeQueryRepository implements EnvelopeQueryRepositoryInterface
         ?int $limit = null,
         ?int $offset = null
     ): EnvelopesPaginatedInterface {
-        $sql = sprintf('SELECT * FROM envelope_wiew WHERE %s', $this->buildWhereClause($criteria));
+        $sql = sprintf('SELECT * FROM envelope_view WHERE %s', $this->buildWhereClause($criteria));
 
         if ($orderBy) {
             $sql = sprintf(

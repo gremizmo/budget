@@ -178,7 +178,7 @@ class Envelope implements EnvelopeInterface
 
     private function applyCreditedEvent(EnvelopeCreditedEvent $event): void
     {
-        $newBudget = (floatval($this->currentBudget->__toString()) - floatval($event->getCreditMoney()));
+        $newBudget = (floatval($this->currentBudget->__toString()) + floatval($event->getCreditMoney()));
 
         $this->currentBudget = EnvelopeCurrentBudget::create((string) $newBudget, $this->targetBudget->__toString());
         $this->updatedAt = new \DateTime();
@@ -186,7 +186,7 @@ class Envelope implements EnvelopeInterface
 
     private function applyDebitedEvent(EnvelopeDebitedEvent $event): void
     {
-        $newBudget = (floatval($this->currentBudget->__toString()) + floatval($event->getDebitMoney()));
+        $newBudget = (floatval($this->currentBudget->__toString()) - floatval($event->getDebitMoney()));
 
         $this->currentBudget = EnvelopeCurrentBudget::create((string) $newBudget, $this->targetBudget->__toString());
         $this->updatedAt = new \DateTime();

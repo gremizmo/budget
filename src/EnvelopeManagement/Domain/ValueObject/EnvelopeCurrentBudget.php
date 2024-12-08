@@ -13,11 +13,11 @@ readonly class EnvelopeCurrentBudget
         $currentBudgetFloat = floatval($currentBudget);
 
         if ($currentBudgetFloat < 0.00) {
-            throw CurrentBudgetException::exceedsCreditLimit();
+            throw CurrentBudgetException::exceedsDebitLimit();
         }
 
         if ($currentBudgetFloat > floatval($targetBudget)) {
-            throw CurrentBudgetException::exceedsDebitLimit();
+            throw CurrentBudgetException::exceedsCreditLimit();
         }
     }
 

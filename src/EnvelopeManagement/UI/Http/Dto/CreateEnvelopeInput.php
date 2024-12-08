@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\EnvelopeManagement\Application\Dto;
+namespace App\EnvelopeManagement\UI\Http\Dto;
 
 final readonly class CreateEnvelopeInput implements CreateEnvelopeInputInterface
 {

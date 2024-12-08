@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 220 20% 97%;
+  --foreground: 220 10% 10%;
+  --primary: 220 90% 50%;
+  --primary-foreground: 220 10% 98%;
+  --card: 0 0% 100%;
+  --card-foreground: 220 10% 10%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 220 10% 10%;
+  --muted: 220 10% 96%;
+  --muted-foreground: 220 10% 54%;
+  --accent: 220 10% 92%;
+  --accent-foreground: 220 10% 10%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 220 14% 90%;
+  --input: 220 14% 90%;
+  --ring: 220 90% 50%;
+}
+
+.dark {
+  --background: 220 20% 10%;
+  --foreground: 220 10% 98%;
+  --card: 220 20% 12%;
+  --card-foreground: 220 10% 98%;
+  --popover: 220 20% 12%;
+  --popover-foreground: 220 10% 98%;
+  --primary: 220 90% 50%;
+  --primary-foreground: 220 10% 98%;
+  --muted: 220 10% 20%;
+  --muted-foreground: 220 10% 60%;
+  --accent: 220 10% 16%;
+  --accent-foreground: 220 10% 98%;
+  --destructive: 0 62% 30%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 220 14% 26%;
+  --input: 220 14% 26%;
+  --ring: 220 90% 50%;
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+.neomorphic {
+  border-radius: 15px;
+  background: linear-gradient(145deg, #f0f0f0, #ffffff);
+  box-shadow: 5px 5px 10px #d1d1d1, -5px -5px 10px #ffffff;
+}
+
+.neomorphic-inset {
+  border-radius: 15px;
+  background: linear-gradient(145deg, #ffffff, #f0f0f0);
+  box-shadow: inset 5px 5px 10px #d1d1d1, inset -5px -5px 10px #ffffff;
+}
+
+.neomorphic-button {
+  border-radius: 10px;
+  background: linear-gradient(145deg, #f0f0f0, #ffffff);
+  box-shadow: 3px 3px 6px #d1d1d1, -3px -3px 6px #ffffff;
+  transition: all 0.3s ease;
+}
+
+.neomorphic-button:hover {
+  box-shadow: 4px 4px 8px #d1d1d1, -4px -4px 8px #ffffff;
+}
+
+.neomorphic-button:hover {
+  box-shadow: 6px 6px 12px #d1d1d1, -6px -6px 12px #ffffff;
+}
+
+.neomorphic-button:active {
+  box-shadow: inset 3px 3px 6px #d1d1d1, inset -3px -3px 6px #ffffff;
+}
+
+.neomorphic-input {
+  border-radius: 10px;
+  background: #f0f0f0;
+  box-shadow: inset 3px 3px 6px #d1d1d1, inset -3px -3px 6px #ffffff;
+}
+
+:root {
+  --chart-1: 200 100% 50%;
+  --chart-2: 150 100% 50%;
+  --chart-3: 100 100% 50%;
+  --chart-4: 50 100% 50%;
+  --chart-5: 0 100% 50%;
+}
+
+.neomorphic-circle {
+  border-radius: 50%;
+  background: linear-gradient(145deg, #f0f0f0, #ffffff);
+  box-shadow: 5px 5px 10px #d1d1d1, -5px -5px 10px #ffffff;
+}

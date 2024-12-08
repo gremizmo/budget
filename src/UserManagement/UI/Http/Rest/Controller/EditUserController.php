@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/api/user/{uuid}', name: 'app_user_edit', methods: ['PUT'])]
+#[Route('/api/users/{uuid}', name: 'app_user_edit', methods: ['PUT'])]
 #[IsGranted('ROLE_USER')]
 class EditUserController extends AbstractController
 {
