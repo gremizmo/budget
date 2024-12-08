@@ -6,6 +6,7 @@ namespace App\EnvelopeManagement\Infrastructure\EventListener;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
+use Symfony\Component\Validator\Exception\ValidationFailedException;
 
 readonly class ExceptionListener
 {
@@ -15,14 +16,11 @@ readonly class ExceptionListener
 
     public function onKernelException(ExceptionEvent $event): void
     {
-        $exception = $event->getThrowable()->getPrevious();
-
-        if ($exception instanceof \Throwable) {
-            $type = \strrchr($exception::class, '\\');
-            $event->setResponse(new JsonResponse([
-                'type' => \substr(\is_string($type) ? $type : '', 1),
-                'message' => $exception->getMessage(),
-            ], $exception->getCode()));
-        }
+        $exception = $event->getThrowable()->getPrevious() ?? $event->getThrowable();
+        $type = \strrchr($exception::class, '\\');
+        $event->setResponse(new JsonResponse([
+            'type' => \substr(\is_string($type) ? $type : '', 1),
+            'message' => $exception->getMessage(),
+        ], $exception instanceof ValidationFailedException ? 400 : $exception->getCode()));
     }
 }

@@ -87,7 +87,13 @@ class Envelope implements EnvelopeInterface
         $this->assertNotDeleted();
         $this->assertOwnership($userId);
 
-        if ($envelopeQueryRepository->findOneBy(['user_uuid' => $userId->__toString(), 'name' => $name->__toString()])) {
+        if ($envelopeQueryRepository->findOneBy(
+            [
+                'user_uuid' => $userId->__toString(),
+                'name' => $name->__toString(),
+                'is_deleted' => false,
+            ],
+        )) {
             throw new EnvelopeNameAlreadyExistsForUserException(EnvelopeNameAlreadyExistsForUserException::MESSAGE, 400);
         }
 
