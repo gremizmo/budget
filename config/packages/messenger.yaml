@@ -1,17 +1,29 @@
 framework:
     messenger:
-        # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
-        # failure_transport: failed
+        default_bus: command_bus
+        buses:
+            command_bus:
+                default_middleware: true
+                middleware:
+                    - validation
+            event_bus:
+                default_middleware: true
+                middleware:
+                    - validation
 
         transports:
-            # https://symfony.com/doc/current/messenger.html#transport-configuration
-            # async: '%env(MESSENGER_TRANSPORT_DSN)%'
-            # failed: 'doctrine://default?queue_name=failed'
-            # sync: 'sync://'
+            sync: 'sync://'
+            async:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                serializer: messenger.transport.symfony_serializer
+                options:
+                    exchange:
+                        name: 'domain_events'
+                        type: fanout
 
         routing:
-            # Route your messages to the transports
-            # 'App\Message\YourMessage': async
+            'App\EnvelopeManagement\Domain\Event\EnvelopeCreatedEvent': async
+            'App\EnvelopeManagement\Domain\Event\EnvelopeNamedEvent': async
 
 # when@test:
 #    framework:

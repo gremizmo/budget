@@ -16,23 +16,17 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
         mappings:
-            Envelope:
-                type: attribute
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/EnvelopeManagement/Infrastructure/Envelope/Entity'
-                prefix: 'App\EnvelopeManagement\Infrastructure\Envelope\Entity'
-                alias: Envelope
             User:
                 type: attribute
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/UserManagement/Infrastructure/User/Entity'
-                prefix: 'App\UserManagement\Infrastructure\User\Entity'
+                dir: '%kernel.project_dir%/src/UserManagement/Infrastructure/Entity'
+                prefix: 'App\UserManagement\Infrastructure\Entity'
                 alias: User
             RefreshToken:
                 type: attribute
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/UserManagement/Infrastructure/User/Entity'
-                prefix: 'App\UserManagement\Infrastructure\User\Entity'
+                dir: '%kernel.project_dir%/src/UserManagement/Infrastructure/Entity'
+                prefix: 'App\UserManagement\Infrastructure\Entity'
                 alias: RefreshToken
         controller_resolver:
             auto_mapping: false

@@ -4,18 +4,28 @@
                     xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping
         https://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
 
-    <class name="App\EnvelopeManagement\Domain\Envelope\Dto\CreateEnvelopeInput">
-        <property name="title">
+    <class name="App\EnvelopeManagement\Application\Dto\CreateEnvelopeInput">
+        <property name="uuid">
             <constraint name="NotBlank"/>
-        </property>
-        <property name="currentBudget">
-            <constraint name="NotBlank"/>
-            <constraint name="Type">
-                <option name="type">string</option>
+            <constraint name="Uuid">
+                <option name="message">The UUID provided is not valid.</option>
             </constraint>
             <constraint name="Regex">
-                <option name="pattern">/^\d+(\.\d{2})?$/</option>
-                <option name="message">The current budget must be a string representing a number with up to two decimal places (e.g., "0.00").</option>
+                <option name="pattern">/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i</option>
+                <option name="message">The UUID provided is not valid.</option>
+            </constraint>
+        </property>
+        <property name="name">
+            <constraint name="NotBlank"/>
+            <constraint name="Length">
+                <option name="min">1</option>
+                <option name="max">255</option>
+                <option name="minMessage">The name must be at least 1 character long.</option>
+                <option name="maxMessage">The name must be at most 255 characters long.</option>
+            </constraint>
+            <constraint name="Regex">
+                <option name="pattern">/^[A-Za-z0-9 ]+$/</option>
+                <option name="message">The name can only contain letters (A-Z, a-z), numbers (0-9), and spaces. No special characters are allowed.</option>
             </constraint>
         </property>
         <property name="targetBudget">
@@ -26,11 +36,6 @@
             <constraint name="Regex">
                 <option name="pattern">/^\d+(\.\d{2})?$/</option>
                 <option name="message">The target budget must be a string representing a number with up to two decimal places (e.g., "0.00").</option>
-            </constraint>
-        </property>
-        <property name="parentId">
-            <constraint name="Type">
-                <option name="type">integer</option>
             </constraint>
         </property>
     </class>
