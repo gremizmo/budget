@@ -8,7 +8,9 @@ use App\EnvelopeManagement\Application\Command\CreateEnvelopeCommand;
 use App\EnvelopeManagement\Application\CommandHandler\CreateEnvelopeCommandHandler;
 use App\EnvelopeManagement\Application\Dto\CreateEnvelopeInput;
 use App\EnvelopeManagement\Domain\Adapter\AMQPStreamConnectionInterface;
+use App\EnvelopeManagement\Domain\Event\EnvelopeCreatedEvent;
 use App\EnvelopeManagement\Domain\EventStore\EventStoreInterface;
+use App\EnvelopeManagement\Domain\Exception\EnvelopeAlreadyExistsException;
 use App\EnvelopeManagement\Domain\Exception\EnvelopeNameAlreadyExistsForUserException;
 use App\EnvelopeManagement\Domain\Exception\TargetBudgetException;
 use App\EnvelopeManagement\Domain\Repository\EnvelopeQueryRepositoryInterface;
@@ -50,13 +52,14 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
             $createEnvelopeInput->getTargetBudget(),
         );
 
+        $this->eventStore->expects($this->once())->method('load')->willThrowException(new \RuntimeException());
         $this->eventStore->expects($this->once())->method('save');
         $this->amqpStreamConnection->expects($this->once())->method('publishEvents');
 
         $this->createEnvelopeCommandHandler->__invoke($createEnvelopeCommand);
     }
 
-    public function testCreateEnvelopeWithNegativeTargetBudget(): void
+    public function testCreateEnvelopeWithNegativeTargetBudgetFailure(): void
     {
         $createEnvelopeInput = new CreateEnvelopeInput(
             '0099c0ce-3b53-4318-ba7b-994e437a859b',
@@ -70,6 +73,7 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
             $createEnvelopeInput->getTargetBudget(),
         );
 
+        $this->eventStore->expects($this->once())->method('load')->willThrowException(new \RuntimeException());
         $this->eventStore->expects($this->never())->method('save');
         $this->amqpStreamConnection->expects($this->never())->method('publishEvents');
 
@@ -79,7 +83,7 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
         $this->createEnvelopeCommandHandler->__invoke($createEnvelopeCommand);
     }
 
-    public function testCreateEnvelopeWithNameDoubloon(): void
+    public function testCreateEnvelopeWithNameDoubloonFailure(): void
     {
         $createEnvelopeInput = new CreateEnvelopeInput(
             '0099c0ce-3b53-4318-ba7b-994e437a859b',
@@ -106,12 +110,52 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
             ]
         );
 
+        $this->eventStore->expects($this->once())->method('load')->willThrowException(new \RuntimeException());
         $this->envelopeQueryRepository->expects($this->once())->method('findOneBy')->willReturn($envelopeView);
         $this->eventStore->expects($this->never())->method('save');
         $this->amqpStreamConnection->expects($this->never())->method('publishEvents');
 
         $this->expectException(EnvelopeNameAlreadyExistsForUserException::class);
         $this->expectExceptionMessage(EnvelopeNameAlreadyExistsForUserException::MESSAGE);
+
+        $this->createEnvelopeCommandHandler->__invoke($createEnvelopeCommand);
+    }
+
+    public function testCreateEnvelopeWithSameUuidFailure(): void
+    {
+        $createEnvelopeInput = new CreateEnvelopeInput(
+            '0099c0ce-3b53-4318-ba7b-994e437a859b',
+            'test name',
+            '-200.00'
+        );
+        $createEnvelopeCommand = new CreateEnvelopeCommand(
+            $createEnvelopeInput->getUuid(),
+            'd26cc02e-99e7-428c-9d61-572dff3f84a7',
+            $createEnvelopeInput->getName(),
+            $createEnvelopeInput->getTargetBudget(),
+        );
+
+        $this->eventStore->expects($this->once())->method('load')->willReturn(
+            [
+                [
+                    'aggregate_id' => $createEnvelopeInput->getUuid(),
+                    'type' => EnvelopeCreatedEvent::class,
+                    'occured_on' => '2020-10-10T12:00:00Z',
+                    'payload' => json_encode([
+                        'name' => 'test1',
+                        'userId' => 'a871e446-ddcd-4e7a-9bf9-525bab84e566',
+                        'occurredOn' => '2024-12-07T22:03:35+00:00',
+                        'aggregateId' => $createEnvelopeInput->getUuid(),
+                        'targetBudget' => '20.00',
+                    ]),
+                ],
+            ],
+        );
+        $this->eventStore->expects($this->never())->method('save');
+        $this->amqpStreamConnection->expects($this->never())->method('publishEvents');
+
+        $this->expectException(EnvelopeAlreadyExistsException::class);
+        $this->expectExceptionMessage(EnvelopeAlreadyExistsException::MESSAGE);
 
         $this->createEnvelopeCommandHandler->__invoke($createEnvelopeCommand);
     }
