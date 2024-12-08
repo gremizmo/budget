@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/api/user/{uuid}', name: 'app_user_show', methods: ['GET'])]
+#[Route('/api/users/me', name: 'app_user_show', methods: ['GET'])]
 #[IsGranted('ROLE_USER')]
 class ShowUserController extends AbstractController
 {
@@ -24,13 +24,8 @@ class ShowUserController extends AbstractController
      * @throws \Exception
      */
     public function __invoke(
-        string $uuid,
         #[CurrentUser] UserInterface $currentUser
     ): JsonResponse {
-        if ($uuid !== $currentUser->getUuid()) {
-            throw new \Exception('An error occurred while getting a user in ShowUserController', Response::HTTP_FORBIDDEN);
-        }
-
         return $this->json($currentUser, Response::HTTP_OK);
     }
 }

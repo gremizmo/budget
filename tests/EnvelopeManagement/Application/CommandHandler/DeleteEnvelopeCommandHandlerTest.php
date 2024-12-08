@@ -66,17 +66,6 @@ class DeleteEnvelopeCommandHandlerTest extends TestCase
                 ],
                 [
                     'aggregate_id' => '10a33b8c-853a-4df8-8fc9-e8bb00b78da4',
-                    'type' => EnvelopeDebitedEvent::class,
-                    'occured_on' => '2020-10-10T12:00:00Z',
-                    'payload' => json_encode([
-                        'debitMoney' => '12.46',
-                        'userId' => 'a871e446-ddcd-4e7a-9bf9-525bab84e566',
-                        'occurredOn' => '2024-12-07T22:03:35+00:00',
-                        'aggregateId' => '10a33b8c-853a-4df8-8fc9-e8bb00b78da4',
-                    ]),
-                ],
-                [
-                    'aggregate_id' => '10a33b8c-853a-4df8-8fc9-e8bb00b78da4',
                     'type' => EnvelopeCreditedEvent::class,
                     'occured_on' => '2020-10-10T12:00:00Z',
                     'payload' => json_encode([
@@ -96,6 +85,17 @@ class DeleteEnvelopeCommandHandlerTest extends TestCase
                         'occurredOn' => '2024-12-07T22:03:35+00:00',
                         'aggregateId' => '10a33b8c-853a-4df8-8fc9-e8bb00b78da4',
                         'isDeleted' => true,
+                    ]),
+                ],
+                [
+                    'aggregate_id' => '10a33b8c-853a-4df8-8fc9-e8bb00b78da4',
+                    'type' => EnvelopeDebitedEvent::class,
+                    'occured_on' => '2020-10-10T12:00:00Z',
+                    'payload' => json_encode([
+                        'debitMoney' => '2.46',
+                        'userId' => 'a871e446-ddcd-4e7a-9bf9-525bab84e566',
+                        'occurredOn' => '2024-12-07T22:03:35+00:00',
+                        'aggregateId' => '10a33b8c-853a-4df8-8fc9-e8bb00b78da4',
                     ]),
                 ],
             ],

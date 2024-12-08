@@ -32,7 +32,7 @@ readonly class EnvelopeDebitedEventHandler
                 'created_at' => $envelope->getCreatedAt(),
                 'updated_at' => $event->occurredOn()->format('Y-m-d H:i:s'),
                 'current_budget' => (string) (
-                    floatval($envelope->getCurrentBudget()) + floatval($event->getDebitMoney())
+                    floatval($envelope->getCurrentBudget()) - floatval($event->getDebitMoney())
                 ),
                 'target_budget' => $envelope->getTargetBudget(),
                 'name' => $envelope->getName(),

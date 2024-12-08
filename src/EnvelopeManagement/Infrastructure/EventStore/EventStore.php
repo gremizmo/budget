@@ -22,7 +22,6 @@ class EventStore implements EventStoreInterface
      */
     public function load(string $uuid): array
     {
-        // Fetch events for the given aggregate ID
         $events = $this->connection->createQueryBuilder()
             ->select('*')
             ->from('event_store')

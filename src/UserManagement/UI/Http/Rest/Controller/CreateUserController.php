@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/api/user/new', name: 'app_user_new', methods: ['POST'])]
+#[Route('/api/users/new', name: 'app_user_new', methods: ['POST'])]
 class CreateUserController extends AbstractController
 {
     public function __construct(
