@@ -5,7 +5,6 @@ namespace App\EnvelopeManagement\Application\EventHandler;
 use App\EnvelopeManagement\Domain\Event\EnvelopeDeletedEvent;
 use App\EnvelopeManagement\Domain\Repository\EnvelopeCommandRepositoryInterface;
 use App\EnvelopeManagement\Domain\Repository\EnvelopeQueryRepositoryInterface;
-use App\EnvelopeManagement\Domain\View\Envelope;
 use App\EnvelopeManagement\Domain\View\EnvelopeInterface;
 
 readonly class EnvelopeDeletedEventHandler
@@ -26,19 +25,8 @@ readonly class EnvelopeDeletedEventHandler
             return;
         }
 
-        $viewModel = Envelope::create(
-            [
-                'uuid' => $event->getAggregateId(),
-                'created_at' => $envelope->getCreatedAt(),
-                'updated_at' => $event->occurredOn()->format('Y-m-d H:i:s'),
-                'current_budget' => $envelope->getCurrentBudget(),
-                'target_budget' => $envelope->getTargetBudget(),
-                'name' => $envelope->getName(),
-                'user_uuid' => $envelope->getUserUuid(),
-                'is_deleted' => $event->isDeleted(),
-            ]
-        );
-
-        $this->envelopeCommandRepository->save($viewModel);
+        $envelope->setUpdatedAt($event->occurredOn()->format('Y-m-d H:i:s'));
+        $envelope->setIsDeleted($event->isDeleted());
+        $this->envelopeCommandRepository->save($envelope);
     }
 }

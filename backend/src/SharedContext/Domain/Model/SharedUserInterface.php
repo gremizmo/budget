@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\SharedContext\Domain;
+namespace App\SharedContext\Domain\Model;
 
 use App\EnvelopeManagement\Domain\Aggregate\UserInterface;
 

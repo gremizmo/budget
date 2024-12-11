@@ -1,9 +1,9 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Adapter\\\\AMQPStreamConnectionInterface\\:\\:publishEvents\\(\\) has parameter \\$events with no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Adapter\\\\PublisherInterface\\:\\:publishEvents\\(\\) has parameter \\$events with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Domain/Adapter/AMQPStreamConnectionInterface.php
+			path: src/EnvelopeManagement/Domain/Adapter/PublisherInterface.php
 
 		-
 			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Aggregate\\\\Envelope\\:\\:getUncommittedEvents\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -96,16 +96,6 @@ parameters:
 			path: src/EnvelopeManagement/Domain/Event/EventInterface.php
 
 		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\EventStore\\\\EventStoreInterface\\:\\:load\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/EnvelopeManagement/Domain/EventStore/EventStoreInterface.php
-
-		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\EventStore\\\\EventStoreInterface\\:\\:save\\(\\) has parameter \\$events with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/EnvelopeManagement/Domain/EventStore/EventStoreInterface.php
-
-		-
 			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\View\\\\Envelope\\:\\:create\\(\\) has parameter \\$envelope with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/EnvelopeManagement/Domain/View/Envelope.php
@@ -116,19 +106,9 @@ parameters:
 			path: src/EnvelopeManagement/Domain/View/EnvelopeInterface.php
 
 		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Infrastructure\\\\Adapter\\\\AMQPStreamConnectionAdapter\\:\\:publishEvents\\(\\) has parameter \\$events with no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Infrastructure\\\\Adapter\\\\PublisherAdapter\\:\\:publishEvents\\(\\) has parameter \\$events with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Infrastructure/Adapter/AMQPStreamConnectionAdapter.php
-
-		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Infrastructure\\\\EventStore\\\\EventStore\\:\\:load\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/EnvelopeManagement/Infrastructure/EventStore/EventStore.php
-
-		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Infrastructure\\\\EventStore\\\\EventStore\\:\\:save\\(\\) has parameter \\$events with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/EnvelopeManagement/Infrastructure/EventStore/EventStore.php
+			path: src/EnvelopeManagement/Infrastructure/Adapter/PublisherAdapter.php
 
 		-
 			message: "#^Method App\\\\EnvelopeManagement\\\\Infrastructure\\\\Repository\\\\EnvelopeQueryRepository\\:\\:buildWhereClause\\(\\) has parameter \\$criteria with no value type specified in iterable type array\\.$#"
@@ -154,6 +134,46 @@ parameters:
 			message: "#^Method App\\\\EnvelopeManagement\\\\Infrastructure\\\\Repository\\\\EnvelopeQueryRepository\\:\\:mapToEnvelopeModel\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/EnvelopeManagement/Infrastructure/Repository/EnvelopeQueryRepository.php
+
+		-
+			message: "#^Method App\\\\SharedContext\\\\Domain\\\\Repository\\\\EventSourcedRepositoryInterface\\:\\:get\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/SharedContext/Domain/Repository/EventSourcedRepositoryInterface.php
+
+		-
+			message: "#^Method App\\\\SharedContext\\\\Domain\\\\Repository\\\\EventSourcedRepositoryInterface\\:\\:save\\(\\) has parameter \\$uncommittedEvents with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/SharedContext/Domain/Repository/EventSourcedRepositoryInterface.php
+
+		-
+			message: "#^Method App\\\\SharedContext\\\\Infrastructure\\\\Repository\\\\EventSourcedRepository\\:\\:get\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/SharedContext/Infrastructure/Repository/EventSourcedRepository.php
+
+		-
+			message: "#^Method App\\\\SharedContext\\\\Infrastructure\\\\Repository\\\\EventSourcedRepository\\:\\:save\\(\\) has parameter \\$uncommittedEvents with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/SharedContext/Infrastructure/Repository/EventSourcedRepository.php
+
+		-
+			message: "#^Method App\\\\SharedContext\\\\Lib\\\\EventStore\\:\\:load\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/SharedContext/Lib/EventStore.php
+
+		-
+			message: "#^Method App\\\\SharedContext\\\\Lib\\\\EventStore\\:\\:save\\(\\) has parameter \\$events with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/SharedContext/Lib/EventStore.php
+
+		-
+			message: "#^Method App\\\\SharedContext\\\\Lib\\\\EventStoreInterface\\:\\:load\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/SharedContext/Lib/EventStoreInterface.php
+
+		-
+			message: "#^Method App\\\\SharedContext\\\\Lib\\\\EventStoreInterface\\:\\:save\\(\\) has parameter \\$events with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/SharedContext/Lib/EventStoreInterface.php
 
 		-
 			message: "#^Parameter \\#1 \\$user of method App\\\\UserManagement\\\\Domain\\\\Adapter\\\\PasswordHasherInterface\\:\\:hash\\(\\) expects Symfony\\\\Component\\\\Security\\\\Core\\\\User\\\\PasswordAuthenticatedUserInterface, App\\\\UserManagement\\\\Domain\\\\Model\\\\UserInterface given\\.$#"

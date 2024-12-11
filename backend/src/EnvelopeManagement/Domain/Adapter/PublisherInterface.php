@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\EnvelopeManagement\Domain\Adapter;
 
-interface AMQPStreamConnectionInterface
+interface PublisherInterface
 {
     public function publishEvents(array $events): void;
 }

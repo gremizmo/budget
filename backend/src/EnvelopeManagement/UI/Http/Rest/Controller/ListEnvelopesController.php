@@ -7,7 +7,7 @@ namespace App\EnvelopeManagement\UI\Http\Rest\Controller;
 use App\EnvelopeManagement\Application\Query\ListEnvelopesQuery;
 use App\EnvelopeManagement\Domain\Adapter\QueryBusInterface;
 use App\EnvelopeManagement\UI\Http\Dto\ListEnvelopesInput;
-use App\SharedContext\Domain\SharedUserInterface;
+use App\SharedContext\Domain\Model\SharedUserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;

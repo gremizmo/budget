@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\UserManagement\Domain\Model;
 
-use App\SharedContext\Domain\SharedUserInterface;
+use App\SharedContext\Domain\Model\SharedUserInterface;
 
 interface UserInterface extends SharedUserInterface
 {

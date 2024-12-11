@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\EnvelopeManagement\Infrastructure\Adapter;
 
-use App\EnvelopeManagement\Domain\Adapter\AMQPStreamConnectionInterface;
+use App\EnvelopeManagement\Domain\Adapter\PublisherInterface;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 use PhpAmqpLib\Wire\AMQPTable;
 
-readonly class AMQPStreamConnectionAdapter implements AMQPStreamConnectionInterface
+readonly class PublisherAdapter implements PublisherInterface
 {
     private const DELIVERY_MODE_PERSISTENT = 2;
 

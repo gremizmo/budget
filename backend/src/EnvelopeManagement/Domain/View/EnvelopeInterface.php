@@ -21,4 +21,20 @@ interface EnvelopeInterface
     public function getUserUuid(): string;
 
     public function isDeleted(): bool;
+
+    public function setUuid(string $uuid): self;
+
+    public function setCreatedAt(string $createdAt): self;
+
+    public function setUpdatedAt(string $updatedAt): self;
+
+    public function setCurrentBudget(string $currentBudget): self;
+
+    public function setTargetBudget(string $targetBudget): self;
+
+    public function setName(string $name): self;
+
+    public function setUserUuid(string $userUuid): self;
+
+    public function setIsDeleted(bool $isDeleted): self;
 }
