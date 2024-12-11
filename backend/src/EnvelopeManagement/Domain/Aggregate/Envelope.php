@@ -21,7 +21,7 @@ use App\EnvelopeManagement\Domain\ValueObject\EnvelopeName;
 use App\EnvelopeManagement\Domain\ValueObject\EnvelopeTargetBudget;
 use App\EnvelopeManagement\Domain\ValueObject\UserId;
 
-class Envelope implements EnvelopeInterface
+final class Envelope implements EnvelopeInterface
 {
     private EnvelopeId $envelopeId;
     private UserId $userId;
@@ -82,18 +82,24 @@ class Envelope implements EnvelopeInterface
         return $aggregate;
     }
 
-    public function rename(EnvelopeName $name, UserId $userId, EnvelopeQueryRepositoryInterface $envelopeQueryRepository): void
-    {
+    public function rename(
+        EnvelopeName $name,
+        UserId $userId,
+        EnvelopeId $envelopeId,
+        EnvelopeQueryRepositoryInterface $envelopeQueryRepository,
+    ): void {
         $this->assertNotDeleted();
         $this->assertOwnership($userId);
 
-        if ($envelopeQueryRepository->findOneBy(
+        $envelope = $envelopeQueryRepository->findOneBy(
             [
                 'user_uuid' => $userId->__toString(),
                 'name' => $name->__toString(),
                 'is_deleted' => false,
             ],
-        )) {
+        );
+
+        if ($envelope && $envelope->getUuid() !== $envelopeId->__toString()) {
             throw new EnvelopeNameAlreadyExistsForUserException(EnvelopeNameAlreadyExistsForUserException::MESSAGE, 400);
         }
 
@@ -145,6 +151,16 @@ class Envelope implements EnvelopeInterface
 
         $this->applyEvent($event);
         $this->recordEvent($event);
+    }
+
+    public function getUncommittedEvents(): array
+    {
+        return $this->uncommittedEvents;
+    }
+
+    public function clearUncommitedEvent(): void
+    {
+        $this->uncommittedEvents = [];
     }
 
     private function applyEvent(EventInterface $event): void
@@ -215,10 +231,5 @@ class Envelope implements EnvelopeInterface
     private function recordEvent(EventInterface $event): void
     {
         $this->uncommittedEvents[] = $event;
-    }
-
-    public function getUncommittedEvents(): array
-    {
-        return $this->uncommittedEvents;
     }
 }

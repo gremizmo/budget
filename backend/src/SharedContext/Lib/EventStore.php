@@ -2,19 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\EnvelopeManagement\Infrastructure\EventStore;
+namespace App\SharedContext\Lib;
 
-use App\EnvelopeManagement\Domain\EventStore\EventStoreInterface;
+use App\EnvelopeManagement\Domain\Adapter\PublisherInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 
-class EventStore implements EventStoreInterface
+final readonly class EventStore implements EventStoreInterface
 {
-    private Connection $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private Connection $connection, private PublisherInterface $publisher)
     {
-        $this->connection = $connection;
     }
 
     /**
@@ -48,5 +45,7 @@ class EventStore implements EventStoreInterface
                 'occurred_on' => $event->occurredOn()->format('Y-m-d H:i:s'),
             ]);
         }
+
+        $this->publisher->publishEvents($events);
     }
 }

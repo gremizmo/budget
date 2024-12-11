@@ -2,7 +2,7 @@
 
 namespace App\EnvelopeManagement\Domain\View;
 
-readonly class Envelope implements EnvelopeInterface
+final class Envelope implements EnvelopeInterface
 {
     private string $uuid;
     private string $createdAt;
@@ -86,5 +86,61 @@ readonly class Envelope implements EnvelopeInterface
     public function isDeleted(): bool
     {
         return $this->isDeleted;
+    }
+
+    public function setUuid(string $uuid): self
+    {
+        $this->uuid = $uuid;
+
+        return $this;
+    }
+
+    public function setCreatedAt(string $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function setUpdatedAt(string $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function setCurrentBudget(string $currentBudget): self
+    {
+        $this->currentBudget = $currentBudget;
+
+        return $this;
+    }
+
+    public function setTargetBudget(string $targetBudget): self
+    {
+        $this->targetBudget = $targetBudget;
+
+        return $this;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function setUserUuid(string $userUuid): self
+    {
+        $this->userUuid = $userUuid;
+
+        return $this;
+    }
+
+    public function setIsDeleted(bool $isDeleted): self
+    {
+        $this->isDeleted = $isDeleted;
+
+        return $this;
     }
 }

@@ -6,34 +6,34 @@ namespace App\Tests\EnvelopeManagement\Application\CommandHandler;
 
 use App\EnvelopeManagement\Application\Command\CreateEnvelopeCommand;
 use App\EnvelopeManagement\Application\CommandHandler\CreateEnvelopeCommandHandler;
-use App\EnvelopeManagement\Domain\Adapter\AMQPStreamConnectionInterface;
+use App\EnvelopeManagement\Application\CommandHandler\EnvelopeAlreadyExistsException;
 use App\EnvelopeManagement\Domain\Event\EnvelopeCreatedEvent;
-use App\EnvelopeManagement\Domain\EventStore\EventStoreInterface;
-use App\EnvelopeManagement\Domain\Exception\EnvelopeAlreadyExistsException;
 use App\EnvelopeManagement\Domain\Exception\EnvelopeNameAlreadyExistsForUserException;
 use App\EnvelopeManagement\Domain\Exception\TargetBudgetException;
 use App\EnvelopeManagement\Domain\Repository\EnvelopeQueryRepositoryInterface;
 use App\EnvelopeManagement\Domain\View\Envelope;
 use App\EnvelopeManagement\UI\Http\Dto\CreateEnvelopeInput;
+use App\SharedContext\Infrastructure\Repository\EventSourcedRepository;
+use App\SharedContext\Lib\EventStoreInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class CreateEnvelopeCommandHandlerTest extends TestCase
 {
     private CreateEnvelopeCommandHandler $createEnvelopeCommandHandler;
-    private AMQPStreamConnectionInterface&MockObject $amqpStreamConnection;
+
     private EventStoreInterface&MockObject $eventStore;
+    private EventSourcedRepository $eventSourcedRepository;
     private EnvelopeQueryRepositoryInterface&MockObject $envelopeQueryRepository;
 
     protected function setUp(): void
     {
-        $this->amqpStreamConnection = $this->createMock(AMQPStreamConnectionInterface::class);
         $this->eventStore = $this->createMock(EventStoreInterface::class);
         $this->envelopeQueryRepository = $this->createMock(EnvelopeQueryRepositoryInterface::class);
+        $this->eventSourcedRepository = new EventSourcedRepository($this->eventStore);
 
         $this->createEnvelopeCommandHandler = new CreateEnvelopeCommandHandler(
-            $this->amqpStreamConnection,
-            $this->eventStore,
+            $this->eventSourcedRepository,
             $this->envelopeQueryRepository,
         );
     }
@@ -54,7 +54,6 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
 
         $this->eventStore->expects($this->once())->method('load')->willThrowException(new \RuntimeException());
         $this->eventStore->expects($this->once())->method('save');
-        $this->amqpStreamConnection->expects($this->once())->method('publishEvents');
 
         $this->createEnvelopeCommandHandler->__invoke($createEnvelopeCommand);
     }
@@ -75,7 +74,6 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
 
         $this->eventStore->expects($this->once())->method('load')->willThrowException(new \RuntimeException());
         $this->eventStore->expects($this->never())->method('save');
-        $this->amqpStreamConnection->expects($this->never())->method('publishEvents');
 
         $this->expectException(TargetBudgetException::class);
         $this->expectExceptionMessage('Target budget must be greater than 0.');
@@ -113,7 +111,6 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
         $this->eventStore->expects($this->once())->method('load')->willThrowException(new \RuntimeException());
         $this->envelopeQueryRepository->expects($this->once())->method('findOneBy')->willReturn($envelopeView);
         $this->eventStore->expects($this->never())->method('save');
-        $this->amqpStreamConnection->expects($this->never())->method('publishEvents');
 
         $this->expectException(EnvelopeNameAlreadyExistsForUserException::class);
         $this->expectExceptionMessage(EnvelopeNameAlreadyExistsForUserException::MESSAGE);
@@ -152,7 +149,6 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
             ],
         );
         $this->eventStore->expects($this->never())->method('save');
-        $this->amqpStreamConnection->expects($this->never())->method('publishEvents');
 
         $this->expectException(EnvelopeAlreadyExistsException::class);
         $this->expectExceptionMessage(EnvelopeAlreadyExistsException::MESSAGE);

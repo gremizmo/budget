@@ -5,17 +5,14 @@ declare(strict_types=1);
 namespace App\EnvelopeManagement\Application\CommandHandler;
 
 use App\EnvelopeManagement\Application\Command\CreateEnvelopeCommand;
-use App\EnvelopeManagement\Domain\Adapter\AMQPStreamConnectionInterface;
 use App\EnvelopeManagement\Domain\Aggregate\Envelope;
-use App\EnvelopeManagement\Domain\EventStore\EventStoreInterface;
-use App\EnvelopeManagement\Domain\Exception\EnvelopeAlreadyExistsException;
 use App\EnvelopeManagement\Domain\Repository\EnvelopeQueryRepositoryInterface;
+use App\SharedContext\Domain\Repository\EventSourcedRepositoryInterface;
 
-readonly class CreateEnvelopeCommandHandler
+final readonly class CreateEnvelopeCommandHandler
 {
     public function __construct(
-        private AMQPStreamConnectionInterface $amqpStreamConnection,
-        private EventStoreInterface $eventStore,
+        private EventSourcedRepositoryInterface $eventSourcedRepository,
         private EnvelopeQueryRepositoryInterface $envelopeQueryRepository,
     ) {
     }
@@ -23,7 +20,7 @@ readonly class CreateEnvelopeCommandHandler
     public function __invoke(CreateEnvelopeCommand $command): void
     {
         try {
-            $this->eventStore->load($command->getUuid());
+            $this->eventSourcedRepository->get($command->getUuid());
         } catch (\RuntimeException $exception) {
             $aggregate = Envelope::create(
                 $command->getUuid(),
@@ -32,9 +29,8 @@ readonly class CreateEnvelopeCommandHandler
                 $command->getName(),
                 $this->envelopeQueryRepository,
             );
-            $this->eventStore->save($aggregate->getUncommittedEvents());
-
-            $this->amqpStreamConnection->publishEvents($aggregate->getUncommittedEvents());
+            $this->eventSourcedRepository->save($aggregate->getUncommittedEvents());
+            $aggregate->clearUncommitedEvent();
 
             return;
         }

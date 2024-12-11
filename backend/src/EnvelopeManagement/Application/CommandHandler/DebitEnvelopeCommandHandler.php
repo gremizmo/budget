@@ -5,23 +5,21 @@ declare(strict_types=1);
 namespace App\EnvelopeManagement\Application\CommandHandler;
 
 use App\EnvelopeManagement\Application\Command\DebitEnvelopeCommand;
-use App\EnvelopeManagement\Domain\Adapter\AMQPStreamConnectionInterface;
 use App\EnvelopeManagement\Domain\Aggregate\Envelope;
-use App\EnvelopeManagement\Domain\EventStore\EventStoreInterface;
 use App\EnvelopeManagement\Domain\ValueObject\EnvelopeDebitMoney;
 use App\EnvelopeManagement\Domain\ValueObject\UserId;
+use App\SharedContext\Domain\Repository\EventSourcedRepositoryInterface;
 
 readonly class DebitEnvelopeCommandHandler
 {
     public function __construct(
-        private EventStoreInterface $eventStore,
-        private AMQPStreamConnectionInterface $amqpStreamConnection,
+        private EventSourcedRepositoryInterface $eventSourcedRepository,
     ) {
     }
 
     public function __invoke(DebitEnvelopeCommand $command): void
     {
-        $events = $this->eventStore->load($command->getUuid());
+        $events = $this->eventSourcedRepository->get($command->getUuid());
         $aggregate = Envelope::reconstituteFromEvents(array_map(fn ($event) => $event, $events));
         $aggregate->debit(
             EnvelopeDebitMoney::create(
@@ -29,7 +27,7 @@ readonly class DebitEnvelopeCommandHandler
             ),
             UserId::create($command->getUserUuid()),
         );
-        $this->eventStore->save($aggregate->getUncommittedEvents());
-        $this->amqpStreamConnection->publishEvents($aggregate->getUncommittedEvents());
+        $this->eventSourcedRepository->save($aggregate->getUncommittedEvents());
+        $aggregate->clearUncommitedEvent();
     }
 }

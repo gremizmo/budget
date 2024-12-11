@@ -6,29 +6,30 @@ namespace App\Tests\EnvelopeManagement\Application\CommandHandler;
 
 use App\EnvelopeManagement\Application\Command\DeleteEnvelopeCommand;
 use App\EnvelopeManagement\Application\CommandHandler\DeleteEnvelopeCommandHandler;
-use App\EnvelopeManagement\Domain\Adapter\AMQPStreamConnectionInterface;
 use App\EnvelopeManagement\Domain\Event\EnvelopeCreatedEvent;
 use App\EnvelopeManagement\Domain\Event\EnvelopeCreditedEvent;
 use App\EnvelopeManagement\Domain\Event\EnvelopeDebitedEvent;
 use App\EnvelopeManagement\Domain\Event\EnvelopeDeletedEvent;
 use App\EnvelopeManagement\Domain\Event\EnvelopeNamedEvent;
-use App\EnvelopeManagement\Domain\EventStore\EventStoreInterface;
+use App\SharedContext\Infrastructure\Repository\EventSourcedRepository;
+use App\SharedContext\Lib\EventStoreInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class DeleteEnvelopeCommandHandlerTest extends TestCase
 {
     private DeleteEnvelopeCommandHandler $deleteEnvelopeCommandHandler;
-    private AMQPStreamConnectionInterface&MockObject $amqpStreamConnection;
+
     private EventStoreInterface&MockObject $eventStore;
+
+    private EventSourcedRepository $eventSourcedRepository;
 
     protected function setUp(): void
     {
-        $this->amqpStreamConnection = $this->createMock(AMQPStreamConnectionInterface::class);
         $this->eventStore = $this->createMock(EventStoreInterface::class);
+        $this->eventSourcedRepository = new EventSourcedRepository($this->eventStore);
         $this->deleteEnvelopeCommandHandler = new DeleteEnvelopeCommandHandler(
-            $this->amqpStreamConnection,
-            $this->eventStore,
+            $this->eventSourcedRepository,
         );
     }
 
@@ -102,7 +103,6 @@ class DeleteEnvelopeCommandHandlerTest extends TestCase
         );
 
         $this->eventStore->expects($this->once())->method('save');
-        $this->amqpStreamConnection->expects($this->once())->method('publishEvents');
 
         $this->deleteEnvelopeCommandHandler->__invoke($deleteEnvelopeCommand);
     }

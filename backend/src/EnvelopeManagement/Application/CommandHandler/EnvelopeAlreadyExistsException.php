@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\EnvelopeManagement\Domain\Exception;
+namespace App\EnvelopeManagement\Application\CommandHandler;
 
 class EnvelopeAlreadyExistsException extends \LogicException
 {

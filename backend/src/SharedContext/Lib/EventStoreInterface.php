@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\EnvelopeManagement\Domain\EventStore;
+namespace App\SharedContext\Lib;
 
 interface EventStoreInterface
 {
