@@ -1,34 +1,37 @@
 
 ###> symfony/framework-bundle ###
-/.env
-/.env.local
-/.env.local.php
-/.env.*.local
-/config/secrets/prod/prod.decrypt.private.php
-/public/bundles/
-/var/
-/vendor/
+/backend/.env
+/backend/.env.local
+/backend/.env.local.php
+/backend/.env.*.local
+/backend/config/secrets/prod/prod.decrypt.private.php
+/backend/public/bundles/
+/backend/var/
+/backend/vendor/
 ###< symfony/framework-bundle ###
 
 ###> phpstan/phpstan ###
-phpstan.neon
+/backend/phpstan.neon
 ###< phpstan/phpstan ###
 
 ###> symfony/phpunit-bridge ###
-.phpunit.result.cache
-/phpunit.xml
-/coverage/
+/backend/.phpunit.result.cache
+/backend/phpunit.xml
+/backend/coverage/
 ###< phpunit/phpunit ###
 
 ###> friendsofphp/php-cs-fixer ###
-/.php-cs-fixer.php
-/.php-cs-fixer.cache
+/backend/.php-cs-fixer.php
+/backend/.php-cs-fixer.cache
 ###< friendsofphp/php-cs-fixer ###
-.idea
+/backend/.idea
 ###> lexik/jwt-authentication-bundle ###
-/config/jwt/*.pem
+backend/config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
 
 ###> next ###
 /frontend/.next
+/frontend/node_modules
 ###< next ###
+
+.idea
