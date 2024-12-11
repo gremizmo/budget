@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EnvelopeManagement\Application\Dto;
+namespace App\EnvelopeManagement\UI\Http\Dto;
 
 final readonly class ListEnvelopesInput implements ListEnvelopesInputInterface
 {

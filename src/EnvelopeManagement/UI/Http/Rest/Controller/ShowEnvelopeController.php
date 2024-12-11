@@ -14,9 +14,9 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/api/envelope/{uuid}', name: 'app_envelope_show', methods: ['GET'])]
+#[Route('/api/envelopes/{uuid}', name: 'app_envelope_show', methods: ['GET'])]
 #[IsGranted('ROLE_USER')]
-class ShowEnvelopeController extends AbstractController
+final class ShowEnvelopeController extends AbstractController
 {
     public function __construct(
         private readonly QueryBusInterface $queryBus,

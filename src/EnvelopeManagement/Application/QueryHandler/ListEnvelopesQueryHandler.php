@@ -22,7 +22,7 @@ readonly class ListEnvelopesQueryHandler
         return $this->envelopeQueryRepository->findBy(
             [
                 'user_uuid' => $listEnvelopesQuery->getUserUuid(),
-                'parent_uuid' => $listEnvelopesDto->getParentUuid(),
+                'is_deleted' => false,
             ],
             $listEnvelopesDto->getOrderBy(),
             $listEnvelopesDto->getLimit(),

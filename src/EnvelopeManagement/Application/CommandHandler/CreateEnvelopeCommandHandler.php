@@ -33,6 +33,7 @@ readonly class CreateEnvelopeCommandHandler
                 $this->envelopeQueryRepository,
             );
             $this->eventStore->save($aggregate->getUncommittedEvents());
+
             $this->amqpStreamConnection->publishEvents($aggregate->getUncommittedEvents());
 
             return;

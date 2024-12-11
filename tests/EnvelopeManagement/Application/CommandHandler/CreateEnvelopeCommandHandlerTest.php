@@ -6,7 +6,6 @@ namespace App\Tests\EnvelopeManagement\Application\CommandHandler;
 
 use App\EnvelopeManagement\Application\Command\CreateEnvelopeCommand;
 use App\EnvelopeManagement\Application\CommandHandler\CreateEnvelopeCommandHandler;
-use App\EnvelopeManagement\Application\Dto\CreateEnvelopeInput;
 use App\EnvelopeManagement\Domain\Adapter\AMQPStreamConnectionInterface;
 use App\EnvelopeManagement\Domain\Event\EnvelopeCreatedEvent;
 use App\EnvelopeManagement\Domain\EventStore\EventStoreInterface;
@@ -15,6 +14,7 @@ use App\EnvelopeManagement\Domain\Exception\EnvelopeNameAlreadyExistsForUserExce
 use App\EnvelopeManagement\Domain\Exception\TargetBudgetException;
 use App\EnvelopeManagement\Domain\Repository\EnvelopeQueryRepositoryInterface;
 use App\EnvelopeManagement\Domain\View\Envelope;
+use App\EnvelopeManagement\UI\Http\Dto\CreateEnvelopeInput;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
