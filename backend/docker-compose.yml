@@ -7,9 +7,6 @@ services:
     working_dir: /var/www/html
     volumes:
       - .:/var/www/html
-      - /var/www/html/vendor
-      - /var/www/html/node_modules
-      - /var/www/html/frontend
     environment:
       - APP_ENV=dev
       - APP_SECRET=${APP_SECRET_PASS}
@@ -55,22 +52,6 @@ services:
       - .:/var/www/html
     depends_on:
       - symfony
-    networks:
-      - my_network
-
-  frontend:
-    image: node:23
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: nextjs_frontend
-    working_dir: /usr/src/app
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend:/usr/src/app
-      - /usr/src/app/node_modules
-    command: sh -c "npm install && npm run dev"
     networks:
       - my_network
 

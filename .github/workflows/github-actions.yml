@@ -15,7 +15,7 @@ jobs:
           php-version: '8.3'
       - uses: actions/checkout@v4
       - name: Validate composer.json and composer.lock
-        run: composer validate --strict
+        run: cd backend && composer validate --strict
       - name: Cache Composer packages
         id: composer-cache
         uses: actions/cache@v3
@@ -25,10 +25,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-php-
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress
+        run: cd backend && composer install --prefer-dist --no-progress
       - name: Coding style
-        run: vendor/bin/php-cs-fixer fix --dry-run --diff --verbose
+        run: cd backend && vendor/bin/php-cs-fixer fix --dry-run --diff --verbose
       - name: Static analysis
-        run: vendor/bin/phpstan analyse --level=max
+        run: cd backend && vendor/bin/phpstan analyse --level=max
       - name: Unit tests
-        run: vendor/bin/phpunit --coverage-html coverage
+        run: cd backend && vendor/bin/phpunit --coverage-html coverage
