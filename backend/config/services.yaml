@@ -19,84 +19,84 @@ services:
             $user: '%env(RABBITMQ_USER)%'
             $password: '%env(RABBITMQ_PASSWORD)%'
 
-    App\EnvelopeManagement\Application\CommandHandler\CreateEnvelopeCommandHandler:
+    App\EnvelopeManagement\Application\Handlers\CommandHandlers\CreateEnvelopeCommandHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\EnvelopeManagement\Application\CommandHandler\NameEnvelopeCommandHandler:
+    App\EnvelopeManagement\Application\Handlers\CommandHandlers\NameEnvelopeCommandHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\EnvelopeManagement\Application\CommandHandler\CreditEnvelopeCommandHandler:
+    App\EnvelopeManagement\Application\Handlers\CommandHandlers\CreditEnvelopeCommandHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\EnvelopeManagement\Application\CommandHandler\DebitEnvelopeCommandHandler:
+    App\EnvelopeManagement\Application\Handlers\CommandHandlers\DebitEnvelopeCommandHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\EnvelopeManagement\Application\CommandHandler\DeleteEnvelopeCommandHandler:
+    App\EnvelopeManagement\Application\Handlers\CommandHandlers\DeleteEnvelopeCommandHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\EnvelopeManagement\Application\QueryHandler\ShowEnvelopeQueryHandler:
+    App\EnvelopeManagement\Application\Handlers\QueryHandlers\ShowEnvelopeQueryHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\EnvelopeManagement\Application\QueryHandler\ListEnvelopesQueryHandler:
+    App\EnvelopeManagement\Application\Handlers\QueryHandlers\ListEnvelopesQueryHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\EnvelopeManagement\Application\QueryHandler\GetEnvelopeByTitleQueryHandler:
+    App\EnvelopeManagement\Application\Handlers\QueryHandlers\GetEnvelopeByTitleQueryHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\EnvelopeManagement\Application\EventHandler\EnvelopeCreatedEventHandler:
+    App\EnvelopeManagement\ReadModels\Projections\EnvelopeCreatedProjection:
         tags: [ 'messenger.message_handler' ]
 
-    App\EnvelopeManagement\Application\EventHandler\EnvelopeNamedEventHandler:
+    App\EnvelopeManagement\ReadModels\Projections\EnvelopeNamedProjection:
         tags: [ 'messenger.message_handler' ]
 
-    App\EnvelopeManagement\Application\EventHandler\EnvelopeDebitedEventHandler:
+    App\EnvelopeManagement\ReadModels\Projections\EnvelopeDebitedProjection:
         tags: [ 'messenger.message_handler' ]
 
-    App\EnvelopeManagement\Application\EventHandler\EnvelopeCreditedEventHandler:
+    App\EnvelopeManagement\ReadModels\Projections\EnvelopeCreditedProjection:
         tags: [ 'messenger.message_handler' ]
 
-    App\EnvelopeManagement\Application\EventHandler\EnvelopeDeletedEventHandler:
+    App\EnvelopeManagement\ReadModels\Projections\EnvelopeDeletedProjection:
         tags: [ 'messenger.message_handler' ]
 
-    App\UserManagement\Application\CommandHandler\CreateUserCommandHandler:
+    App\UserManagement\Application\Handlers\CommandHandlers\CreateUserCommandHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\UserManagement\Application\CommandHandler\EditUserCommandHandler:
+    App\UserManagement\Application\Handlers\CommandHandlers\UpdateUserFirstnameCommandHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\UserManagement\Application\QueryHandler\ShowUserQueryHandler:
+    App\UserManagement\Application\Handlers\CommandHandlers\UpdateUserLastnameCommandHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\UserManagement\Application\QueryHandler\GetUserAlreadyExistsQueryHandler:
+    App\UserManagement\Application\Handlers\CommandHandlers\UpdateUserPasswordCommandHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\UserManagement\Application\CommandHandler\ChangeUserPasswordCommandHandler:
+    App\UserManagement\Application\Handlers\CommandHandlers\RequestUserPasswordResetCommandHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\UserManagement\Application\CommandHandler\RequestPasswordResetCommandHandler:
+    App\UserManagement\Application\Handlers\CommandHandlers\ResetUserPasswordCommandHandler:
         tags: [ 'messenger.message_handler' ]
 
-    App\UserManagement\Application\CommandHandler\ResetPasswordCommandHandler:
+    App\UserManagement\ReadModels\Projections\UserCreatedProjection:
         tags: [ 'messenger.message_handler' ]
 
-    App\UserManagement\Application\QueryHandler\GetUserByPasswordResetTokenQueryHandler:
+    App\UserManagement\ReadModels\Projections\UserFirstnameUpdatedProjection:
+        tags: [ 'messenger.message_handler' ]
+
+    App\UserManagement\ReadModels\Projections\UserLastnameUpdatedProjection:
+        tags: [ 'messenger.message_handler' ]
+
+    App\UserManagement\ReadModels\Projections\UserPasswordResetRequestedProjection:
+        tags: [ 'messenger.message_handler' ]
+
+    App\UserManagement\ReadModels\Projections\UserPasswordUpdatedProjection:
+        tags: [ 'messenger.message_handler' ]
+
+    App\UserManagement\ReadModels\Projections\UserPasswordResetProjection:
         tags: [ 'messenger.message_handler' ]
 
     Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface:
         alias: 'security.password_hasher'
 
-    App\UserManagement\Infrastructure\Repository\UserQueryRepository:
-        arguments:
-            $finder: '@fos_elastica.finder.user'
-
-    App\EnvelopeManagement\Infrastructure\EventListener\ExceptionListener:
+    App\SharedContext\Infrastructure\EventListener\ExceptionListener:
         tags:
             - { name: 'kernel.event_listener', event: 'kernel.exception' }
-    
-    App\UserManagement\Infrastructure\EventListener\ExceptionListener:
-        tags:
-            - { name: 'kernel.event_listener', event: 'kernel.exception' }
-
-    App\UserManagement\Domain\Factory\CreateUserFactory:
-        arguments:
-            $userClass: App\UserManagement\Infrastructure\Entity\User

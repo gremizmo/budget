@@ -30,11 +30,20 @@ export function useUser() {
   const createUser = async (userData: any) => {
     setError(null)
     try {
-      const user = await api.commands.createUser(userData)
-      setState(prev => ({ ...prev, user, isAuthenticated: true }))
+      await api.commands.createUser(userData)
       return true
     } catch (err) {
       setError('Failed to create user. Please try again.')
+      return false
+    }
+  }
+
+  const hasEnvelopes = async (): Promise<boolean> => {
+    try {
+      const envelopes = await api.envelopeQueries.listEnvelopes()
+      return envelopes.envelopes.length > 0
+    } catch (err) {
+      console.error('Error checking for envelopes:', err)
       return false
     }
   }
@@ -47,5 +56,7 @@ export function useUser() {
     signIn,
     signOut,
     createUser,
+    hasEnvelopes,
   }
 }
+

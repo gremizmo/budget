@@ -9,21 +9,35 @@ import { useTranslation } from '../hooks/useTranslation'
 export default function SignIn() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { signIn, isAuthenticated, loading, error } = useUser()
+  const { signIn, isAuthenticated, loading, error, hasEnvelopes } = useUser()
   const router = useRouter()
   const { t } = useTranslation()
 
   useEffect(() => {
-    if (isAuthenticated) {
-      router.push('/dashboard')
+    const checkAuthAndRedirect = async () => {
+      if (isAuthenticated) {
+        const userHasEnvelopes = await hasEnvelopes()
+        if (userHasEnvelopes) {
+          router.push('/dashboard')
+        } else {
+          router.push('/envelopes')
+        }
+      }
     }
-  }, [isAuthenticated, router])
+
+    checkAuthAndRedirect()
+  }, [isAuthenticated, router, hasEnvelopes])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const success = await signIn(email, password)
     if (success) {
-      router.push('/dashboard')
+      const userHasEnvelopes = await hasEnvelopes()
+      if (userHasEnvelopes) {
+        router.push('/dashboard')
+      } else {
+        router.push('/envelopes')
+      }
     }
   }
 

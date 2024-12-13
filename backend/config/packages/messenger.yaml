@@ -22,8 +22,14 @@ framework:
                         type: fanout
 
         routing:
-            'App\EnvelopeManagement\Domain\Event\EnvelopeCreatedEvent': async
-            'App\EnvelopeManagement\Domain\Event\EnvelopeNamedEvent': async
+            'App\EnvelopeManagement\Domain\Events\EnvelopeCreatedEvent': async
+            'App\EnvelopeManagement\Domain\Events\EnvelopeNamedEvent': async
+            'App\EnvelopeManagement\Domain\Events\EnvelopeDebitedEvent': async
+            'App\EnvelopeManagement\Domain\Events\EnvelopeDeletedEvent': async
+            'App\EnvelopeManagement\Domain\Events\EnvelopeCreditedEvent': async
+            'App\UserManagement\Domain\Events\UserCreatedEvent': async
+            'App\UserManagement\Domain\Events\UserFirstnameUpdatedEvent': async
+            'App\UserManagement\Domain\Events\UserLastnameUpdatedEvent': async
 
 # when@test:
 #    framework:

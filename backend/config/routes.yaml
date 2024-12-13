@@ -1,13 +1,13 @@
 controllers_rest_envelope:
     resource:
-        path: ../src/EnvelopeManagement/UI/Http/Rest/Controller/
-        namespace: App\EnvelopeManagement\UI\Http\Rest\Controller
+        path: ../src/EnvelopeManagement/Presentation/HTTP/Controllers/
+        namespace: App\EnvelopeManagement\Presentation\HTTP\Controllers
     type: attribute
 
 controllers_rest_user:
     resource:
-        path: ../src/UserManagement/UI/Http/Rest/Controller/
-        namespace: App\UserManagement\UI\Http\Rest\Controller
+        path: ../src/UserManagement/Presentation/HTTP/Controllers/
+        namespace: App\UserManagement\Presentation\HTTP\Controllers
     type: attribute
 
 api_login_check:

@@ -4,7 +4,7 @@
                     xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping
         https://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
 
-    <class name="App\EnvelopeManagement\Application\Dto\NameEnvelopeInput">
+    <class name="App\EnvelopeManagement\Presentation\HTTP\DTOs\NameEnvelopeInput">
         <property name="name">
             <constraint name="NotBlank"/>
             <constraint name="Length">

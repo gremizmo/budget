@@ -16,17 +16,23 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
         mappings:
-            User:
+            UserView:
                 type: attribute
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/UserManagement/Infrastructure/Entity'
-                prefix: 'App\UserManagement\Infrastructure\Entity'
-                alias: User
+                dir: '%kernel.project_dir%/src/UserManagement/ReadModels/Views'
+                prefix: 'App\UserManagement\ReadModels\Views'
+                alias: UserView
+            EnvelopeView:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/EnvelopeManagement/ReadModels/Views'
+                prefix: 'App\EnvelopeManagement\ReadModels\Views'
+                alias: EnvelopeView
             RefreshToken:
                 type: attribute
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/UserManagement/Infrastructure/Entity'
-                prefix: 'App\UserManagement\Infrastructure\Entity'
+                dir: '%kernel.project_dir%/src/UserManagement/Infrastructure/Entities'
+                prefix: 'App\UserManagement\Infrastructure\Entities'
                 alias: RefreshToken
         controller_resolver:
             auto_mapping: false
