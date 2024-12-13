@@ -1,211 +1,421 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Adapter\\\\PublisherInterface\\:\\:publishEvents\\(\\) has parameter \\$events with no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Application\\\\Queries\\\\ListEnvelopesQuery\\:\\:__construct\\(\\) has parameter \\$orderBy with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Domain/Adapter/PublisherInterface.php
+			path: src/EnvelopeManagement/Application/Queries/ListEnvelopesQuery.php
 
 		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Aggregate\\\\Envelope\\:\\:getUncommittedEvents\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Application\\\\Queries\\\\ListEnvelopesQuery\\:\\:getOrderBy\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Domain/Aggregate/Envelope.php
+			path: src/EnvelopeManagement/Application/Queries/ListEnvelopesQuery.php
 
 		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Aggregate\\\\Envelope\\:\\:reconstituteFromEvents\\(\\) has parameter \\$events with no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Aggregates\\\\Envelope\\:\\:getUncommittedEvents\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Domain/Aggregate/Envelope.php
+			path: src/EnvelopeManagement/Domain/Aggregates/Envelope.php
 
 		-
-			message: "#^Property App\\\\EnvelopeManagement\\\\Domain\\\\Aggregate\\\\Envelope\\:\\:\\$createdAt is never read, only written\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Aggregates\\\\Envelope\\:\\:reconstituteFromEvents\\(\\) has parameter \\$events with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Domain/Aggregate/Envelope.php
+			path: src/EnvelopeManagement/Domain/Aggregates/Envelope.php
 
 		-
-			message: "#^Property App\\\\EnvelopeManagement\\\\Domain\\\\Aggregate\\\\Envelope\\:\\:\\$name is never read, only written\\.$#"
+			message: "#^Property App\\\\EnvelopeManagement\\\\Domain\\\\Aggregates\\\\Envelope\\:\\:\\$createdAt is never read, only written\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Domain/Aggregate/Envelope.php
+			path: src/EnvelopeManagement/Domain/Aggregates/Envelope.php
 
 		-
-			message: "#^Property App\\\\EnvelopeManagement\\\\Domain\\\\Aggregate\\\\Envelope\\:\\:\\$uncommittedEvents type has no value type specified in iterable type array\\.$#"
+			message: "#^Property App\\\\EnvelopeManagement\\\\Domain\\\\Aggregates\\\\Envelope\\:\\:\\$name is never read, only written\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Domain/Aggregate/Envelope.php
+			path: src/EnvelopeManagement/Domain/Aggregates/Envelope.php
 
 		-
-			message: "#^Property App\\\\EnvelopeManagement\\\\Domain\\\\Aggregate\\\\Envelope\\:\\:\\$updatedAt is never read, only written\\.$#"
+			message: "#^Property App\\\\EnvelopeManagement\\\\Domain\\\\Aggregates\\\\Envelope\\:\\:\\$uncommittedEvents type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Domain/Aggregate/Envelope.php
+			path: src/EnvelopeManagement/Domain/Aggregates/Envelope.php
 
 		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Event\\\\EnvelopeCreatedEvent\\:\\:fromArray\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			message: "#^Property App\\\\EnvelopeManagement\\\\Domain\\\\Aggregates\\\\Envelope\\:\\:\\$updatedAt is never read, only written\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Domain/Event/EnvelopeCreatedEvent.php
+			path: src/EnvelopeManagement/Domain/Aggregates/Envelope.php
 
 		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Event\\\\EnvelopeCreatedEvent\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Events\\\\EnvelopeCreatedEvent\\:\\:fromArray\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Domain/Event/EnvelopeCreatedEvent.php
+			path: src/EnvelopeManagement/Domain/Events/EnvelopeCreatedEvent.php
 
 		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Event\\\\EnvelopeCreditedEvent\\:\\:fromArray\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Events\\\\EnvelopeCreatedEvent\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Domain/Event/EnvelopeCreditedEvent.php
+			path: src/EnvelopeManagement/Domain/Events/EnvelopeCreatedEvent.php
 
 		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Event\\\\EnvelopeCreditedEvent\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Events\\\\EnvelopeCreditedEvent\\:\\:fromArray\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Domain/Event/EnvelopeCreditedEvent.php
+			path: src/EnvelopeManagement/Domain/Events/EnvelopeCreditedEvent.php
 
 		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Event\\\\EnvelopeDebitedEvent\\:\\:fromArray\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Events\\\\EnvelopeCreditedEvent\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Domain/Event/EnvelopeDebitedEvent.php
+			path: src/EnvelopeManagement/Domain/Events/EnvelopeCreditedEvent.php
 
 		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Event\\\\EnvelopeDebitedEvent\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Events\\\\EnvelopeDebitedEvent\\:\\:fromArray\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Domain/Event/EnvelopeDebitedEvent.php
+			path: src/EnvelopeManagement/Domain/Events/EnvelopeDebitedEvent.php
 
 		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Event\\\\EnvelopeDeletedEvent\\:\\:fromArray\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Events\\\\EnvelopeDebitedEvent\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Domain/Event/EnvelopeDeletedEvent.php
+			path: src/EnvelopeManagement/Domain/Events/EnvelopeDebitedEvent.php
 
 		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Event\\\\EnvelopeDeletedEvent\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Events\\\\EnvelopeDeletedEvent\\:\\:fromArray\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Domain/Event/EnvelopeDeletedEvent.php
+			path: src/EnvelopeManagement/Domain/Events/EnvelopeDeletedEvent.php
 
 		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Event\\\\EnvelopeNamedEvent\\:\\:fromArray\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Events\\\\EnvelopeDeletedEvent\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Domain/Event/EnvelopeNamedEvent.php
+			path: src/EnvelopeManagement/Domain/Events/EnvelopeDeletedEvent.php
 
 		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Event\\\\EnvelopeNamedEvent\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Events\\\\EnvelopeNamedEvent\\:\\:fromArray\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Domain/Event/EnvelopeNamedEvent.php
+			path: src/EnvelopeManagement/Domain/Events/EnvelopeNamedEvent.php
 
 		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Event\\\\EventInterface\\:\\:fromArray\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Events\\\\EnvelopeNamedEvent\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Domain/Event/EventInterface.php
+			path: src/EnvelopeManagement/Domain/Events/EnvelopeNamedEvent.php
 
 		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Event\\\\EventInterface\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Ports\\\\Inbound\\\\EnvelopeRepositoryInterface\\:\\:findBy\\(\\) has parameter \\$criteria with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Domain/Event/EventInterface.php
+			path: src/EnvelopeManagement/Domain/Ports/Inbound/EnvelopeRepositoryInterface.php
 
 		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\View\\\\Envelope\\:\\:create\\(\\) has parameter \\$envelope with no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Ports\\\\Inbound\\\\EnvelopeRepositoryInterface\\:\\:findBy\\(\\) has parameter \\$orderBy with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Domain/View/Envelope.php
+			path: src/EnvelopeManagement/Domain/Ports/Inbound/EnvelopeRepositoryInterface.php
 
 		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\View\\\\EnvelopeInterface\\:\\:create\\(\\) has parameter \\$envelope with no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Ports\\\\Inbound\\\\EnvelopeRepositoryInterface\\:\\:findOneBy\\(\\) has parameter \\$criteria with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Domain/View/EnvelopeInterface.php
+			path: src/EnvelopeManagement/Domain/Ports/Inbound/EnvelopeRepositoryInterface.php
 
 		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Infrastructure\\\\Adapter\\\\PublisherAdapter\\:\\:publishEvents\\(\\) has parameter \\$events with no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Ports\\\\Inbound\\\\EnvelopeRepositoryInterface\\:\\:findOneBy\\(\\) has parameter \\$orderBy with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Infrastructure/Adapter/PublisherAdapter.php
+			path: src/EnvelopeManagement/Domain/Ports/Inbound/EnvelopeRepositoryInterface.php
 
 		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Infrastructure\\\\Repository\\\\EnvelopeQueryRepository\\:\\:buildWhereClause\\(\\) has parameter \\$criteria with no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Domain\\\\Ports\\\\Outbound\\\\PublisherInterface\\:\\:publishEvents\\(\\) has parameter \\$events with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Infrastructure/Repository/EnvelopeQueryRepository.php
+			path: src/EnvelopeManagement/Domain/Ports/Outbound/PublisherInterface.php
 
 		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Infrastructure\\\\Repository\\\\EnvelopeQueryRepository\\:\\:filterCriteria\\(\\) has parameter \\$criteria with no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Infrastructure\\\\Adapters\\\\PublisherAdapter\\:\\:publishEvents\\(\\) has parameter \\$events with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Infrastructure/Repository/EnvelopeQueryRepository.php
+			path: src/EnvelopeManagement/Infrastructure/Adapters/PublisherAdapter.php
 
 		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Infrastructure\\\\Repository\\\\EnvelopeQueryRepository\\:\\:filterCriteria\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Infrastructure\\\\Persistence\\\\Repositories\\\\EnvelopeRepository\\:\\:buildWhereClause\\(\\) has parameter \\$criteria with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Infrastructure/Repository/EnvelopeQueryRepository.php
+			path: src/EnvelopeManagement/Infrastructure/Persistence/Repositories/EnvelopeRepository.php
 
 		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Infrastructure\\\\Repository\\\\EnvelopeQueryRepository\\:\\:findOneBy\\(\\) has parameter \\$orderBy with no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Infrastructure\\\\Persistence\\\\Repositories\\\\EnvelopeRepository\\:\\:filterCriteria\\(\\) has parameter \\$criteria with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Infrastructure/Repository/EnvelopeQueryRepository.php
+			path: src/EnvelopeManagement/Infrastructure/Persistence/Repositories/EnvelopeRepository.php
 
 		-
-			message: "#^Method App\\\\EnvelopeManagement\\\\Infrastructure\\\\Repository\\\\EnvelopeQueryRepository\\:\\:mapToEnvelopeModel\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Infrastructure\\\\Persistence\\\\Repositories\\\\EnvelopeRepository\\:\\:filterCriteria\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/EnvelopeManagement/Infrastructure/Repository/EnvelopeQueryRepository.php
+			path: src/EnvelopeManagement/Infrastructure/Persistence/Repositories/EnvelopeRepository.php
 
 		-
-			message: "#^Method App\\\\SharedContext\\\\Domain\\\\Repository\\\\EventSourcedRepositoryInterface\\:\\:get\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Infrastructure\\\\Persistence\\\\Repositories\\\\EnvelopeRepository\\:\\:findBy\\(\\) has parameter \\$criteria with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/SharedContext/Domain/Repository/EventSourcedRepositoryInterface.php
+			path: src/EnvelopeManagement/Infrastructure/Persistence/Repositories/EnvelopeRepository.php
 
 		-
-			message: "#^Method App\\\\SharedContext\\\\Domain\\\\Repository\\\\EventSourcedRepositoryInterface\\:\\:save\\(\\) has parameter \\$uncommittedEvents with no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Infrastructure\\\\Persistence\\\\Repositories\\\\EnvelopeRepository\\:\\:findBy\\(\\) has parameter \\$orderBy with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/SharedContext/Domain/Repository/EventSourcedRepositoryInterface.php
+			path: src/EnvelopeManagement/Infrastructure/Persistence/Repositories/EnvelopeRepository.php
 
 		-
-			message: "#^Method App\\\\SharedContext\\\\Infrastructure\\\\Repository\\\\EventSourcedRepository\\:\\:get\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Infrastructure\\\\Persistence\\\\Repositories\\\\EnvelopeRepository\\:\\:findOneBy\\(\\) has parameter \\$criteria with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/SharedContext/Infrastructure/Repository/EventSourcedRepository.php
+			path: src/EnvelopeManagement/Infrastructure/Persistence/Repositories/EnvelopeRepository.php
 
 		-
-			message: "#^Method App\\\\SharedContext\\\\Infrastructure\\\\Repository\\\\EventSourcedRepository\\:\\:save\\(\\) has parameter \\$uncommittedEvents with no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Infrastructure\\\\Persistence\\\\Repositories\\\\EnvelopeRepository\\:\\:findOneBy\\(\\) has parameter \\$orderBy with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/SharedContext/Infrastructure/Repository/EventSourcedRepository.php
+			path: src/EnvelopeManagement/Infrastructure/Persistence/Repositories/EnvelopeRepository.php
 
 		-
-			message: "#^Method App\\\\SharedContext\\\\Lib\\\\EventStore\\:\\:load\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\Infrastructure\\\\Persistence\\\\Repositories\\\\EnvelopeRepository\\:\\:mapToEnvelopeView\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/SharedContext/Lib/EventStore.php
+			path: src/EnvelopeManagement/Infrastructure/Persistence/Repositories/EnvelopeRepository.php
 
 		-
-			message: "#^Method App\\\\SharedContext\\\\Lib\\\\EventStore\\:\\:save\\(\\) has parameter \\$events with no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\ReadModels\\\\Views\\\\EnvelopeView\\:\\:createFromRepository\\(\\) has parameter \\$envelope with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/SharedContext/Lib/EventStore.php
+			path: src/EnvelopeManagement/ReadModels/Views/EnvelopeView.php
 
 		-
-			message: "#^Method App\\\\SharedContext\\\\Lib\\\\EventStoreInterface\\:\\:load\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\EnvelopeManagement\\\\ReadModels\\\\Views\\\\EnvelopeViewInterface\\:\\:createFromRepository\\(\\) has parameter \\$envelope with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/SharedContext/Lib/EventStoreInterface.php
+			path: src/EnvelopeManagement/ReadModels/Views/EnvelopeViewInterface.php
 
 		-
-			message: "#^Method App\\\\SharedContext\\\\Lib\\\\EventStoreInterface\\:\\:save\\(\\) has parameter \\$events with no value type specified in iterable type array\\.$#"
+			message: "#^Method App\\\\SharedContext\\\\Domain\\\\Ports\\\\Inbound\\\\EventInterface\\:\\:fromArray\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/SharedContext/Lib/EventStoreInterface.php
+			path: src/SharedContext/Domain/Ports/Inbound/EventInterface.php
 
 		-
-			message: "#^Parameter \\#1 \\$user of method App\\\\UserManagement\\\\Domain\\\\Adapter\\\\PasswordHasherInterface\\:\\:hash\\(\\) expects Symfony\\\\Component\\\\Security\\\\Core\\\\User\\\\PasswordAuthenticatedUserInterface, App\\\\UserManagement\\\\Domain\\\\Model\\\\UserInterface given\\.$#"
+			message: "#^Method App\\\\SharedContext\\\\Domain\\\\Ports\\\\Inbound\\\\EventInterface\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/UserManagement/Application/CommandHandler/ChangeUserPasswordCommandHandler.php
+			path: src/SharedContext/Domain/Ports/Inbound/EventInterface.php
 
 		-
-			message: "#^Parameter \\#1 \\$user of method App\\\\UserManagement\\\\Domain\\\\Adapter\\\\PasswordHasherInterface\\:\\:verify\\(\\) expects Symfony\\\\Component\\\\Security\\\\Core\\\\User\\\\PasswordAuthenticatedUserInterface, App\\\\UserManagement\\\\Domain\\\\Model\\\\UserInterface given\\.$#"
+			message: "#^Method App\\\\SharedContext\\\\Domain\\\\Ports\\\\Inbound\\\\EventSourcedRepositoryInterface\\:\\:get\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/UserManagement/Application/CommandHandler/ChangeUserPasswordCommandHandler.php
+			path: src/SharedContext/Domain/Ports/Inbound/EventSourcedRepositoryInterface.php
 
 		-
-			message: "#^Parameter \\#1 \\$user of method App\\\\UserManagement\\\\Domain\\\\Adapter\\\\PasswordHasherInterface\\:\\:hash\\(\\) expects Symfony\\\\Component\\\\Security\\\\Core\\\\User\\\\PasswordAuthenticatedUserInterface, App\\\\UserManagement\\\\Domain\\\\Model\\\\UserInterface given\\.$#"
+			message: "#^Method App\\\\SharedContext\\\\Domain\\\\Ports\\\\Inbound\\\\EventSourcedRepositoryInterface\\:\\:save\\(\\) has parameter \\$uncommittedEvents with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/UserManagement/Application/CommandHandler/ResetPasswordCommandHandler.php
+			path: src/SharedContext/Domain/Ports/Inbound/EventSourcedRepositoryInterface.php
 
 		-
-			message: "#^Call to an undefined method object\\:\\:setUuid\\(\\)\\.$#"
+			message: "#^Method App\\\\SharedContext\\\\EventStore\\\\EventStore\\:\\:load\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/UserManagement/Domain/Factory/CreateUserFactory.php
+			path: src/SharedContext/EventStore/EventStore.php
 
 		-
-			message: "#^Parameter \\#1 \\$user of method App\\\\UserManagement\\\\Domain\\\\Adapter\\\\PasswordHasherInterface\\:\\:hash\\(\\) expects Symfony\\\\Component\\\\Security\\\\Core\\\\User\\\\PasswordAuthenticatedUserInterface, object given\\.$#"
+			message: "#^Method App\\\\SharedContext\\\\EventStore\\\\EventStore\\:\\:save\\(\\) has parameter \\$events with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/UserManagement/Domain/Factory/CreateUserFactory.php
+			path: src/SharedContext/EventStore/EventStore.php
 
 		-
-			message: "#^Property App\\\\Tests\\\\EnvelopeManagement\\\\Application\\\\QueryHandler\\\\ListEnvelopesQueryHandlerTest\\:\\:\\$queryBus is never read, only written\\.$#"
+			message: "#^Method App\\\\SharedContext\\\\EventStore\\\\EventStoreInterface\\:\\:load\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: tests/EnvelopeManagement/Application/QueryHandler/ListEnvelopesQueryHandlerTest.php
+			path: src/SharedContext/EventStore/EventStoreInterface.php
 
 		-
-			message: "#^Property App\\\\Tests\\\\EnvelopeManagement\\\\Application\\\\QueryHandler\\\\ShowEnvelopeQueryHandlerTest\\:\\:\\$queryBus is never read, only written\\.$#"
+			message: "#^Method App\\\\SharedContext\\\\EventStore\\\\EventStoreInterface\\:\\:save\\(\\) has parameter \\$events with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: tests/EnvelopeManagement/Application/QueryHandler/ShowEnvelopeQueryHandlerTest.php
+			path: src/SharedContext/EventStore/EventStoreInterface.php
+
+		-
+			message: "#^Method App\\\\SharedContext\\\\Infrastructure\\\\Persistence\\\\Repositories\\\\EventSourcedRepository\\:\\:get\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/SharedContext/Infrastructure/Persistence/Repositories/EventSourcedRepository.php
+
+		-
+			message: "#^Method App\\\\SharedContext\\\\Infrastructure\\\\Persistence\\\\Repositories\\\\EventSourcedRepository\\:\\:save\\(\\) has parameter \\$uncommittedEvents with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/SharedContext/Infrastructure/Persistence/Repositories/EventSourcedRepository.php
+
+		-
+			message: "#^Call to an undefined method App\\\\UserManagement\\\\Domain\\\\Ports\\\\Inbound\\\\UserRepositoryInterface\\:\\:findOneBy\\(\\)\\.$#"
+			count: 1
+			path: src/UserManagement/Application/Handlers/CommandHandlers/RequestUserPasswordResetCommandHandler.php
+
+		-
+			message: "#^Call to an undefined method App\\\\UserManagement\\\\Domain\\\\Ports\\\\Inbound\\\\UserRepositoryInterface\\:\\:findOneBy\\(\\)\\.$#"
+			count: 1
+			path: src/UserManagement/Application/Handlers/CommandHandlers/ResetUserPasswordCommandHandler.php
+
+		-
+			message: "#^Parameter \\#1 \\$user of method App\\\\UserManagement\\\\Domain\\\\Ports\\\\Outbound\\\\PasswordHasherInterface\\:\\:hash\\(\\) expects Symfony\\\\Component\\\\Security\\\\Core\\\\User\\\\PasswordAuthenticatedUserInterface, App\\\\UserManagement\\\\Domain\\\\Ports\\\\Inbound\\\\UserViewInterface given\\.$#"
+			count: 1
+			path: src/UserManagement/Application/Handlers/CommandHandlers/ResetUserPasswordCommandHandler.php
+
+		-
+			message: "#^Call to an undefined method App\\\\UserManagement\\\\Domain\\\\Ports\\\\Inbound\\\\UserRepositoryInterface\\:\\:findOneBy\\(\\)\\.$#"
+			count: 1
+			path: src/UserManagement/Application/Handlers/CommandHandlers/UpdateUserPasswordCommandHandler.php
+
+		-
+			message: "#^Call to an undefined method App\\\\UserManagement\\\\Domain\\\\Ports\\\\Inbound\\\\UserRepositoryInterface\\:\\:findOneBy\\(\\)\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Aggregates/User.php
+
+		-
+			message: "#^Method App\\\\UserManagement\\\\Domain\\\\Aggregates\\\\User\\:\\:getUncommittedEvents\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Aggregates/User.php
+
+		-
+			message: "#^Method App\\\\UserManagement\\\\Domain\\\\Aggregates\\\\User\\:\\:reconstituteFromEvents\\(\\) has parameter \\$events with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Aggregates/User.php
+
+		-
+			message: "#^Property App\\\\UserManagement\\\\Domain\\\\Aggregates\\\\User\\:\\:\\$consentDate is never read, only written\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Aggregates/User.php
+
+		-
+			message: "#^Property App\\\\UserManagement\\\\Domain\\\\Aggregates\\\\User\\:\\:\\$consentGiven is never read, only written\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Aggregates/User.php
+
+		-
+			message: "#^Property App\\\\UserManagement\\\\Domain\\\\Aggregates\\\\User\\:\\:\\$createdAt is never read, only written\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Aggregates/User.php
+
+		-
+			message: "#^Property App\\\\UserManagement\\\\Domain\\\\Aggregates\\\\User\\:\\:\\$email is never read, only written\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Aggregates/User.php
+
+		-
+			message: "#^Property App\\\\UserManagement\\\\Domain\\\\Aggregates\\\\User\\:\\:\\$firstname is never read, only written\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Aggregates/User.php
+
+		-
+			message: "#^Property App\\\\UserManagement\\\\Domain\\\\Aggregates\\\\User\\:\\:\\$lastname is never read, only written\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Aggregates/User.php
+
+		-
+			message: "#^Property App\\\\UserManagement\\\\Domain\\\\Aggregates\\\\User\\:\\:\\$password is never read, only written\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Aggregates/User.php
+
+		-
+			message: "#^Property App\\\\UserManagement\\\\Domain\\\\Aggregates\\\\User\\:\\:\\$passwordResetToken is never read, only written\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Aggregates/User.php
+
+		-
+			message: "#^Property App\\\\UserManagement\\\\Domain\\\\Aggregates\\\\User\\:\\:\\$roles type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Aggregates/User.php
+
+		-
+			message: "#^Property App\\\\UserManagement\\\\Domain\\\\Aggregates\\\\User\\:\\:\\$uncommittedEvents type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Aggregates/User.php
+
+		-
+			message: "#^Property App\\\\UserManagement\\\\Domain\\\\Aggregates\\\\User\\:\\:\\$updatedAt is never read, only written\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Aggregates/User.php
+
+		-
+			message: "#^Method App\\\\UserManagement\\\\Domain\\\\Events\\\\UserCreatedEvent\\:\\:__construct\\(\\) has parameter \\$roles with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Events/UserCreatedEvent.php
+
+		-
+			message: "#^Method App\\\\UserManagement\\\\Domain\\\\Events\\\\UserCreatedEvent\\:\\:fromArray\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Events/UserCreatedEvent.php
+
+		-
+			message: "#^Method App\\\\UserManagement\\\\Domain\\\\Events\\\\UserCreatedEvent\\:\\:getRoles\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Events/UserCreatedEvent.php
+
+		-
+			message: "#^Method App\\\\UserManagement\\\\Domain\\\\Events\\\\UserCreatedEvent\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Events/UserCreatedEvent.php
+
+		-
+			message: "#^Property App\\\\UserManagement\\\\Domain\\\\Events\\\\UserCreatedEvent\\:\\:\\$roles type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Events/UserCreatedEvent.php
+
+		-
+			message: "#^Method App\\\\UserManagement\\\\Domain\\\\Events\\\\UserFirstnameUpdatedEvent\\:\\:fromArray\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Events/UserFirstnameUpdatedEvent.php
+
+		-
+			message: "#^Method App\\\\UserManagement\\\\Domain\\\\Events\\\\UserFirstnameUpdatedEvent\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Events/UserFirstnameUpdatedEvent.php
+
+		-
+			message: "#^Method App\\\\UserManagement\\\\Domain\\\\Events\\\\UserLastnameUpdatedEvent\\:\\:fromArray\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Events/UserLastnameUpdatedEvent.php
+
+		-
+			message: "#^Method App\\\\UserManagement\\\\Domain\\\\Events\\\\UserLastnameUpdatedEvent\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Events/UserLastnameUpdatedEvent.php
+
+		-
+			message: "#^Method App\\\\UserManagement\\\\Domain\\\\Events\\\\UserPasswordResetEvent\\:\\:fromArray\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Events/UserPasswordResetEvent.php
+
+		-
+			message: "#^Method App\\\\UserManagement\\\\Domain\\\\Events\\\\UserPasswordResetEvent\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Events/UserPasswordResetEvent.php
+
+		-
+			message: "#^Method App\\\\UserManagement\\\\Domain\\\\Events\\\\UserPasswordResetRequestedEvent\\:\\:fromArray\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Events/UserPasswordResetRequestedEvent.php
+
+		-
+			message: "#^Method App\\\\UserManagement\\\\Domain\\\\Events\\\\UserPasswordResetRequestedEvent\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Events/UserPasswordResetRequestedEvent.php
+
+		-
+			message: "#^Method App\\\\UserManagement\\\\Domain\\\\Events\\\\UserPasswordUpdatedEvent\\:\\:fromArray\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Events/UserPasswordUpdatedEvent.php
+
+		-
+			message: "#^Method App\\\\UserManagement\\\\Domain\\\\Events\\\\UserPasswordUpdatedEvent\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/UserManagement/Domain/Events/UserPasswordUpdatedEvent.php
+
+		-
+			message: "#^Call to an undefined method App\\\\UserManagement\\\\Domain\\\\Ports\\\\Inbound\\\\UserRepositoryInterface\\:\\:findOneBy\\(\\)\\.$#"
+			count: 1
+			path: src/UserManagement/ReadModels/Projections/UserFirstnameUpdatedProjection.php
+
+		-
+			message: "#^Call to an undefined method App\\\\UserManagement\\\\Domain\\\\Ports\\\\Inbound\\\\UserRepositoryInterface\\:\\:findOneBy\\(\\)\\.$#"
+			count: 1
+			path: src/UserManagement/ReadModels/Projections/UserLastnameUpdatedProjection.php
+
+		-
+			message: "#^Call to an undefined method App\\\\UserManagement\\\\Domain\\\\Ports\\\\Inbound\\\\UserRepositoryInterface\\:\\:findOneBy\\(\\)\\.$#"
+			count: 1
+			path: src/UserManagement/ReadModels/Projections/UserPasswordResetProjection.php
+
+		-
+			message: "#^Call to an undefined method App\\\\UserManagement\\\\Domain\\\\Ports\\\\Inbound\\\\UserRepositoryInterface\\:\\:findOneBy\\(\\)\\.$#"
+			count: 1
+			path: src/UserManagement/ReadModels/Projections/UserPasswordResetRequestedProjection.php
+
+		-
+			message: "#^Call to an undefined method App\\\\UserManagement\\\\Domain\\\\Ports\\\\Inbound\\\\UserRepositoryInterface\\:\\:findOneBy\\(\\)\\.$#"
+			count: 1
+			path: src/UserManagement/ReadModels/Projections/UserPasswordUpdatedProjection.php
+
+		-
+			message: "#^Property App\\\\Tests\\\\EnvelopeManagement\\\\Application\\\\Handlers\\\\QueryHandlers\\\\ListEnvelopesQueryHandlerTest\\:\\:\\$queryBus is never read, only written\\.$#"
+			count: 1
+			path: tests/EnvelopeManagement/Application/Handlers/QueryHandlers/ListEnvelopesQueryHandlerTest.php
+
+		-
+			message: "#^Property App\\\\Tests\\\\EnvelopeManagement\\\\Application\\\\Handlers\\\\QueryHandlers\\\\ShowEnvelopeQueryHandlerTest\\:\\:\\$queryBus is never read, only written\\.$#"
+			count: 1
+			path: tests/EnvelopeManagement/Application/Handlers/QueryHandlers/ShowEnvelopeQueryHandlerTest.php

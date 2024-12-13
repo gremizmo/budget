@@ -49,6 +49,7 @@ export const translations = {
             passwordMismatch: "Passwords don't match",
             consentPart1: "I agree to the",
             termsAndConditions: "terms and conditions",
+            successMessage: "Sign up successful! Redirecting to sign in page...",
         },
         signin: {
             title: "Sign In",
@@ -124,9 +125,12 @@ export const translations = {
         },
         dashboard: {
             title: "Dashboard",
+            welcome: "Welcome !",
             loading: "Loading envelopes...",
             error: "Error loading envelopes: {error}",
-            noEnvelopes: "No envelopes found. Create some to see your budget chart!",
+            noEnvelopes: "No envelopes found.",
+            create: "Create",
+            toSeeChart: "some to see your budget chart!",
             currentBudget: "Current Budget",
             targetBudget: "Target Budget",
         },
@@ -193,6 +197,7 @@ export const translations = {
             passwordMismatch: "Les mots de passe ne correspondent pas",
             consentPart1: "J'accepte les",
             termsAndConditions: "conditions générales d'utilisation",
+            successMessage: "Inscription réussie ! Redirection vers la page de connexion...",
         },
         signin: {
             title: "Se connecter",
@@ -268,11 +273,14 @@ export const translations = {
         },
         dashboard: {
             title: "Tableau de bord",
+            welcome: "Bienvenue !",
             loading: "Chargement des enveloppes...",
             error: "Erreur lors du chargement des enveloppes : {error}",
-            noEnvelopes: "Aucune enveloppe trouvée. Créez-en pour voir votre graphique budgétaire !",
+            noEnvelopes: "Aucune enveloppe trouvée.",
+            create: "Créez",
+            toSeeChart: "pour voir votre graphique budgétaire !",
             currentBudget: "Budget actuel",
-            targetBudget: "Budget cible"
+            targetBudget: "Budget cible",
         },
         common: {
             loading: "Chargement...",

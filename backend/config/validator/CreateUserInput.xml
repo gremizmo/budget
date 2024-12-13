@@ -4,7 +4,7 @@
                     xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping
         https://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
 
-    <class name="App\UserManagement\Application\Dto\CreateUserInput">
+    <class name="App\UserManagement\Presentation\HTTP\DTOs\CreateUserInput">
         <property name="email">
             <constraint name="NotBlank"/>
             <constraint name="Email">

@@ -34,9 +34,6 @@ migration-apply:
 jwt-generate-key:
 	docker exec -it my_symfony_app bin/console lexik:jwt:generate-keypair
 
-create-migration:
-	docker exec -it my_symfony_app bin/console make:migration
-
 # Testing and code quality commands
 phpunit:
 	docker exec -it my_symfony_app bin/phpunit tests/
@@ -45,14 +42,10 @@ phpunit-coverage:
 	docker exec -it my_symfony_app ./vendor/bin/phpunit --coverage-html coverage
 
 phpstan:
-	docker exec -it my_symfony_app ./vendor/bin/phpstan analyse --level=max
+	docker exec -it my_symfony_app ./vendor/bin/phpstan analyse --level=max --generate-baseline
 
 rector:
 	docker exec -it my_symfony_app ./vendor/bin/rector process
 
 cs-fixer:
 	docker exec -it my_symfony_app ./vendor/bin/php-cs-fixer fix
-
-# Elastica commands
-elastica-populate:
-	docker exec -it my_symfony_app php bin/console fos:elastica:populate

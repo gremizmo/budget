@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     curl \
+    supervisor \
     && docker-php-ext-install \
         intl \
         pdo_mysql \
@@ -28,10 +29,14 @@ RUN curl -sS https://get.symfony.com/cli/installer | bash && \
 RUN curl -sL https://github.com/mailhog/MailHog/releases/download/v1.0.1/MailHog_linux_amd64 -o /usr/local/bin/mailhog && \
     chmod +x /usr/local/bin/mailhog
 
+# Copy Supervisor configuration
+COPY ./supervisord.conf /etc/supervisor/supervisord.conf
+
+# Copy the application files
 COPY . .
 
 EXPOSE 9000
 
 ENV XDEBUG_MODE=coverage
 
-CMD ["php-fpm"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]

@@ -23,7 +23,17 @@ async function fetchWithAuth(endpoint: string, options: RequestInit = {}) {
 
 export const api = {
   commands: {
-    createUser: (userData: any) => fetchWithAuth('/users/new', { method: 'POST', body: JSON.stringify(userData) }),
+    createUser: (userData: any) => fetchWithAuth('/users/new', {
+      method: 'POST',
+      body: JSON.stringify({
+        uuid: userData.uuid,
+        firstname: userData.firstname,
+        lastname: userData.lastname,
+        email: userData.email,
+        password: userData.password,
+        consentGiven: userData.consentGiven
+      })
+    }),
     editUser: (userId: string, userData: any) => fetchWithAuth(`/users/${userId}`, { method: 'PUT', body: JSON.stringify(userData) }),
     changePassword: (userId: string, oldPassword: string, newPassword: string) => fetchWithAuth(`/users/${userId}/change-password`, { method: 'POST', body: JSON.stringify({ oldPassword, newPassword }) }),
   },

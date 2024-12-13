@@ -88,8 +88,3 @@ This project is a Symfony-based web application designed to manage users and env
     make rector
     make cs-fixer
     ```
-
-- **Populate Elastica indices**:
-    ```sh
-    make elastica-populate
-    ```
