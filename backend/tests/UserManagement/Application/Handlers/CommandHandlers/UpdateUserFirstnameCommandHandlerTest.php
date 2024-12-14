@@ -19,6 +19,7 @@ class UpdateUserFirstnameCommandHandlerTest extends TestCase
     private EventSourcedRepository $eventSourcedRepository;
     private UpdateUserFirstnameCommandHandler $handler;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->eventStore = $this->createMock(EventStoreInterface::class);

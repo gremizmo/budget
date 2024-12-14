@@ -24,6 +24,7 @@ class DeleteEnvelopeCommandHandlerTest extends TestCase
 
     private EventSourcedRepository $eventSourcedRepository;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->eventStore = $this->createMock(EventStoreInterface::class);

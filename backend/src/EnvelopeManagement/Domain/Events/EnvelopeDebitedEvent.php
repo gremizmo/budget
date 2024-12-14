@@ -17,6 +17,7 @@ final class EnvelopeDebitedEvent implements EventInterface
         $this->occurredOn = new \DateTimeImmutable();
     }
 
+    #[\Override]
     public function getAggregateId(): string
     {
         return $this->aggregateId;
@@ -27,11 +28,13 @@ final class EnvelopeDebitedEvent implements EventInterface
         return $this->debitMoney;
     }
 
+    #[\Override]
     public function occurredOn(): \DateTimeImmutable
     {
         return $this->occurredOn;
     }
 
+    #[\Override]
     public function toArray(): array
     {
         return [
@@ -41,6 +44,7 @@ final class EnvelopeDebitedEvent implements EventInterface
         ];
     }
 
+    #[\Override]
     public static function fromArray(array $data): self
     {
         $event = new self($data['aggregateId'], $data['debitMoney']);

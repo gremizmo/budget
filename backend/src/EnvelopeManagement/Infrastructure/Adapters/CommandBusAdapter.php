@@ -18,6 +18,7 @@ final readonly class CommandBusAdapter implements CommandBusInterface
     /**
      * @throws ExceptionInterface
      */
+    #[\Override]
     public function execute(CommandInterface $command): void
     {
         $this->messageBus->dispatch($command);

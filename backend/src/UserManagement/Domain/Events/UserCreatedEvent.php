@@ -35,6 +35,7 @@ final class UserCreatedEvent implements EventInterface
         $this->occurredOn = new \DateTimeImmutable();
     }
 
+    #[\Override]
     public function getAggregateId(): string
     {
         return $this->aggregateId;
@@ -70,11 +71,13 @@ final class UserCreatedEvent implements EventInterface
         return $this->isConsentGiven;
     }
 
+    #[\Override]
     public function occurredOn(): \DateTimeImmutable
     {
         return $this->occurredOn;
     }
 
+    #[\Override]
     public function toArray(): array
     {
         return [
@@ -89,6 +92,7 @@ final class UserCreatedEvent implements EventInterface
         ];
     }
 
+    #[\Override]
     public static function fromArray(array $data): self
     {
         $event = new self(

@@ -15,11 +15,13 @@ final readonly class PasswordHasherAdapter implements PasswordHasherInterface
         $this->passwordHasher = $passwordHasher;
     }
 
+    #[\Override]
     public function hash(PasswordAuthenticatedUserInterface $user, string $password): string
     {
         return $this->passwordHasher->hashPassword($user, $password);
     }
 
+    #[\Override]
     public function verify(PasswordAuthenticatedUserInterface $user, string $plainPassword): bool
     {
         return $this->passwordHasher->isPasswordValid($user, $plainPassword);

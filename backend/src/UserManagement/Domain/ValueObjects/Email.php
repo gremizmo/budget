@@ -18,6 +18,7 @@ final readonly class Email
         return new self($email);
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->email;

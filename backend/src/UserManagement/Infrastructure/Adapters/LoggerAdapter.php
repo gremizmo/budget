@@ -13,16 +13,19 @@ final readonly class LoggerAdapter implements LoggerInterface
     {
     }
 
+    #[\Override]
     public function info(string $message, array $context = []): void
     {
         $this->psrLogger->info($message, $context);
     }
 
+    #[\Override]
     public function warning(string $message, array $context = []): void
     {
         $this->psrLogger->warning($message, $context);
     }
 
+    #[\Override]
     public function error(string $message, array $context = []): void
     {
         $this->psrLogger->error($message, $context);

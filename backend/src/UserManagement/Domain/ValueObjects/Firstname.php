@@ -20,6 +20,7 @@ final readonly class Firstname
         return new self($name);
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->name;

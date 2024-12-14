@@ -4,7 +4,7 @@ namespace App\UserManagement\Domain\Exceptions;
 
 final class UserOldPasswordIsIncorrectException extends \Exception
 {
-    public const MESSAGE = 'User old password is incorrect';
+    public const string MESSAGE = 'User old password is incorrect';
 
     public function __construct(
         string $message,

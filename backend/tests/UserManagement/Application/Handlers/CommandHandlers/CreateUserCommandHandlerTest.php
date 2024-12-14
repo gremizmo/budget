@@ -22,6 +22,7 @@ class CreateUserCommandHandlerTest extends TestCase
     private EventSourcedRepository $eventSourcedRepository;
     private CreateUserCommandHandler $handler;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->eventStore = $this->createMock(EventStoreInterface::class);

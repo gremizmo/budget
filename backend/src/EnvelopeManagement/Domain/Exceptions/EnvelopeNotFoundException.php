@@ -6,7 +6,7 @@ namespace App\EnvelopeManagement\Domain\Exceptions;
 
 final class EnvelopeNotFoundException extends \Exception
 {
-    public const MESSAGE = 'Envelope not found';
+    public const string MESSAGE = 'Envelope not found';
 
     public function __construct(
         string $message,

@@ -68,11 +68,13 @@ final class UserView implements UserViewInterface, UserInterface, PasswordAuthen
         $this->consentDate = new \DateTimeImmutable();
     }
 
+    #[\Override]
     public function getId(): int
     {
         return $this->id;
     }
 
+    #[\Override]
     public function setId(int $id): self
     {
         $this->id = $id;
@@ -80,11 +82,13 @@ final class UserView implements UserViewInterface, UserInterface, PasswordAuthen
         return $this;
     }
 
+    #[\Override]
     public function getUuid(): string
     {
         return $this->uuid;
     }
 
+    #[\Override]
     public function setUuid(string $uuid): self
     {
         $this->uuid = $uuid;
@@ -92,11 +96,13 @@ final class UserView implements UserViewInterface, UserInterface, PasswordAuthen
         return $this;
     }
 
+    #[\Override]
     public function getEmail(): string
     {
         return $this->email;
     }
 
+    #[\Override]
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -104,11 +110,13 @@ final class UserView implements UserViewInterface, UserInterface, PasswordAuthen
         return $this;
     }
 
+    #[\Override]
     public function getPassword(): string
     {
         return $this->password;
     }
 
+    #[\Override]
     public function setPassword(string $password): self
     {
         $this->password = $password;
@@ -116,11 +124,13 @@ final class UserView implements UserViewInterface, UserInterface, PasswordAuthen
         return $this;
     }
 
+    #[\Override]
     public function getFirstname(): string
     {
         return $this->firstname;
     }
 
+    #[\Override]
     public function setFirstname(string $firstname): self
     {
         $this->firstname = $firstname;
@@ -128,11 +138,13 @@ final class UserView implements UserViewInterface, UserInterface, PasswordAuthen
         return $this;
     }
 
+    #[\Override]
     public function getLastname(): string
     {
         return $this->lastname;
     }
 
+    #[\Override]
     public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
@@ -140,11 +152,13 @@ final class UserView implements UserViewInterface, UserInterface, PasswordAuthen
         return $this;
     }
 
+    #[\Override]
     public function isConsentGiven(): bool
     {
         return $this->consentGiven;
     }
 
+    #[\Override]
     public function setConsentGiven(bool $consentGiven): self
     {
         $this->consentGiven = $consentGiven;
@@ -152,6 +166,7 @@ final class UserView implements UserViewInterface, UserInterface, PasswordAuthen
         return $this;
     }
 
+    #[\Override]
     public function getConsentDate(): \DateTimeImmutable
     {
         return $this->consentDate;
@@ -160,6 +175,7 @@ final class UserView implements UserViewInterface, UserInterface, PasswordAuthen
     /**
      * @return array<string>
      */
+    #[\Override]
     public function getRoles(): array
     {
         return $this->roles;
@@ -168,6 +184,7 @@ final class UserView implements UserViewInterface, UserInterface, PasswordAuthen
     /**
      * @param array<string> $roles
      */
+    #[\Override]
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -175,6 +192,7 @@ final class UserView implements UserViewInterface, UserInterface, PasswordAuthen
         return $this;
     }
 
+    #[\Override]
     public function setConsentDate(\DateTimeImmutable $consentDate): self
     {
         $this->consentDate = $consentDate;
@@ -182,11 +200,13 @@ final class UserView implements UserViewInterface, UserInterface, PasswordAuthen
         return $this;
     }
 
+    #[\Override]
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
 
+    #[\Override]
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
@@ -194,11 +214,13 @@ final class UserView implements UserViewInterface, UserInterface, PasswordAuthen
         return $this;
     }
 
+    #[\Override]
     public function getUpdatedAt(): \DateTime
     {
         return $this->updatedAt;
     }
 
+    #[\Override]
     public function setUpdatedAt(\DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
@@ -206,20 +228,24 @@ final class UserView implements UserViewInterface, UserInterface, PasswordAuthen
         return $this;
     }
 
+    #[\Override]
     public function eraseCredentials(): void
     {
     }
 
+    #[\Override]
     public function getUserIdentifier(): string
     {
         return $this->email;
     }
 
+    #[\Override]
     public function getPasswordResetToken(): ?string
     {
         return $this->passwordResetToken;
     }
 
+    #[\Override]
     public function setPasswordResetToken(?string $passwordResetToken): self
     {
         $this->passwordResetToken = $passwordResetToken;
@@ -227,11 +253,13 @@ final class UserView implements UserViewInterface, UserInterface, PasswordAuthen
         return $this;
     }
 
+    #[\Override]
     public function getPasswordResetTokenExpiry(): ?\DateTimeImmutable
     {
         return $this->passwordResetTokenExpiry;
     }
 
+    #[\Override]
     public function setPasswordResetTokenExpiry(?\DateTimeImmutable $passwordResetTokenExpiry): self
     {
         $this->passwordResetTokenExpiry = $passwordResetTokenExpiry;

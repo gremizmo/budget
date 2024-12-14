@@ -6,7 +6,7 @@ namespace App\EnvelopeManagement\Domain\Exceptions;
 
 final class EnvelopeNameAlreadyExistsForUserException extends \LogicException
 {
-    public const MESSAGE = 'Envelope with this name already exists';
+    public const string MESSAGE = 'Envelope with this name already exists';
 
     public function __construct(
         string $message,

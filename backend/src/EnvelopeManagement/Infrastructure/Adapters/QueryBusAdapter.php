@@ -19,6 +19,7 @@ final readonly class QueryBusAdapter implements QueryBusInterface
     /**
      * @throws ExceptionInterface
      */
+    #[\Override]
     public function query(QueryInterface $query): mixed
     {
         return $this->messageBus->dispatch($query)->last(HandledStamp::class)?->getResult();

@@ -11,12 +11,13 @@ use PhpAmqpLib\Wire\AMQPTable;
 
 final readonly class PublisherAdapter implements PublisherInterface
 {
-    private const DELIVERY_MODE_PERSISTENT = 2;
+    private const int DELIVERY_MODE_PERSISTENT = 2;
 
     public function __construct(private AMQPStreamConnection $amqpsStreamConnection)
     {
     }
 
+    #[\Override]
     public function publishEvents(array $events): void
     {
         $channel = $this->amqpsStreamConnection->channel();

@@ -17,6 +17,7 @@ final readonly class EventStore implements EventStoreInterface
     /**
      * @throws Exception
      */
+    #[\Override]
     public function load(string $uuid): array
     {
         $events = $this->connection->createQueryBuilder()
@@ -35,6 +36,7 @@ final readonly class EventStore implements EventStoreInterface
         return $events;
     }
 
+    #[\Override]
     public function save(array $events): void
     {
         foreach ($events as $event) {

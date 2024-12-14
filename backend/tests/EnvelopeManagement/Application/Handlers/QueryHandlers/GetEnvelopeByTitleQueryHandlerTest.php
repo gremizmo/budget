@@ -16,6 +16,7 @@ class GetEnvelopeByTitleQueryHandlerTest extends TestCase
     private GetEnvelopeByTitleQueryHandler $getEnvelopeByTitleQueryHandler;
     private EnvelopeRepositoryInterface&MockObject $envelopeRepository;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->envelopeRepository = $this->createMock(EnvelopeRepositoryInterface::class);

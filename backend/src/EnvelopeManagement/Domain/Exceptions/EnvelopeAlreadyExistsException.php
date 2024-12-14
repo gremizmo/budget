@@ -6,7 +6,7 @@ namespace App\EnvelopeManagement\Domain\Exceptions;
 
 final class EnvelopeAlreadyExistsException extends \LogicException
 {
-    public const MESSAGE = 'Envelope already exists';
+    public const string MESSAGE = 'Envelope already exists';
 
     public function __construct(
         string $message,

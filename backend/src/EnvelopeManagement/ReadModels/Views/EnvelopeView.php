@@ -44,6 +44,7 @@ final class EnvelopeView implements EnvelopeViewInterface
         $this->updatedAt = new \DateTime();
     }
 
+    #[\Override]
     public static function createFromRepository(array $envelope): self
     {
         return (new self())->setCurrentBudget($envelope['current_budget'])
@@ -70,11 +71,13 @@ final class EnvelopeView implements EnvelopeViewInterface
         return $this;
     }
 
+    #[\Override]
     public function getUuid(): string
     {
         return $this->uuid;
     }
 
+    #[\Override]
     public function setUuid(string $uuid): self
     {
         $this->uuid = $uuid;
@@ -82,11 +85,13 @@ final class EnvelopeView implements EnvelopeViewInterface
         return $this;
     }
 
+    #[\Override]
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
 
+    #[\Override]
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
@@ -94,11 +99,13 @@ final class EnvelopeView implements EnvelopeViewInterface
         return $this;
     }
 
+    #[\Override]
     public function getUpdatedAt(): \DateTime
     {
         return $this->updatedAt;
     }
 
+    #[\Override]
     public function setUpdatedAt(\DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
@@ -106,11 +113,13 @@ final class EnvelopeView implements EnvelopeViewInterface
         return $this;
     }
 
+    #[\Override]
     public function getTargetBudget(): string
     {
         return $this->targetBudget;
     }
 
+    #[\Override]
     public function setTargetBudget(string $targetBudget): self
     {
         $this->targetBudget = $targetBudget;
@@ -118,11 +127,13 @@ final class EnvelopeView implements EnvelopeViewInterface
         return $this;
     }
 
+    #[\Override]
     public function getCurrentBudget(): string
     {
         return $this->currentBudget;
     }
 
+    #[\Override]
     public function setCurrentBudget(string $currentBudget): self
     {
         $this->currentBudget = $currentBudget;
@@ -130,11 +141,13 @@ final class EnvelopeView implements EnvelopeViewInterface
         return $this;
     }
 
+    #[\Override]
     public function getName(): string
     {
         return $this->name;
     }
 
+    #[\Override]
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -142,11 +155,13 @@ final class EnvelopeView implements EnvelopeViewInterface
         return $this;
     }
 
+    #[\Override]
     public function getUserUuid(): string
     {
         return $this->userUuid;
     }
 
+    #[\Override]
     public function setUserUuid(string $userUuid): self
     {
         $this->userUuid = $userUuid;
@@ -154,11 +169,13 @@ final class EnvelopeView implements EnvelopeViewInterface
         return $this;
     }
 
+    #[\Override]
     public function isDeleted(): bool
     {
         return $this->isDeleted;
     }
 
+    #[\Override]
     public function setIsDeleted(bool $isDeleted): self
     {
         $this->isDeleted = $isDeleted;

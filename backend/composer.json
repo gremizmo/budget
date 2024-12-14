@@ -6,7 +6,7 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "beberlei/assert": "^3.3",
@@ -90,7 +90,7 @@
         }
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.59",
+        "friendsofphp/php-cs-fixer": "^3.65",
         "phpstan/phpstan": "^1.11",
         "phpunit/phpunit": "^9.5",
         "rector/rector": "^1.2",

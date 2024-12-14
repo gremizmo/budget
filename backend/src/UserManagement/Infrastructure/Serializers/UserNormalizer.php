@@ -24,6 +24,7 @@ final readonly class UserNormalizer implements NormalizerInterface
      *
      * @throws ExceptionInterface
      */
+    #[\Override]
     public function normalize($object, ?string $format = null, array $context = []): array
     {
         $context['ignored_attributes'] = ['envelopes', 'passwordResetToken', 'passwordResetTokenExpiry'];
@@ -45,6 +46,7 @@ final readonly class UserNormalizer implements NormalizerInterface
     /**
      * @param array<int, string[]> $context
      */
+    #[\Override]
     public function supportsNormalization($data, ?string $format = null, array $context = []): bool
     {
         return $data instanceof UserView;
@@ -53,6 +55,7 @@ final readonly class UserNormalizer implements NormalizerInterface
     /**
      * @return true[]
      */
+    #[\Override]
     public function getSupportedTypes(?string $format): array
     {
         return [
