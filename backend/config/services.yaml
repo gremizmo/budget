@@ -76,6 +76,9 @@ services:
     App\UserManagement\Application\Handlers\CommandHandlers\ResetUserPasswordCommandHandler:
         tags: [ 'messenger.message_handler' ]
 
+    App\UserManagement\Application\Handlers\CommandHandlers\LogoutUserCommandHandler:
+        tags: [ 'messenger.message_handler' ]
+
     App\UserManagement\ReadModels\Projections\UserCreatedProjection:
         tags: [ 'messenger.message_handler' ]
 

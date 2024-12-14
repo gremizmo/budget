@@ -19,6 +19,7 @@ class ShowEnvelopeQueryHandlerTest extends TestCase
     private QueryBusInterface&MockObject $queryBus;
     private EnvelopeRepositoryInterface&MockObject $envelopeRepository;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->envelopeRepository = $this->createMock(EnvelopeRepositoryInterface::class);

@@ -23,12 +23,14 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
         parent::__construct($registry, UserView::class);
     }
 
+    #[\Override]
     public function save(UserViewInterface $user): void
     {
         $this->em->persist($user);
         $this->em->flush();
     }
 
+    #[\Override]
     public function delete(UserViewInterface $user): void
     {
         $this->em->remove($user);

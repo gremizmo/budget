@@ -30,6 +30,7 @@ final readonly class UserId
         return $userId->__toString() === $this->uuid;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->uuid;

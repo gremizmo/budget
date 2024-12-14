@@ -6,7 +6,7 @@ namespace App\UserManagement\Domain\Exceptions;
 
 final class UserAlreadyExistsException extends \LogicException
 {
-    public const MESSAGE = 'User already exists';
+    public const string MESSAGE = 'User already exists';
 
     public function __construct(
         string $message,

@@ -19,6 +19,7 @@ final readonly class MailerAdapter implements MailerInterface
     ) {
     }
 
+    #[\Override]
     public function sendPasswordResetEmail(UserViewInterface $user, string $token): void
     {
         $passwordResetUrl = $this->generatePasswordResetUrl($token);

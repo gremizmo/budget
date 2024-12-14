@@ -19,6 +19,7 @@ final readonly class Password
         return new self($password);
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->password;

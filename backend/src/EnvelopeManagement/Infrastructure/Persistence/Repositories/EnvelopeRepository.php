@@ -24,6 +24,7 @@ final class EnvelopeRepository implements EnvelopeRepositoryInterface
     /**
      * @throws Exception
      */
+    #[\Override]
     public function save(EnvelopeViewInterface $envelope): void
     {
         $this->connection->executeStatement('
@@ -51,6 +52,7 @@ final class EnvelopeRepository implements EnvelopeRepositoryInterface
     /**
      * @throws Exception
      */
+    #[\Override]
     public function delete(EnvelopeViewInterface $envelope): void
     {
         $this->connection->delete('envelope', ['uuid' => $envelope->getUuid()]);
@@ -59,6 +61,7 @@ final class EnvelopeRepository implements EnvelopeRepositoryInterface
     /**
      * @throws Exception
      */
+    #[\Override]
     public function findOneBy(array $criteria, ?array $orderBy = null): ?EnvelopeViewInterface
     {
         $sql = sprintf('SELECT * FROM envelope_view WHERE %s LIMIT 1', $this->buildWhereClause($criteria));
@@ -71,6 +74,7 @@ final class EnvelopeRepository implements EnvelopeRepositoryInterface
     /**
      * @throws Exception
      */
+    #[\Override]
     public function findBy(
         array $criteria,
         ?array $orderBy = null,

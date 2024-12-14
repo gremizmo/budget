@@ -16,6 +16,7 @@ final readonly class UrlGeneratorAdapter implements CustomUrlGeneratorInterface
     /**
      * @param array<string, mixed> $parameters
      */
+    #[\Override]
     public function generate(string $route, array $parameters = [], int $referenceType = SymfonyUrlGeneratorInterface::ABSOLUTE_PATH): string
     {
         return $this->urlGenerator->generate($route, $parameters, $referenceType);

@@ -20,11 +20,13 @@ final class EnvelopesPaginated implements EnvelopesPaginatedInterface
     /**
      * @return array<object>
      */
+    #[\Override]
     public function getEnvelopes(): iterable
     {
         return $this->envelopes;
     }
 
+    #[\Override]
     public function getTotalItems(): int
     {
         return $this->totalItems;

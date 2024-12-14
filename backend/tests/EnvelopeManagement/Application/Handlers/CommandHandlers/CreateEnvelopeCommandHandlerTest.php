@@ -26,6 +26,7 @@ class CreateEnvelopeCommandHandlerTest extends TestCase
     private EventSourcedRepository $eventSourcedRepository;
     private EnvelopeRepositoryInterface&MockObject $envelopeRepository;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->eventStore = $this->createMock(EventStoreInterface::class);

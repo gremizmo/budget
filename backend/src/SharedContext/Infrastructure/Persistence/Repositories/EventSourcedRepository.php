@@ -11,11 +11,13 @@ final readonly class EventSourcedRepository implements EventSourcedRepositoryInt
     {
     }
 
+    #[\Override]
     public function get(string $aggregateId): array
     {
         return $this->eventStore->load($aggregateId);
     }
 
+    #[\Override]
     public function save(array $uncommittedEvents): void
     {
         $this->eventStore->save($uncommittedEvents);
