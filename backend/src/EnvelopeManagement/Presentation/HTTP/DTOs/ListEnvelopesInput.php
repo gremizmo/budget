@@ -11,7 +11,6 @@ final readonly class ListEnvelopesInput
         private ?array $orderBy = null,
         private ?int $limit = null,
         private ?int $offset = null,
-        private ?string $parentUuid = null,
     ) {
     }
 
@@ -31,10 +30,5 @@ final readonly class ListEnvelopesInput
     public function getOffset(): ?int
     {
         return $this->offset;
-    }
-
-    public function getParentUuid(): ?string
-    {
-        return $this->parentUuid;
     }
 }

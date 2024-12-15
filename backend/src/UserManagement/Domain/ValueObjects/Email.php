@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace App\UserManagement\Domain\ValueObjects;
 
-use Assert\Assertion;
+use Assert\Assert;
 
 final readonly class Email
 {
     private function __construct(protected string $email)
     {
-        Assertion::email($this->email);
+        Assert::that($email)
+            ->notBlank('Email should not be blank.')
+            ->email('The email "{{ value }}" is not a valid email.')
+        ;
     }
 
     public static function create(string $email): self
@@ -18,8 +21,7 @@ final readonly class Email
         return new self($email);
     }
 
-    #[\Override]
-    public function __toString(): string
+    public function toString(): string
     {
         return $this->email;
     }

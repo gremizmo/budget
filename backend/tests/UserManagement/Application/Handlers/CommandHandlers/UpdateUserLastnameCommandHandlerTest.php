@@ -44,7 +44,7 @@ class UpdateUserLastnameCommandHandlerTest extends TestCase
                         'email' => 'test@gmail.com',
                         'roles' => ['ROLE_USER'],
                         'lastname' => 'Doe',
-                        'password' => 'test',
+                        'password' => 'HAdFD97Xp[T!crjHi^Y%',
                         'firstname' => 'David',
                         'occurredOn' => '2024-12-13T00:26:48+00:00',
                         'aggregateId' => '7ac32191-3fa0-4477-8eb2-8dd3b0b7c836',
