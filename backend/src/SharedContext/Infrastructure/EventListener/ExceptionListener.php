@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\SharedContext\Infrastructure\EventListener;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
-use Symfony\Component\Validator\Exception\ValidationFailedException;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 final readonly class ExceptionListener
 {
@@ -17,11 +19,22 @@ final readonly class ExceptionListener
     public function onKernelException(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
-        $exceptionCode = $exception instanceof ValidationFailedException ? 400 : $exception->getCode();
-        $type = \strrchr($exception::class, '\\');
-        $event->setResponse(new JsonResponse([
-            'type' => \substr(\is_string($type) ? $type : '', 1),
-            'message' => $exception->getMessage(),
-        ], 0 === $exceptionCode ? 500 : $exceptionCode));
+
+        if ($exception->getPrevious() !== null && !$exception instanceof UnprocessableEntityHttpException) {
+            $exception = $exception->getPrevious();
+        }
+
+        $response = new JsonResponse([
+            'error' => $exception->getMessage(),
+            'type' => $exception::class,
+        ], Response::HTTP_BAD_REQUEST);
+
+        if ($exception instanceof HttpExceptionInterface) {
+            $response->setStatusCode($exception->getStatusCode());
+        } else {
+            $response->setStatusCode(JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        $event->setResponse($response);
     }
 }

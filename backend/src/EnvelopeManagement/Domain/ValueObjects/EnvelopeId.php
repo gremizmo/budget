@@ -4,22 +4,18 @@ declare(strict_types=1);
 
 namespace App\EnvelopeManagement\Domain\ValueObjects;
 
-use Assert\Assertion;
-use Assert\AssertionFailedException;
+use Assert\Assert;
 
 final readonly class EnvelopeId
 {
-    /**
-     * @throws AssertionFailedException
-     */
     private function __construct(protected string $uuid)
     {
-        Assertion::uuid($uuid);
+        Assert::that($uuid)
+            ->notBlank('UUID should not be blank.')
+            ->uuid('Invalid UUID format.')
+        ;
     }
 
-    /**
-     * @throws AssertionFailedException
-     */
     public static function create(string $uuid): self
     {
         return new self($uuid);

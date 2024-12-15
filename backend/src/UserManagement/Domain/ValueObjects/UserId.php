@@ -4,22 +4,18 @@ declare(strict_types=1);
 
 namespace App\UserManagement\Domain\ValueObjects;
 
-use Assert\Assertion;
-use Assert\AssertionFailedException;
+use Assert\Assert;
 
 final readonly class UserId
 {
-    /**
-     * @throws AssertionFailedException
-     */
     private function __construct(protected string $uuid)
     {
-        Assertion::uuid($uuid);
+        Assert::that($uuid)
+            ->notBlank('UUID should not be blank.')
+            ->uuid('Invalid UUID format.')
+        ;
     }
 
-    /**
-     * @throws AssertionFailedException
-     */
     public static function create(string $uuid): self
     {
         return new self($uuid);
@@ -27,11 +23,10 @@ final readonly class UserId
 
     public function equals(UserId $userId): bool
     {
-        return $userId->__toString() === $this->uuid;
+        return $userId->toString() === $this->uuid;
     }
 
-    #[\Override]
-    public function __toString(): string
+    public function toString(): string
     {
         return $this->uuid;
     }

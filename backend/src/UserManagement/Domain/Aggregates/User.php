@@ -12,8 +12,10 @@ use App\UserManagement\Domain\Events\UserPasswordUpdatedEvent;
 use App\UserManagement\Domain\Exceptions\InvalidUserOperationException;
 use App\UserManagement\Domain\Exceptions\UserAlreadyExistsException;
 use App\UserManagement\Domain\Ports\Inbound\UserRepositoryInterface;
+use App\UserManagement\Domain\ValueObjects\Consent;
 use App\UserManagement\Domain\ValueObjects\Email;
 use App\UserManagement\Domain\ValueObjects\Firstname;
+use App\UserManagement\Domain\ValueObjects\PasswordResetToken;
 use App\UserManagement\Domain\ValueObjects\UserId;
 use App\UserManagement\Domain\ValueObjects\Lastname;
 use App\UserManagement\Domain\ValueObjects\Password;
@@ -30,7 +32,7 @@ final class User
 
     private Lastname $lastname;
 
-    private bool $consentGiven;
+    private Consent $consentGiven;
 
     private \DateTimeImmutable $consentDate;
 
@@ -40,7 +42,7 @@ final class User
 
     private array $roles;
 
-    private ?string $passwordResetToken;
+    private ?PasswordResetToken $passwordResetToken;
 
     private ?\DateTimeImmutable $passwordResetTokenExpiry;
 
@@ -51,12 +53,12 @@ final class User
     private function __construct()
     {
         $this->email = Email::create('init@mail.com');
-        $this->password = Password::create('init');
+        $this->password = Password::create('HAdFD97Xp[T!crjHi^Y%');
         $this->firstname = Firstname::create('init');
         $this->lastname = Lastname::create('init');
         $this->updatedAt = new \DateTime();
         $this->createdAt = new \DateTimeImmutable();
-        $this->consentGiven = true;
+        $this->consentGiven = Consent::create(true);
         $this->consentDate = new \DateTimeImmutable();
         $this->roles = ['ROLE_USER'];
         $this->passwordResetToken = null;
@@ -112,8 +114,8 @@ final class User
         $this->assertOwnership($userId);
 
         $event = new UserFirstnameUpdatedEvent(
-            $this->userId->__toString(),
-            $firstname->__toString()
+            $this->userId->toString(),
+            $firstname->toString()
         );
 
         $this->applyEvent($event);
@@ -126,8 +128,8 @@ final class User
         $this->assertOwnership($userId);
 
         $event = new UserLastnameUpdatedEvent(
-            $this->userId->__toString(),
-            $lastname->__toString()
+            $this->userId->toString(),
+            $lastname->toString()
         );
 
         $this->applyEvent($event);
@@ -140,23 +142,23 @@ final class User
         $this->assertOwnership($userId);
 
         $event = new UserPasswordUpdatedEvent(
-            $this->userId->__toString(),
-            $oldPassword->__toString(),
-            $newPassword->__toString()
+            $this->userId->toString(),
+            $oldPassword->toString(),
+            $newPassword->toString()
         );
 
         $this->applyEvent($event);
         $this->recordEvent($event);
     }
 
-    public function setPasswordResetToken(Password $passwordResetToken, UserId $userId): void
+    public function setPasswordResetToken(PasswordResetToken $passwordResetToken, UserId $userId): void
     {
         $this->assertNotDeleted();
         $this->assertOwnership($userId);
 
         $event = new UserPasswordResetRequestedEvent(
-            $this->userId->__toString(),
-            $passwordResetToken->__toString(),
+            $this->userId->toString(),
+            $passwordResetToken->toString(),
             new \DateTimeImmutable('+1 hour'),
         );
 
@@ -174,8 +176,8 @@ final class User
         }
 
         $event = new UserPasswordResetEvent(
-            $this->userId->__toString(),
-            $password->__toString(),
+            $this->userId->toString(),
+            $password->toString(),
         );
 
         $this->applyEvent($event);
@@ -214,7 +216,7 @@ final class User
         $this->lastname = Lastname::create($event->getLastname());
         $this->updatedAt = new \DateTime();
         $this->createdAt = new \DateTimeImmutable();
-        $this->consentGiven = $event->isConsentGiven();
+        $this->consentGiven = Consent::create($event->isConsentGiven());
         $this->consentDate = new \DateTimeImmutable();
         $this->roles = ['ROLE_USER'];
         $this->passwordResetToken = null;
@@ -242,7 +244,7 @@ final class User
 
     private function applyUserPasswordResetRequested(UserPasswordResetRequestedEvent $event): void
     {
-        $this->passwordResetToken = Password::create($event->getPasswordResetToken());
+        $this->passwordResetToken = PasswordResetToken::create($event->getPasswordResetToken());
         $this->passwordResetTokenExpiry = $event->getPasswordResetTokenExpiry();
         $this->updatedAt = new \DateTime();
     }

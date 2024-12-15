@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace App\UserManagement\Domain\ValueObjects;
 
+use Assert\Assert;
+
 final readonly class Firstname
 {
     private function __construct(protected string $name)
     {
-        $nameLength = strlen($this->name);
-
-        if (0 === $nameLength || $nameLength > 50) {
-            throw new \InvalidArgumentException('Envelope name must be between 1 and 50 characters.');
-        }
+        Assert::that($name)
+            ->notBlank('Firstname should not be blank.')
+            ->minLength(2, 'The first name must be at least 2 characters long.')
+            ->maxLength(255, 'The first name cannot be longer than 255 characters.')
+        ;
     }
 
     public static function create(string $name): self
@@ -20,8 +22,7 @@ final readonly class Firstname
         return new self($name);
     }
 
-    #[\Override]
-    public function __toString(): string
+    public function toString(): string
     {
         return $this->name;
     }
